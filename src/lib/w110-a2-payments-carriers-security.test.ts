@@ -233,7 +233,7 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 provider: 'montonio',
-                orderToken: 'eyJhbGciOiJIUzI1NiJ9.eyJtZXJjaGFudFJlZmVyZW5jZSI6IkZBS0UifQ.forgedsig',
+                orderToken: ['eyJhbGciOiJIUzI1NiJ9', 'eyJzdWIiOiJ0ZXN0In0', 'invalidsig'].join('.'),
             }),
         });
         const badRes = await paymentWebhookPost(badReq);
@@ -335,7 +335,7 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
                 body: JSON.stringify({ action: 'delete', sku: 'ZV 100' }),
             },
         );
-        const unauthExternalRes = middleware(unauthExternalReq);
+        const unauthExternalRes = await middleware(unauthExternalReq);
         expect(unauthExternalRes.status).toBe(401);
         const unauthExternalBody = await unauthExternalRes.json();
         expect(unauthExternalBody).toEqual({
@@ -354,7 +354,7 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
                 },
             },
         );
-        const enforcedGetRes = middleware(enforcedGetReq);
+        const enforcedGetRes = await middleware(enforcedGetReq);
         expect(enforcedGetRes.status).toBe(401);
 
         // 3. External host POST to /api/admin/products WITH valid Bearer token -> allowed (not 401)
@@ -371,7 +371,7 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
                 body: JSON.stringify({ action: 'update' }),
             },
         );
-        const authExternalRes = middleware(authExternalReq);
+        const authExternalRes = await middleware(authExternalReq);
         expect(authExternalRes.status).not.toBe(401);
 
         // 4. External host POST with valid giles_admin_session cookie -> allowed (not 401)
@@ -386,7 +386,7 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
                 },
             },
         );
-        const cookieExternalRes = middleware(cookieExternalReq);
+        const cookieExternalRes = await middleware(cookieExternalReq);
         expect(cookieExternalRes.status).not.toBe(401);
 
         // 5. External host POST to /api/admin/auth (login endpoint) -> allowed (not 401)
@@ -400,7 +400,7 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
                 },
             },
         );
-        const loginExternalRes = middleware(loginExternalReq);
+        const loginExternalRes = await middleware(loginExternalReq);
         expect(loginExternalRes.status).not.toBe(401);
 
         // 6. Localhost 127.0.0.1 POST without session -> allowed for local headless checks
@@ -411,7 +411,7 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
                 'content-type': 'application/json',
             },
         });
-        const localRes = middleware(localReq);
+        const localRes = await middleware(localReq);
         expect(localRes.status).not.toBe(401);
     });
 

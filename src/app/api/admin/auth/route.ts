@@ -5,9 +5,44 @@ import {
     authenticateAdminCredentials,
     buildAdminUserResponse,
     changeAdminPassword,
+    clearAdminLoginFailures,
+    isAdminLoginRateLimited,
+    recordAdminLoginFailure,
     resetAdminAuthOverrides,
     verifyAdminSessionToken,
 } from '../../../../lib/admin-auth-store';
+
+function isExternalHost(req: NextRequest): boolean {
+    if (req.headers.get('x-enforce-admin-auth') === '1') {
+        return true;
+    }
+    const rawHost =
+        req.headers.get('x-forwarded-host') ||
+        req.headers.get('host') ||
+        req.nextUrl.hostname ||
+        '';
+    const cleanHost = rawHost.split(',')[0]?.trim().toLowerCase().replace(/:\d+$/, '') || '';
+    if (!cleanHost) return false;
+    return (
+        cleanHost !== '127.0.0.1' &&
+        cleanHost !== 'localhost' &&
+        cleanHost !== '::1' &&
+        cleanHost !== '[::1]' &&
+        cleanHost !== '0.0.0.0'
+    );
+}
+
+function extractRequestToken(req: NextRequest): string | undefined {
+    const cookieToken = req.cookies.get(ADMIN_SESSION_COOKIE_NAME)?.value;
+    if (cookieToken) return cookieToken;
+    const cookieHeader = req.headers.get('cookie') || '';
+    const m = cookieHeader.match(/(?:^|;\s*)giles_admin_session=([^;]+)/);
+    if (m?.[1]) return decodeURIComponent(m[1].trim());
+    const authHeader = req.headers.get('authorization');
+    return authHeader?.toLowerCase().startsWith('bearer ')
+        ? authHeader.slice(7).trim()
+        : undefined;
+}
 
 export async function GET(req: NextRequest) {
     const cookieToken = req.cookies.get(ADMIN_SESSION_COOKIE_NAME)?.value;
@@ -36,11 +71,30 @@ export async function POST(req: NextRequest) {
         const action = body?.action || 'login';
 
         if (action === 'login') {
+            const clientIp =
+                req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '127.0.0.1';
+            const rateCheck = isAdminLoginRateLimited(clientIp);
+            if (rateCheck.limited) {
+                return NextResponse.json(
+                    {
+                        ok: false,
+                        error: 'Per daug nesėkmingų bandymų prisijungti. Bandykite vėliau.',
+                    },
+                    {
+                        status: 429,
+                        headers: {
+                            'Retry-After': String(rateCheck.retryAfterSeconds),
+                        },
+                    },
+                );
+            }
+
             const result = authenticateAdminCredentials(
                 String(body.email || ''),
                 String(body.password || ''),
             );
             if (!result.ok || !result.user || !result.sessionToken) {
+                recordAdminLoginFailure(clientIp);
                 return NextResponse.json(
                     {
                         ok: false,
@@ -50,6 +104,7 @@ export async function POST(req: NextRequest) {
                 );
             }
 
+            clearAdminLoginFailures(clientIp);
             const res = NextResponse.json({
                 ok: true,
                 user: result.user,
@@ -114,6 +169,12 @@ export async function POST(req: NextRequest) {
         }
 
         if (action === 'reset_default') {
+            if (isExternalHost(req) && !verifyAdminSessionToken(extractRequestToken(req))) {
+                return NextResponse.json(
+                    { ok: false, error: 'Unauthorized: Admin session required' },
+                    { status: 401 },
+                );
+            }
             resetAdminAuthOverrides();
             return NextResponse.json({
                 ok: true,

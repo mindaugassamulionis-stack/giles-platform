@@ -473,7 +473,8 @@ export function buildEnvProductionTemplate(): string {
     for (const item of list) {
         lines.push(`# --- ${item.title} ---`);
         for (const f of item.fields) {
-            const val = item.configuredValues[f.envVar] || f.defaultValue || '';
+            const rawVal = item.configuredValues[f.envVar] || f.defaultValue || '';
+            const val = f.secret ? maskSecretValue(rawVal, true) : rawVal;
             lines.push(`${f.envVar}="${val}"`);
         }
         lines.push('');

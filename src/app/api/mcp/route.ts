@@ -15,9 +15,58 @@ import {
     dispatchMcpJsonRpc,
     type McpScopeTier,
 } from '../../../lib/mcp-store-server';
+import { verifyAdminSessionToken } from '../../../lib/admin-auth-store';
 
-export async function GET() {
+function isExternalHostRequest(req: Request): boolean {
+    if (req.headers.get('x-enforce-admin-auth') === '1') {
+        return true;
+    }
+    const rawHost =
+        req.headers.get('x-forwarded-host') ||
+        req.headers.get('host') ||
+        new URL(req.url).hostname ||
+        '';
+    const cleanHost = rawHost.split(',')[0]?.trim().toLowerCase().replace(/:\d+$/, '') || '';
+    if (!cleanHost) return false;
+    return (
+        cleanHost !== '127.0.0.1' &&
+        cleanHost !== 'localhost' &&
+        cleanHost !== '::1' &&
+        cleanHost !== '[::1]' &&
+        cleanHost !== '0.0.0.0'
+    );
+}
+
+function hasMcpAdminMutationAuth(req: Request): boolean {
+    const cookieHeader = req.headers.get('cookie') || '';
+    const sessionMatch = cookieHeader.match(/(?:^|;\s*)giles_admin_session=([^;]+)/);
+    const sessionCookie = sessionMatch?.[1] ? decodeURIComponent(sessionMatch[1].trim()) : '';
+    if (verifyAdminSessionToken(sessionCookie)) {
+        return true;
+    }
+    const authHeader = (req.headers.get('authorization') || '').trim();
+    const bearer = authHeader.toLowerCase().startsWith('bearer ')
+        ? authHeader.slice(7).trim()
+        : '';
+    if (bearer && verifyAdminSessionToken(bearer)) {
+        return true;
+    }
+    const caller = authenticateMcpCaller(req);
+    return caller.authenticated && caller.role === 'authenticated_key' && caller.scope === 'full_admin';
+}
+
+export async function GET(req: Request) {
+    if (req && isExternalHostRequest(req) && !hasMcpAdminMutationAuth(req)) {
+        return NextResponse.json(
+            {
+                ok: false,
+                error: 'Unauthorized: Admin authentication required for MCP key/policy listing on external hosts.',
+            },
+            { status: 401 },
+        );
+    }
     const db = loadMcpSecurityDb();
+    const redactedKeys = db.keys.map(({ keyHash: _keyHash, ...rest }) => rest);
     return NextResponse.json({
         ok: true,
         protocolVersion: '2025-03-26',
@@ -36,7 +85,7 @@ export async function GET() {
         resources: MCP_STORE_RESOURCES,
         prompts: MCP_STORE_PROMPTS,
         policy: db.policy,
-        keys: db.keys,
+        keys: redactedKeys,
         auditLog: db.auditLog,
     });
 }
@@ -146,6 +195,12 @@ export async function POST(req: Request) {
 
 export async function PUT(req: Request) {
     try {
+        if (isExternalHostRequest(req) && !hasMcpAdminMutationAuth(req)) {
+            return NextResponse.json(
+                { ok: false, error: 'Unauthorized: Admin session required for PUT /api/mcp' },
+                { status: 401 },
+            );
+        }
         const body = await req.json();
         const action = String(body.action || '');
 
@@ -217,6 +272,12 @@ export async function PUT(req: Request) {
 
 export async function DELETE(req: Request) {
     try {
+        if (isExternalHostRequest(req) && !hasMcpAdminMutationAuth(req)) {
+            return NextResponse.json(
+                { ok: false, error: 'Unauthorized: Admin session required for DELETE /api/mcp' },
+                { status: 401 },
+            );
+        }
         const url = new URL(req.url);
         let keyId = url.searchParams.get('keyId') || '';
         if (!keyId) {

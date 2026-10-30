@@ -76,7 +76,64 @@ export function writeAdminAuthOverrides(overrides: AdminAuthOverrideStore): void
 }
 
 export function resetAdminAuthOverrides(): void {
+    resetAdminLoginRateLimit();
     writeAdminAuthOverrides({});
+}
+
+export const ADMIN_SESSION_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+export const DEFAULT_ADMIN_SESSION_SECRET = 'giles-admin-os-session-hmac-2026-v1';
+export const ADMIN_LOGIN_MAX_ATTEMPTS = 5;
+export const ADMIN_LOGIN_WINDOW_MS = 15 * 60 * 1000;
+
+const adminLoginAttempts = new Map<string, { count: number; windowStart: number }>();
+
+export function resetAdminLoginRateLimit(): void {
+    adminLoginAttempts.clear();
+}
+
+export function isAdminLoginRateLimited(ipKey: string): {
+    limited: boolean;
+    retryAfterSeconds: number;
+} {
+    const key = (ipKey || '127.0.0.1').trim() || '127.0.0.1';
+    const now = Date.now();
+    const record = adminLoginAttempts.get(key);
+    if (!record) {
+        return { limited: false, retryAfterSeconds: 0 };
+    }
+    if (now - record.windowStart > ADMIN_LOGIN_WINDOW_MS) {
+        adminLoginAttempts.delete(key);
+        return { limited: false, retryAfterSeconds: 0 };
+    }
+    if (record.count >= ADMIN_LOGIN_MAX_ATTEMPTS) {
+        const retryAfterSeconds = Math.max(
+            1,
+            Math.ceil((record.windowStart + ADMIN_LOGIN_WINDOW_MS - now) / 1000),
+        );
+        return { limited: true, retryAfterSeconds };
+    }
+    return { limited: false, retryAfterSeconds: 0 };
+}
+
+export function recordAdminLoginFailure(ipKey: string): void {
+    const key = (ipKey || '127.0.0.1').trim() || '127.0.0.1';
+    const now = Date.now();
+    const existing = adminLoginAttempts.get(key);
+    if (!existing || now - existing.windowStart > ADMIN_LOGIN_WINDOW_MS) {
+        if (adminLoginAttempts.size >= 5000) {
+            const oldestKey = adminLoginAttempts.keys().next().value;
+            if (oldestKey !== undefined) adminLoginAttempts.delete(oldestKey);
+        }
+        adminLoginAttempts.set(key, { count: 1, windowStart: now });
+        return;
+    }
+    existing.count += 1;
+    adminLoginAttempts.set(key, existing);
+}
+
+export function clearAdminLoginFailures(ipKey: string): void {
+    const key = (ipKey || '127.0.0.1').trim() || '127.0.0.1';
+    adminLoginAttempts.delete(key);
 }
 
 export function getActiveAdminPasswordHash(): string {
@@ -104,17 +161,14 @@ function safeCompareHex(hashA: string, hashB: string): boolean {
     return crypto.timingSafeEqual(a, b);
 }
 
-function getSessionSigningKey(): string {
-    return (
-        process.env.GILES_ADMIN_SESSION_SECRET ||
-        `giles-admin-hmac-${DARIUS_ADMIN_DEFAULT_HASH.slice(0, 32)}`
-    );
+export function getSessionSigningKey(): string {
+    return process.env.GILES_ADMIN_SESSION_SECRET || DEFAULT_ADMIN_SESSION_SECRET;
 }
 
 export function createAdminSessionToken(
     loginEmail: string = DARIUS_ADMIN_PROFILE.email,
+    issuedAt: number = Date.now(),
 ): string {
-    const issuedAt = Date.now();
     const activeHashPrefix = getActiveAdminPasswordHash().slice(0, 16);
     const payload = Buffer.from(
         JSON.stringify({
@@ -123,6 +177,7 @@ export function createAdminSessionToken(
             role: DARIUS_ADMIN_PROFILE.role,
             hp: activeHashPrefix,
             iat: issuedAt,
+            exp: issuedAt + ADMIN_SESSION_MAX_AGE_MS,
         }),
         'utf8',
     ).toString('base64url');
@@ -137,7 +192,11 @@ export function verifyAdminSessionToken(token?: string | null): boolean {
     if (!token || typeof token !== 'string' || !token.includes('.')) {
         return false;
     }
-    const [payload, sig] = token.split('.');
+    const parts = token.split('.');
+    if (parts.length !== 2) {
+        return false;
+    }
+    const [payload, sig] = parts;
     if (!payload || !sig) {
         return false;
     }
@@ -154,8 +213,21 @@ export function verifyAdminSessionToken(token?: string | null): boolean {
         const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8')) as {
             sub?: string;
             hp?: string;
+            iat?: number;
+            exp?: number;
         };
         if (decoded.sub !== DARIUS_ADMIN_PROFILE.email) {
+            return false;
+        }
+        if (typeof decoded.iat !== 'number' || !Number.isFinite(decoded.iat)) {
+            return false;
+        }
+        const now = Date.now();
+        const ageMs = now - decoded.iat;
+        if (ageMs < -60_000 || ageMs > ADMIN_SESSION_MAX_AGE_MS) {
+            return false;
+        }
+        if (typeof decoded.exp === 'number' && now > decoded.exp) {
             return false;
         }
         const activeHashPrefix = getActiveAdminPasswordHash().slice(0, 16);

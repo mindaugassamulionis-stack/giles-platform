@@ -1,3 +1,4 @@
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -68,8 +69,13 @@ export function resetB2BAccountsCache(accounts: B2BPartnerAccount[] = []): void 
     saveAccountsToDisk(accounts);
 }
 
+function stripAccountPassword(account: B2BPartnerAccount): B2BPartnerAccount {
+    const { password: _password, ...safe } = account;
+    return safe;
+}
+
 export function listB2BPartnerAccounts(): B2BPartnerAccount[] {
-    return [...readAccountsFromDisk()];
+    return readAccountsFromDisk().map(stripAccountPassword);
 }
 
 export function canAccessB2BWholesale(account: B2BPartnerAccount | null | undefined): boolean {
@@ -91,10 +97,17 @@ export function authenticateB2BPartnerAccount(input: {
     if (!found) {
         return null;
     }
-    if (found.password && rawPassword !== found.password) {
-        return null;
+    if (found.password) {
+        const candidateBuf = Buffer.from(rawPassword, 'utf8');
+        const expectedBuf = Buffer.from(found.password, 'utf8');
+        if (
+            candidateBuf.length !== expectedBuf.length ||
+            !crypto.timingSafeEqual(candidateBuf, expectedBuf)
+        ) {
+            return null;
+        }
     }
-    return found;
+    return stripAccountPassword(found);
 }
 
 export function registerB2BPartnerAccount(input: {
@@ -112,7 +125,7 @@ export function registerB2BPartnerAccount(input: {
     const normalizedEmail = input.email.trim().toLowerCase();
     const existing = accounts.find((a) => a.email.toLowerCase() === normalizedEmail);
     if (existing) {
-        return existing;
+        return stripAccountPassword(existing);
     }
 
     const newAccount: B2BPartnerAccount = {
@@ -139,7 +152,7 @@ export function registerB2BPartnerAccount(input: {
 
     const next = [newAccount, ...accounts];
     saveAccountsToDisk(next);
-    return newAccount;
+    return stripAccountPassword(newAccount);
 }
 
 export function approveOrRejectB2BPartnerAccount(input: {
@@ -177,5 +190,5 @@ export function approveOrRejectB2BPartnerAccount(input: {
 
     const next = accounts.map((a, i) => (i === idx ? updated : a));
     saveAccountsToDisk(next);
-    return updated;
+    return stripAccountPassword(updated);
 }

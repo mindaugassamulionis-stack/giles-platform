@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import {
@@ -982,12 +983,17 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
             transactionId: 'MONT-TX-998877',
         });
 
+        const validWebhookHmac = crypto
+            .createHmac('sha256', 'giles-webhook-default-verify')
+            .update(webhookPayload)
+            .digest('hex');
+
         const whRes = await webhooksRoute.POST(
             new Request('http://localhost/api/integrations/webhooks/montonio', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-webhook-signature': 'montonio-hmac-verified',
+                    'x-webhook-signature': validWebhookHmac,
                 },
                 body: webhookPayload,
             }),

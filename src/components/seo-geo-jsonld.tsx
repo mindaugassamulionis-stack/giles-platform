@@ -15,7 +15,7 @@ export function SeoGeoJsonLd({ locale, nonce }: SeoGeoJsonLdProps) {
             data-testid="seo-geo-knowledge-graph"
             nonce={nonce}
             dangerouslySetInnerHTML={{
-                __html: JSON.stringify(knowledgeGraph),
+                __html: JSON.stringify(knowledgeGraph).replace(/</g, '\\u003c'),
             }}
         />
     );

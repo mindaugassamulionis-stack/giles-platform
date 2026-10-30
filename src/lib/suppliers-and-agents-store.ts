@@ -225,8 +225,9 @@ const BUILTIN_SUPPLIERS: GilesSupplierRecord[] = [
 export function maskApiKey(rawKey: string): string {
     const trimmed = (rawKey || '').trim();
     if (!trimmed) return 'Nenustatytas (naudojamas serverio .env raktas)';
-    if (trimmed.length <= 10) return `${trimmed.slice(0, 3)}...${trimmed.slice(-2)}`;
-    return `${trimmed.slice(0, 7)}...${trimmed.slice(-4)}`;
+    if (trimmed.includes('•••')) return trimmed;
+    if (trimmed.length <= 10) return `${trimmed.slice(0, 3)}•••${trimmed.slice(-2)}`;
+    return `${trimmed.slice(0, 7)}•••${trimmed.slice(-4)}`;
 }
 
 function modeToStatus(mode: AiAgentExecutionMode): 'ACTIVE' | 'GUARDED' | 'DISABLED' {
@@ -923,25 +924,36 @@ export function syncSupplierPricelistNow(supplierId: string): GilesSupplierRecor
     return updated;
 }
 
+function sanitizeAgentForPublic(agent: GilesActiveAiAgent): GilesActiveAiAgent {
+    const masked = maskApiKey(agent.apiKey || agent.maskedApiKey || '');
+    return {
+        ...agent,
+        apiKey: masked,
+        maskedApiKey: masked,
+    };
+}
+
 export function getAiAgentsList(): GilesActiveAiAgent[] {
     const merged: GilesActiveAiAgent[] = [];
     const seen = new Set<string>();
 
     for (const builtin of BUILTIN_AI_AGENTS) {
         const override = memoryAgentsOverrides.get(builtin.id);
-        merged.push(override ? { ...builtin, ...override } : { ...builtin });
+        merged.push(sanitizeAgentForPublic(override ? { ...builtin, ...override } : { ...builtin }));
         seen.add(builtin.id);
     }
 
     for (const [id, custom] of memoryAgentsOverrides.entries()) {
         if (!seen.has(id)) {
-            merged.push(custom);
+            merged.push(sanitizeAgentForPublic(custom));
             seen.add(id);
         }
     }
 
     return merged;
 }
+
+export const listAiAgents = getAiAgentsList;
 
 export function addOrUpdateAiAgent(input: {
     id?: string;
@@ -1038,7 +1050,7 @@ export function addOrUpdateAiAgent(input: {
     };
 
     memoryAgentsOverrides.set(agent.id, agent);
-    return agent;
+    return sanitizeAgentForPublic(agent);
 }
 
 export function toggleAiAgentExecutionMode(

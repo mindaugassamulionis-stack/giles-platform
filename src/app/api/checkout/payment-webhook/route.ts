@@ -36,6 +36,38 @@ export async function POST(req: NextRequest) {
             .trim()
             .toLowerCase();
 
+        const forwardedHost = (
+            req.headers.get('x-forwarded-host') ||
+            req.headers.get('host') ||
+            ''
+        ).toLowerCase();
+        const isExternal =
+            Boolean(
+                forwardedHost &&
+                    !forwardedHost.startsWith('127.0.0.1') &&
+                    !forwardedHost.startsWith('localhost'),
+            ) || req.headers.get('x-enforce-admin-auth') === '1';
+
+        if (isExternal) {
+            const stripeSecret = (process.env.STRIPE_WEBHOOK_SECRET || '').trim();
+            const montonioSecret = (process.env.MONTONIO_SECRET_KEY || '').trim();
+            const payseraSecret = (process.env.PAYSERA_SIGN_PASSWORD || '').trim();
+            const missingOrFallback =
+                (providerRaw === 'stripe' &&
+                    (!stripeSecret || stripeSecret === 'whsec_giles_default_secret_2026')) ||
+                (providerRaw === 'montonio' &&
+                    (!montonioSecret || montonioSecret === 'giles_montonio_default_secret_2026')) ||
+                (providerRaw === 'paysera' &&
+                    (!payseraSecret || payseraSecret === 'giles_paysera_default_secret_2026'));
+
+            if (missingOrFallback) {
+                return NextResponse.json(
+                    { ok: false, error: 'Webhook secret not configured for external host' },
+                    { status: 401 },
+                );
+            }
+        }
+
         if (providerRaw === 'montonio') {
             const orderToken = String(
                 parsedBody.orderToken ||

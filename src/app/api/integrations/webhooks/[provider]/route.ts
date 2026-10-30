@@ -17,12 +17,13 @@ const SUPPORTED_WEBHOOK_PROVIDERS = new Set([
 ]);
 
 function verifyWebhookSignature(provider: string, rawBody: string, headers: Headers): boolean {
-    const sig =
+    const sig = (
         headers.get('x-webhook-signature') ||
         headers.get('stripe-signature') ||
         headers.get('x-montonio-signature') ||
         headers.get('x-paysera-sign') ||
-        '';
+        ''
+    ).trim();
     if (!sig) return false;
     const secret =
         process.env[`${provider.toUpperCase()}_WEBHOOK_SECRET`] ||
@@ -32,7 +33,12 @@ function verifyWebhookSignature(provider: string, rawBody: string, headers: Head
         .createHmac('sha256', secret)
         .update(rawBody)
         .digest('hex');
-    return sig.length >= 6 || sig === expectedHmac;
+    const sigBuf = Buffer.from(sig, 'utf8');
+    const expBuf = Buffer.from(expectedHmac, 'utf8');
+    if (sigBuf.length !== expBuf.length) {
+        return false;
+    }
+    return crypto.timingSafeEqual(sigBuf, expBuf);
 }
 
 export async function POST(
@@ -65,6 +71,25 @@ export async function POST(
         const rawStatus = String(
             payload?.paymentStatus || payload?.status || payload?.eventType || 'RECEIVED',
         ).toUpperCase();
+
+        if (!signatureVerified) {
+            recordWebhookEvent({
+                provider,
+                eventType: rawStatus,
+                signatureVerified: false,
+                orderOrInvoiceRef: orderOrInvoiceRef || null,
+                invoiceUpdated: false,
+            });
+            return NextResponse.json(
+                {
+                    ok: false,
+                    error: 'Invalid webhook signature',
+                    provider,
+                    signatureVerified: false,
+                },
+                { status: 401 },
+            );
+        }
 
         let invoiceUpdated = false;
         let updatedInvoice = null;

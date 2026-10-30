@@ -19,6 +19,7 @@ import {
     type McpToolDefinition,
 } from './mcp-store-catalog';
 import { executeStoreTool } from './mcp-store-tools-exec';
+import { verifyAdminSessionToken } from './admin-auth-store';
 
 export {
     MCP_STORE_TOOLS,
@@ -252,8 +253,14 @@ export function authenticateMcpCaller(req: Request): {
         }
 
         const hashed = hashMcpKey(rawToken);
+        const hashedBuf = Buffer.from(hashed, 'utf8');
         const db = loadMcpSecurityDb();
-        const found = db.keys.find((k) => k.keyHash === hashed && !k.revokedAt);
+        const found = db.keys.find((k) => {
+            if (k.revokedAt) return false;
+            const keyBuf = Buffer.from(String(k.keyHash || ''), 'utf8');
+            if (keyBuf.length !== hashedBuf.length) return false;
+            return crypto.timingSafeEqual(keyBuf, hashedBuf);
+        });
         if (found) {
             found.lastUsedAt = new Date().toISOString();
             saveMcpSecurityDb(db);
@@ -277,13 +284,32 @@ export function authenticateMcpCaller(req: Request): {
         };
     }
 
+    const cookieHeader = req.headers.get('cookie') || '';
+    const sessionMatch = cookieHeader.match(/(?:^|;\s*)giles_admin_session=([^;]+)/);
+    const sessionCookie = sessionMatch?.[1] ? decodeURIComponent(sessionMatch[1].trim()) : '';
+    const hasValidAdminSession = verifyAdminSessionToken(sessionCookie);
+
     if (playgroundHeader) {
         const reqUrl = new URL(req.url);
-        const isLocal =
-            reqUrl.hostname === 'localhost' ||
-            reqUrl.hostname === '127.0.0.1' ||
-            reqUrl.hostname === '::1';
-        if (isLocal) {
+        const forwardedHost = (req.headers.get('x-forwarded-host') || '')
+            .split(',')[0]
+            ?.trim()
+            .toLowerCase()
+            .replace(/:\d+$/, '');
+        const hostHeader = (req.headers.get('host') || '')
+            .split(',')[0]
+            ?.trim()
+            .toLowerCase()
+            .replace(/:\d+$/, '');
+        const isLocalHostname = (h: string) =>
+            !h || h === 'localhost' || h === '127.0.0.1' || h === '::1' || h === '[::1]';
+        const isGenuinelyLocal =
+            isLocalHostname(reqUrl.hostname.toLowerCase()) &&
+            isLocalHostname(forwardedHost) &&
+            isLocalHostname(hostHeader) &&
+            req.headers.get('x-enforce-admin-auth') !== '1';
+
+        if (isGenuinelyLocal || hasValidAdminSession) {
             const reqScope = req.headers.get('x-giles-playground-scope') as McpScopeTier | null;
             const validScope: McpScopeTier =
                 reqScope === 'read_only' || reqScope === 'full_admin' ? reqScope : 'operator_safe';
@@ -366,6 +392,57 @@ export function dispatchMcpJsonRpc(
 
     if (method === 'resources/read') {
         const uri = String(params.uri || 'giles://store/overview');
+        const isPublicResource =
+            uri.startsWith('giles://catalog/') ||
+            uri.startsWith('giles://engineering/') ||
+            uri.startsWith('giles://company/') ||
+            uri === 'giles://store/overview';
+
+        if (!isPublicResource) {
+            if (caller.scope === 'public_discovery') {
+                recordMcpAudit({
+                    actor: caller.actor,
+                    scope: caller.scope,
+                    method,
+                    toolName: uri,
+                    decision: 'DENIED',
+                    summary: `Atmesta (401 Unauthorized): viešas Tier-0 agentas bandė skaityti apsaugotą resursą ${uri}`,
+                });
+                return {
+                    status: 401,
+                    response: {
+                        jsonrpc: '2.0',
+                        id,
+                        error: {
+                            code: -32001,
+                            message: `Unauthorized: resource ${uri} requires operator_safe or full_admin MCP key`,
+                        },
+                    },
+                };
+            }
+            if (caller.scope !== 'operator_safe' && caller.scope !== 'full_admin') {
+                recordMcpAudit({
+                    actor: caller.actor,
+                    scope: caller.scope,
+                    method,
+                    toolName: uri,
+                    decision: 'DENIED',
+                    summary: `RBAC blokavimas: ${caller.scope} raktas bandė skaityti ${uri}`,
+                });
+                return {
+                    status: 403,
+                    response: {
+                        jsonrpc: '2.0',
+                        id,
+                        error: {
+                            code: -32003,
+                            message: `Forbidden: insufficient scope (${caller.scope}) for resource ${uri}`,
+                        },
+                    },
+                };
+            }
+        }
+
         const b2bStore = getB2BPricingStore();
         const payload =
             uri === 'giles://catalog/suppliers'
@@ -499,6 +576,28 @@ export function dispatchMcpJsonRpc(
                     error: {
                         code: -32003,
                         message: `Forbidden: read_only MCP key cannot execute ${toolDef.scopeCategory} tool ${toolName}`,
+                    },
+                },
+            };
+        }
+
+        if (toolDef.scopeCategory === 'admin' && caller.scope !== 'full_admin') {
+            recordMcpAudit({
+                actor: caller.actor,
+                scope: caller.scope,
+                method,
+                toolName,
+                decision: 'DENIED',
+                summary: `RBAC blokavimas: ${caller.scope} raktas bandė vykdyti admin įrankį ${toolName}`,
+            });
+            return {
+                status: 403,
+                response: {
+                    jsonrpc: '2.0',
+                    id,
+                    error: {
+                        code: -32003,
+                        message: `Forbidden: Admin scope required for tool ${toolName}`,
                     },
                 },
             };

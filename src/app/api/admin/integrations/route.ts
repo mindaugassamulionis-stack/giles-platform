@@ -65,9 +65,14 @@ export async function PATCH(request: Request) {
         }
 
         const integrationId = String(body?.integrationId || '').trim();
-        if (!integrationId) {
+        if (
+            !integrationId ||
+            integrationId === '__proto__' ||
+            integrationId === 'constructor' ||
+            integrationId === 'prototype'
+        ) {
             return NextResponse.json(
-                { ok: false, error: 'Truksta integrationId parametro.' },
+                { ok: false, error: 'Truksta arba netinkamas integrationId parametras.' },
                 { status: 400 },
             );
         }
@@ -78,6 +83,9 @@ export async function PATCH(request: Request) {
 
         if (body?.values && typeof body.values === 'object') {
             for (const [k, v] of Object.entries(body.values as Record<string, unknown>)) {
+                if (k === '__proto__' || k === 'constructor' || k === 'prototype') {
+                    continue;
+                }
                 const strVal = String(v ?? '').trim();
                 if (!strVal.includes('••••')) {
                     nextValues[k] = strVal;

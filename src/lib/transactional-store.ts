@@ -45,8 +45,39 @@ function triggerOptionalPostgresSync(filePath: string, data: unknown): void {
     }
 }
 
-export function readJsonAtomic<T>(filePath: string, fallback: T): T {
+const FORBIDDEN_OBJECT_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
+
+export function assertSafeTransactionalPath(filePath: string): string {
     const resolved = path.resolve(filePath);
+    const cwdRoot = path.resolve(process.cwd());
+    const tmpRoot = '/tmp';
+    const insideCwd = resolved === cwdRoot || resolved.startsWith(`${cwdRoot}${path.sep}`);
+    const insideTmp = resolved === tmpRoot || resolved.startsWith(`${tmpRoot}${path.sep}`);
+    if (!insideCwd && !insideTmp) {
+        throw new Error(`Unsafe transactional store path outside allowed roots: ${filePath}`);
+    }
+    return resolved;
+}
+
+export function stripPrototypePollutionKeys<T>(value: T): T {
+    if (value === null || typeof value !== 'object') {
+        return value;
+    }
+    if (Array.isArray(value)) {
+        return value.map((item) => stripPrototypePollutionKeys(item)) as unknown as T;
+    }
+    const clean: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+        if (FORBIDDEN_OBJECT_KEYS.has(k)) {
+            continue;
+        }
+        clean[k] = stripPrototypePollutionKeys(v);
+    }
+    return clean as T;
+}
+
+export function readJsonAtomic<T>(filePath: string, fallback: T): T {
+    const resolved = assertSafeTransactionalPath(filePath);
     try {
         if (!fs.existsSync(resolved)) {
             return structuredCloneFallback(fallback);
@@ -55,24 +86,25 @@ export function readJsonAtomic<T>(filePath: string, fallback: T): T {
         if (!raw.trim()) {
             return structuredCloneFallback(fallback);
         }
-        return JSON.parse(raw) as T;
+        return stripPrototypePollutionKeys(JSON.parse(raw) as T);
     } catch {
         return structuredCloneFallback(fallback);
     }
 }
 
 export function writeJsonAtomic<T>(filePath: string, data: T): T {
-    const resolved = path.resolve(filePath);
+    const resolved = assertSafeTransactionalPath(filePath);
+    const sanitizedData = stripPrototypePollutionKeys(data);
     const dir = path.dirname(resolved);
     const seq = ++atomicWriteCounter;
     const tmpPath = `${resolved}.${process.pid}.${Date.now()}.${seq}.tmp`;
 
     try {
         fs.mkdirSync(dir, { recursive: true });
-        const serialized = JSON.stringify(data, null, 2);
+        const serialized = JSON.stringify(sanitizedData, null, 2);
         fs.writeFileSync(tmpPath, serialized, { encoding: 'utf8', flush: true });
         fs.renameSync(tmpPath, resolved);
-        triggerOptionalPostgresSync(resolved, data);
+        triggerOptionalPostgresSync(resolved, sanitizedData);
     } catch {
         try {
             if (fs.existsSync(tmpPath)) {
@@ -82,7 +114,7 @@ export function writeJsonAtomic<T>(filePath: string, data: T): T {
             // Ignore cleanup failure on read-only fs
         }
     }
-    return data;
+    return sanitizedData;
 }
 
 export interface TransactionMutatorResult<T, R> {
@@ -107,7 +139,7 @@ export async function withFileTransaction<T, R = T>(
     fallback: T,
     mutator: (current: T) => Promise<TransactionMutatorResult<T, R> | R> | TransactionMutatorResult<T, R> | R,
 ): Promise<R> {
-    const resolved = path.resolve(filePath);
+    const resolved = assertSafeTransactionalPath(filePath);
     const previousLock = fileMutexQueues.get(resolved) ?? Promise.resolve();
 
     let releaseLock!: () => void;
