@@ -54,10 +54,16 @@ export function GilesAdminAuthBar({ isLocked, onLockChange }: GilesAdminAuthBarP
                 ? new URLSearchParams(window.location.search)
                 : null;
         const forceLoginGate = params?.get('login') === '1';
-        const isLocalhost =
+        const isNonLocalhostPublicHost =
             typeof window !== 'undefined' &&
-            (window.location.hostname === '127.0.0.1' ||
-                window.location.hostname === 'localhost');
+            window.location.hostname !== '127.0.0.1' &&
+            window.location.hostname !== 'localhost';
+
+        if (isNonLocalhostPublicHost || forceLoginGate) {
+            setAuthenticated(false);
+            setShowLoginModal(true);
+            onLockChange(true);
+        }
 
         fetch(assetUrl('/api/admin/auth'))
             .then((r) => r.json())
@@ -69,16 +75,25 @@ export function GilesAdminAuthBar({ isLocked, onLockChange }: GilesAdminAuthBarP
                     setAuthenticated(true);
                     if (forceLoginGate) {
                         setShowLoginModal(true);
+                    } else {
+                        setShowLoginModal(false);
+                        onLockChange(false);
                     }
                 } else {
                     setAuthenticated(false);
-                    if (forceLoginGate || !isLocalhost) {
+                    if (forceLoginGate || isNonLocalhostPublicHost) {
                         onLockChange(true);
                         setShowLoginModal(true);
                     }
                 }
             })
-            .catch(() => {});
+            .catch(() => {
+                if (isNonLocalhostPublicHost || forceLoginGate) {
+                    setAuthenticated(false);
+                    onLockChange(true);
+                    setShowLoginModal(true);
+                }
+            });
     }, [onLockChange]);
 
     useEffect(() => {
@@ -265,11 +280,12 @@ export function GilesAdminAuthBar({ isLocked, onLockChange }: GilesAdminAuthBarP
             )}
 
             {(showLoginModal || isLocked) && (
-                <form
-                    onSubmit={handleLoginSubmit}
-                    data-testid={isLocked ? 'admin-login-gate' : 'admin-login-modal'}
-                    className="border-t border-[#2C3742] pt-3 space-y-3"
-                >
+                <div data-testid="admin-login-gate">
+                    <form
+                        onSubmit={handleLoginSubmit}
+                        data-testid="admin-login-modal"
+                        className="border-t border-[#2C3742] pt-3 space-y-3"
+                    >
                     <div className="flex flex-wrap items-center justify-between gap-2">
                         <div>
                             <h2 className="text-sm sm:text-base font-bold text-white">
@@ -337,7 +353,8 @@ export function GilesAdminAuthBar({ isLocked, onLockChange }: GilesAdminAuthBarP
                             {loginError}
                         </p>
                     )}
-                </form>
+                    </form>
+                </div>
             )}
 
             {showPasswordModal && (

@@ -7,6 +7,12 @@ import { ShoppingCart, Truck, Warehouse, PackageCheck, CreditCard } from 'lucide
 import { useCartStore, useCartHydration } from '../../store/cart';
 import { formatEur, submitOrder } from '../../lib/conversion';
 import { DEFAULT_VAT_RATE, netFromGrossCents } from '../../lib/vat';
+import {
+    BALTIC_CARRIER_OPTIONS,
+    BALTIC_PARCEL_TERMINALS,
+    searchParcelTerminals,
+    type BalticCarrierId,
+} from '../../lib/baltic-carriers-and-payments';
 import { useTranslations } from 'next-intl';
 
 export type CheckoutDeliveryMethod = 'pickup' | 'locker' | 'freight';
@@ -98,8 +104,19 @@ export function CheckoutForm({ storeSlug }: { storeSlug: string }) {
     const [deliveryMethod, setDeliveryMethod] = useState<CheckoutDeliveryMethod>(
         deliveryEval.lockerDisabled ? 'freight' : 'locker',
     );
-    const [lockerTerminal, setLockerTerminal] = useState('Kaunas · Omniva Savanorių pr. PC Hyper Maxima');
+    const [selectedCarrier, setSelectedCarrier] = useState<BalticCarrierId | 'all'>('omniva');
+    const [lockerSearchQuery, setLockerSearchQuery] = useState<string>('Kaunas');
+    const [selectedTerminalCode, setSelectedTerminalCode] = useState<string>('LT-OMN-KAU-001');
+    const [lockerTerminal, setLockerTerminal] = useState(
+        '[LT-OMN-KAU-001] Omniva · Kaunas · Kauno Hyper Maxima Savanorių pr. 255 (LT-50150)',
+    );
     const [paymentMethod, setPaymentMethod] = useState<CheckoutPaymentMethod>('montonio_paysera');
+
+    const matchingTerminals = searchParcelTerminals(selectedCarrier, lockerSearchQuery);
+    const activeTerminal =
+        BALTIC_PARCEL_TERMINALS.find((t) => t.code === selectedTerminalCode) ||
+        matchingTerminals[0] ||
+        BALTIC_PARCEL_TERMINALS[0]!;
 
     useEffect(() => {
         if (deliveryEval.lockerDisabled && deliveryMethod === 'locker') {
@@ -181,13 +198,55 @@ export function CheckoutForm({ storeSlug }: { storeSlug: string }) {
 
     if (items.length === 0 && !submitting) {
         return (
-            <div className="text-center py-16 border border-border bg-card rounded-[2px]">
-                <ShoppingCart className="w-14 h-14 text-muted-foreground/40 mx-auto mb-4" strokeWidth={1.5} aria-hidden="true" />
-                <p className="text-xl font-semibold mb-2">{t('cartPage.empty')}</p>
-                <p className="text-muted-foreground mb-6">{t('cartPage.emptyDesc')}</p>
-                <Link href="/products" className="inline-flex rounded-[2px] bg-[var(--accent)] px-8 py-3 font-bold text-white transition-colors duration-150 hover:bg-[var(--accent-hover)]">
-                    {t('cartPage.goCatalog')}
-                </Link>
+            <div className="space-y-6">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {[
+                        {
+                            src: '/images/products/giles-studio-01-mpb-nani-35-50.webp',
+                            alt: 'Megatherm MPB NANI 35 granulių degiklis',
+                            label: 'Kurjeris su hidrauliniu liftu (>30 kg)',
+                        },
+                        {
+                            src: '/images/products/giles-studio-06-gorenje-tiki-zv-100.webp',
+                            alt: 'Gorenje Tiki ZV 100 boileris',
+                            label: 'Atsiėmimas Kauno sandėlyje (Eigulių g. 21)',
+                        },
+                        {
+                            src: '/images/products/giles-studio-10-danfoss-ra-n.webp',
+                            alt: 'Danfoss RA-N termostatinis vožtuvas',
+                            label: 'Omniva / DPD / LP Express / Venipak (<30 kg)',
+                        },
+                        {
+                            src: '/images/products/giles-studio-07-haier-super-aqua.webp',
+                            alt: 'Haier Super Aqua šilumos siurblys',
+                            label: 'Montonio / Paysera / SEPA apmokėjimas',
+                        },
+                    ].map((card) => (
+                        <div
+                            key={card.src}
+                            className="flex items-center gap-2.5 rounded-[2px] border border-border bg-card p-2.5 text-xs"
+                        >
+                            <img
+                                src={card.src}
+                                alt={card.alt}
+                                width={48}
+                                height={48}
+                                className="h-12 w-12 rounded-[2px] object-contain bg-white p-1 border border-border shrink-0"
+                            />
+                            <span className="font-semibold text-foreground leading-snug">
+                                {card.label}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+                <div className="text-center py-12 border border-border bg-card rounded-[2px]">
+                    <ShoppingCart className="w-14 h-14 text-muted-foreground/40 mx-auto mb-4" strokeWidth={1.5} aria-hidden="true" />
+                    <p className="text-xl font-semibold mb-2">{t('cartPage.empty')}</p>
+                    <p className="text-muted-foreground mb-6">{t('cartPage.emptyDesc')}</p>
+                    <Link href="/products" className="inline-flex rounded-[2px] bg-[var(--accent)] px-8 py-3 font-bold text-white transition-colors duration-150 hover:bg-[var(--accent-hover)]">
+                        {t('cartPage.goCatalog')}
+                    </Link>
+                </div>
             </div>
         );
     }
@@ -257,17 +316,89 @@ export function CheckoutForm({ storeSlug }: { storeSlug: string }) {
                             <div className="space-y-1.5 flex-1">
                                 <span className="font-bold text-foreground inline-flex items-center gap-1.5">
                                     <PackageCheck className="w-4 h-4 text-[#C2410C]" />
-                                    Paštomatas Omniva / DPD / LP Express (smulkioms detalėms ir vožtuvams iki 30 kg) – 3,49 € (Nemokamai nuo 150 €)
+                                    Paštomatas Omniva / DPD / LP Express / Venipak (smulkioms detalėms ir vožtuvams iki 30 kg) – 3,49 € (Nemokamai nuo 150 €)
                                 </span>
                                 {!deliveryEval.lockerDisabled && deliveryMethod === 'locker' && (
-                                    <input
-                                        type="text"
-                                        name="lockerTerminal"
-                                        value={lockerTerminal}
-                                        onChange={(e) => setLockerTerminal(e.target.value)}
-                                        placeholder="Įrašykite miestą ir pageidaujamą paštomatą (pvz., Omniva Kaunas Eiguliai)..."
-                                        className="w-full rounded-[2px] border border-border bg-white px-3 py-2 text-xs text-foreground"
-                                    />
+                                    <div
+                                        data-testid="checkout-terminal-picker"
+                                        onClick={(e) => e.stopPropagation()}
+                                        className="mt-2 space-y-2 rounded-[2px] border border-border bg-white p-3 text-xs text-foreground"
+                                    >
+                                        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Vežėjo pasirinkimas">
+                                            <button
+                                                type="button"
+                                                onClick={() => setSelectedCarrier('all')}
+                                                className={`rounded-[2px] border px-2.5 py-1 font-semibold transition-colors ${
+                                                    selectedCarrier === 'all'
+                                                        ? 'border-[#C2410C] bg-[#C2410C] text-white'
+                                                        : 'border-border bg-card text-foreground'
+                                                }`}
+                                            >
+                                                Visi ({BALTIC_PARCEL_TERMINALS.length})
+                                            </button>
+                                            {BALTIC_CARRIER_OPTIONS.map((c) => (
+                                                <button
+                                                    key={c.id}
+                                                    type="button"
+                                                    data-testid={`carrier-filter-${c.id}`}
+                                                    onClick={() => setSelectedCarrier(c.id)}
+                                                    className={`rounded-[2px] border px-2.5 py-1 font-semibold transition-colors ${
+                                                        selectedCarrier === c.id
+                                                            ? 'border-[#C2410C] bg-[#C2410C] text-white'
+                                                            : 'border-border bg-card text-foreground'
+                                                    }`}
+                                                >
+                                                    {c.label}
+                                                </button>
+                                            ))}
+                                        </div>
+
+                                        <div className="grid gap-2 sm:grid-cols-2">
+                                            <input
+                                                type="text"
+                                                data-testid="checkout-terminal-search"
+                                                value={lockerSearchQuery}
+                                                onChange={(e) => setLockerSearchQuery(e.target.value)}
+                                                placeholder="Ieškoti pagal miestą, gatvę arba kodą (pvz., Kaunas, Savanorių, Kazlų Rūda)..."
+                                                className="w-full rounded-[2px] border border-border bg-card px-3 py-2 text-xs text-foreground"
+                                            />
+                                            <select
+                                                data-testid="checkout-terminal-select"
+                                                value={activeTerminal.code}
+                                                onChange={(e) => {
+                                                    const code = e.target.value;
+                                                    setSelectedTerminalCode(code);
+                                                    const picked = BALTIC_PARCEL_TERMINALS.find(
+                                                        (t) => t.code === code,
+                                                    );
+                                                    if (picked) {
+                                                        setLockerTerminal(
+                                                            `[${picked.code}] ${picked.carrierLabel} · ${picked.city} · ${picked.address} (${picked.postalCode})`,
+                                                        );
+                                                    }
+                                                }}
+                                                className="w-full rounded-[2px] border border-border bg-card px-3 py-2 text-xs font-semibold text-foreground"
+                                            >
+                                                {(matchingTerminals.length > 0
+                                                    ? matchingTerminals
+                                                    : BALTIC_PARCEL_TERMINALS
+                                                ).map((term) => (
+                                                    <option key={term.code} value={term.code}>
+                                                        [{term.code}] {term.carrierLabel} – {term.city}, {term.address} ({term.postalCode})
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        <input
+                                            type="hidden"
+                                            name="lockerTerminal"
+                                            value={lockerTerminal}
+                                        />
+                                        <p className="text-[11px] text-muted-foreground">
+                                            Pasirinktas terminalas: <strong className="text-foreground">{lockerTerminal}</strong> (rasta {matchingTerminals.length} iš {BALTIC_PARCEL_TERMINALS.length} LT paštomatų)
+                                        </p>
+                                    </div>
                                 )}
                             </div>
                         </label>

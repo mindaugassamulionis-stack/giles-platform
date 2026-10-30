@@ -34,8 +34,11 @@ export interface CatalogProduct {
     category: string;
     categoryId: string | null;
     brand?: string;
-    image: string; // Always resolved to a real /images/products/*.webp path
+    ean?: string | null;
+    image: string; // Always resolved to a real /images/products/*.webp or /manufacturer-assets/*.webp path
     seriesImageUrl?: string;
+    specs?: Record<string, string>;
+    technicalSpecs?: Record<string, string>;
 }
 
 export function buildProductSlug(title: string, sku: string): string {

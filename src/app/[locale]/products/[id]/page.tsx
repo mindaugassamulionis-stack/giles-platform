@@ -1683,7 +1683,11 @@ export default async function ProductPage({ params }: Props) {
             kitContents: prodAny.kitContents as string[] | string | null | undefined,
             whatYouNeed: prodAny.whatYouNeed as string[] | string | null | undefined,
             compatibilityNote: prodAny.compatibilityNote as string | null | undefined,
-            specs: prodAny.specs as V3SpecRow[] | Record<string, string | number> | null | undefined,
+            specs: (prodAny.specs || prodAny.technicalSpecs) as
+                | V3SpecRow[]
+                | Record<string, string | number>
+                | null
+                | undefined,
             boilerCompatibilityTags: prodAny.boilerCompatibilityTags as string[] | null | undefined,
         },
         loc,

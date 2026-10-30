@@ -35,17 +35,44 @@ import {
 } from './catalog-listing';
 import { parseSkuQuery } from './sku-code';
 import { resolveProductImageUrl, isExactPhotoSku } from './product-visuals';
+import {
+    resolveProductSeriesVisual,
+    PRODUCT_VISUAL_SERIES_RULES,
+    type ResolvedProductSeriesVisual,
+} from './product-visual-resolver';
+import {
+    readJsonAtomic,
+    writeJsonAtomic,
+    withFileTransaction,
+} from './transactional-store';
+import {
+    getCatalogSearchIndex,
+    invalidateCatalogSearchIndex,
+    lookupCatalogProductO1,
+    queryInvertedCandidateIndices,
+    normalizeSearchToken,
+} from './catalog-search-index';
 import { inferProductBrandName, formatCleanCatalogProductTitle } from './v3-description';
 import {
     resolveB2BDiscountForBrand,
     type B2BQuickOrderResolvedRow,
 } from './giles-masterpiece-data';
 
+export {
+    readJsonAtomic,
+    writeJsonAtomic,
+    withFileTransaction,
+    resolveProductSeriesVisual,
+    PRODUCT_VISUAL_SERIES_RULES,
+    type ResolvedProductSeriesVisual,
+};
+
 export interface RawSnapshotProduct {
     id: string;
     slug?: string | null;
     name: string | null;
     nameLt: string | null;
+    description?: string | null;
     descriptionLt?: string | null;
     createdAt?: string | null;
     categoryId?: string | null;
@@ -66,7 +93,10 @@ export interface RawSnapshotProduct {
     stockSource?: string | null;
     lastSyncedAt?: string | null;
     vatRate: number | null;
+    image?: string | null;
     rawImageUrl?: string | null;
+    specs?: Record<string, string> | null;
+    technicalSpecs?: Record<string, string> | null;
 }
 
 export type GilesStockSource =
@@ -217,17 +247,35 @@ function normalizeCode(code: string): string {
 
 export function invalidateGilesCatalogSnapshotCache(): void {
     cachedSnapshot = null;
+    invalidateCatalogSearchIndex();
+}
+
+export function getCatalogOverridesMtime(): number {
+    const filePath = resolveOverridesPath();
+    try {
+        if (fs.existsSync(filePath)) {
+            return fs.statSync(filePath).mtimeMs;
+        }
+    } catch {
+        // ignore
+    }
+    return cachedOverridesMtime;
 }
 
 export function readCatalogOverrides(): CatalogOverridesStore {
     const filePath = resolveOverridesPath();
+    const emptyFallback: CatalogOverridesStore = {
+        overrides: {},
+        customProducts: [],
+        brandRules: {},
+    };
     try {
         if (fs.existsSync(filePath)) {
             const stat = fs.statSync(filePath);
             if (memoryOverridesStore && stat.mtimeMs === cachedOverridesMtime) {
                 return memoryOverridesStore;
             }
-            const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8')) as Partial<CatalogOverridesStore>;
+            const parsed = readJsonAtomic<Partial<CatalogOverridesStore>>(filePath, emptyFallback);
             memoryOverridesStore = {
                 overrides: parsed.overrides && typeof parsed.overrides === 'object' ? parsed.overrides : {},
                 customProducts: Array.isArray(parsed.customProducts) ? parsed.customProducts : [],
@@ -240,7 +288,7 @@ export function readCatalogOverrides(): CatalogOverridesStore {
         // fallback to memory store
     }
     if (!memoryOverridesStore) {
-        memoryOverridesStore = { overrides: {}, customProducts: [], brandRules: {} };
+        memoryOverridesStore = emptyFallback;
     }
     return memoryOverridesStore;
 }
@@ -248,11 +296,13 @@ export function readCatalogOverrides(): CatalogOverridesStore {
 export function saveCatalogOverrides(store: CatalogOverridesStore): CatalogOverridesStore {
     memoryOverridesStore = store;
     cachedSnapshot = null;
+    invalidateCatalogSearchIndex();
     const filePath = resolveOverridesPath();
     try {
-        fs.mkdirSync(path.dirname(filePath), { recursive: true });
-        fs.writeFileSync(filePath, JSON.stringify(store, null, 2), 'utf8');
-        cachedOverridesMtime = fs.statSync(filePath).mtimeMs;
+        writeJsonAtomic<CatalogOverridesStore>(filePath, store);
+        if (fs.existsSync(filePath)) {
+            cachedOverridesMtime = fs.statSync(filePath).mtimeMs;
+        }
     } catch {
         // ignore read-only fs errors
     }
@@ -375,6 +425,9 @@ let baseParsedCache: {
 } | null = null;
 
 export function getGilesCatalogSnapshot(): GilesCatalogSnapshot {
+    if (cachedSnapshot && cachedOverridesMtime === -1) {
+        return cachedSnapshot;
+    }
     const filePath = resolveOverridesPath();
     try {
         if (fs.existsSync(filePath)) {
@@ -626,13 +679,27 @@ export function getGilesCatalogSnapshot(): GilesCatalogSnapshot {
         const cleanTitle = resolvedOverrideName
             ? resolvedOverrideName
             : formatCleanCatalogProductTitle(rawTitle, sku, resolvedBrand);
-        const resolvedImageUrl = resolveProductImageUrl({
+        const baseImageUrl = resolveProductImageUrl({
             sku,
             title: cleanTitle,
             brand: resolvedBrand,
             category: r.categoryName,
-            imageUrl: r.rawImageUrl || undefined,
+            imageUrl: r.image || r.rawImageUrl || undefined,
         });
+        const seriesVisual = resolveProductSeriesVisual({
+            sku,
+            title: cleanTitle,
+            brand: resolvedBrand,
+            category: r.categoryName,
+            imageUrl: r.image || r.rawImageUrl || baseImageUrl,
+        });
+        const resolvedImageUrl =
+            override?.imageUrl ||
+            override?.image ||
+            r.image ||
+            r.rawImageUrl ||
+            baseImageUrl ||
+            seriesVisual.image;
         const resolvedSlug =
             typeof r.slug === 'string' && r.slug.trim()
                 ? r.slug.trim()
@@ -649,6 +716,8 @@ export function getGilesCatalogSnapshot(): GilesCatalogSnapshot {
         const resolvedStockSource =
             r.stockSource || 'Skaita SQL · Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)';
         const resolvedSyncedAt = r.lastSyncedAt || parsed.generatedAt || 'Aktyvus katalogas';
+        const resolvedSpecs = override?.specs || r.specs || r.technicalSpecs || undefined;
+        const resolvedDescText = r.description || r.descriptionLt || undefined;
 
         const item: ListingProduct = {
             id: r.id,
@@ -668,8 +737,14 @@ export function getGilesCatalogSnapshot(): GilesCatalogSnapshot {
             stockSource: resolvedStockSource,
             lastSyncedAt: resolvedSyncedAt,
             sku,
+            ean: r.ean ?? null,
+            description: resolvedDescText,
             imageUrl: resolvedImageUrl,
-            seriesImageUrl: r.rawImageUrl || resolvedImageUrl,
+            seriesImageUrl: r.image || r.rawImageUrl || seriesVisual.image || resolvedImageUrl,
+            seriesBadge: seriesVisual.seriesBadge,
+            technicalCallout: seriesVisual.technicalCallout,
+            specs: resolvedSpecs,
+            technicalSpecs: resolvedSpecs,
             exactSkuMatch: false,
             priceCents,
             vatRate: r.vatRate == null ? 21 : Number(r.vatRate),
@@ -757,6 +832,7 @@ function priceBucketCents(priceRange?: string): { min?: number; max?: number } |
 
 export function searchGilesSnapshotPaged(filters: ListingFilters = {}): PagedListing {
     const snap = getGilesCatalogSnapshot();
+    const index = getCatalogSearchIndex();
     const rawById = snap.rawById;
     const parsedQ = parseSkuQuery(filters.q ?? '');
     const pinCodes = new Set(parsedQ.codes.map((c) => normalizeCode(c)));
@@ -801,8 +877,50 @@ export function searchGilesSnapshotPaged(filters: ListingFilters = {}): PagedLis
 
     const queryLower = parsedQ.rawQuery.toLowerCase();
 
+    // Narrow candidate pool via O(1) category/brand slices or inverted token index when possible
+    let candidateProducts: ListingProduct[] = snap.products;
+    if (activeBrandSlug) {
+        const directBrandSlice =
+            index.byBrand.get(activeBrandSlug) ||
+            index.byBrand.get(canonicalBrandLower) ||
+            index.byBrand.get(activeBrand.toLowerCase());
+        if (directBrandSlice && directBrandSlice.length > 0) {
+            candidateProducts = directBrandSlice;
+        }
+    } else if (resolvedCategoryNames.length > 0) {
+        const catUnion: ListingProduct[] = [];
+        const seenIds = new Set<string>();
+        const keysToTry = [activeCatLower, normalizeSearchToken(activeCatLower), ...resolvedCategoryNames];
+        for (const k of keysToTry) {
+            const slice = index.byCategory.get(k) || index.byCategory.get(normalizeSearchToken(k));
+            if (slice) {
+                for (const item of slice) {
+                    if (!seenIds.has(item.id)) {
+                        seenIds.add(item.id);
+                        catUnion.push(item);
+                    }
+                }
+            }
+        }
+        if (catUnion.length > 0) {
+            candidateProducts = catUnion;
+        }
+    } else if (queryLower) {
+        const invertedIndices = queryInvertedCandidateIndices(queryLower);
+        if (invertedIndices && invertedIndices.size > 0) {
+            const fromIndex: ListingProduct[] = [];
+            for (const i of invertedIndices) {
+                const prod = index.products[i];
+                if (prod) fromIndex.push(prod);
+            }
+            if (fromIndex.length > 0) {
+                candidateProducts = fromIndex;
+            }
+        }
+    }
+
     const matched: ListingProduct[] = [];
-    for (const p of snap.products) {
+    for (const p of candidateProducts) {
         const raw = rawById.get(p.id);
         if (resolvedCategoryNames.length > 0) {
             const cName = (p.categoryName || '').toLowerCase().trim();
@@ -866,7 +984,7 @@ export function searchGilesSnapshotPaged(filters: ListingFilters = {}): PagedLis
         }
 
         if (subtypeRegex || specRegex) {
-            const hay = `${p.nameLt || ''} ${p.name || ''} ${raw?.descriptionLt || ''} ${p.sku} ${p.brandName || ''}`;
+            const hay = `${p.nameLt || ''} ${p.name || ''} ${p.sku} ${p.brandName || ''}`;
             if (subtypeRegex && !subtypeRegex.test(hay)) continue;
             if (specRegex && !specRegex.test(hay)) continue;
         }
@@ -1026,30 +1144,24 @@ export function getGilesSnapshotPopularProducts(limit = 12): ListingProduct[] {
 
 export function findGilesSnapshotProductBySlugOrId(slugOrId: string): CatalogProduct | null {
     const snap = getGilesCatalogSnapshot();
-    const key = decodeURIComponent(slugOrId || '').trim().toLowerCase();
-    if (!key) return null;
-
-    let found = snap.bySlug.get(key) || snap.bySkuNormalized.get(normalizeCode(key));
-    if (!found) {
-        found = snap.products.find(
-            (p) =>
-                p.id.toLowerCase() === key ||
-                (p.slug || '').toLowerCase() === key ||
-                p.sku.toLowerCase() === key ||
-                (p.slug || '').toLowerCase().endsWith(`-${key}`),
-        );
-    }
+    const found = lookupCatalogProductO1(slugOrId);
     if (!found) return null;
 
     const raw = snap.rawById.get(found.id);
+    const resolvedSpecs = found.specs || found.technicalSpecs || raw?.specs || raw?.technicalSpecs || undefined;
     return {
         id: found.id,
         slug: found.slug || buildProductSlug(found.name, found.sku),
         canonicalUrl: null,
         variantId: raw?.variantId || found.id,
         sku: found.sku,
+        ean: found.ean || raw?.ean || null,
         name: found.nameLt || found.name,
-        description: raw?.descriptionLt || `${found.nameLt || found.name} (${found.brandName || 'Gilės Inžinerija'}, SKU: ${found.sku}).`,
+        description:
+            found.description ||
+            raw?.description ||
+            raw?.descriptionLt ||
+            `${found.nameLt || found.name} (${found.brandName || 'Gilės Inžinerija'}, SKU: ${found.sku}).`,
         price: found.price,
         priceCents: found.priceCents,
         vatRate: found.vatRate,
@@ -1065,6 +1177,8 @@ export function findGilesSnapshotProductBySlugOrId(slugOrId: string): CatalogPro
         brand: found.brandName || 'Gilės Inžinerija',
         image: found.imageUrl || '/images/products/family-ferroli-boiler.webp',
         seriesImageUrl: found.seriesImageUrl || found.imageUrl || '/images/products/family-ferroli-boiler.webp',
+        specs: resolvedSpecs,
+        technicalSpecs: resolvedSpecs,
     };
 }
 

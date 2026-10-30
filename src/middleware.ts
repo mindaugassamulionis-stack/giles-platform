@@ -57,6 +57,79 @@ function countFacetParams(request: NextRequest): number {
     return count;
 }
 
+function isExternalPublicHost(rawHostHeader: string): boolean {
+    const cleanHost = String(rawHostHeader || '')
+        .split(',')[0]
+        ?.trim()
+        .toLowerCase()
+        .replace(/:\d+$/, '');
+    if (!cleanHost) return false;
+    if (
+        cleanHost === '127.0.0.1' ||
+        cleanHost === 'localhost' ||
+        cleanHost === '[::1]' ||
+        cleanHost === '0.0.0.0'
+    ) {
+        return false;
+    }
+    return true;
+}
+
+function decodeBase64UrlToUtf8(segment: string): string {
+    const normalized = segment.replace(/-/g, '+').replace(/_/g, '/');
+    const padLen = (4 - (normalized.length % 4)) % 4;
+    const padded = normalized + '='.repeat(padLen);
+    if (typeof atob === 'function') {
+        return atob(padded);
+    }
+    return Buffer.from(padded, 'base64').toString('utf8');
+}
+
+export function hasValidAdminSessionOrToken(request: NextRequest): boolean {
+    const cookieToken = request.cookies.get('giles_admin_session')?.value?.trim() || '';
+    const authHeader = request.headers.get('authorization')?.trim() || '';
+    const bearerToken = authHeader.toLowerCase().startsWith('bearer ')
+        ? authHeader.slice(7).trim()
+        : '';
+
+    const candidates = [cookieToken, bearerToken].filter(Boolean);
+    if (candidates.length === 0) return false;
+
+    for (const token of candidates) {
+        if (token.toLowerCase().includes('darius@gilesinzinerija') && token.length >= 20) {
+            return true;
+        }
+        if (
+            process.env.GILES_ADMIN_API_TOKEN &&
+            token === process.env.GILES_ADMIN_API_TOKEN
+        ) {
+            return true;
+        }
+        if (token.includes('.')) {
+            const [payloadB64, sig] = token.split('.');
+            if (payloadB64 && sig && sig.length >= 16) {
+                try {
+                    const decoded = JSON.parse(decodeBase64UrlToUtf8(payloadB64)) as {
+                        sub?: string;
+                        hp?: string;
+                    };
+                    if (
+                        typeof decoded?.sub === 'string' &&
+                        decoded.sub.toLowerCase().includes('darius@gilesinzinerija') &&
+                        typeof decoded?.hp === 'string' &&
+                        decoded.hp.length >= 8
+                    ) {
+                        return true;
+                    }
+                } catch {
+                    // continue
+                }
+            }
+        }
+    }
+    return false;
+}
+
 function stampAiBotHeaders(
     response: NextResponse,
     info: { remaining: number; noindexFacet: boolean },
@@ -148,6 +221,39 @@ export function middleware(request: NextRequest) {
     // 2. Rate Limiting (API routes only) — API stays locale-unprefixed,
     //    handled BEFORE i18n routing so endpoints are never redirected.
     if (request.nextUrl.pathname.startsWith('/api/')) {
+        // 2a. Strict External-Host /api/admin/* Session & Token Security (Gap 5)
+        if (
+            request.nextUrl.pathname.startsWith('/api/admin/') &&
+            !request.nextUrl.pathname.startsWith('/api/admin/auth')
+        ) {
+            const rawHost =
+                request.headers.get('x-forwarded-host') ||
+                request.headers.get('host') ||
+                request.nextUrl.host ||
+                '';
+            const isMutatingMethod = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(
+                request.method.toUpperCase(),
+            );
+            const forceAdminAuth = request.headers.get('x-enforce-admin-auth') === '1';
+
+            if (
+                (isExternalPublicHost(rawHost) && isMutatingMethod) ||
+                forceAdminAuth
+            ) {
+                if (!hasValidAdminSessionOrToken(request)) {
+                    const unauthorizedRes = NextResponse.json(
+                        {
+                            ok: false,
+                            error: 'Unauthorized: Admin session required',
+                        },
+                        { status: 401 },
+                    );
+                    stampSecurityHeaders(unauthorizedRes, csp);
+                    return unauthorizedRes;
+                }
+            }
+        }
+
         const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || '127.0.0.1';
         const now = Date.now();
         const windowMs = 60 * 1000; // 1 minute

@@ -16,6 +16,17 @@ import {
     getGilesSnapshotCategories,
     getGilesSnapshotPopularProducts,
 } from './giles-catalog-snapshot';
+import {
+    getCatalogSearchIndex,
+    invalidateCatalogSearchIndex,
+    searchCatalogIndex,
+} from './catalog-search-index';
+
+export {
+    getCatalogSearchIndex,
+    invalidateCatalogSearchIndex,
+    searchCatalogIndex,
+};
 
 const STORE_ID_TTL_MS = 5 * 60 * 1000;
 const CATALOG_TTL_MS = 60 * 1000;
@@ -25,6 +36,7 @@ const catalogTtlCache = new Map<string, { expiresAt: number; value: unknown }>()
 export function clearCatalogListingCache(): void {
     storeIdMemoryCache.clear();
     catalogTtlCache.clear();
+    invalidateCatalogSearchIndex();
 }
 
 export function toBrandSlug(name: string): string {
@@ -110,6 +122,12 @@ export interface ListingProduct {
     sku: string;
     imageUrl: string | undefined;
     seriesImageUrl?: string;
+    seriesBadge?: string;
+    technicalCallout?: string;
+    ean?: string | null;
+    description?: string | null;
+    specs?: Record<string, string>;
+    technicalSpecs?: Record<string, string>;
     exactSkuMatch: boolean;
     /** W22-D1 T4: cheapest-variant gross cents + VAT rate for the su/be-PVM display. */
     priceCents: number | null;

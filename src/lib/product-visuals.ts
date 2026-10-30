@@ -603,7 +603,9 @@ export function resolveProductImageUrl(input: {
     skuLower.startsWith("gi-ferroli-") && skuLower !== "gi-ferroli-004" &&
     !title.includes("vandens šildytuvas") && !title.includes("boileris")
   if (
-    existing.startsWith("/images/products/") &&
+    (existing.startsWith("/images/products/") ||
+      existing.startsWith("/manufacturer-assets/") ||
+      existing.startsWith("/studio-assets/")) &&
     existing.endsWith(".webp") &&
     !(isFerroliAccessory && (existing.includes("family-ferroli-waterheater.webp") || existing.includes("family-ferroli-boiler.webp")))
   ) {
