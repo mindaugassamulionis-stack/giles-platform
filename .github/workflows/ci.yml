@@ -31,7 +31,7 @@ jobs:
           node --check mcp/giles-mcp-stdio.mjs
           node -e '
             const fs = require("fs");
-            for (const f of ["package.json", "tsconfig.json", "messages/lt.json", "messages/en.json"]) {
+            for (const f of ["package.json", "tsconfig.json", "mcp/claude_desktop_config.example.json", "i18n-allowlist.json"]) {
               JSON.parse(fs.readFileSync(f, "utf8"));
             }
             for (const f of [
