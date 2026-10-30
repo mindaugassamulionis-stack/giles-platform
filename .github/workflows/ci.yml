@@ -28,7 +28,7 @@ jobs:
 
       - name: Verify MCP Server (2025-06-18) syntax & manifest integrity
         run: |
-          node --check mcp/giles-mcp-server.mjs
+          node --check mcp/giles-mcp-stdio.mjs
           node -e '
             const fs = require("fs");
             for (const f of ["package.json", "tsconfig.json", "messages/lt.json", "messages/en.json"]) {

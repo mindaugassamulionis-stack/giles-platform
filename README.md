@@ -39,7 +39,7 @@ Spauskite bet kurią nuorodą tiesioginiam testavimui naršyklėje (be jokio die
    - **14 Plug-and-Play integracijų**: Montonio, Paysera, Stripe, Venipak, DPD, Omniva, LP Express, Skaita ERP, VMI i.MAS, Registrų Centras / VIES, SMTP, SMS Biuras, xAI Grok, GA4/Meta CAPI.
 2. **Vytautas 2.0 — AI Vyr. Šilumos Inžinierius (`/api/vytautas`)**:
    - Skaičiuoja šilumos nuostolius pagal STR 2.01.02:2016, parenka katilo galią, akumuliacinę talpą (`V = 15 × P_kW`), Ladomat 21-60 mazgą ir ruošia komercinius pasiūlymus.
-3. **Model Context Protocol (MCP) Serveris (`/api/mcp` ir `mcp/giles-mcp-server.mjs`)**:
+3. **Model Context Protocol (MCP) Serveris (`/api/mcp` ir `mcp/giles-mcp-stdio.mjs`)**:
    - 12 inžinerinių ir komercinių įrankių išoriniams AI agentams (Claude Desktop, Cursor, OpenAI, B2B pirkimų sistemoms).
 
 ---
