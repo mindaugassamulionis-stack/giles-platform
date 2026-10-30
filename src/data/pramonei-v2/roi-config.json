@@ -1,0 +1,73 @@
+{
+  "version": "2026-10",
+  "sources": "BALTPOOL SM2 indeksas, LEA ir VERT suvestinės (iš esamos svetainės ROI bloko). Atnaujinti kas ketvirtį.",
+  "current_fuels": [
+    {
+      "id": "gas",
+      "label": "Gamtinės dujos",
+      "eur_per_mwh_heat": {
+        "min": 68,
+        "max": 84
+      },
+      "default": true
+    },
+    {
+      "id": "lpg_oil",
+      "label": "Suskystintos dujos / dyzelinas",
+      "eur_per_mwh_heat": {
+        "min": 95,
+        "max": 122
+      }
+    },
+    {
+      "id": "district",
+      "label": "Centrinis šildymas",
+      "eur_per_mwh_heat": {
+        "min": 88,
+        "max": 88
+      }
+    },
+    {
+      "id": "electric",
+      "label": "Elektra",
+      "eur_per_mwh_heat": {
+        "min": 165,
+        "max": 165
+      }
+    }
+  ],
+  "bio_fuels": [
+    {
+      "id": "chips",
+      "label": "Medienos skiedra (SM2, W30–W35)",
+      "eur_per_mwh_heat": {
+        "min": 24,
+        "max": 29
+      },
+      "default": true
+    },
+    {
+      "id": "pellets",
+      "label": "Pramoninės granulės ENplus A1/A2",
+      "eur_per_mwh_heat": {
+        "min": 44,
+        "max": 52
+      }
+    }
+  ],
+  "full_load_hours": 2100,
+  "sizing_reserve": 1.1,
+  "opex": {
+    "service_pct_of_capex": 0.03,
+    "electricity_eur_per_kwh": 0.2,
+    "source": "assumption – patvirtinti"
+  },
+  "load_presets_mwh": [
+    250,
+    600,
+    1200,
+    2500,
+    4500
+  ],
+  "price_point": "midpoint"
+}

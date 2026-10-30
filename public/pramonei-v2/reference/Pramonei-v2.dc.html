@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>Pramonei v2 – konteinerinės katilinės</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F5F3EE;color:#11161B;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#11161B;text-decoration:none}a:hover{color:#C2410C}
+.dk a{color:#F5F3EE}.dk a:hover{color:#FF8A3D}
+.card{transition:box-shadow .2s ease,transform .2s ease}.card:hover{box-shadow:0 14px 36px rgba(17,22,27,.12);transform:translateY(-2px)}
+.row:hover{background:#FAF8F4}
+.btn{transition:filter .15s ease}.btn:hover{filter:brightness(1.12)}
+*:focus-visible{outline:2px solid #C2410C;outline-offset:3px}
+</style>
+</helmet>
+<div style="min-height: 100px; background: #F5F3EE; color: #11161B; font-family: Inter, system-ui, sans-serif">
+
+<!-- Viršutinė juosta + antraštė (kaip Pradinis v2) -->
+<div class="dk" style="background: #090C0F; border-bottom: 1px solid #1C252E; font-size: 13px; color: #A3ADB8">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 8px clamp(16px, 4vw, 32px); display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center">
+    <span style="display: flex; flex-wrap: wrap; gap: 6px 20px"><span>Gamyba Kaune · Eigulių g. 21</span><span>Pristatymas visoje Lietuvoje ir ES</span></span>
+    <span style="display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center">
+      <a href="tel:+37061119158" style="color: #FFFFFF; font-weight: 600">+370 611 19158</a>
+      <span style="display: flex; gap: 10px"><b style="color: #FFFFFF">LT</b><a href="#" style="color: #A3ADB8">EN</a><a href="#" style="color: #A3ADB8">PL</a><a href="#" style="color: #A3ADB8">RU</a></span>
+    </span>
+  </div>
+</div>
+<header class="dk" style="background: #0E1216; border-bottom: 1px solid #1C252E; color: #F5F3EE">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 12px clamp(16px, 4vw, 32px); display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: center">
+    <a href="Pradinis-v2.dc.html" aria-label="Gilės inžinerija – pradžia" style="display: flex; align-items: center"><img src="/_blob/fe1edc7973508016efd6c682a351cfa9" alt="Gilės inžinerija" style="width: 272px; height: 57px; display: block; margin-left: -8px"></a>
+    <nav aria-label="Pagrindinis meniu" style="display: flex; flex-wrap: wrap; gap: 4px 22px; align-items: center; font-size: 15px; font-weight: 500">
+      <a href="Catalog.dc.html">Parduotuvė</a><a href="Configurator.dc.html">Sprendimai</a><a href="#" aria-current="page" style="color: #FF8A3D">Pramonei</a><a href="#projektai">Projektai</a><a href="B2B.dc.html">B2B</a>
+    </nav>
+    <div style="flex: 1 1 260px; display: flex; gap: 10px; align-items: center; justify-content: flex-end">
+      <label style="flex: 1 1 200px; max-width: 340px; position: relative; display: flex; align-items: center">
+        <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Paieška</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="#8E99A5" stroke-width="2" stroke-linecap="round" style="position: absolute; left: 14px"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        <input type="search" placeholder="Prekė, kodas ar modelis" style="width: 100%; box-sizing: border-box; height: 44px; padding: 0 14px 0 42px; border: 1px solid #2C3742; border-radius: 10px; background: #151C23; color: #FFFFFF; font: inherit; font-size: 15px">
+      </label>
+      <a href="#uzklausa" class="btn" style="height: 44px; padding: 0 16px; display: flex; align-items: center; border-radius: 10px; background: #C2410C; color: #FFFFFF; font-weight: 700; font-size: 14px; white-space: nowrap">Gauti pasiūlymą</a>
+    </div>
+  </div>
+</header>
+
+<!-- 1. Hero -->
+<section class="dk" style="background: #0E1216; color: #F5F3EE">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 28px clamp(16px, 4vw, 32px) clamp(48px, 6vw, 72px); display: flex; flex-direction: column; gap: 28px">
+    <nav aria-label="Kelias" style="display: flex; gap: 8px; font-size: 13px; color: #8E99A5"><a href="Pradinis-v2.dc.html" style="color: #8E99A5">Pradžia</a><span aria-hidden="true">/</span><span style="color: #F5F3EE">Pramonei</span></nav>
+    <div style="display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+      <div style="flex: 1 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: #FF8A3D">GAMYBA KAUNE · PARDAVIMAS · NUOMA</span>
+        <h1 style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(40px, 4.8vw, 66px); line-height: 1; letter-spacing: -0.03em; text-wrap: balance">Konteinerinės katilinės 100 kW – 2,5 MW</h1>
+        <p style="margin: 0; max-width: 520px; font-size: 18px; line-height: 1.55; color: #C9D0D8; text-wrap: pretty">Surenkame ir išbandome gamykloje Kaune, atvežame paruoštas prijungti. Skiedra, granulės ar biodujos – pirkimas arba nuoma. Sąmata – per 24 val. darbo dienomis.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px">
+          <a href="#uzklausa" class="btn" style="height: 52px; padding: 0 22px; display: flex; align-items: center; border-radius: 10px; background: #C2410C; color: #FFFFFF; font-weight: 700; font-size: 16px">Gauti pasiūlymą</a>
+          <a href="#modeliai" style="height: 52px; padding: 0 22px; display: flex; align-items: center; border-radius: 10px; border: 1px solid #3A4652; font-weight: 600; font-size: 16px">Modeliai ir kainos</a>
+          <a href="#" style="height: 52px; padding: 0 18px; display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; color: #C9D0D8"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Katalogas PDF</a>
+        </div>
+        <dl style="margin: 8px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 1px; border-radius: 14px; overflow: hidden; background: #26313B; border: 1px solid #26313B">
+          <div style="display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; background: #11171D"><dt style="order: 2; font-size: 12px; color: #8E99A5">galios ribos</dt><dd style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 19px">100 kW – 2,5 MW</dd></div>
+          <div style="display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; background: #11171D"><dt style="order: 2; font-size: 12px; color: #8E99A5">gamyba ir bandymas Kaune</dt><dd style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 19px">4–8 sav.</dd></div>
+          <div style="display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; background: #11171D"><dt style="order: 2; font-size: 12px; color: #8E99A5">pagaminta ir sumontuota</dt><dd style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 19px">16 objektų</dd></div>
+        </dl>
+      </div>
+      <figure style="flex: 1.2 1 500px; min-width: 0; margin: 0; display: flex; flex-direction: column; border-radius: 18px; overflow: hidden; background: #EEEBE4">
+        <img src="/_blob/f708ac090b733ccbf4347ae2904a1d79" alt="2,0 MW modulinė biokuro katilinė GK-2000 su kuro sandėliu ir kaminu" style="width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block">
+        <figcaption style="display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: space-between; align-items: center; padding: 14px 18px; background: #151C23; color: #F5F3EE; font-size: 13px"><span><b>GK-2000 · 2,0 MW</b> <span style="color: #A3ADB8">· modulinė katilinė su kuro sandėliu</span></span><span style="color: #A3ADB8">Walking-Floor sandėlis · daugiapakopis dūmų valymas · SCADA</span></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 2. Keliai -->
+<section>
+  <div style="max-width: 1280px; margin: 0 auto; padding: 40px clamp(16px, 4vw, 32px) 0">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); gap: 14px">
+      <sc-for list="{{paths}}" as="p" hint-placeholder-count="3">
+        <button type="button" class="card" onClick="{{p.pick}}" aria-pressed="{{p.pressed}}" style="display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 16px; background: #FFFFFF; border: 2px solid {{p.border}}; font: inherit; color: #11161B; text-align: left; cursor: pointer">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #C2410C">{{p.eyebrow}}</span>
+          <span style="font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: 22px">{{p.title}}</span>
+          <span style="font-size: 14px; line-height: 1.5; color: #5B6470">{{p.text}}</span>
+          <span style="margin-top: 4px; font-weight: 700; font-size: 15px">{{p.price}}</span>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- 3. Modelių lentelė -->
+<section id="modeliai">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 56px clamp(16px, 4vw, 32px) 0; display: flex; flex-direction: column; gap: 20px">
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: flex-end">
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #C2410C">MODELIAI</span>
+        <h2 style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">{{tableTitle}}</h2>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+        <div role="group" aria-label="Rodyti" style="display: flex; padding: 4px; border-radius: 10px; background: #E7E3DB">
+          <sc-for list="{{filters}}" as="f" hint-placeholder-count="4"><button type="button" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" style="height: 38px; padding: 0 14px; border: 0; border-radius: 7px; background: {{f.bg}}; color: {{f.fg}}; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer">{{f.label}}</button></sc-for>
+        </div>
+        <div role="group" aria-label="Kainos" style="display: flex; padding: 4px; border-radius: 10px; background: #E7E3DB">
+          <button type="button" onClick="{{netOn}}" aria-pressed="{{netAria}}" style="height: 38px; padding: 0 12px; border: 0; border-radius: 7px; background: {{netBg}}; font: inherit; font-size: 13px; font-weight: 600; color: #11161B; cursor: pointer">Be PVM</button>
+          <button type="button" onClick="{{grossOn}}" aria-pressed="{{grossAria}}" style="height: 38px; padding: 0 12px; border: 0; border-radius: 7px; background: {{grossBg}}; font: inherit; font-size: 13px; font-weight: 600; color: #11161B; cursor: pointer">Su PVM</button>
+        </div>
+      </div>
+    </div>
+    <div style="overflow-x: auto; border-radius: 18px; background: #FFFFFF; border: 1px solid #E2DDD3">
+      <table style="width: 100%; min-width: 980px; border-collapse: collapse; font-size: 14px">
+        <thead>
+          <tr style="text-align: left; background: #11161B; color: #FFFFFF; font-size: 13px">
+            <th scope="col" style="padding: 14px 18px; font-weight: 600">Modelis</th>
+            <th scope="col" style="padding: 14px 12px; font-weight: 600">Galia</th>
+            <th scope="col" style="padding: 14px 12px; font-weight: 600">Šildomas plotas</th>
+            <th scope="col" style="padding: 14px 12px; font-weight: 600">Kuro sandėlis</th>
+            <th scope="col" style="padding: 14px 12px; font-weight: 600">Gabaritai</th>
+            <th scope="col" style="padding: 14px 12px; font-weight: 600; text-align: right">{{priceHead}}</th>
+            <th scope="col" style="padding: 14px 18px 14px 12px; width: 130px"><span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Veiksmai</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="7">
+            <tr class="row" style="border-top: 1px solid #E2DDD3">
+              <td style="padding: 12px 18px">
+                <span style="display: flex; align-items: center; gap: 14px">
+                  <sc-if value="{{r.hasImg}}" hint-placeholder-val="{{ true }}"><img src="{{r.img}}" alt="" style="width: 72px; height: 54px; object-fit: cover; border-radius: 8px; background: #EEEBE4; flex: none"></sc-if>
+                  <sc-if value="{{r.noImg}}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="width: 72px; height: 54px; border-radius: 8px; background: #EEEBE4; flex: none; display: flex; align-items: center; justify-content: center"><svg width="44" height="30" viewBox="0 0 44 30" fill="none" stroke="#8A8478" stroke-width="1.5"><rect x="2" y="10" width="32" height="18" rx="1"></rect><path d="M9 10V28 M16 10V28 M23 10V28 M30 10V28"></path><rect x="36" y="2" width="5" height="26"></rect></svg></span></sc-if>
+                  <span style="display: flex; flex-direction: column; gap: 3px"><span style="font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 14px; color: #C2410C">{{r.code}}</span><span style="font-size: 13px; color: #5B6470">{{r.kind}}</span></span>
+                </span>
+              </td>
+              <td style="padding: 12px; font-weight: 700; white-space: nowrap">{{r.power}}</td>
+              <td style="padding: 12px; white-space: nowrap">{{r.area}}</td>
+              <td style="padding: 12px"><span style="display: flex; flex-direction: column; gap: 2px"><span>{{r.fuel}}</span><span style="font-size: 11px; color: #5B6470">{{r.auton}}</span></span></td>
+              <td style="padding: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3A4652">{{r.dims}}</td>
+              <td style="padding: 12px; text-align: right; white-space: nowrap"><span style="display: flex; flex-direction: column; gap: 2px; align-items: flex-end"><b style="font-family: 'Schibsted Grotesk', sans-serif; font-size: 16px">{{r.price}}</b><span style="font-size: 11px; color: #5B6470">{{r.priceNote}}</span></span></td>
+              <td style="padding: 12px 18px 12px 12px"><a href="GK-Nauja.dc.html" style="height: 38px; padding: 0 12px; display: inline-flex; align-items: center; border-radius: 8px; border: 1px solid #11161B; font-size: 13px; font-weight: 600; white-space: nowrap">Modelio pasas</a></td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+    <span style="font-size: 13px; line-height: 1.6; color: #5B6470">Kainos be montavimo ir prijungimo. „≈“ – orientacinė kaina, tikslinama pasiūlyme. Autonomija – granulėmis, esant pilnai galiai; esant 50 % apkrovai – dvigubai ilgiau. Modelio pase – nuotraukos, 3 brėžiniai, techniniai duomenys ir DWG.</span>
+  </div>
+</section>
+
+<!-- 4. Kaip veikia -->
+<section style="padding-top: 72px">
+  <div class="dk" style="background: #0E1216; color: #F5F3EE">
+    <div style="max-width: 1280px; margin: 0 auto; padding: clamp(48px, 6vw, 72px) clamp(16px, 4vw, 32px); display: flex; flex-direction: column; gap: 32px">
+      <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: flex-end">
+        <div style="display: flex; flex-direction: column; gap: 10px; max-width: 700px">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #FF8A3D">SANDARA</span>
+          <h2 style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Penki mazgai – viena gamyklinė sistema</h2>
+        </div>
+        <a href="GK-Nauja.dc.html" style="font-weight: 600; font-size: 15px">Brėžiniai: planas, pjūvis, hidraulika →</a>
+      </div>
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 12px">
+        <li style="display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 16px; background: #151C23; border: 1px solid #26313B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FF8A3D">01 · K</span><span style="font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 18px">Kuro sandėlis</span><span style="font-size: 14px; line-height: 1.5; color: #C9D0D8">8–90 m³, stumdomosios grindys arba sraigtai. Skiedra iki W45 arba granulės.</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 16px; background: #151C23; border: 1px solid #26313B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FF8A3D">02 · F</span><span style="font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 18px">Padavimas ir priešgaisrinė apsauga</span><span style="font-size: 14px; line-height: 1.5; color: #C9D0D8">Sraigtas su priešgaisrine sklende, atskirta pertvara.</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 16px; background: #151C23; border: 1px solid #26313B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FF8A3D">03 · B</span><span style="font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 18px">Katilas</span><span style="font-size: 14px; line-height: 1.5; color: #C9D0D8">Judančios ardelės, šamoto pakura, 3 eigų šilumokaitis, automatinis pelenų šalinimas.</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 16px; background: #151C23; border: 1px solid #26313B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FF8A3D">04 · D</span><span style="font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 18px">Dūmų valymas</span><span style="font-size: 14px; line-height: 1.5; color: #C9D0D8">Multiciklonas, filtras pagal leidimo ribas, dūmsiurbė su dažnio keitikliu.</span></li>
+        <li style="display: flex; flex-direction: column; gap: 10px; padding: 22px; border-radius: 16px; background: #151C23; border: 1px solid #26313B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #FF8A3D">05 · H/E</span><span style="font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 18px">Hidraulika ir valdymas</span><span style="font-size: 14px; line-height: 1.5; color: #C9D0D8">Kolektorius, siurbliai, slėgio palaikymas, PLC su nuotoline stebėsena.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 5. Skaičiuoklė -->
+<section>
+  <div style="max-width: 1280px; margin: 0 auto; padding: 72px clamp(16px, 4vw, 32px) 0; display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch">
+    <div style="flex: 1.2 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 20px; padding: clamp(22px, 3vw, 32px); border-radius: 20px; background: #FFFFFF; border: 1px solid #E2DDD3">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #C2410C">ATSIPIRKIMO SKAIČIUOKLĖ</span>
+        <h2 style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(26px, 2.8vw, 34px); line-height: 1.1; letter-spacing: -0.02em">Kiek sutaupytumėte perėję į biokurą?</h2>
+      </div>
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
+        <legend style="padding: 0 0 10px; font-weight: 700; font-size: 14px">1. Dabartinis kuras</legend>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 8px">
+          <sc-for list="{{fuels}}" as="f" hint-placeholder-count="4">
+            <button type="button" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" style="display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 52px; padding: 10px 14px; border-radius: 10px; border: 2px solid {{f.border}}; background: {{f.bg}}; font: inherit; color: #11161B; text-align: left; cursor: pointer"><span style="font-weight: 600; font-size: 14px">{{f.label}}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5B6470; white-space: nowrap">{{f.range}}</span></button>
+          </sc-for>
+        </div>
+      </fieldset>
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
+        <legend style="padding: 0 0 10px; font-weight: 700; font-size: 14px">2. Biokuras</legend>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 8px">
+          <sc-for list="{{bios}}" as="f" hint-placeholder-count="2">
+            <button type="button" onClick="{{f.pick}}" aria-pressed="{{f.pressed}}" style="display: flex; justify-content: space-between; align-items: center; gap: 10px; min-height: 52px; padding: 10px 14px; border-radius: 10px; border: 2px solid {{f.border}}; background: {{f.bg}}; font: inherit; color: #11161B; text-align: left; cursor: pointer"><span style="font-weight: 600; font-size: 14px">{{f.label}}</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #5B6470; white-space: nowrap">{{f.range}}</span></button>
+          </sc-for>
+        </div>
+      </fieldset>
+      <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 10px">
+        <legend style="padding: 0 0 10px; font-weight: 700; font-size: 14px">3. Šilumos poreikis per metus</legend>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <sc-for list="{{loads}}" as="l" hint-placeholder-count="5">
+            <button type="button" onClick="{{l.pick}}" aria-pressed="{{l.pressed}}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 52px; padding: 8px 14px; border-radius: 10px; border: 2px solid {{l.border}}; background: {{l.bg}}; font: inherit; color: #11161B; cursor: pointer"><span style="font-weight: 700; font-size: 14px">{{l.label}}</span><span style="font-size: 12px; color: #5B6470">{{l.model}}</span></button>
+          </sc-for>
+        </div>
+      </fieldset>
+      <p style="margin: 0; font-size: 12px; line-height: 1.6; color: #5B6470">Prielaidos: kuro kainos – BALTPOOL SM2, LEA ir VERT intervalų vidurkiai (2026 m. spalis); 2 100 pilnos apkrovos valandų per metus ir 10 % galios rezervas; eksploatacija – 3 % investicijos per metus ir savos reikmės elektra po 0,20 €/kWh. Tikslų skaičiavimą parengiame pagal jūsų sąskaitas.</p>
+    </div>
+    <div class="dk" style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 16px; padding: clamp(22px, 3vw, 32px); border-radius: 20px; background: #0E1216; color: #F5F3EE">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #FF8A3D">REZULTATAS · {{calc.model}}</span>
+      <span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 14px; color: #A3ADB8">Grynasis sutaupymas per metus</span><span style="font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: 44px; letter-spacing: -0.02em">{{calc.net}}</span><span style="font-size: 13px; color: #A3ADB8">{{calc.sizing}}</span></span>
+      <dl style="margin: 0; display: flex; flex-direction: column; border-top: 1px solid #26313B">
+        <div style="display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid #26313B"><dt style="font-size: 14px; color: #A3ADB8">Dabar · {{calc.fuelName}}</dt><dd style="margin: 0; font-weight: 600">{{calc.now}}</dd></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid #26313B"><dt style="font-size: 14px; color: #A3ADB8">Biokuras · {{calc.bioName}}</dt><dd style="margin: 0; font-weight: 600; color: #3FB950">{{calc.bio}}</dd></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid #26313B"><dt style="font-size: 14px; color: #A3ADB8">Eksploatacija</dt><dd style="margin: 0; font-weight: 600">{{calc.opex}}</dd></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid #26313B"><dt style="font-size: 14px; color: #A3ADB8">Investicija be PVM, nuo</dt><dd style="margin: 0; font-weight: 600">{{calc.invest}}</dd></div>
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 14px 0 0"><dt style="font-size: 14px; color: #A3ADB8">Atsipirkimas</dt><dd style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: 26px; color: #FF8A3D">{{calc.payback}}</dd></div>
+      </dl>
+      <span style="font-size: 13px; color: #A3ADB8">Arba nuoma: {{calc.rent}}</span>
+      <a href="#uzklausa" class="btn" style="margin-top: auto; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #C2410C; color: #FFFFFF; font-weight: 700; font-size: 15px">Gauti skaičiavimą pagal mano sąskaitas</a>
+    </div>
+  </div>
+</section>
+
+<!-- 6. Projektai -->
+<section id="projektai">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 72px clamp(16px, 4vw, 32px) 0; display: flex; flex-direction: column; gap: 24px">
+    <div style="display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: flex-end">
+      <div style="display: flex; flex-direction: column; gap: 10px"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #C2410C">ĮGYVENDINTI OBJEKTAI</span><h2 style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Pagaminta ir sumontuota</h2></div>
+      <a href="#" style="font-weight: 600; font-size: 15px">Visi 16 objektų →</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); gap: 16px">
+      <sc-for list="{{projects}}" as="p" hint-placeholder-count="6">
+        <a href="#" class="card" style="display: flex; flex-direction: column; border-radius: 18px; background: #FFFFFF; border: 1px solid #E2DDD3; overflow: hidden">
+          <span style="position: relative; display: block; background: #EEEBE4"><img src="{{p.img}}" alt="{{p.title}}" style="width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block"><span style="position: absolute; left: 14px; top: 14px; padding: 6px 10px; border-radius: 6px; background: #11161B; color: #FFFFFF; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em">{{p.tag}}</span></span>
+          <span style="display: flex; flex-direction: column; gap: 12px; padding: 18px 20px 20px">
+            <span style="font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 18px; line-height: 1.3">{{p.title}}</span>
+            <span style="display: flex; flex-direction: column; gap: 8px; padding-top: 12px; border-top: 1px solid #E2DDD3">
+              <span style="display: flex; gap: 10px"><span style="flex: none; width: 82px; font-size: 12px; color: #5B6470">Įranga</span><span style="font-size: 13px; line-height: 1.45">{{p.equip}}</span></span>
+              <span style="display: flex; gap: 10px"><span style="flex: none; width: 82px; font-size: 12px; color: #5B6470">Rezultatas</span><span style="font-size: 13px; line-height: 1.45; font-weight: 600; color: #157A3B">{{p.result}}</span></span>
+            </span>
+          </span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- 7. Eiga ir dokumentai -->
+<section>
+  <div style="max-width: 1280px; margin: 0 auto; padding: 72px clamp(16px, 4vw, 32px) 0; display: flex; flex-wrap: wrap; gap: 20px">
+    <div style="flex: 1.4 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #C2410C">EIGA</span>
+      <h2 style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(28px, 3vw, 38px); line-height: 1.08; letter-spacing: -0.02em">Nuo užklausos iki šilumos</h2>
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 10px">
+        <li style="display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 2px solid #11161B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C2410C">01</span><span style="font-weight: 700; font-size: 15px">Šilumos poreikio auditas</span><span style="font-size: 13px; color: #5B6470">1–2 d. d. · apkrova, kuro logistika</span></li>
+        <li style="display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 2px solid #11161B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C2410C">02</span><span style="font-weight: 700; font-size: 15px">Leidimų įvertinimas</span><span style="font-size: 13px; color: #5B6470">Statyba, tarša, prisijungimas</span></li>
+        <li style="display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 2px solid #11161B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C2410C">03</span><span style="font-weight: 700; font-size: 15px">Projektas ir gamyba Kaune</span><span style="font-size: 13px; color: #5B6470">4–8 savaitės</span></li>
+        <li style="display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 2px solid #11161B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C2410C">04</span><span style="font-weight: 700; font-size: 15px">Atvežimas ir prijungimas</span><span style="font-size: 13px; color: #5B6470">1–2 dienos</span></li>
+        <li style="display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 2px solid #11161B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C2410C">05</span><span style="font-weight: 700; font-size: 15px">Paleidimas ir emisijų matavimas</span><span style="font-size: 13px; color: #5B6470">1 diena · dūmų protokolas</span></li>
+        <li style="display: flex; flex-direction: column; gap: 6px; padding-top: 14px; border-top: 2px solid #11161B"><span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #C2410C">06</span><span style="font-weight: 700; font-size: 15px">Telemetrija ir servisas</span><span style="font-size: 13px; color: #5B6470">SCADA / GSM · SLA sutartis</span></li>
+      </ol>
+    </div>
+    <div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 12px; padding: 24px; border-radius: 18px; background: #FFFFFF; border: 1px solid #E2DDD3">
+      <span style="font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700; font-size: 20px">Kartu su katiline gaunate</span>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; font-size: 14px">
+        <li style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #E2DDD3;"><span>Atitikties deklaracija ir CE</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5B6470">PDF</span></li>
+        <li style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #E2DDD3;"><span>Techninis pasas (12 parametrų)</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5B6470">PDF</span></li>
+        <li style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #E2DDD3;"><span>Brėžiniai: planas, pjūvis, hidraulika</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5B6470">DWG · PDF</span></li>
+        <li style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #E2DDD3;"><span>Gamyklinio hidraulinio bandymo aktas</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5B6470">PDF</span></li>
+        <li style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #E2DDD3;"><span>Dūmų analizės protokolas</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5B6470">PDF</span></li>
+        <li style="display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid #E2DDD3; border-bottom: 1px solid #E2DDD3;"><span>Eksploatacijos instrukcija LT</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #5B6470">PDF</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 8. DUK -->
+<section>
+  <div style="max-width: 1280px; margin: 0 auto; padding: 72px clamp(16px, 4vw, 32px) 0; display: flex; flex-direction: column; gap: 18px">
+    <h2 style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(28px, 3vw, 38px); letter-spacing: -0.02em">Dažniausi klausimai</h2>
+    <div style="display: flex; flex-direction: column; border-top: 1px solid #D5CFC3">
+      <sc-for list="{{faq}}" as="q" hint-placeholder-count="5">
+        <div style="border-bottom: 1px solid #D5CFC3">
+          <button type="button" onClick="{{q.toggle}}" aria-expanded="{{q.aria}}" style="width: 100%; min-height: 60px; padding: 16px 0; border: 0; background: none; font: inherit; color: #11161B; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px"><span style="font-weight: 700; font-size: 17px">{{q.q}}</span><span aria-hidden="true" style="font-size: 22px; color: #C2410C">{{q.sign}}</span></button>
+          <sc-if value="{{q.open}}" hint-placeholder-val="{{ false }}"><p style="margin: 0; padding: 0 0 18px; max-width: 820px; font-size: 15px; line-height: 1.65; color: #3A4652">{{q.a}}</p></sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- 9. Užklausa -->
+<section id="uzklausa">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 72px clamp(16px, 4vw, 32px) 80px">
+    <div class="dk" style="display: flex; flex-wrap: wrap; gap: 36px; padding: clamp(24px, 4vw, 48px); border-radius: 24px; background: #0E1216; color: #F5F3EE">
+      <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 16px">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #FF8A3D">UŽKLAUSA</span>
+        <h2 style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(28px, 3vw, 40px); line-height: 1.08; letter-spacing: -0.02em">Gaukite pasiūlymą savo objektui</h2>
+        <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #C9D0D8">Užklausa iškart patenka inžinieriui. Sąmatą paruošiame per 24 val. darbo dienomis (I–V 8:30–17:30).</p>
+        <div style="display: flex; align-items: center; gap: 14px; padding: 16px; border-radius: 14px; background: #151C23; border: 1px solid #26313B">
+          <span style="width: 48px; height: 48px; border-radius: 50%; background: #26313B; display: flex; align-items: center; justify-content: center; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 700">D</span>
+          <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700">Darius, inžinierius</span><a href="tel:+37061119158" style="font-size: 15px">+370 611 19158</a><span style="font-size: 13px; color: #A3ADB8">Servisas: <a href="tel:+37069397098">+370 693 97098</a></span></span>
+        </div>
+      </div>
+      <form style="flex: 1.6 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; flex-wrap: wrap; gap: 10px">
+          <sc-for list="{{modes}}" as="m" hint-placeholder-count="2"><button type="button" onClick="{{m.pick}}" aria-pressed="{{m.pressed}}" style="height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid {{m.border}}; background: {{m.bg}}; color: {{m.fg}}; font: inherit; font-weight: 600; font-size: 14px; cursor: pointer">{{m.label}}</button></sc-for>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); gap: 12px">
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Įmonė ir miestas<input type="text" autocomplete="organization" style="height: 46px; padding: 0 12px; border: 1px solid #3A4652; border-radius: 10px; background: #151C23; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 400"></label>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Telefonas<input type="tel" autocomplete="tel" placeholder="+370" style="height: 46px; padding: 0 12px; border: 1px solid #3A4652; border-radius: 10px; background: #151C23; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 400"></label>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Reikalinga galia<select style="height: 46px; padding: 0 10px; border: 1px solid #3A4652; border-radius: 10px; background: #151C23; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 400"><option>Nežinau – padėkite įvertinti</option><option>100–250 kW</option><option>250–500 kW</option><option>500 kW – 1 MW</option><option>1–2,5 MW</option></select></label>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Kuras<select style="height: 46px; padding: 0 10px; border: 1px solid #3A4652; border-radius: 10px; background: #151C23; color: #FFFFFF; font: inherit; font-size: 15px; font-weight: 400"><option>Skiedra</option><option>Granulės</option><option>Biodujos</option><option>Dar nežinau</option></select></label>
+        </div>
+        <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Projektas ar nuotraukos (nebūtina)<input type="file" multiple style="padding: 12px; border: 1px dashed #3A4652; border-radius: 10px; background: #151C23; color: #C9D0D8; font: inherit; font-size: 14px; font-weight: 400"></label>
+        <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center">
+          <button type="button" class="btn" style="height: 52px; padding: 0 26px; border: 0; border-radius: 10px; background: #C2410C; color: #FFFFFF; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer">{{submitLabel}}</button>
+          <span style="font-size: 13px; color: #8E99A5">Duomenis naudojame tik užklausai atsakyti.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="dk" style="background: #090C0F; color: #A3ADB8; font-size: 13px">
+  <div style="max-width: 1280px; margin: 0 auto; padding: 28px clamp(16px, 4vw, 32px); display: flex; flex-wrap: wrap; gap: 12px 32px; justify-content: space-between">
+    <span>© 2026 UAB „Gilės inžinerija“ · Įm. k. 302620907 · Eigulių g. 21, Kaunas</span>
+    <span><a href="tel:+37061119158">+370 611 19158</a> · <a href="mailto:info@gilesinzinerija.lt">info@gilesinzinerija.lt</a></span>
+  </div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":7100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const seg = st.seg || 'buy';
+    const net = st.net !== false;
+    const fuel = st.fuel || 'gas';
+    const bioId = st.bio || 'chips';
+    const load = st.load || 1200;
+    const faqOpen = typeof st.faq === 'number' ? st.faq : 0;
+    const mode = st.mode || 'buy';
+    const VAT = 1.21;
+    const fmt = (n) => Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' €';
+    const img = {
+      gk250: '/_blob/74e8791aa58b7a63f6c96092deb5a651', gk500: '/_blob/ad51c938b4c9ade9efebf6eb0ff25e34', gk750: '/_blob/efcf83c767d73c385b3a64a3e46c5347',
+      gk2000: '/_blob/f708ac090b733ccbf4347ae2904a1d79', mob: '/_blob/f65ecab7c450e909e3278aba5a81f4a6', bio: '/_blob/836a6d71e4bebeabc2d4cb6c5750d174',
+      gas: '/_blob/b8b7e47f5186e101af4dbbb2fd70437e', node: '/_blob/f7e9028baca2daf56c90b5d57c685419'
+    };
+    // Vienas duomenų šaltinis: data/industrial-models.lt.json (est: true – prielaida, tikslinti)
+    const all = [
+      { seg: 'buy', code: 'GK-100', kind: 'Konteinerinė, biokuras', kw: 100, power: '100 kW', area: '800–1 400 m²', fuel: '8 m³', auton: '≈ 9 d. granulėmis', dims: '20ft HC', p: 28500, rent: 1250, aux: 3, img: '' },
+      { seg: 'buy', code: 'GK-250', kind: 'Konteinerinė, biokuras', kw: 250, power: '250 kW', area: '1 800–3 500 m²', fuel: '16 m³', auton: '≈ 7,5 d. granulėmis', dims: '6,0 × 3,0 × 3,0 m', p: 46900, rent: 1950, aux: 6, img: img.gk250 },
+      { seg: 'buy', code: 'GK-500', kind: 'Konteinerinė, biokuras', kw: 500, power: '500 kW', area: '3 500–7 500 m²', fuel: '18 m³', auton: '≈ 4,5 d. granulėmis', dims: '20ft HC · 8,4 t', p: 78500, rent: 3200, aux: 11, img: img.gk500 },
+      { seg: 'buy', code: 'GK-750', kind: 'Pramoninė, biokuras', kw: 750, power: '750 kW', area: '5 500–10 500 m²', fuel: '28 m³', auton: '≈ 4,5 d. granulėmis', dims: '40ft HC · 11,8 t', p: 108000, pEst: true, rent: 4300, rEst: true, aux: 15, img: img.gk750 },
+      { seg: 'buy', code: 'GK-1000', kind: '2 × 500 kW kaskada', kw: 1000, power: '1,0 MW', area: '7 500–15 000 m²', fuel: '45 m³', auton: '≈ 5,5 d. granulėmis', dims: '12,0 × 3,5 × 3,5 m', p: 138000, rent: 5400, aux: 18, img: '' },
+      { seg: 'buy', code: 'GK-2000', kind: '2 × 1 000 kW kaskada, N+1', kw: 2000, power: '2,0 MW', area: '14 500–28 500 m²', fuel: '36 m³', auton: '≈ 2,3 d. granulėmis', dims: '2 × 40ft HC · 25,7 t', p: 232000, pEst: true, rent: 8300, rEst: true, aux: 22, img: img.gk2000 },
+      { seg: 'buy', code: 'GK-2500', kind: 'Modulinis blokas', kw: 2500, power: '2,5 MW', area: '15 000–38 000 m²', fuel: '90 m³', auton: '≈ 4,4 d. granulėmis', dims: '2–3 moduliai', p: 279000, rent: 9800, aux: 30, img: '' },
+      { seg: 'rent', code: 'MOB-500', kind: 'Mobili, ant važiuoklės', power: '110–500 kW', area: '3 500–7 000 m²', fuel: '12 m³ granulių', auton: '≈ 3 d., 6 d. esant 50 %', dims: '20ft HC · 7,2 t', p: null, rent: 3500, rEst: true, img: img.mob },
+      { seg: 'rent', code: 'PELLMOBIL-120', kind: 'Mobili, šildymas + karštas vanduo', power: '110–120 kW', area: 'iki 2 500 m²', fuel: 'Granulės', auton: '', dims: 'Greito prijungimo jungtys', p: null, rent: 1300, rEst: true, img: '' },
+      { seg: 'rent', code: 'MOB-ORO-190', kind: 'Karšto oro, iki 14 500 m³/h', power: '80–190 kW', area: '800–2 500 m²', fuel: '12 m³ granulių', auton: '≈ 8 d. granulėmis', dims: '20ft · 6,5 t · 2 × Ø450', p: null, rent: 1500, rEst: true, img: '' },
+      { seg: 'rent', code: 'MOB-ORO-90', kind: 'Karšto oro šildytuvas', power: '15–90 kW', area: '—', fuel: 'Granulės', auton: '', dims: 'Kompaktiškas', p: null, rent: 700, rEst: true, img: '' },
+      { seg: 'special', code: 'BIO-DUJOS-800', kind: 'Biodujos + granulių rezervas', power: '400–1 200 kW', area: 'Technologinė šiluma', fuel: '12 m³ + dujų rampa', auton: '14+ d. su rezervu', dims: '20ft HC Ex · 6,9 t', p: null, rent: null, img: img.bio },
+      { seg: 'special', code: 'GD-500', kind: 'Stoginė dujinė, kaskada', power: '500 kW', area: '3 500–7 000 m²', fuel: 'Gamtinės dujos', auton: '', dims: 'Ant stogo', p: null, rent: null, img: img.gas }
+    ];
+    const money = (v, est) => (est ? '≈ ' : '') + fmt(net ? v : v * VAT);
+    const rows = all.filter((r) => seg === 'all' || r.seg === seg).map((r) => {
+      let price = 'Pagal projektą', note = '';
+      if (typeof r.p === 'number') { price = 'nuo ' + money(r.p, r.pEst); note = r.rent ? 'arba nuoma nuo ' + money(r.rent, r.rEst) + '/mėn.' : (net ? 'be PVM' : 'su PVM'); }
+      else if (r.rent) { price = 'nuo ' + money(r.rent, r.rEst) + '/mėn.'; note = (net ? 'be PVM' : 'su PVM') + ' · pardavimas pagal užklausą'; }
+      return { ...r, price, priceNote: note, hasImg: !!r.img, noImg: !r.img };
+    });
+    const segDefs = [['buy', 'Pirkimas'], ['rent', 'Nuoma'], ['special', 'Specialūs'], ['all', 'Visi']];
+    const filters = segDefs.map(([v, l]) => ({ label: l, pressed: v === seg ? 'true' : 'false', bg: v === seg ? '#11161B' : 'transparent', fg: v === seg ? '#FFFFFF' : '#11161B', pick: () => this.setState({ seg: v }) }));
+    const titles = { buy: 'Katilinės pirkimui ir ilgalaikei nuomai', rent: 'Mobilios katilinės nuomai', special: 'Specialūs sprendimai', all: 'Visi modeliai' };
+    const pathDefs = [
+      { v: 'buy', eyebrow: 'PIRKIMAS', title: 'Nuolatinė katilinė', text: 'Gamykloms, šiltnamiams, mokykloms ir kvartalams. 100 kW – 2,5 MW.', price: 'nuo 28 500 € be PVM' },
+      { v: 'rent', eyebrow: 'NUOMA', title: 'Mobili katilinė', text: 'Avarijoms, žiemos statyboms, angarams ir sezoniniam poreikiui.', price: 'nuo 700 €/mėn. be PVM' },
+      { v: 'special', eyebrow: 'SPECIALŪS', title: 'Biodujos ir dujinės', text: 'Biodujų jėgainės, maisto pramonė, stoginės katilinės.', price: 'Pagal projektą' }
+    ];
+    const paths = pathDefs.map((p) => ({ ...p, pressed: p.v === seg ? 'true' : 'false', border: p.v === seg ? '#C2410C' : '#E2DDD3', pick: () => this.setState({ seg: p.v }) }));
+
+    // Skaičiuoklė: data/roi-config.json
+    const fuelDefs = [['gas', 'Gamtinės dujos', 68, 84], ['lpg_oil', 'Suskystintos dujos / dyzelinas', 95, 122], ['district', 'Centrinis šildymas', 88, 88], ['electric', 'Elektra', 165, 165]];
+    const bioDefs = [['chips', 'Medienos skiedra', 24, 29], ['pellets', 'Granulės ENplus', 44, 52]];
+    const rng = (a, b) => (a === b ? a + ' €/MWh' : a + '–' + b + ' €/MWh');
+    const sel = (on) => ({ pressed: on ? 'true' : 'false', border: on ? '#C2410C' : '#E2DDD3', bg: on ? '#FBEADF' : '#FFFFFF' });
+    const fuels = fuelDefs.map(([v, l, a, b]) => ({ label: l, range: rng(a, b), ...sel(v === fuel), pick: () => this.setState({ fuel: v }) }));
+    const bios = bioDefs.map(([v, l, a, b]) => ({ label: l, range: rng(a, b), ...sel(v === bioId), pick: () => this.setState({ bio: v }) }));
+    const buy = all.filter((m) => m.seg === 'buy');
+    const pickModel = (mwh) => { const peak = mwh * 1000 / 2100 * 1.1; return { peak, m: buy.find((m) => m.kw >= peak) || buy[buy.length - 1] }; };
+    const loads = [250, 600, 1200, 2500, 4500].map((v) => ({ label: v.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' MWh', model: pickModel(v).m.code, ...sel(v === load), pick: () => this.setState({ load: v }) }));
+    const fd = fuelDefs.find((f) => f[0] === fuel) || fuelDefs[0];
+    const bd = bioDefs.find((f) => f[0] === bioId) || bioDefs[0];
+    const { peak, m } = pickModel(load);
+    const now = load * (fd[2] + fd[3]) / 2;
+    const bio = load * (bd[2] + bd[3]) / 2;
+    const opex = m.p * 0.03 + m.aux * 2100 * 0.20;
+    const netSave = now - bio - opex;
+    const months = netSave > 0 ? m.p / netSave * 12 : null;
+    const calc = {
+      model: m.code,
+      sizing: 'Reikalinga galia ≈ ' + Math.round(peak / 10) * 10 + ' kW → ' + m.code,
+      fuelName: fd[1].charAt(0).toLowerCase() + fd[1].slice(1), bioName: bd[1].charAt(0).toLowerCase() + bd[1].slice(1),
+      now: fmt(now) + '/m.', bio: fmt(bio) + '/m.', opex: fmt(opex) + '/m.',
+      net: netSave > 0 ? fmt(netSave) : 'Neatsiperka',
+      invest: (m.pEst ? '≈ ' : '') + fmt(m.p),
+      payback: months ? '≈ ' + Math.round(months) + ' mėn.' : '—',
+      rent: 'nuo ' + (m.rEst ? '≈ ' : '') + fmt(m.rent) + '/mėn. be PVM'
+    };
+
+    const faqDefs = [
+      ['Ar reikia statybos leidimo?', 'Priklauso nuo objekto. Pagal STR 1.05.01:2017 ir vietos sąlygas įvertiname, ar reikia statybą leidžiančio dokumento, taršos leidimo ir prisijungimo sąlygų. Leidimų planą ir terminus įrašome į pasiūlymą.'],
+      ['Per kiek laiko pagaminate katilinę?', 'Gamyba Kauno ceche trunka 4–8 savaites nuo sutarties. Atvežimas ir prijungimas – 1–2 dienos, paleidimas ir degimo derinimas – 1 diena.'],
+      ['Kokį kurą galima naudoti?', 'Medienos skiedrą G30–G50 (drėgnis iki W35), pramonines granules ENplus A1/A2, briketus. BIO modeliai dirba biodujomis su granulių rezervu.'],
+      ['Kiek laiko katilinė dirba be kuro papildymo?', 'Priklauso nuo bunkerio, kuro ir apkrovos. Pvz., GK-500 su 18 m³ granulių dirba apie 4,5 paros esant pilnai galiai ir apie 9 paras esant 50 % apkrovai. Skiedros tankis mažesnis, todėl su ja autonomija apie 3 kartus trumpesnė.'],
+      ['Ar galima katilinę išsinuomoti?', 'Taip. GK serijos katilinės – nuo 1 250 €/mėn. be PVM, mobilios MOB katilinės – avariniam ir laikinam šildymui pagal terminą.'],
+      ['Kokia garantija ir servisas?', 'Įrangai suteikiame 24 mėn. garantiją. Katilinės turi GSM/SCADA telemetriją, todėl sutrikimus matome nuotoliniu būdu. Servisas: +370 693 97098.']
+    ];
+    const faq = faqDefs.map(([q, a], i) => ({ q, a, open: i === faqOpen, aria: i === faqOpen ? 'true' : 'false', sign: i === faqOpen ? '−' : '+', toggle: () => this.setState({ faq: i === faqOpen ? -1 : i }) }));
+
+    const projects = [
+      { img: img.gk500, tag: 'GK-500 · 500 kW', title: 'Konteinerinė biokuro katilinė, gamyklinis surinkimas', equip: 'Judančios ardelės, multiciklonas, GSM/SCADA', result: 'Atvežta hidrauliškai išbandyta ir izoliuota' },
+      { img: img.gk750, tag: 'GK-750 · 750 kW', title: 'Pramoninė biokuro katilinė', equip: 'Dūmsiurbė su dažnio keitikliu, multiciklonas, automatinis pelenų šalinimas', result: 'Pilna telemetrija, 6 bar hidraulinis mazgas' },
+      { img: img.gk2000, tag: 'GK-2000 · 2,0 MW', title: 'Modulinė katilinė su kuro sandėliu', equip: 'Walking-Floor sandėlis, daugiapakopis dūmų valymas', result: 'SCADA dispečerinis valdymas' },
+      { img: img.mob, tag: 'MOB · 150–500 kW', title: 'Mobili katilinė nuomai ir avarijoms', equip: 'Greito prijungimo DN50/DN65 movos, integruotas bunkeris', result: 'Šildymas trasų rekonstrukcijos ir statybų metu' },
+      { img: img.gas, tag: 'GD-500 · 500 kW', title: 'Stoginė dujinė katilinė su kaskada', equip: 'Kaskadiniai dujiniai katilai, nerūdijantys dūmtraukiai', result: 'Sumontuota ant stogo be vidaus ploto praradimo' },
+      { img: img.node, tag: 'Šilumos mazgas · 200 kW', title: 'Katilinės hidraulinis mazgas', equip: 'Elektroniniai siurbliai, IMI TA STAD/STAP, Pneumatex', result: 'Tiksliai subalansuoti kontūrų srautai' }
+    ];
+    const modeDefs = [['buy', 'Pirkti'], ['rent', 'Nuomotis']];
+    const modes = modeDefs.map(([v, l]) => ({ label: l, pressed: v === mode ? 'true' : 'false', border: v === mode ? '#FF8A3D' : '#3A4652', bg: v === mode ? '#FF8A3D' : 'transparent', fg: v === mode ? '#0E1216' : '#F5F3EE', pick: () => this.setState({ mode: v }) }));
+
+    return {
+      paths, filters, rows, tableTitle: titles[seg],
+      priceHead: net ? 'Kaina be PVM' : 'Kaina su PVM',
+      netOn: () => this.setState({ net: true }), grossOn: () => this.setState({ net: false }),
+      netAria: net ? 'true' : 'false', grossAria: net ? 'false' : 'true',
+      netBg: net ? '#FFFFFF' : 'transparent', grossBg: net ? 'transparent' : '#FFFFFF',
+      fuels, bios, loads, calc,
+      projects, faq, modes,
+      submitLabel: mode === 'rent' ? 'Siųsti nuomos užklausą' : 'Siųsti užklausą'
+    };
+  }
+}
+</script>
+</body>
+</html>

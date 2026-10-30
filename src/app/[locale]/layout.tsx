@@ -39,7 +39,7 @@ export async function generateMetadata({
     const isEn = locale.startsWith('en');
     const rawTitle = (isEn ? seo.titleEn : seo.titleLt) || 'GILĖS INŽINERIJA ir EGIP.LT – Katilinės, granulių degikliai ir 6 337 ŠVOK pozicijos Kaune';
     const title = rawTitle.replace(/SURADAI\.LT/gi, 'GILĖS INŽINERIJA').replace(/FILL\.LT/gi, 'GILĖS INŽINERIJA');
-    const description = (isEn ? seo.descriptionEn : seo.descriptionLt) || 'UAB „Gilės inžinerija“ (Kaunas, nuo 1995 m.) ir EGIP.lt el. parduotuvė: granulių degikliai, katilo perdarymo vedlys, konteinerinės katilinės 100 kW – 2,5 MW, Haier, Danfoss, HERZ, Gorenje ir IMI Hydronic įranga.';
+    const description = (isEn ? seo.descriptionEn : seo.descriptionLt) || 'UAB „Gilės inžinerija“ (Kaunas, nuo 2011 m.) ir EGIP.lt el. parduotuvė: granulių degikliai, katilo perdarymo vedlys, konteinerinės katilinės 100 kW – 2,5 MW, Haier, Danfoss, HERZ, Gorenje ir IMI Hydronic įranga.';
     const base = store?.domain && !/suradai\.lt/i.test(store.domain) ? `https://${store.domain}` : 'https://gilesinzinerija.lt';
     // hreflang alternates (audit §5): every locale + x-default → default locale
     const languages: Record<string, string> = {};

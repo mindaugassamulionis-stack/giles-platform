@@ -39,7 +39,7 @@ export const NAVBAR_UI_COPY: Record<
     lt: {
         audienceHouseholds: 'Namų ūkiams',
         audienceWizard: 'Katilo perdarymas',
-        audienceIndustrial: 'Pramonei 150–500 kW',
+        audienceIndustrial: 'Pramonei 100 kW – 2,5 MW',
         audienceStore: 'El. parduotuvė (6 337)',
         audienceB2b: 'Montuotojams (B2B)',
         navStore: 'Parduotuvė',
@@ -64,7 +64,7 @@ export const NAVBAR_UI_COPY: Record<
     en: {
         audienceHouseholds: 'For Households',
         audienceWizard: 'Boiler Conversion',
-        audienceIndustrial: 'Industrial 150–500 kW',
+        audienceIndustrial: 'Industrial 100 kW – 2.5 MW',
         audienceStore: 'Online Store (6,337)',
         audienceB2b: 'Installers (B2B)',
         navStore: 'Store',
@@ -89,7 +89,7 @@ export const NAVBAR_UI_COPY: Record<
     pl: {
         audienceHouseholds: 'Dla domów',
         audienceWizard: 'Modernizacja kotła',
-        audienceIndustrial: 'Przemysł 150–500 kW',
+        audienceIndustrial: 'Przemysł 100 kW – 2,5 MW',
         audienceStore: 'Sklep (6 337)',
         audienceB2b: 'Instalatorzy (B2B)',
         navStore: 'Sklep',
@@ -114,7 +114,7 @@ export const NAVBAR_UI_COPY: Record<
     ru: {
         audienceHouseholds: 'Для дома',
         audienceWizard: 'Модернизация котла',
-        audienceIndustrial: 'Промышленность 150–500 кВт',
+        audienceIndustrial: 'Промышленность 100 кВт – 2,5 МВт',
         audienceStore: 'Магазин (6 337)',
         audienceB2b: 'Монтажникам (B2B)',
         navStore: 'Магазин',
@@ -179,7 +179,7 @@ export const FOOTER_UI_COPY: Record<
         privacyLink: 'Privatumo politika',
         contactsLink: 'Kontaktai',
         bottomCopyright:
-            'UAB „Gilės inžinerija“ (nuo 2011 m.) · Patentuotas prekės ženklas ir logotipas · Įm. k. 302620907 · PVM LT100006119810',
+            'UAB „Gilės inžinerija“ (nuo 2011 m.) · Įm. k. 302620907 · PVM LT100006119810',
         bottomPayments:
             'Banko nuoroda · PVM sąskaita faktūra · Visa · Mastercard · Apple Pay · Google Pay · Lizingas',
     },
@@ -201,7 +201,7 @@ export const FOOTER_UI_COPY: Record<
         privacyLink: 'Privacy Policy',
         contactsLink: 'Contact Us',
         bottomCopyright:
-            'UAB „Gilės inžinerija“ (since 2011) · Registered trademark & logo · Reg. 302620907 · VAT LT100006119810',
+            'UAB „Gilės inžinerija“ (since 2011) · Reg. 302620907 · VAT LT100006119810',
         bottomPayments:
             'Bank link · VAT invoice · Visa · Mastercard · Apple Pay · Google Pay · Leasing',
     },
@@ -223,7 +223,7 @@ export const FOOTER_UI_COPY: Record<
         privacyLink: 'Polityka prywatności',
         contactsLink: 'Kontakt',
         bottomCopyright:
-            'UAB „Gilės inžinerija“ (od 2011 r.) · Zastrzeżony znak towarowy · Kod 302620907 · VAT LT100006119810',
+            'UAB „Gilės inžinerija“ (od 2011 r.) · Kod 302620907 · VAT LT100006119810',
         bottomPayments:
             'Przelew bankowy · Faktura VAT · Visa · Mastercard · Apple Pay · Google Pay · Leasing',
     },
@@ -245,7 +245,7 @@ export const FOOTER_UI_COPY: Record<
         privacyLink: 'Политика конфиденциальности',
         contactsLink: 'Контакты',
         bottomCopyright:
-            'UAB „Gilės inžinerija“ (с 2011 г.) · Запатентованный товарный знак · Код 302620907 · НДС LT100006119810',
+            'UAB „Gilės inžinerija“ (с 2011 г.) · Код 302620907 · НДС LT100006119810',
         bottomPayments:
             'Банковская ссылка · Счет-фактура НДС · Visa · Mastercard · Apple Pay · Google Pay · Лизинг',
     },

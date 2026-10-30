@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<title>GK-2000 – principinės schemos</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E1216;color:#F5F3EE;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#F5F3EE;text-decoration:none}a:hover{color:#FF8A3D}
+.pos{transition:border-color .15s ease,background .15s ease}.pos:hover{border-color:#FF8A3D}
+.btn{transition:filter .15s ease}.btn:hover{filter:brightness(1.12)}
+*:focus-visible{outline:2px solid #FF8A3D;outline-offset:3px}
+</style>
+</helmet>
+<div style="min-height: 100px; background: #0E1216; color: #F5F3EE; font-family: Inter, system-ui, sans-serif">
+<section style="max-width: 1200px; margin: 0 auto; padding: 56px clamp(16px, 4vw, 32px) 72px; display: flex; flex-direction: column; gap: 24px">
+
+  <div style="display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; align-items: flex-end">
+    <div style="display: flex; flex-direction: column; gap: 10px; max-width: 720px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: #FF8A3D">GK-2000 · KONTEINERINĖ BIOKURO KATILINĖ · 2 MW</span>
+      <h2 style="margin: 0; font-family: 'Schibsted Grotesk', sans-serif; font-weight: 800; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.05; letter-spacing: -0.02em">Kaip sukomplektuota katilinė</h2>
+      <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #C9D0D8">Trys principinės schemos: planas, pjūvis su dūmų traktu ir hidraulika. Spauskite poziciją sąraše – ji pažymima brėžinyje.</p>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+      <span style="height: 36px; padding: 0 12px; display: flex; align-items: center; border-radius: 8px; border: 1px solid #26313B; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #A3ADB8">Principinė schema · Rev [__]</span>
+      <a href="#" class="btn" style="height: 44px; padding: 0 16px; display: flex; align-items: center; border-radius: 10px; background: #F5F3EE; color: #0E1216; font-weight: 700; font-size: 14px">Atsisiųsti PDF / DWG</a>
+    </div>
+  </div>
+
+  <div role="tablist" aria-label="Brėžinio vaizdas" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 8px; padding: 6px; border-radius: 14px; background: #151C23; border: 1px solid #26313B">
+    <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+      <button type="button" role="tab" aria-selected="{{t.sel}}" onClick="{{t.pick}}" style="min-height: 56px; padding: 8px 14px; border: 0; border-radius: 10px; background: {{t.bg}}; color: {{t.fg}}; font: inherit; text-align: left; cursor: pointer; display: flex; align-items: center; gap: 12px">
+        <span style="flex: none; width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid {{t.numBorder}}; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 12px">{{t.n}}</span>
+        <span style="display: flex; flex-direction: column; gap: 2px"><span style="font-weight: 700; font-size: 15px">{{t.label}}</span><span style="font-size: 12px; color: {{t.subColor}}">{{t.sub}}</span></span>
+      </button>
+    </sc-for>
+  </div>
+
+  <div style="display: flex; flex-direction: column; border-radius: 16px; background: #0A0E12; border: 1px solid #26313B; overflow: hidden">
+    <div style="display: flex; flex-wrap: wrap; gap: 6px 20px; justify-content: space-between; align-items: baseline; padding: 14px 20px; border-bottom: 1px solid #1C252E">
+      <span style="font-weight: 700; font-size: 15px">{{meta.title}}</span>
+      <span style="font-size: 13px; color: #8E99A5">{{meta.sub}}</span>
+    </div>
+    <div style="overflow-x: auto; background-color: #0A0E12; background-image: linear-gradient(#111820 1px, transparent 1px), linear-gradient(90deg, #111820 1px, transparent 1px); background-size: 20px 20px">
+      <div style="min-width: 860px; padding: 12px">
+
+<sc-if value="{{isPlan}}" hint-placeholder-val="{{ true }}">
+<svg viewBox="0 0 1100 580" width="100%" role="img" aria-label="Planas: du 40 pėdų konteineriai šalia, kuro sandėlis, priešgaisrinė pertvara, katilas, dūmų valymas, kaminas ir hidraulinis mazgas" style="display: block">
+  <defs>
+    <pattern id="slat1" width="24" height="12" patternUnits="userSpaceOnUse"><path d="M0 6H24" stroke="#26313B" stroke-width="2"></path></pattern>
+    <pattern id="grate1" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 5H10" stroke="#5A3A2A" stroke-width="3"></path></pattern>
+    <pattern id="tube1" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="7" cy="7" r="4" fill="none" stroke="#6B7884" stroke-width="1.2"></circle></pattern>
+    <marker id="mk1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L6 3L0 6Z" fill="#B0B8C1"></path></marker>
+  </defs>
+  <rect x="80" y="70" width="853.4" height="341.3" fill="#10161C" stroke="#C9D0D8" stroke-width="2.5"></rect>
+  <rect x="85" y="75" width="843.4" height="331.3" fill="none" stroke="#3A4652" stroke-width="1"></rect>
+  <path d="M80 240.7H933.4" stroke="#8E99A5" stroke-width="1.2" stroke-dasharray="16 4 3 4"></path>
+  <text x="925" y="232" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#6B7682">MODULIS 1 · 40ft HC</text>
+  <text x="925" y="402" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="11" fill="#6B7682">MODULIS 2 · 40ft HC</text>
+
+  <rect x="90.5" y="80.5" width="329" height="320.3" fill="url(#slat1)" stroke="#8E99A5" stroke-width="1.2"></rect>
+  <text x="255" y="252" text-anchor="middle" font-family="Schibsted Grotesk, sans-serif" font-size="26" font-weight="800" fill="#3A4652">36 m³</text>
+  <path d="M170 278H330" stroke="#B0B8C1" stroke-width="1.6" marker-end="url(#mk1)"></path>
+
+  <path d="M430 64V417" stroke="#F2555A" stroke-width="3" stroke-dasharray="10 6"></path>
+
+  <rect x="402" y="143.5" width="77" height="21" fill="#3A4652" stroke="#8E99A5" stroke-width="1"></rect>
+  <path d="M412 143.5l-6 21 M424 143.5l-6 21 M448 143.5l-6 21 M460 143.5l-6 21 M472 143.5l-6 21" stroke="#6B7884" stroke-width="1.2"></path>
+  <rect x="423" y="147" width="14" height="14" fill="#0B0F13" stroke="#F2555A" stroke-width="1.5"></rect>
+  <path d="M423 147l14 14M437 147l-14 14" stroke="#F2555A" stroke-width="1.5"></path>
+
+  <rect x="479" y="91" width="301" height="129.5" rx="4" fill="#1A222B" stroke="#C9D0D8" stroke-width="2"></rect>
+  <rect x="493" y="105" width="130" height="101" fill="url(#grate1)" stroke="#8A5A3C" stroke-width="2"></rect>
+  <rect x="640" y="105" width="126" height="101" fill="url(#tube1)" stroke="#6B7884" stroke-width="1"></rect>
+
+  <path d="M780 154H808V280" stroke="#3A4652" stroke-width="16" fill="none"></path>
+  <path d="M782 154H808V272" stroke="#B0B8C1" stroke-width="1.5" stroke-dasharray="6 5" fill="none" marker-end="url(#mk1)"></path>
+  <circle cx="808" cy="308" r="28" fill="#1A222B" stroke="#C9D0D8" stroke-width="1.6"></circle>
+  <circle cx="808" cy="308" r="9" fill="none" stroke="#6B7884" stroke-width="1.2"></circle>
+  <path d="M836 308H843 M885 308H890 M929 308H951.5" stroke="#3A4652" stroke-width="12"></path>
+  <rect x="843" y="282" width="42" height="52" fill="none" stroke="#C9D0D8" stroke-width="1.4" stroke-dasharray="5 4"></rect>
+  <circle cx="909.5" cy="308" r="19.6" fill="#1A222B" stroke="#C9D0D8" stroke-width="1.6"></circle>
+  <path d="M909.5 308l10-8 M909.5 308l-12 3 M909.5 308l3 12" stroke="#8E99A5" stroke-width="2"></path>
+  <circle cx="972.5" cy="308" r="21" fill="#1A222B" stroke="#C9D0D8" stroke-width="2"></circle>
+  <circle cx="972.5" cy="308" r="14" fill="none" stroke="#6B7884" stroke-width="1.2"></circle>
+
+  <path d="M590 220.5V343" stroke="#5B9BD5" stroke-width="4" fill="none"></path>
+  <path d="M560 343H720V411" stroke="#5B9BD5" stroke-width="4" fill="none"></path>
+  <path d="M560 315V343" stroke="#5B9BD5" stroke-width="2.5" fill="none"></path>
+  <circle cx="560" cy="300" r="15" fill="#1A222B" stroke="#5B9BD5" stroke-width="2"></circle>
+  <path d="M630 220.5V322H740V411" stroke="#FF8A3D" stroke-width="4" fill="none"></path>
+  <circle cx="690" cy="322" r="10" fill="#0B0F13" stroke="#FF8A3D" stroke-width="2"></circle>
+  <path d="M686 316L696 322L686 328Z" fill="#FF8A3D"></path>
+  <path d="M712 405H728 M712 410H728 M732 405H748 M732 410H748" stroke="#C9D0D8" stroke-width="2"></path>
+
+  <rect x="479" y="371" width="56" height="28" fill="#0F2A18" stroke="{{e1Stroke}}" stroke-width="1.6"></rect>
+  <text x="507" y="389" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#3FB950">E1</text>
+
+  <path d="M48 154H78 M935 154H965" stroke="#C9D0D8" stroke-width="2.5"></path>
+  <path d="M52 154V176 M961 154V176" stroke="#C9D0D8" stroke-width="1.5" marker-end="url(#mk1)"></path>
+  <text x="40" y="150" font-family="JetBrains Mono, monospace" font-size="14" font-weight="500" fill="#F5F3EE">A</text>
+  <text x="968" y="150" font-family="JetBrains Mono, monospace" font-size="14" font-weight="500" fill="#F5F3EE">A</text>
+
+  <path d="M80 416V478 M430 416V452 M933.4 416V478" stroke="#6B7682" stroke-width="1"></path>
+  <path d="M80 446H933.4 M80 470H933.4" stroke="#8E99A5" stroke-width="1"></path>
+  <path d="M76 450l8-8 M426 450l8-8 M929.4 450l8-8 M76 474l8-8 M929.4 474l8-8" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <text x="255" y="440" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#C9D0D8">5 000</text>
+  <text x="681.7" y="440" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#C9D0D8">7 192</text>
+  <text x="506.7" y="464" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#F5F3EE">12 192</text>
+
+  <path d="M938 70H1052 M938 240.7H1052 M938 411.3H1052" stroke="#6B7682" stroke-width="1"></path>
+  <path d="M1016 70V411.3 M1044 70V411.3" stroke="#8E99A5" stroke-width="1"></path>
+  <path d="M1012 74l8-8 M1012 415.3l8-8 M1040 74l8-8 M1040 244.7l8-8 M1040 415.3l8-8" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <text transform="translate(1010 240.7) rotate(-90)" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#F5F3EE">4 876</text>
+  <text transform="translate(1038 155.4) rotate(-90)" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#C9D0D8">2 438</text>
+  <text transform="translate(1038 326) rotate(-90)" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#C9D0D8">2 438</text>
+
+  <rect x="80" y="512" width="70" height="8" fill="#C9D0D8"></rect>
+  <rect x="150" y="512" width="70" height="8" fill="none" stroke="#C9D0D8"></rect>
+  <rect x="220" y="512" width="210" height="8" fill="#C9D0D8"></rect>
+  <text x="80" y="538" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">0</text>
+  <text x="146" y="538" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">1</text>
+  <text x="216" y="538" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">2</text>
+  <text x="418" y="538" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">5 m</text>
+
+  <rect x="700" y="500" width="360" height="60" fill="#0B0F13" stroke="#5B6470" stroke-width="1"></rect>
+  <path d="M700 530H1060 M920 530V560 M990 530V560" stroke="#5B6470" stroke-width="1"></path>
+  <text x="712" y="520" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#F5F3EE">GILĖS INŽINERIJA</text>
+  <text x="1048" y="520" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#FF8A3D">GK-2000</text>
+  <text x="712" y="550" font-family="Inter, sans-serif" font-size="11" fill="#C9D0D8">Planas · principinė schema · mm</text>
+  <text x="955" y="550" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#C9D0D8">Rev [__]</text>
+  <text x="1025" y="550" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#C9D0D8">1 / 3</text>
+
+  <circle cx="115" cy="100" r="12" fill="{{tf.K1}}" stroke="{{ts.K1}}" stroke-width="1.5"></circle><text x="115" y="104" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.K1}}">K1</text>
+  <circle cx="455" cy="125" r="12" fill="{{tf.K2}}" stroke="{{ts.K2}}" stroke-width="1.5"></circle><text x="455" y="129" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.K2}}">K2</text>
+  <circle cx="430" cy="48" r="12" fill="{{tf.F1}}" stroke="{{ts.F1}}" stroke-width="1.5"></circle><text x="430" y="52" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.F1}}">F1</text>
+  <circle cx="508" cy="118" r="12" fill="{{tf.B}}" stroke="{{ts.B}}" stroke-width="1.5"></circle><text x="508" y="122" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.B}}">B</text>
+  <circle cx="808" cy="352" r="12" fill="{{tf.D1}}" stroke="{{ts.D1}}" stroke-width="1.5"></circle><text x="808" y="356" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.D1}}">D1</text>
+  <circle cx="864" cy="352" r="12" fill="{{tf.D2}}" stroke="{{ts.D2}}" stroke-width="1.5"></circle><text x="864" y="356" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.D2}}">D2</text>
+  <circle cx="909.5" cy="350" r="12" fill="{{tf.D3}}" stroke="{{ts.D3}}" stroke-width="1.5"></circle><text x="909.5" y="354" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.D3}}">D3</text>
+  <circle cx="972.5" cy="350" r="12" fill="{{tf.D4}}" stroke="{{ts.D4}}" stroke-width="1.5"></circle><text x="972.5" y="354" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.D4}}">D4</text>
+  <circle cx="605" cy="285" r="12" fill="{{tf.H2}}" stroke="{{ts.H2}}" stroke-width="1.5"></circle><text x="605" y="289" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H2}}">H2</text>
+  <circle cx="690" cy="295" r="12" fill="{{tf.H3}}" stroke="{{ts.H3}}" stroke-width="1.5"></circle><text x="690" y="299" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H3}}">H3</text>
+  <circle cx="560" cy="268" r="12" fill="{{tf.H4}}" stroke="{{ts.H4}}" stroke-width="1.5"></circle><text x="560" y="272" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H4}}">H4</text>
+  <circle cx="765" cy="390" r="12" fill="{{tf.H7}}" stroke="{{ts.H7}}" stroke-width="1.5"></circle><text x="765" y="394" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H7}}">H7</text>
+</svg>
+</sc-if>
+
+<sc-if value="{{isSection}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 1100 600" width="100%" role="img" aria-label="Pjūvis A–A: kuro sandėlis, priešgaisrinė pertvara, sraigtas, pakura su judančiomis ardelėmis, trijų eigų šilumokaitis, dūmų valymas už pjūvio ir aukštas kaminas" style="display: block">
+  <defs>
+    <pattern id="fuel2" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="3" cy="3" r="1.4" fill="#7A5E3C"></circle><circle cx="7.5" cy="7" r="1.1" fill="#5E4A30"></circle></pattern>
+    <pattern id="conc2" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 4H8" stroke="#5B6470" stroke-width="1"></path></pattern>
+    <pattern id="gnd2" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)"><path d="M0 5H10" stroke="#3A4652" stroke-width="1"></path></pattern>
+    <marker id="mk2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L6 3L0 6Z" fill="#B0B8C1"></path></marker>
+  </defs>
+  <rect x="40" y="470" width="1020" height="12" fill="url(#gnd2)"></rect>
+  <path d="M40 470H1060" stroke="#8E99A5" stroke-width="1.5"></path>
+  <rect x="109.5" y="450.5" width="39" height="19.5" fill="url(#conc2)" stroke="#8E99A5" stroke-width="1"></rect>
+  <rect x="467" y="450.5" width="39" height="19.5" fill="url(#conc2)" stroke="#8E99A5" stroke-width="1"></rect>
+  <rect x="824.5" y="450.5" width="39" height="19.5" fill="url(#conc2)" stroke="#8E99A5" stroke-width="1"></rect>
+
+  <rect x="90" y="262.3" width="792.5" height="188.2" fill="#10161C" stroke="#C9D0D8" stroke-width="2.5"></rect>
+  <rect x="95" y="267.3" width="782.5" height="178.2" fill="none" stroke="#3A4652" stroke-width="1"></rect>
+
+  <path d="M99.75 440.75H405.25V330L99.75 295Z" fill="url(#fuel2)" stroke="#8E99A5" stroke-width="1"></path>
+  <path d="M99.75 440.75H405.25" stroke="#C9D0D8" stroke-width="3"></path>
+  <path d="M150 428H290" stroke="#F5F3EE" stroke-width="1.6" marker-end="url(#mk2)"></path>
+
+  <path d="M415 262V450.5" stroke="#F2555A" stroke-width="3" stroke-dasharray="10 6"></path>
+  <path d="M395.5 427.75L476.75 388.75" stroke="#3A4652" stroke-width="13" stroke-linecap="round"></path>
+  <path d="M395.5 427.75L476.75 388.75" stroke="#6B7884" stroke-width="13" stroke-dasharray="3 5"></path>
+  <rect x="408" y="411.4" width="14" height="14" fill="#0B0F13" stroke="#F2555A" stroke-width="1.5"></rect>
+  <path d="M408 411.4l14 14M422 411.4l-14 14" stroke="#F2555A" stroke-width="1.5"></path>
+
+  <rect x="460.5" y="284.75" width="279.5" height="152.75" rx="4" fill="#1A222B" stroke="#C9D0D8" stroke-width="2"></rect>
+  <rect x="473.5" y="299.5" width="130" height="125" fill="#22160F" stroke="#8A5A3C" stroke-width="7"></rect>
+  <ellipse cx="538" cy="398" rx="48" ry="20" fill="#FF7A2A" opacity="0.35"></ellipse>
+  <path d="M482 392h12v4h12v4h12v4h12v4h12v4h12v4h12v4h12v4h8" stroke="#D9D4CA" stroke-width="2.5" fill="none"></path>
+  <text x="540" y="346" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#FFB27A">≈ 1 050 °C</text>
+  <rect x="520" y="428" width="80" height="7" fill="#3A4652"></rect>
+  <path d="M618 300H730 M618 312H730 M618 324H730 M618 344H730 M618 356H730 M618 368H730 M618 388H730 M618 400H730 M618 412H730" stroke="#3A4652" stroke-width="2"></path>
+  <path d="M607 318H726V362H624V406H752" stroke="#B0B8C1" stroke-width="1.6" stroke-dasharray="6 5" fill="none" marker-end="url(#mk2)"></path>
+
+  <path d="M740 294.5H792V392L772 427.75H760L740 392Z" fill="none" stroke="#8E99A5" stroke-width="1.3" stroke-dasharray="5 4"></path>
+  <rect x="798.5" y="307.5" width="39" height="123.5" fill="none" stroke="#8E99A5" stroke-width="1.3" stroke-dasharray="5 4"></rect>
+  <circle cx="860" cy="359.5" r="18" fill="none" stroke="#8E99A5" stroke-width="1.3" stroke-dasharray="5 4"></circle>
+  <path d="M766 294.5V280H818V303" stroke="#B0B8C1" stroke-width="1.3" stroke-dasharray="3 4" fill="none" marker-end="url(#mk2)"></path>
+  <path d="M837.5 359.5H840" stroke="#B0B8C1" stroke-width="1.3" stroke-dasharray="3 4"></path>
+  <path d="M878 359.5H902.5" stroke="#3A4652" stroke-width="12"></path>
+
+  <rect x="902.5" y="208" width="32.5" height="262" fill="#1A222B" stroke="#C9D0D8" stroke-width="2"></rect>
+  <rect x="902.5" y="76" width="32.5" height="118" fill="#1A222B" stroke="#C9D0D8" stroke-width="2"></rect>
+  <path d="M896 196l12 6-12 6 M941 196l-12 6 12 6" stroke="#0A0E12" stroke-width="8"></path>
+  <path d="M896 194L941 186 M896 210L941 202" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <rect x="897" y="68" width="43.5" height="8" fill="#3A4652" stroke="#C9D0D8" stroke-width="1"></rect>
+  <path d="M918.75 440V90" stroke="#B0B8C1" stroke-width="1.6" stroke-dasharray="6 5" marker-end="url(#mk2)"></path>
+
+  <path d="M944 470H998 M944 68H998" stroke="#6B7682" stroke-width="1"></path>
+  <path d="M985 68V470" stroke="#8E99A5" stroke-width="1"></path>
+  <path d="M981 72l8-8 M981 474l8-8" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <text transform="translate(978 269) rotate(-90)" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#F5F3EE">H = [__] m · pagal sklaidos skaičiavimą</text>
+
+  <path d="M90 455V512 M882.5 455V512" stroke="#6B7682" stroke-width="1"></path>
+  <path d="M90 505H882.5" stroke="#8E99A5" stroke-width="1"></path>
+  <path d="M86 509l8-8 M878.5 509l8-8" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <text x="486" y="499" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#F5F3EE">12 192</text>
+  <path d="M86 262.3H48 M86 450.5H48" stroke="#6B7682" stroke-width="1"></path>
+  <path d="M56 262.3V450.5" stroke="#8E99A5" stroke-width="1"></path>
+  <path d="M52 266.3l8-8 M52 454.5l8-8" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <text transform="translate(50 356.4) rotate(-90)" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#F5F3EE">2 896</text>
+
+  <rect x="90" y="545" width="65" height="8" fill="#C9D0D8"></rect>
+  <rect x="155" y="545" width="65" height="8" fill="none" stroke="#C9D0D8"></rect>
+  <rect x="220" y="545" width="195" height="8" fill="#C9D0D8"></rect>
+  <text x="90" y="571" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">0</text>
+  <text x="151" y="571" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">1</text>
+  <text x="216" y="571" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">2</text>
+  <text x="403" y="571" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">5 m</text>
+
+  <rect x="700" y="528" width="360" height="60" fill="#0B0F13" stroke="#5B6470" stroke-width="1"></rect>
+  <path d="M700 558H1060 M920 558V588 M990 558V588" stroke="#5B6470" stroke-width="1"></path>
+  <text x="712" y="548" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#F5F3EE">GILĖS INŽINERIJA</text>
+  <text x="1048" y="548" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#FF8A3D">GK-2000</text>
+  <text x="712" y="578" font-family="Inter, sans-serif" font-size="11" fill="#C9D0D8">Pjūvis A–A · principinė schema</text>
+  <text x="955" y="578" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#C9D0D8">Rev [__]</text>
+  <text x="1025" y="578" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#C9D0D8">2 / 3</text>
+
+  <path d="M250 251V300 M540 251V299 M675 251V296 M766 251V280 M818 251V280 M460 442L520 432" stroke="#6B7682" stroke-width="1"></path>
+  <circle cx="250" cy="240" r="12" fill="{{tf.K1}}" stroke="{{ts.K1}}" stroke-width="1.5"></circle><text x="250" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.K1}}">K1</text>
+  <circle cx="415" cy="240" r="12" fill="{{tf.F1}}" stroke="{{ts.F1}}" stroke-width="1.5"></circle><text x="415" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.F1}}">F1</text>
+  <circle cx="440" cy="372" r="12" fill="{{tf.K2}}" stroke="{{ts.K2}}" stroke-width="1.5"></circle><text x="440" y="376" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.K2}}">K2</text>
+  <circle cx="540" cy="240" r="12" fill="{{tf.B1}}" stroke="{{ts.B1}}" stroke-width="1.5"></circle><text x="540" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.B1}}">B1</text>
+  <circle cx="675" cy="240" r="12" fill="{{tf.B2}}" stroke="{{ts.B2}}" stroke-width="1.5"></circle><text x="675" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.B2}}">B2</text>
+  <circle cx="450" cy="444" r="11" fill="{{tf.B3}}" stroke="{{ts.B3}}" stroke-width="1.5"></circle><text x="450" y="448" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" fill="{{tt.B3}}">B3</text>
+  <circle cx="766" cy="240" r="12" fill="{{tf.D1}}" stroke="{{ts.D1}}" stroke-width="1.5"></circle><text x="766" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.D1}}">D1</text>
+  <circle cx="818" cy="240" r="12" fill="{{tf.D2}}" stroke="{{ts.D2}}" stroke-width="1.5"></circle><text x="818" y="244" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.D2}}">D2</text>
+  <circle cx="860" cy="408" r="12" fill="{{tf.D3}}" stroke="{{ts.D3}}" stroke-width="1.5"></circle><text x="860" y="412" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.D3}}">D3</text>
+  <circle cx="954" cy="130" r="12" fill="{{tf.D4}}" stroke="{{ts.D4}}" stroke-width="1.5"></circle><text x="954" y="134" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.D4}}">D4</text>
+</svg>
+</sc-if>
+
+<sc-if value="{{isPid}}" hint-placeholder-val="{{ false }}">
+<svg viewBox="0 0 1100 580" width="100%" role="img" aria-label="Hidraulinė schema: katilas, antikondensacinis mazgas, hidraulinis kolektorius, dviguba siurblių grupė, plėtimosi indas, purvo separatorius ir prijungimo flanšai" style="display: block">
+  <rect x="70" y="120" width="130" height="320" rx="6" fill="#1A222B" stroke="#C9D0D8" stroke-width="2"></rect>
+  <text x="135" y="285" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="13" fill="#8E99A5">2 000 kW</text>
+
+  <path d="M200 170H520" stroke="#FF8A3D" stroke-width="4" fill="none"></path>
+  <path d="M570 170H640 M720 170H990" stroke="#FF8A3D" stroke-width="4" fill="none"></path>
+  <path d="M640 170V148H720V170 M640 170V192H720V170" stroke="#FF8A3D" stroke-width="3" fill="none"></path>
+  <path d="M200 390H520" stroke="#5B9BD5" stroke-width="4" fill="none"></path>
+  <path d="M570 390H990" stroke="#5B9BD5" stroke-width="4" fill="none"></path>
+  <path d="M400 170V390" stroke="#FF8A3D" stroke-width="3" stroke-dasharray="8 5" fill="none"></path>
+  <path d="M640 390V470" stroke="#5B9BD5" stroke-width="2.5" fill="none"></path>
+
+  <path d="M222 162L238 178V162L222 178Z M222 382L238 398V382L222 398Z M912 162L928 178V162L912 178Z M912 382L928 398V382L912 398Z" fill="#0A0E12" stroke="#C9D0D8" stroke-width="1.5"></path>
+
+  <path d="M270 170V138" stroke="#FF8A3D" stroke-width="2.5"></path>
+  <path d="M262 138H278L270 124Z" fill="#0A0E12" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <path d="M270 124l-5-3 10-6-10-6 10-6-5-3" stroke="#C9D0D8" stroke-width="1.5" fill="none"></path>
+  <path d="M278 131H296" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <text x="300" y="135" font-family="JetBrains Mono, monospace" font-size="11" fill="#C9D0D8">[__] bar</text>
+  <path d="M330 170V146 M362 170V146" stroke="#C9D0D8" stroke-width="1.2"></path>
+  <circle cx="330" cy="134" r="12" fill="#0A0E12" stroke="#C9D0D8" stroke-width="1.2"></circle><text x="330" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#C9D0D8">TI</text>
+  <circle cx="362" cy="134" r="12" fill="#0A0E12" stroke="#C9D0D8" stroke-width="1.2"></circle><text x="362" y="138" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#C9D0D8">PI</text>
+
+  <circle cx="320" cy="390" r="13" fill="#0A0E12" stroke="#5B9BD5" stroke-width="2"></circle>
+  <path d="M325 383L313 390L325 397Z" fill="#5B9BD5"></path>
+  <path d="M388 380L412 400V380L388 400Z" fill="#0A0E12" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <path d="M400 390L392 374H408Z" fill="#0A0E12" stroke="#C9D0D8" stroke-width="1.5"></path>
+  <text x="250" y="420" font-family="JetBrains Mono, monospace" font-size="11" fill="#7FB3E3">≥ 55 °C į katilą</text>
+  <text x="430" y="160" font-family="JetBrains Mono, monospace" font-size="11" fill="#C9D0D8">DN150 PN6</text>
+
+  <rect x="520" y="130" width="50" height="300" rx="25" fill="#1A222B" stroke="#C9D0D8" stroke-width="2"></rect>
+  <text x="545" y="452" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">DN150</text>
+
+  <circle cx="680" cy="148" r="12" fill="#0A0E12" stroke="#FF8A3D" stroke-width="2"></circle><path d="M675 141L687 148L675 155Z" fill="#FF8A3D"></path>
+  <circle cx="680" cy="192" r="12" fill="#0A0E12" stroke="#FF8A3D" stroke-width="2"></circle><path d="M675 185L687 192L675 199Z" fill="#FF8A3D"></path>
+  <text x="760" y="158" font-family="JetBrains Mono, monospace" font-size="11" fill="#C9D0D8">≈ 87 m³/h · ~1,2 m/s</text>
+  <text x="820" y="200" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#FF8A3D">T1 85 °C</text>
+  <path d="M880 165l10 5-10 5z M600 165l10 5-10 5z" fill="#FF8A3D"></path>
+
+  <rect x="846" y="372" width="28" height="36" fill="#0A0E12" stroke="#C9D0D8" stroke-width="1.5"></rect>
+  <path d="M852 380L860 394L868 380" stroke="#C9D0D8" stroke-width="1.5" fill="none"></path>
+  <text x="740" y="420" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#7FB3E3">T2 65 °C</text>
+  <path d="M790 385l-10 5 10 5z M480 385l-10 5 10 5z" fill="#5B9BD5"></path>
+
+  <path d="M632 426H648L640 438Z" fill="#0A0E12" stroke="#C9D0D8" stroke-width="1.2"></path>
+  <rect x="620" y="470" width="40" height="70" rx="20" fill="#1A222B" stroke="#5B9BD5" stroke-width="2"></rect>
+
+  <path d="M956 156V184 M964 156V184 M956 376V404 M964 376V404" stroke="#C9D0D8" stroke-width="2.5"></path>
+  <rect x="990" y="130" width="70" height="300" fill="none" stroke="#6B7682" stroke-width="1.2" stroke-dasharray="6 5"></rect>
+  <text transform="translate(1030 280) rotate(-90)" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" fill="#A3ADB8">Objektas / plokštelinis šilumokaitis</text>
+
+  <text x="80" y="560" font-family="JetBrains Mono, monospace" font-size="11" fill="#8E99A5">Schema be mastelio · supaprastinti P&amp;ID simboliai</text>
+  <rect x="720" y="500" width="340" height="60" fill="#0B0F13" stroke="#5B6470" stroke-width="1"></rect>
+  <path d="M720 530H1060 M920 530V560 M990 530V560" stroke="#5B6470" stroke-width="1"></path>
+  <text x="732" y="520" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#F5F3EE">GILĖS INŽINERIJA</text>
+  <text x="1048" y="520" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="12" font-weight="500" fill="#FF8A3D">GK-2000</text>
+  <text x="732" y="550" font-family="Inter, sans-serif" font-size="11" fill="#C9D0D8">Hidraulinė schema</text>
+  <text x="955" y="550" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#C9D0D8">Rev [__]</text>
+  <text x="1025" y="550" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" fill="#C9D0D8">3 / 3</text>
+
+  <circle cx="135" cy="150" r="12" fill="{{tf.B}}" stroke="{{ts.B}}" stroke-width="1.5"></circle><text x="135" y="154" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.B}}">B</text>
+  <circle cx="270" cy="96" r="12" fill="{{tf.H6}}" stroke="{{ts.H6}}" stroke-width="1.5"></circle><text x="270" y="100" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H6}}">H6</text>
+  <circle cx="440" cy="290" r="12" fill="{{tf.H1}}" stroke="{{ts.H1}}" stroke-width="1.5"></circle><text x="440" y="294" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H1}}">H1</text>
+  <circle cx="545" cy="280" r="12" fill="{{tf.H2}}" stroke="{{ts.H2}}" stroke-width="1.5"></circle><text x="545" y="284" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H2}}">H2</text>
+  <circle cx="680" cy="112" r="12" fill="{{tf.H3}}" stroke="{{ts.H3}}" stroke-width="1.5"></circle><text x="680" y="116" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H3}}">H3</text>
+  <circle cx="595" cy="505" r="12" fill="{{tf.H4}}" stroke="{{ts.H4}}" stroke-width="1.5"></circle><text x="595" y="509" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H4}}">H4</text>
+  <circle cx="860" cy="436" r="12" fill="{{tf.H5}}" stroke="{{ts.H5}}" stroke-width="1.5"></circle><text x="860" y="440" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H5}}">H5</text>
+  <circle cx="960" cy="280" r="12" fill="{{tf.H7}}" stroke="{{ts.H7}}" stroke-width="1.5"></circle><text x="960" y="284" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="11" font-weight="500" fill="{{tt.H7}}">H7</text>
+</svg>
+</sc-if>
+
+      </div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 12px 20px; border-top: 1px solid #1C252E; font-size: 12px; color: #A3ADB8">
+      <span style="display: flex; align-items: center; gap: 8px"><span style="width: 22px; height: 3px; background: #FF8A3D"></span>Tiekimas</span>
+      <span style="display: flex; align-items: center; gap: 8px"><span style="width: 22px; height: 3px; background: #5B9BD5"></span>Grąžinimas</span>
+      <span style="display: flex; align-items: center; gap: 8px"><span style="width: 22px; height: 0; border-top: 2px dashed #B0B8C1"></span>Dūmai</span>
+      <span style="display: flex; align-items: center; gap: 8px"><span style="width: 22px; height: 0; border-top: 3px dashed #F2555A"></span>Priešgaisrinė pertvara</span>
+      <span style="display: flex; align-items: center; gap: 8px"><span style="width: 22px; height: 0; border-top: 1.5px dashed #8E99A5"></span>Už pjūvio plokštumos</span>
+      <span style="display: flex; align-items: center; gap: 8px"><span style="width: 12px; height: 12px; border: 1.5px solid #3FB950"></span>Valdymas</span>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+    <div style="flex: 1.2 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #8E99A5">POZICIJOS ŠIAME VAIZDE</span>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr)); gap: 8px">
+        <sc-for list="{{items}}" as="it" hint-placeholder-count="8">
+          <button type="button" class="pos" onClick="{{it.pick}}" aria-pressed="{{it.pressed}}" style="display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 12px; border: 1px solid {{it.border}}; background: {{it.bg}}; color: #F5F3EE; font: inherit; text-align: left; cursor: pointer">
+            <span style="flex: none; min-width: 34px; height: 26px; padding: 0 6px; box-sizing: border-box; border-radius: 13px; background: {{it.chipBg}}; color: {{it.chipFg}}; border: 1.5px solid #FF8A3D; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500">{{it.tag}}</span>
+            <span style="display: flex; flex-direction: column; gap: 3px; min-width: 0"><span style="font-weight: 600; font-size: 14px; line-height: 1.35">{{it.name}}</span><span style="font-size: 12px; line-height: 1.45; color: #8E99A5">{{it.spec}}</span></span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="flex: 1 1 360px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #8E99A5">TECHNINIAI DUOMENYS</span>
+      <dl style="margin: 0; border-radius: 14px; background: #151C23; border: 1px solid #26313B; overflow: hidden">
+        <sc-for list="{{specs}}" as="s" hint-placeholder-count="12">
+          <div style="display: flex; gap: 16px; justify-content: space-between; padding: 11px 16px; border-bottom: 1px solid #1F2933">
+            <dt style="font-size: 13px; color: #8E99A5">{{s.k}}</dt>
+            <dd style="margin: 0; font-size: 13px; font-weight: 600; text-align: right">{{s.v}}</dd>
+          </div>
+        </sc-for>
+      </dl>
+      <a href="Industrial.dc.html#uzklausa" class="btn" style="height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 10px; background: #C2410C; color: #FFFFFF; font-weight: 700; font-size: 15px">Gauti pasiūlymą GK-2000</a>
+    </div>
+  </div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1800}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const st = this.state || {};
+    const view = st.view || 'plan';
+    const hl = st.hl || '';
+    const keys = ['K1', 'K2', 'F1', 'B', 'B1', 'B2', 'B3', 'D1', 'D2', 'D3', 'D4', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'H7', 'E1'];
+    const tf = {}, tt = {}, ts = {};
+    keys.forEach((k) => {
+      const on = k === hl;
+      tf[k] = on ? '#FF8A3D' : '#0B0F13';
+      tt[k] = on ? '#0B0F13' : '#F5F3EE';
+      ts[k] = on ? '#FF8A3D' : '#8E99A5';
+    });
+    const lists = {
+      plan: [
+        ['K1', 'Kuro sandėlis', '36 m³ · stumdomosios grindys (walking floor)'],
+        ['K2', 'Sraigtinis transporteris', 'Su priešgaisrine sklende ties pertvara'],
+        ['F1', 'Priešgaisrinė pertvara', 'Atskiria kuro sandėlį nuo katilinės · EI [__]'],
+        ['B', 'Katilas GK-2000', 'Judančios ardelės, 3 eigų šilumokaitis'],
+        ['D1', 'Multiciklonas', 'Stambiųjų dalelių atskyrimas'],
+        ['D2', 'Dulkių filtras', 'Elektrostatinis arba rankovinis · pagal leidimo ribą'],
+        ['D3', 'Dūmsiurbė', 'Su dažnio keitikliu'],
+        ['D4', 'Kaminas', 'Nerūdijantis, izoliuotas · už modulio'],
+        ['H2', 'Hidraulinis kolektorius', 'DN150 PN6'],
+        ['H3', 'Tinklo siurbliai', 'Dviguba grupė (darbinis + rezervinis)'],
+        ['H4', 'Plėtimosi indas', 'Su slėgio palaikymu'],
+        ['H7', 'Prijungimo flanšai', 'DN150 PN6 · tiekimas ir grąžinimas'],
+        ['E1', 'Valdymo skydas', 'PLC · 7" HMI · Modbus']
+      ],
+      section: [
+        ['K1', 'Kuro sandėlis', 'Stumdomosios grindys stumia kurą į sraigtą'],
+        ['K2', 'Sraigtas su priešgaisrine sklende', 'Kuras paduodamas į pakurą'],
+        ['F1', 'Priešgaisrinė pertvara', 'EI [__]'],
+        ['B1', 'Pakura', 'Judančios ardelės, šamoto mūras · ≈ 1 050 °C'],
+        ['B2', 'Šilumokaitis', '3 dūmų eigos · P265GH'],
+        ['B3', 'Pelenų sraigtas', 'Automatinis pelenų šalinimas'],
+        ['D1', 'Multiciklonas', 'Už pjūvio plokštumos (modulis 2)'],
+        ['D2', 'Dulkių filtras', 'Už pjūvio plokštumos · pagal leidimo ribą'],
+        ['D3', 'Dūmsiurbė VFD', 'Palaiko ≈ −20 Pa išretėjimą pakuroje'],
+        ['D4', 'Kaminas', 'H = [__] m pagal sklaidos skaičiavimą']
+      ],
+      pid: [
+        ['B', 'Katilas', '2 000 kW · PN6'],
+        ['H1', 'Antikondensacinis mazgas', 'Siurblys + 3 eigų vožtuvas · ≥ 55 °C į katilą'],
+        ['H2', 'Hidraulinis kolektorius', 'Atskiria katilo ir tinklo kontūrus · DN150'],
+        ['H3', 'Tinklo siurbliai', 'Dviguba grupė · ≈ 87 m³/h'],
+        ['H4', 'Plėtimosi indas', 'Prijungtas atšaka prie grąžinimo, su apsaugota uždarymo armatūra'],
+        ['H5', 'Purvo ir oro separatorius', 'Grąžinimo linijoje prieš kolektorių'],
+        ['H6', 'Apsauginis vožtuvas', 'Nustatymas [__] bar'],
+        ['H7', 'Prijungimo flanšai', 'DN150 PN6 · 85/65 °C']
+      ]
+    };
+    const items = lists[view].map(([tag, name, spec]) => ({
+      tag, name, spec,
+      pressed: tag === hl ? 'true' : 'false',
+      border: tag === hl ? '#FF8A3D' : '#26313B',
+      bg: tag === hl ? '#1F2933' : '#151C23',
+      chipBg: tag === hl ? '#FF8A3D' : '#0B0F13',
+      chipFg: tag === hl ? '#0B0F13' : '#F5F3EE',
+      pick: () => this.setState({ hl: hl === tag ? '' : tag })
+    }));
+    const tabDefs = [
+      ['plan', '1', 'Planas', '2 × 40ft HC, mastelis'],
+      ['section', '2', 'Pjūvis A–A ir dūmų traktas', 'Nuo kuro iki kamino'],
+      ['pid', '3', 'Hidraulinė schema', 'Prijungimas prie objekto']
+    ];
+    const tabs = tabDefs.map(([v, n, l, s]) => ({
+      n, label: l, sub: s,
+      sel: v === view ? 'true' : 'false',
+      bg: v === view ? '#F5F3EE' : 'transparent',
+      fg: v === view ? '#0E1216' : '#F5F3EE',
+      subColor: v === view ? '#5B6470' : '#8E99A5',
+      numBorder: v === view ? '#0E1216' : '#5B6470',
+      pick: () => this.setState({ view: v, hl: '' })
+    }));
+    const metas = {
+      plan: { title: 'Planas · du 40ft HC moduliai šalia', sub: 'Gabaritai pagal ISO 40ft HC. Vidaus išdėstymas – principinis.' },
+      section: { title: 'Pjūvis A–A ir dūmų traktas', sub: 'Pjūvis per modulį 1. Punktyru – įranga už pjūvio plokštumos.' },
+      pid: { title: 'Hidraulinė ir prijungimo schema', sub: 'Principinė, be mastelio.' }
+    };
+    const specs = [
+      { k: 'Šiluminė galia', v: '2 000 kW · [1 × 2 000 ar 2 × 1 000]' },
+      { k: 'Kuras', v: 'Skiedra, granulės · W [__] %' },
+      { k: 'Kuro sandėlis', v: '36 m³ · stumdomosios grindys' },
+      { k: 'Pakura', v: 'Judančios ardelės, šamotas' },
+      { k: 'Šilumokaitis', v: '3 eigų · P265GH' },
+      { k: 'Naudingumo koef.', v: '91–93 % · [protokolas]' },
+      { k: 'Dūmų valymas', v: 'Multiciklonas + [filtras]' },
+      { k: 'Dulkių emisija', v: '≤ [__] mg/Nm³ (6 % O₂)' },
+      { k: 'Hidraulika', v: '85/65 °C · DN150 · PN6' },
+      { k: 'Debitas', v: '≈ 87 m³/h' },
+      { k: 'Gabaritai', v: '12 192 × 4 876 × 2 896 mm' },
+      { k: 'Masė', v: '14,5 t / modulis' },
+      { k: 'Valdymas', v: 'PLC · 7" HMI · Modbus' },
+      { k: 'Kaminas', v: 'Nerūdijantis · H = [__] m' }
+    ];
+    return {
+      tabs, items, specs, tf, tt, ts,
+      meta: metas[view],
+      isPlan: view === 'plan', isSection: view === 'section', isPid: view === 'pid',
+      e1Stroke: hl === 'E1' ? '#FF8A3D' : '#3FB950'
+    };
+  }
+}
+</script>
+</body>
+</html>

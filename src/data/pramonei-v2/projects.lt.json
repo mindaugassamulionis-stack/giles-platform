@@ -1,0 +1,77 @@
+{
+  "note": "client/city/year – null kol savininkas nepateiks; UI tokius laukus slepia.",
+  "projects": [
+    {
+      "id": "gk-500-gamyklinis",
+      "model": "gk-500",
+      "tag": "GK-500 · 500 kW",
+      "title": "Konteinerinė biokuro katilinė, gamyklinis surinkimas",
+      "equipment": "Judančios ardelės, multiciklonas, GSM/SCADA",
+      "result": "Atvežta hidrauliškai išbandyta ir izoliuota",
+      "image": "/studio-assets/projects/giles-darbas-06.webp",
+      "client": null,
+      "city": null,
+      "year": null
+    },
+    {
+      "id": "gk-750",
+      "model": "gk-750",
+      "tag": "GK-750 · 750 kW",
+      "title": "Pramoninė biokuro katilinė",
+      "equipment": "Dūmsiurbė su dažnio keitikliu, multiciklonas, automatinis pelenų šalinimas",
+      "result": "Pilna telemetrija, 6 bar hidraulinis mazgas",
+      "image": "/studio-assets/projects/giles-darbas-07.webp",
+      "client": null,
+      "city": null,
+      "year": null
+    },
+    {
+      "id": "gk-2000",
+      "model": "gk-2000",
+      "tag": "GK-2000 · 2,0 MW",
+      "title": "Modulinė katilinė su kuro sandėliu",
+      "equipment": "Walking-Floor sandėlis, daugiapakopis dūmų valymas",
+      "result": "SCADA dispečerinis valdymas",
+      "image": "/studio-assets/projects/giles-darbas-08.webp",
+      "client": null,
+      "city": null,
+      "year": null
+    },
+    {
+      "id": "mob",
+      "model": "mob-500",
+      "tag": "MOB · 150–500 kW",
+      "title": "Mobili katilinė nuomai ir avarijoms",
+      "equipment": "Greito prijungimo DN50/DN65 movos, integruotas bunkeris",
+      "result": "Šildymas trasų rekonstrukcijos ir statybų metu",
+      "image": "/studio-assets/projects/giles-darbas-09.webp",
+      "client": null,
+      "city": null,
+      "year": null
+    },
+    {
+      "id": "gd-500",
+      "model": "gd-500",
+      "tag": "GD-500 · 500 kW",
+      "title": "Stoginė dujinė katilinė su kaskada",
+      "equipment": "Kaskadiniai dujiniai katilai, nerūdijantys dūmtraukiai",
+      "result": "Sumontuota ant stogo be vidaus ploto praradimo",
+      "image": "/studio-assets/projects/giles-darbas-10.webp",
+      "client": null,
+      "city": null,
+      "year": null
+    },
+    {
+      "id": "mazgas-200",
+      "model": null,
+      "tag": "Šilumos mazgas · 200 kW",
+      "title": "Katilinės hidraulinis mazgas",
+      "equipment": "Elektroniniai siurbliai, IMI TA STAD/STAP, Pneumatex",
+      "result": "Tiksliai subalansuoti kontūrų srautai",
+      "image": "/studio-assets/projects/giles-darbas-11.webp",
+      "client": null,
+      "city": null,
+      "year": null
+    }
+  ]
+}

@@ -1,0 +1,932 @@
+{
+  "vat_rate": 0.21,
+  "constants": {
+    "pellet_bulk_density_kg_m3": 650,
+    "chip_bulk_density_kg_m3": 250,
+    "full_load_hours": 2100,
+    "area_w_per_m2": [
+      70,
+      140
+    ]
+  },
+  "models": [
+    {
+      "slug": "gk-100",
+      "code": "GK-100",
+      "segment": "buy",
+      "kind": "Konteinerinė biokuro katilinė",
+      "power_kw": {
+        "value": {
+          "nominal": 100
+        },
+        "source": "site:series-table"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 800,
+          "max": 1400
+        },
+        "source": "site:series-table"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 8,
+          "type": "granulės",
+          "note": "≈ 5,2 t granulių"
+        },
+        "source": "site:series-table"
+      },
+      "dimensions": {
+        "value": {
+          "label": "6 058 × 2 438 × 2 896 mm (ISO 20ft HC)",
+          "mass_t": null
+        },
+        "source": "site:series-table",
+        "note": "lentelėje 6,0 × 2,4 × 2,9 m = 20ft HC"
+      },
+      "price_net_eur": {
+        "value": 28500,
+        "source": "site:series-table",
+        "note": "34 485 € su PVM / 1,21"
+      },
+      "rent_net_eur_month": {
+        "value": 1250,
+        "source": "site:series-table",
+        "note": "1 513 € su PVM / 1,21"
+      },
+      "aux_power_kw": {
+        "value": 3,
+        "source": "assumption",
+        "note": "savos reikmės elektra; patvirtinti"
+      },
+      "fuel_kg_h_full": {
+        "value": 23,
+        "source": "computed",
+        "note": "granulės 4,8 kWh/kg, η 92 %"
+      },
+      "use_cases": [
+        "Autoservisai",
+        "Gamybos cechai",
+        "Kaimo turizmo kompleksai",
+        "Mokyklos"
+      ],
+      "image": null,
+      "autonomy_pellets": {
+        "value": {
+          "full_load_days": 9.4,
+          "half_load_days": 18.8
+        },
+        "source": "computed",
+        "note": "650 kg/m³ granulių"
+      }
+    },
+    {
+      "slug": "gk-250",
+      "code": "GK-250",
+      "segment": "buy",
+      "kind": "Konteinerinė biokuro katilinė",
+      "power_kw": {
+        "value": {
+          "nominal": 250
+        },
+        "source": "site:series-table"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 1800,
+          "max": 3500
+        },
+        "source": "site:series-table"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 16,
+          "type": "judančios grindys / sraigtai"
+        },
+        "source": "site:series-table"
+      },
+      "dimensions": {
+        "value": {
+          "label": "6,0 × 3,0 × 3,0 m",
+          "mass_t": null
+        },
+        "source": "site:series-table"
+      },
+      "price_net_eur": {
+        "value": 46900,
+        "source": "site:series-table",
+        "note": "56 749 € su PVM / 1,21"
+      },
+      "rent_net_eur_month": {
+        "value": 1950,
+        "source": "site:series-table",
+        "note": "2 360 € su PVM / 1,21"
+      },
+      "aux_power_kw": {
+        "value": 6,
+        "source": "assumption"
+      },
+      "fuel_kg_h_full": {
+        "value": 57,
+        "source": "computed"
+      },
+      "use_cases": [
+        "Baldai ir medienos apdirbimas",
+        "Sandėliai",
+        "Šiltnamiai",
+        "Biurų pastatai"
+      ],
+      "image": "/studio-assets/projects/giles-darbas-13.webp",
+      "autonomy_pellets": {
+        "value": {
+          "full_load_days": 7.6,
+          "half_load_days": 15.2
+        },
+        "source": "computed",
+        "note": "650 kg/m³ granulių"
+      }
+    },
+    {
+      "slug": "gk-500",
+      "code": "GK-500",
+      "segment": "buy",
+      "kind": "Konteinerinė biokuro katilinė",
+      "power_kw": {
+        "value": {
+          "nominal": 500,
+          "modulation": "125–500 kW"
+        },
+        "source": "site:passport"
+      },
+      "efficiency_pct": {
+        "value": 92.4,
+        "source": "site:passport",
+        "note": "reikalingas bandymų protokolas"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 3500,
+          "max": 7500
+        },
+        "source": "site:series-table",
+        "note": "KONFLIKTAS: dosjė 2 000–4 500 m²"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 18,
+          "type": "hidraulinės judančios grindys arba sraigtas"
+        },
+        "source": "site:passport",
+        "note": "KONFLIKTAS: lentelėje 28 m³"
+      },
+      "dimensions": {
+        "value": {
+          "label": "6 058 × 2 438 × 2 896 mm (ISO 20ft HC)",
+          "mass_t": 8.4
+        },
+        "source": "site:passport",
+        "note": "KONFLIKTAS: lentelėje 9,0 × 3,0 × 3,2 m"
+      },
+      "connection": {
+        "value": "DN80 PN16 flanšai · 3×400 V, 11 kW · kaminas Ø250 mm",
+        "source": "site:passport"
+      },
+      "price_net_eur": {
+        "value": 78500,
+        "source": "site:series-table",
+        "note": "94 985 € su PVM / 1,21"
+      },
+      "rent_net_eur_month": {
+        "value": 3200,
+        "source": "site:series-table",
+        "note": "3 872 € su PVM / 1,21"
+      },
+      "aux_power_kw": {
+        "value": 11,
+        "source": "site:passport"
+      },
+      "fuel_kg_h_full": {
+        "value": 108,
+        "source": "site:passport",
+        "note": "granulės"
+      },
+      "ash": {
+        "value": "Automatinis sraigtinis į 240 L konteinerį",
+        "source": "site:passport"
+      },
+      "flue_cleaning": {
+        "value": "Multiciklonas, dūmsiurbė su dažnio keitikliu",
+        "source": "site:passport"
+      },
+      "use_cases": [
+        "Gamyklos",
+        "Logistikos centrai",
+        "Šiltnamių ūkiai",
+        "Mokyklos"
+      ],
+      "image": "/studio-assets/projects/giles-darbas-06.webp",
+      "autonomy_pellets": {
+        "value": {
+          "full_load_days": 4.5,
+          "half_load_days": 9.0
+        },
+        "source": "computed",
+        "note": "650 kg/m³ granulių"
+      }
+    },
+    {
+      "slug": "gk-750",
+      "code": "GK-750",
+      "segment": "buy",
+      "kind": "Pramoninė biokuro katilinė",
+      "power_kw": {
+        "value": {
+          "nominal": 750,
+          "modulation": "180–750 kW"
+        },
+        "source": "site:passport"
+      },
+      "efficiency_pct": {
+        "value": 92.8,
+        "source": "site:passport"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 5500,
+          "max": 10500
+        },
+        "source": "computed",
+        "note": "70–140 W/m²; KONFLIKTAS: svetainėje 3 500–7 500 ir 'iki 6 500'"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 28,
+          "type": "Walking-Floor (stumdomosios grindys)"
+        },
+        "source": "site:passport"
+      },
+      "dimensions": {
+        "value": {
+          "label": "12 192 × 2 438 × 2 896 mm (ISO 40ft HC)",
+          "mass_t": 11.8
+        },
+        "source": "site:passport"
+      },
+      "connection": {
+        "value": "DN100 PN16 flanšai · 3×400 V, 15 kW · kaminas Ø300 mm",
+        "source": "site:passport"
+      },
+      "price_net_eur": {
+        "value": 108000,
+        "source": "assumption",
+        "note": "interpoliuota tarp GK-500 ir GK-1000; PATVIRTINTI"
+      },
+      "rent_net_eur_month": {
+        "value": 4300,
+        "source": "assumption",
+        "note": "interpoliuota tarp GK-500 ir GK-1000 nuomos; PATVIRTINTI"
+      },
+      "aux_power_kw": {
+        "value": 15,
+        "source": "site:passport"
+      },
+      "fuel_kg_h_full": {
+        "value": 164,
+        "source": "site:passport",
+        "note": "granulės; skiedra 210 kg/h"
+      },
+      "fuel_kg_h_full_chips": {
+        "value": 210,
+        "source": "site:passport"
+      },
+      "use_cases": [
+        "Medienos apdirbimo įmonės",
+        "Baldų gamyklos",
+        "Žemės ūkio kompleksai",
+        "Gyvenvietės"
+      ],
+      "image": "/studio-assets/projects/giles-darbas-07.webp",
+      "autonomy_pellets": {
+        "value": {
+          "full_load_days": 4.6,
+          "half_load_days": 9.2
+        },
+        "source": "computed",
+        "note": "650 kg/m³ granulių"
+      },
+      "autonomy_chips": {
+        "value": {
+          "full_load_days": 1.4,
+          "half_load_days": 2.8
+        },
+        "source": "computed",
+        "note": "250 kg/m³ skiedra W30–W35"
+      }
+    },
+    {
+      "slug": "gk-1000",
+      "code": "GK-1000",
+      "segment": "buy",
+      "kind": "Kaskadinė katilinė 2 × 500 kW",
+      "power_kw": {
+        "value": {
+          "nominal": 1000,
+          "cascade": "2 × 500 kW"
+        },
+        "source": "site:series-table"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 7500,
+          "max": 15000
+        },
+        "source": "site:series-table"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 45,
+          "type": "su automatiniu pelenų šalinimu"
+        },
+        "source": "site:series-table"
+      },
+      "dimensions": {
+        "value": {
+          "label": "12,0 × 3,5 × 3,5 m",
+          "mass_t": null
+        },
+        "source": "site:series-table"
+      },
+      "price_net_eur": {
+        "value": 138000,
+        "source": "site:series-table",
+        "note": "166 980 € su PVM / 1,21"
+      },
+      "rent_net_eur_month": {
+        "value": 5400,
+        "source": "site:series-table",
+        "note": "6 534 € su PVM / 1,21"
+      },
+      "aux_power_kw": {
+        "value": 18,
+        "source": "assumption"
+      },
+      "fuel_kg_h_full": {
+        "value": 224,
+        "source": "computed"
+      },
+      "use_cases": [
+        "Pramonės įmonės",
+        "Grūdų džiovyklos",
+        "Rajoninės katilinės"
+      ],
+      "image": null,
+      "autonomy_pellets": {
+        "value": {
+          "full_load_days": 5.4,
+          "half_load_days": 10.9
+        },
+        "source": "computed",
+        "note": "650 kg/m³ granulių"
+      }
+    },
+    {
+      "slug": "gk-2000",
+      "code": "GK-2000",
+      "segment": "buy",
+      "kind": "Kaskadinė katilinė 2 × 1 000 kW",
+      "power_kw": {
+        "value": {
+          "nominal": 2000,
+          "cascade": "2 × 1 000 kW (N+1)",
+          "modulation": "250–2 000 kW"
+        },
+        "source": "site:passport"
+      },
+      "efficiency_pct": {
+        "value": 93.0,
+        "source": "site:passport"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 14500,
+          "max": 28500
+        },
+        "source": "computed",
+        "note": "70–140 W/m²; KONFLIKTAS: svetainėje 8 000–18 000"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 36,
+          "type": "dvigubos stumdomosios grindys"
+        },
+        "source": "site:passport"
+      },
+      "dimensions": {
+        "value": {
+          "label": "2 × 40ft HC: 12 192 × 4 876 × 2 896 mm",
+          "mass_t": "14,5 + 11,2"
+        },
+        "source": "site:passport#11",
+        "note": "KONFLIKTAS: dosjė antraštėje 3 200 mm"
+      },
+      "connection": {
+        "value": "DN150 PN16 flanšai · 3×400 V, 22 kW · 2 kaminai Ø350 mm",
+        "source": "site:passport"
+      },
+      "price_net_eur": {
+        "value": 232000,
+        "source": "assumption",
+        "note": "interpoliuota tarp GK-1000 ir GK-2500; PATVIRTINTI"
+      },
+      "rent_net_eur_month": {
+        "value": 8300,
+        "source": "assumption",
+        "note": "interpoliuota; PATVIRTINTI"
+      },
+      "aux_power_kw": {
+        "value": 22,
+        "source": "site:passport"
+      },
+      "fuel_kg_h_full": {
+        "value": 430,
+        "source": "site:passport",
+        "note": "granulės; skiedra 560 kg/h"
+      },
+      "fuel_kg_h_full_chips": {
+        "value": 560,
+        "source": "site:passport"
+      },
+      "use_cases": [
+        "Pramonės parkai",
+        "Savivaldybių CŠT tinklai",
+        "Didelės įmonės"
+      ],
+      "image": "/studio-assets/projects/giles-darbas-08.webp",
+      "autonomy_pellets": {
+        "value": {
+          "full_load_days": 2.3,
+          "half_load_days": 4.5
+        },
+        "source": "computed",
+        "note": "650 kg/m³ granulių"
+      },
+      "autonomy_chips": {
+        "value": {
+          "full_load_days": 0.7,
+          "half_load_days": 1.3
+        },
+        "source": "computed",
+        "note": "250 kg/m³ skiedra W30–W35"
+      }
+    },
+    {
+      "slug": "gk-2500",
+      "code": "GK-2500",
+      "segment": "buy",
+      "kind": "Modulinė katilinė 2–3 moduliai",
+      "power_kw": {
+        "value": {
+          "nominal": 2500
+        },
+        "source": "site:series-table"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 15000,
+          "max": 38000
+        },
+        "source": "site:series-table"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 90,
+          "type": "Walking-Floor"
+        },
+        "source": "site:series-table"
+      },
+      "dimensions": {
+        "value": {
+          "label": "2–3 konteinerių blokas su dūmų filtrais",
+          "mass_t": null
+        },
+        "source": "site:series-table"
+      },
+      "price_net_eur": {
+        "value": 279000,
+        "source": "site:series-table",
+        "note": "337 590 € su PVM / 1,21"
+      },
+      "rent_net_eur_month": {
+        "value": 9800,
+        "source": "site:series-table",
+        "note": "11 858 € su PVM / 1,21"
+      },
+      "aux_power_kw": {
+        "value": 30,
+        "source": "assumption"
+      },
+      "fuel_kg_h_full": {
+        "value": 560,
+        "source": "computed"
+      },
+      "use_cases": [
+        "Didžioji pramonė",
+        "Centralizuoto šildymo tinklai"
+      ],
+      "image": null,
+      "autonomy_pellets": {
+        "value": {
+          "full_load_days": 4.4,
+          "half_load_days": 8.7
+        },
+        "source": "computed",
+        "note": "650 kg/m³ granulių"
+      }
+    },
+    {
+      "slug": "mob-500",
+      "code": "MOB-500",
+      "segment": "rent",
+      "kind": "Mobili katilinė ant važiuoklės",
+      "power_kw": {
+        "value": {
+          "nominal": 500,
+          "modulation": "110–500 kW"
+        },
+        "source": "site:passport"
+      },
+      "efficiency_pct": {
+        "value": 91.8,
+        "source": "site:passport"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 3500,
+          "max": 7000
+        },
+        "source": "computed"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 12,
+          "type": "integruotas granulių bunkeris, Storz užpylimas"
+        },
+        "source": "site:passport"
+      },
+      "dimensions": {
+        "value": {
+          "label": "6 058 × 2 438 × 2 896 mm (20ft HC ant važiuoklės / hook-lift)",
+          "mass_t": 7.2
+        },
+        "source": "site:passport"
+      },
+      "connection": {
+        "value": "DN65 / DN80 + 15 m lanksčios žarnos · 3×400 V, 32 A CEE",
+        "source": "site:passport"
+      },
+      "price_net_eur": {
+        "value": null,
+        "source": "owner-input",
+        "note": "pardavimo kaina pagal užklausą"
+      },
+      "rent_net_eur_month": {
+        "value": 3500,
+        "source": "assumption",
+        "note": "≈ GK-500 nuoma + mobilumas; PATVIRTINTI"
+      },
+      "aux_power_kw": {
+        "value": 11,
+        "source": "assumption"
+      },
+      "fuel_kg_h_full": {
+        "value": 106,
+        "source": "site:passport"
+      },
+      "use_cases": [
+        "Avarinis šildymas",
+        "Žiemos betonavimas statybose",
+        "Laikini paviljonai"
+      ],
+      "image": "/studio-assets/projects/giles-darbas-09.webp",
+      "autonomy_pellets": {
+        "value": {
+          "full_load_days": 3.1,
+          "half_load_days": 6.1
+        },
+        "source": "computed",
+        "note": "650 kg/m³ granulių"
+      }
+    },
+    {
+      "slug": "pellmobil-120",
+      "code": "PELLMOBIL-120",
+      "segment": "rent",
+      "kind": "Mobili granulinė katilinė + karštas vanduo",
+      "power_kw": {
+        "value": {
+          "nominal": 120,
+          "range": "110–120 kW"
+        },
+        "source": "site:projects"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": null,
+          "max": 2500
+        },
+        "source": "site:projects"
+      },
+      "fuel_storage": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "dimensions": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "price_net_eur": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "rent_net_eur_month": {
+        "value": 1300,
+        "source": "assumption",
+        "note": "PATVIRTINTI"
+      },
+      "aux_power_kw": {
+        "value": 3,
+        "source": "assumption"
+      },
+      "fuel_kg_h_full": {
+        "value": 27,
+        "source": "computed"
+      },
+      "use_cases": [
+        "Mokyklos",
+        "Darželiai",
+        "Daugiabučiai",
+        "Komerciniai pastatai"
+      ],
+      "image": "/studio-assets/projects/giles-darbas-15.webp",
+      "autonomy_pellets": {
+        "value": null,
+        "source": "n/a"
+      }
+    },
+    {
+      "slug": "mob-oro-190",
+      "code": "MOB-ORO-190",
+      "segment": "rent",
+      "kind": "Karšto oro katilinė",
+      "power_kw": {
+        "value": {
+          "nominal": 190,
+          "range": "80–190 kW",
+          "modulation": "45–190 kW"
+        },
+        "source": "site:passport"
+      },
+      "efficiency_pct": {
+        "value": 91.2,
+        "source": "site:passport"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 800,
+          "max": 2500
+        },
+        "source": "site:passport"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 12,
+          "type": "granulės, sraigtas, priešgaisrinė sklendė"
+        },
+        "source": "site:passport"
+      },
+      "dimensions": {
+        "value": {
+          "label": "6 058 × 2 438 × 2 896 mm (20ft / rėminis modulis)",
+          "mass_t": 6.5
+        },
+        "source": "site:passport"
+      },
+      "connection": {
+        "value": "2 × Ø450 mm ortakiai · oro srautas 8 500–14 500 m³/h · 3×400 V, 8 kW",
+        "source": "site:passport"
+      },
+      "price_net_eur": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "rent_net_eur_month": {
+        "value": 1500,
+        "source": "assumption",
+        "note": "PATVIRTINTI"
+      },
+      "aux_power_kw": {
+        "value": 8,
+        "source": "site:passport"
+      },
+      "fuel_kg_h_full": {
+        "value": 39,
+        "source": "site:passport"
+      },
+      "use_cases": [
+        "Gamybos cechai",
+        "Angarai",
+        "Sandėliai",
+        "Džiovyklos",
+        "Statybvietės"
+      ],
+      "image": null,
+      "notes": [
+        "Dabartinė nuotrauka – duomenų lapo ekrano kopija; reikia tikros nuotraukos"
+      ],
+      "autonomy_pellets": {
+        "value": {
+          "full_load_days": 8.3,
+          "half_load_days": 16.7
+        },
+        "source": "computed",
+        "note": "650 kg/m³ granulių"
+      }
+    },
+    {
+      "slug": "mob-oro-90",
+      "code": "MOB-ORO-90",
+      "segment": "rent",
+      "kind": "Mobilus karšto oro šildytuvas",
+      "power_kw": {
+        "value": {
+          "nominal": 90,
+          "range": "15–90 kW"
+        },
+        "source": "site:projects"
+      },
+      "heated_area_m2": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "fuel_storage": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "dimensions": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "price_net_eur": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "rent_net_eur_month": {
+        "value": 700,
+        "source": "assumption",
+        "note": "PATVIRTINTI"
+      },
+      "aux_power_kw": {
+        "value": 2,
+        "source": "assumption"
+      },
+      "fuel_kg_h_full": {
+        "value": 21,
+        "source": "computed"
+      },
+      "use_cases": [
+        "Statybvietės",
+        "Angarai",
+        "Sandėliai",
+        "Renginių palapinės"
+      ],
+      "image": null,
+      "autonomy_pellets": {
+        "value": null,
+        "source": "n/a"
+      }
+    },
+    {
+      "slug": "bio-dujos-800",
+      "code": "BIO-DUJOS-800",
+      "segment": "special",
+      "kind": "Biodujų ir kombinuoto kuro katilinė",
+      "power_kw": {
+        "value": {
+          "nominal": 800,
+          "range": "400–1 200 kW",
+          "modulation": "15–100 %"
+        },
+        "source": "site:passport"
+      },
+      "efficiency_pct": {
+        "value": 93.0,
+        "source": "site:passport",
+        "note": "iki 96 % su kondensaciniu ekonomaizeriu"
+      },
+      "heated_area_m2": {
+        "value": null,
+        "source": "n/a",
+        "note": "technologinė šiluma"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": 12,
+          "type": "rezervinis granulių bunkeris + dviguba dujų rampa"
+        },
+        "source": "site:passport"
+      },
+      "dimensions": {
+        "value": {
+          "label": "6 058 × 2 438 × 2 896 mm (20ft HC, Ex zona)",
+          "mass_t": 6.9
+        },
+        "source": "site:passport"
+      },
+      "connection": {
+        "value": "DN80 / DN100 · dujų įvadas DN50 · 3×400 V, 9 kW",
+        "source": "site:passport"
+      },
+      "price_net_eur": {
+        "value": null,
+        "source": "owner-input",
+        "note": "pagal projektą"
+      },
+      "rent_net_eur_month": {
+        "value": null,
+        "source": "n/a"
+      },
+      "aux_power_kw": {
+        "value": 9,
+        "source": "site:passport"
+      },
+      "use_cases": [
+        "Biodujų jėgainės",
+        "Fermentatorių palaikymas 38–52 °C",
+        "Maisto pramonė",
+        "Sąvartynų dujos"
+      ],
+      "image": "/studio-assets/projects/giles-darbas-14.webp",
+      "autonomy_pellets": {
+        "value": null,
+        "source": "n/a"
+      }
+    },
+    {
+      "slug": "gd-500",
+      "code": "GD-500",
+      "segment": "special",
+      "kind": "Stoginė dujinė katilinė (kaskada)",
+      "power_kw": {
+        "value": {
+          "nominal": 500
+        },
+        "source": "site:projects"
+      },
+      "heated_area_m2": {
+        "value": {
+          "min": 3500,
+          "max": 7000
+        },
+        "source": "computed"
+      },
+      "fuel_storage": {
+        "value": {
+          "volume_m3": null,
+          "type": "gamtinės dujos"
+        },
+        "source": "site:projects"
+      },
+      "dimensions": {
+        "value": {
+          "label": "Konteineris ant stogo",
+          "mass_t": null
+        },
+        "source": "site:projects"
+      },
+      "price_net_eur": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "rent_net_eur_month": {
+        "value": null,
+        "source": "n/a"
+      },
+      "aux_power_kw": {
+        "value": null,
+        "source": "owner-input"
+      },
+      "use_cases": [
+        "Daugiabučiai",
+        "Komerciniai pastatai be vietos katilinei"
+      ],
+      "image": "/studio-assets/projects/giles-darbas-10.webp",
+      "notes": [
+        "Kodas GD-500 – siūlomas, svetainėje modelis neturi kodo"
+      ],
+      "autonomy_pellets": {
+        "value": null,
+        "source": "n/a"
+      }
+    }
+  ]
+}

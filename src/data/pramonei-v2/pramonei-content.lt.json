@@ -1,0 +1,346 @@
+{
+  "seo": {
+    "title": "Konteinerinės katilinės 100 kW – 2,5 MW | Gamyba Kaune | Gilės inžinerija",
+    "description": "Konteinerinės biokuro katilinės 100 kW – 2,5 MW: gamyba ir bandymas Kaune, pirkimas arba nuoma. Kainos nuo 28 500 € be PVM, atsipirkimo skaičiuoklė, brėžiniai ir sąmata per 24 val.",
+    "og_image": "/studio-assets/projects/giles-darbas-08.webp"
+  },
+  "breadcrumb": [
+    "Pradžia",
+    "Pramonei"
+  ],
+  "hero": {
+    "eyebrow": "GAMYBA KAUNE · PARDAVIMAS · NUOMA",
+    "h1": "Konteinerinės katilinės 100 kW – 2,5 MW",
+    "lead": "Surenkame ir išbandome gamykloje Kaune, atvežame paruoštas prijungti. Skiedra, granulės ar biodujos – pirkimas arba nuoma. Sąmata – per 24 val. darbo dienomis.",
+    "cta_primary": {
+      "label": "Gauti pasiūlymą",
+      "href": "#industrial-rfq"
+    },
+    "cta_secondary": {
+      "label": "Modeliai ir kainos",
+      "href": "#modeliai"
+    },
+    "cta_tertiary": {
+      "label": "Katalogas PDF",
+      "href": "/files/giles-pramonei-katalogas.pdf",
+      "note": "PDF dar nesukurtas – žr. OPEN-QUESTIONS"
+    },
+    "facts": [
+      {
+        "value": "100 kW – 2,5 MW",
+        "label": "galios ribos"
+      },
+      {
+        "value": "4–8 sav.",
+        "label": "gamyba ir bandymas Kaune"
+      },
+      {
+        "value": "16 objektų",
+        "label": "pagaminta ir sumontuota"
+      }
+    ],
+    "image": {
+      "src": "/studio-assets/projects/giles-darbas-08.webp",
+      "alt": "2,0 MW modulinė biokuro katilinė GK-2000 su kuro sandėliu ir kaminu",
+      "caption_title": "GK-2000 · 2,0 MW",
+      "caption_text": "Walking-Floor sandėlis · daugiapakopis dūmų valymas · SCADA"
+    }
+  },
+  "paths": [
+    {
+      "segment": "buy",
+      "eyebrow": "PIRKIMAS",
+      "title": "Nuolatinė katilinė",
+      "text": "Gamykloms, šiltnamiams, mokykloms ir kvartalams. 100 kW – 2,5 MW.",
+      "price_from": "nuo 28 500 € be PVM"
+    },
+    {
+      "segment": "rent",
+      "eyebrow": "NUOMA",
+      "title": "Mobili katilinė",
+      "text": "Avarijoms, žiemos statyboms, angarams ir sezoniniam poreikiui.",
+      "price_from": "nuo 700 €/mėn. be PVM",
+      "price_source": "assumption (MOB-ORO-90)"
+    },
+    {
+      "segment": "special",
+      "eyebrow": "SPECIALŪS",
+      "title": "Biodujos ir dujinės",
+      "text": "Biodujų jėgainės, maisto pramonė, stoginės katilinės.",
+      "price_from": "Pagal projektą"
+    }
+  ],
+  "models_section": {
+    "eyebrow": "MODELIAI",
+    "titles": {
+      "buy": "Katilinės pirkimui ir ilgalaikei nuomai",
+      "rent": "Mobilios katilinės nuomai",
+      "special": "Specialūs sprendimai",
+      "all": "Visi modeliai"
+    },
+    "filters": {
+      "buy": "Pirkimas",
+      "rent": "Nuoma",
+      "special": "Specialūs",
+      "all": "Visi"
+    },
+    "vat_toggle": {
+      "net": "Be PVM",
+      "gross": "Su PVM"
+    },
+    "columns": [
+      "Modelis",
+      "Galia",
+      "Šildomas plotas",
+      "Kuro sandėlis",
+      "Gabaritai",
+      "Kaina be PVM | Kaina su PVM",
+      ""
+    ],
+    "row_cta": "Modelio pasas",
+    "price_on_request": "Pagal projektą",
+    "footnote": "Kainos be montavimo ir prijungimo. „≈“ – orientacinė kaina, tikslinama pasiūlyme. Autonomija – granulėmis, esant pilnai galiai; esant 50 % apkrovai – dvigubai ilgiau. Modelio pase – nuotraukos, 3 brėžiniai, techniniai duomenys ir DWG."
+  },
+  "assemblies": {
+    "eyebrow": "SANDARA",
+    "title": "Penki mazgai – viena gamyklinė sistema",
+    "link": {
+      "label": "Brėžiniai: planas, pjūvis, hidraulika →",
+      "href": "/lt/pramonei/gk-2000#breziniai"
+    },
+    "items": [
+      {
+        "tag": "01 · K",
+        "title": "Kuro sandėlis",
+        "text": "8–90 m³, stumdomosios grindys arba sraigtai. Skiedra iki W35 arba granulės."
+      },
+      {
+        "tag": "02 · F",
+        "title": "Padavimas ir priešgaisrinė apsauga",
+        "text": "Sraigtas su priešgaisrine sklende, atskirta pertvara."
+      },
+      {
+        "tag": "03 · B",
+        "title": "Katilas",
+        "text": "Judančios ardelės, šamoto pakura, 3 eigų P265GH šilumokaitis, automatinis pelenų šalinimas."
+      },
+      {
+        "tag": "04 · D",
+        "title": "Dūmų valymas",
+        "text": "Multiciklonas, filtras pagal leidimo ribas, dūmsiurbė su dažnio keitikliu."
+      },
+      {
+        "tag": "05 · H/E",
+        "title": "Hidraulika ir valdymas",
+        "text": "Kolektorius, siurbliai, slėgio palaikymas, PLC su GSM/SCADA stebėsena."
+      }
+    ]
+  },
+  "roi": {
+    "eyebrow": "ATSIPIRKIMO SKAIČIUOKLĖ",
+    "title": "Kiek sutaupytumėte perėję į biokurą?",
+    "steps": [
+      "1. Dabartinis kuras",
+      "2. Biokuras",
+      "3. Šilumos poreikis per metus"
+    ],
+    "assumptions": "Prielaidos: kuro kainos – BALTPOOL SM2, LEA ir VERT intervalų vidurkiai ({version}); 2 100 pilnos apkrovos valandų per metus ir 10 % galios rezervas; eksploatacija – 3 % investicijos per metus ir savos reikmės elektra po 0,20 €/kWh. Tikslų skaičiavimą parengiame pagal jūsų sąskaitas.",
+    "result_labels": {
+      "eyebrow": "REZULTATAS · {model}",
+      "net": "Grynasis sutaupymas per metus",
+      "sizing": "Reikalinga galia ≈ {kw} kW → {model}",
+      "now": "Dabar · {fuel}",
+      "bio": "Biokuras · {bio}",
+      "opex": "Eksploatacija",
+      "invest": "Investicija be PVM, nuo",
+      "payback": "Atsipirkimas",
+      "rent": "Arba nuoma: {rent}",
+      "no_payback": "Neatsiperka",
+      "exceeds": "Didesniam poreikiui siūlome kelių modulių kaskadą"
+    },
+    "cta": "Gauti skaičiavimą pagal mano sąskaitas"
+  },
+  "projects_section": {
+    "eyebrow": "ĮGYVENDINTI OBJEKTAI",
+    "title": "Pagaminta ir sumontuota",
+    "link": {
+      "label": "Visi 16 objektų →",
+      "href": "/lt/inzinerija#atlikti-darbai"
+    },
+    "fields": {
+      "equipment": "Įranga",
+      "result": "Rezultatas",
+      "client": "Objektas",
+      "year": "Metai"
+    }
+  },
+  "process": {
+    "eyebrow": "EIGA",
+    "title": "Nuo užklausos iki šilumos",
+    "steps": [
+      {
+        "n": "01",
+        "title": "Šilumos poreikio auditas",
+        "text": "1–2 d. d. · apkrova, kuro logistika"
+      },
+      {
+        "n": "02",
+        "title": "Leidimų įvertinimas",
+        "text": "Statyba, tarša, prisijungimas"
+      },
+      {
+        "n": "03",
+        "title": "Projektas ir gamyba Kaune",
+        "text": "4–8 savaitės"
+      },
+      {
+        "n": "04",
+        "title": "Atvežimas ir prijungimas",
+        "text": "1–2 dienos"
+      },
+      {
+        "n": "05",
+        "title": "Paleidimas ir emisijų matavimas",
+        "text": "1 diena · dūmų protokolas"
+      },
+      {
+        "n": "06",
+        "title": "Telemetrija ir servisas",
+        "text": "SCADA / GSM · SLA sutartis"
+      }
+    ]
+  },
+  "documents": {
+    "title": "Kartu su katiline gaunate",
+    "items": [
+      {
+        "label": "Atitikties deklaracija ir CE",
+        "format": "PDF"
+      },
+      {
+        "label": "Techninis pasas (12 parametrų)",
+        "format": "PDF"
+      },
+      {
+        "label": "Brėžiniai: planas, pjūvis, hidraulika",
+        "format": "DWG · PDF"
+      },
+      {
+        "label": "Gamyklinio hidraulinio bandymo aktas",
+        "format": "PDF"
+      },
+      {
+        "label": "Dūmų analizės protokolas",
+        "format": "PDF"
+      },
+      {
+        "label": "Eksploatacijos instrukcija LT",
+        "format": "PDF"
+      }
+    ]
+  },
+  "faq": {
+    "title": "Dažniausi klausimai",
+    "items": [
+      {
+        "q": "Ar reikia statybos leidimo?",
+        "a": "Priklauso nuo objekto. Pagal STR 1.05.01:2017 ir vietos sąlygas įvertiname, ar reikia statybą leidžiančio dokumento, taršos leidimo ir prisijungimo sąlygų. Leidimų planą ir terminus įrašome į pasiūlymą."
+      },
+      {
+        "q": "Per kiek laiko pagaminate katilinę?",
+        "a": "Gamyba Kauno ceche trunka 4–8 savaites nuo sutarties. Atvežimas ir prijungimas – 1–2 dienos, paleidimas ir degimo derinimas – 1 diena."
+      },
+      {
+        "q": "Kokį kurą galima naudoti?",
+        "a": "Medienos skiedrą G30–G50 (drėgnis iki W35), pramonines granules ENplus A1/A2, briketus. BIO modeliai dirba biodujomis su granulių rezervu."
+      },
+      {
+        "q": "Kiek laiko katilinė dirba be kuro papildymo?",
+        "a": "Priklauso nuo bunkerio, kuro ir apkrovos. Pvz., GK-500 su 18 m³ granulių dirba apie 4,5 paros esant pilnai galiai ir apie 9 paras esant 50 % apkrovai. Skiedros tankis mažesnis, todėl su ja autonomija apie 3 kartus trumpesnė."
+      },
+      {
+        "q": "Ar galima katilinę išsinuomoti?",
+        "a": "Taip. GK serijos katilinės – nuo 1 250 €/mėn. be PVM, mobilios MOB katilinės – avariniam ir laikinam šildymui pagal terminą."
+      },
+      {
+        "q": "Kokia garantija ir servisas?",
+        "a": "Įrangai suteikiame 24 mėn. garantiją. Katilinės turi GSM/SCADA telemetriją, todėl sutrikimus matome nuotoliniu būdu. Servisas: +370 693 97098."
+      }
+    ]
+  },
+  "rfq": {
+    "anchor_id": "industrial-rfq",
+    "eyebrow": "UŽKLAUSA",
+    "title": "Gaukite pasiūlymą savo objektui",
+    "lead": "Užklausa iškart patenka inžinieriui. Sąmatą paruošiame per 24 val. darbo dienomis (I–V 8:30–17:30).",
+    "contact": {
+      "name": "Darius, inžinierius",
+      "phone": "+370 611 19158",
+      "service_phone": "+370 693 97098"
+    },
+    "modes": {
+      "buy": "Pirkti",
+      "rent": "Nuomotis"
+    },
+    "fields": {
+      "company_city": {
+        "label": "Įmonė ir miestas",
+        "required": true,
+        "autocomplete": "organization"
+      },
+      "phone": {
+        "label": "Telefonas",
+        "required": true,
+        "placeholder": "+370",
+        "autocomplete": "tel"
+      },
+      "email": {
+        "label": "El. paštas",
+        "required": false,
+        "autocomplete": "email"
+      },
+      "power": {
+        "label": "Reikalinga galia",
+        "options": [
+          "Nežinau – padėkite įvertinti",
+          "100–250 kW",
+          "250–500 kW",
+          "500 kW – 1 MW",
+          "1–2,5 MW"
+        ]
+      },
+      "fuel": {
+        "label": "Kuras",
+        "options": [
+          "Skiedra",
+          "Granulės",
+          "Biodujos",
+          "Dar nežinau"
+        ]
+      },
+      "model": {
+        "label": "Modelis",
+        "hidden_unless_prefilled": true
+      },
+      "files": {
+        "label": "Projektas ar nuotraukos (nebūtina)",
+        "accept": ".pdf,.dwg,.dxf,.jpg,.jpeg,.png",
+        "max_files": 5,
+        "max_total_mb": 20
+      }
+    },
+    "consent": "Duomenis naudojame tik užklausai atsakyti.",
+    "submit": {
+      "buy": "Siųsti užklausą",
+      "rent": "Siųsti nuomos užklausą"
+    },
+    "success": "Ačiū! Užklausą gavome. Darius susisieks per 24 val. darbo dienomis.",
+    "errors": {
+      "required": "Užpildykite šį lauką",
+      "phone": "Įveskite telefono numerį, pvz., +370 600 00000",
+      "email": "Patikrinkite el. pašto adresą",
+      "files": "Iki 5 failų, iš viso iki 20 MB (PDF, DWG, DXF, JPG, PNG)",
+      "server": "Nepavyko išsiųsti. Paskambinkite +370 611 19158 arba bandykite dar kartą."
+    }
+  }
+}

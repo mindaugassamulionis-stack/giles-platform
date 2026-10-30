@@ -42,7 +42,7 @@ const COOKIE_I18N: Record<
         dialogAria: 'Slapukų nustatymai',
         title: 'Privatumo ir slapukų nustatymai',
         description:
-            'Vertiname jūsų privatumą. Naudojame slapukus sklandžiam el. parduotuvės, krepšelio ir skaičiuoklių veikimui užtikrinti.',
+            'Vertiname jūsų privatumą. Naudojame slapukus tiksliam el. parduotuvės, krepšelio ir skaičiuoklių veikimui užtikrinti.',
         acceptAll: 'Priimti visus',
         customize: 'Pasirinkti',
         essentialOnly: 'Tik būtini',
@@ -196,7 +196,10 @@ export function CookieConsent() {
                         ${isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}
                 >
                     <div className="max-w-6xl mx-auto">
-                        <div className="bg-white text-stone-900 border border-stone-300 rounded-md shadow-lg px-4 py-3">
+                        <div
+                            data-testid="cookie-banner"
+                            className="bg-white text-stone-900 border border-stone-300 rounded-md shadow-lg px-4 py-3"
+                        >
                             <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
                                 <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
                                     <div className="p-2 rounded-sm bg-stone-100 border border-stone-200 shrink-0">

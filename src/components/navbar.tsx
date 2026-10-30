@@ -511,11 +511,14 @@ export function Navbar(_props: { settings?: StorefrontSettings }) {
                         {mainNavLinks.map((link) => {
                             const active =
                                 subpath === link.subpath ||
-                                subpath.startsWith(`${link.subpath}/`);
+                                subpath.startsWith(`${link.subpath}/`) ||
+                                (link.subpath === '/pramonei' &&
+                                    (subpath === '/gamyba' || subpath.startsWith('/gamyba/')));
                             return (
                                 <Link
                                     key={link.href}
                                     href={link.href}
+                                    aria-current={active ? 'page' : undefined}
                                     className={clsx(
                                         'whitespace-nowrap py-1 transition-colors shrink-0',
                                         active
