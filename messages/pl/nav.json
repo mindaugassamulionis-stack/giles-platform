@@ -1,0 +1,14 @@
+{
+    "products": "Katalog",
+    "parts": "Części zamienne",
+    "tools": "Kalkulatory inżynieryjne",
+    "rfq": "Zapytanie ofertowe",
+    "cart": "Koszyk",
+    "wishlist": "Zapisane elementy",
+    "account": "Konto",
+    "login": "Zaloguj się",
+    "logout": "Wyloguj się",
+    "register": "Rejestracja",
+    "search": "Szukaj według kodu lub węzła",
+    "menu": "Menu"
+}

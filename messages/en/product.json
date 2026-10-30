@@ -1,0 +1,21 @@
+{
+    "addToWishlist": "Save item",
+    "removeFromWishlist": "Remove from saved",
+    "addedToCart": "Added to cart",
+    "selectVariant": "Select variant",
+    "description": "Purpose & Description",
+    "ingredients": "Technical Specification",
+    "howToUse": "Installation Guide",
+    "reviews": "Technical Verification",
+    "relatedProducts": "Compatible Node Components",
+    "buyNow": "Order Now",
+    "quantity": "Quantity",
+    "badgeNew": "NEW ITEM",
+    "soldOut": "Currently sold out",
+    "added": "Added!",
+    "addToCart": "Add to Cart",
+    "inStock": "In stock",
+    "exactCode": "Manufacturer SKU",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity"
+}

@@ -1,0 +1,23 @@
+{
+    "total": "Total",
+    "contactInfo": "Contact information",
+    "saleTerms": "terms of sale",
+    "paymentNote": ". Payment — after receiving the order confirmation by email.",
+    "empty": "Your cart is still empty",
+    "emptyDesc": "Items will appear here once you choose. Browse the catalog meanwhile.",
+    "goCatalog": "Go to catalog",
+    "firstName": "First name *",
+    "lastName": "Last name *",
+    "email": "Email *",
+    "phone": "Phone *",
+    "address": "Delivery address",
+    "street": "Address *",
+    "city": "City *",
+    "postalCode": "Postal code *",
+    "yourOrder": "Your order",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "shipFast": "Delivery to Lithuania",
+    "returns14": "Returns per policy",
+    "secure": "Secure payment"
+}

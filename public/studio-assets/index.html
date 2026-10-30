@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gilės Inžinerija – Dizaino sistema ir Studijinių prekių katalogas</title>
+<style>
+  :root {
+    --bg: #F5F3EE;
+    --surface: #FFFFFF;
+    --surface-well: #EEEBE4;
+    --fg: #11161B;
+    --muted: #5B6470;
+    --border: #E2DDD3;
+    --accent: #C2410C;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Schibsted Grotesk", Inter, system-ui, -apple-system, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  h1, h2, h3 { text-wrap: balance; }
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .hero {
+    background: #11161B;
+    color: #FFFFFF;
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+  }
+  .hero h1 {
+    margin: 0 0 12px;
+    font-size: 44px;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+  }
+  .hero p {
+    margin: 0;
+    color: #C9D0D8;
+    max-width: 60ch;
+    font-size: 18px;
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 24px;
+    background: #C2410C;
+    color: #FFFFFF;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .logos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .logo-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 140px;
+  }
+  .logo-card img {
+    max-width: 100%;
+    height: 56px;
+    object-fit: contain;
+  }
+  .logo-card span {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .img-well {
+    background: var(--surface-well);
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .img-well img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .meta {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .card-title {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.35;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+  .specs {
+    font-size: 13px;
+    color: #3A4652;
+    background: #F5F3EE;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+  .stock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #157A3B;
+    font-weight: 500;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #157A3B;
+  }
+  .actions {
+    margin-top: auto;
+    padding-top: 6px;
+  }
+  .btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    width: 100%;
+    border-radius: 10px;
+    background: #11161B;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="logos/logo-a-gile-liepsna.svg" alt="Gilės Inžinerija" height="48" />
+      <nav style="display:flex;gap:20px;font-weight:600;font-size:15px">
+        <a href="#logotipai" style="color:#11161B;text-decoration:none;min-height:44px;display:inline-flex;align-items:center">Logotipų sistema (5)</a>
+        <a href="#studija" style="color:#11161B;text-decoration:none;min-height:44px;display:inline-flex;align-items:center">Studijinės prekės (30)</a>
+      </nav>
+    </header>
+    <section class="hero">
+      <div>
+        <h1>Šiluma, kuri veikia pati.</h1>
+        <p>UAB „Gilės inžinerija“ dizaino sistema „Šiluma ir tikslumas“: 5 logotipų variantai ir 30 studijinių katilų, granulių degiklių, konteinerinių katilinių bei šilumos siurblių vizualų.</p>
+      </div>
+      <a href="#studija" class="hero-cta">Peržiūrėti katalogą</a>
+    </section>
+    <h2 id="logotipai" style="font-size:28px;margin:0 0 16px">Logotipų sistema (5 variantai)</h2>
+    <div class="logos-grid">
+      <div class="logo-card"><img src="logos/logo-a-gile-liepsna.svg" alt="Variantas A – Gilė-liepsna" /><span>Variantas A · Gilė-liepsna (Pagrindinis)</span></div>
+      <div class="logo-card"><img src="logos/logo-b-verzle.svg" alt="Variantas B – Veržlė" /><span>Variantas B · Veržlė</span></div>
+      <div class="logo-card"><img src="logos/logo-c-e-su-gile.svg" alt="Variantas C – Ė su gile" /><span>Variantas C · Ė su gile</span></div>
+      <div class="logo-card"><img src="logos/logo-d-zalia-evoliucija.svg" alt="Variantas D – Žalia evoliucija" /><span>Variantas D · Žalia evoliucija</span></div>
+      <div class="logo-card"><img src="logos/logo-current-original.png" alt="Dabartinis logotipas" /><span>Dabartinis logotipas (2011)</span></div>
+    </div>
+    <h2 id="studija" style="font-size:28px;margin:0 0 16px">Harmonizuoti studijiniai įrangos vizualai (30 vnt. · 1000×1000 WebP)</h2>
+    <div class="products-grid">
+      
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-01-mpb-nani-35-50.webp" alt="Automatinis granulių degiklis MPB NANI 35 / 50" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: MPB NANI 35 / NANI 50</div>
+      <div class="card-title">Automatinis granulių degiklis MPB NANI 35 / 50</div>
+      <div class="specs">10–50 kW · 1,5 m sraigtas · Automatinis uždegimas</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Sprendimo vedlys / Parduotuvė</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-02-mpb-60-80-burner.webp" alt="Moduliuojantis granulių degiklis MPB 60 / 80" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: MPB 60 / MPB 80</div>
+      <div class="card-title">Moduliuojantis granulių degiklis MPB 60 / 80</div>
+      <div class="specs">25–80 kW · Tiektuvas 1,5 m · Fotoelementas ir valdiklis</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Katilo perdarymas</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-03-mpb-150-450-pro.webp" alt="Pramoninis granulių degiklis MPB 150–450 PRO su tiektuvu" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: MPB 150 / 250 / 450 PRO</div>
+      <div class="card-title">Pramoninis granulių degiklis MPB 150–450 PRO su tiektuvu</div>
+      <div class="specs">50–450 kW · 2,0 m sraigtas · Automatinis ardelių valymas</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei / B2B portalas</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-04-viadrus-conversion-kit.webp" alt="Viadrus ketinio katilo perdarymo į granulinį komplektas" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: VIADRUS-KIT-4-10</div>
+      <div class="card-title">Viadrus ketinio katilo perdarymo į granulinį komplektas</div>
+      <div class="specs">4–10 sekcijų · Flanšas + ketaus deflektorius + pelenų durelės</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Sprendimo vedlys: katilo perdarymas</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-05-pelltech-pv20a-kit.webp" alt="Pelltech PV20a / PV30a („Nord komfortui“) degiklio komplektas" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: degkmpl140pv20</div>
+      <div class="card-title">Pelltech PV20a / PV30a („Nord komfortui“) degiklio komplektas</div>
+      <div class="specs">10–20 kW moduliacija · 1,4 m sraigtas · Savidiagnostika</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pradinis puslapis / Prekės kortelė</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-06-megatherm-burner-kit.webp" alt="Megatherm („Link lyderių“) granulių degiklio komplektas" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: degkmpl140mg20</div>
+      <div class="card-title">Megatherm („Link lyderių“) granulių degiklio komplektas</div>
+      <div class="specs">8–35 kW · 425 W uždegimo tenas · Sraigtas ir valdiklis</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Prekės kortelė (Artboard 5)</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-07-agro-pellet-burner-50kw.webp" alt="Granulių degiklio komplektas žemos kokybės granulėms" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: degkmpl50kv</div>
+      <div class="card-title">Granulių degiklio komplektas žemos kokybės granulėms</div>
+      <div class="specs">15–50 kW · Mechaninis ardelių valymas · Sraigtas ir automatika</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Sprendimo vedlys</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-08-ecobio-res-25-100.webp" alt="Automatinis biomasės ir granulių katilas ECO BIO RES" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: ECO BIO RES 25–100</div>
+      <div class="card-title">Automatinis biomasės ir granulių katilas ECO BIO RES</div>
+      <div class="specs">25–100 kW · Automatinis uždegimas · Granulės, grūdai, biokuras</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Katalogas</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-09-mcl-bio-r-120-900.webp" alt="Pramoninis biomasės ir granulių katilas MCL BIO-R" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: MCL BIO-R 120–900</div>
+      <div class="card-title">Pramoninis biomasės ir granulių katilas MCL BIO-R</div>
+      <div class="specs">120–900 modeliai · Automatinis kuro padavimas · ecoNET valdymas</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei / Konteinerinės katilinės</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-10-profi-pellet-150-400.webp" alt="Didelės galios granulinis katilas su bunkeriu PROFI PELLET" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: PROFI PELLET 150–400</div>
+      <div class="card-title">Didelės galios granulinis katilas su bunkeriu PROFI PELLET</div>
+      <div class="specs">150–400 kW · Integruotas bunkeris · Pneumatinis šilumokaičio valymas</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei / B2B portalas</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-11-profi-bio-150-400.webp" alt="Pramoninis skiedros ir biokuro katilas PROFI BIO" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: PROFI BIO 150–400</div>
+      <div class="card-title">Pramoninis skiedros ir biokuro katilas PROFI BIO</div>
+      <div class="specs">150–400 kW · Išorinis 3–4 m tiektuvas · Automatinis pelenų šalinimas</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei / Konteinerinės katilinės</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-12-plc-mini-compact-25-250.webp" alt="Kompaktiškas automatinis granulinis katilas PLC COMPACT" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: PLC MINI / PLC 25–250</div>
+      <div class="card-title">Kompaktiškas automatinis granulinis katilas PLC COMPACT</div>
+      <div class="specs">25–250 kW · Aukštas naudingumas · Suderinamas su SILO 120–500 L</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Sprendimo vedlys</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-13-ecotwin-25-100.webp" alt="Kombinuotas malkų ir granulių katilas ECOTWIN" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: ECOTWIN 25–100</div>
+      <div class="card-title">Kombinuotas malkų ir granulių katilas ECOTWIN</div>
+      <div class="specs">25–100 kW · Dviejų kamerų režimas · Dvigubų durelių komplektas</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Sprendimo vedlys</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-14-profi-duo-150-400.webp" alt="Didelės galios kombinuotas malkų ir granulių katilas PROFI DUO" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: PROFI DUO 150–400</div>
+      <div class="card-title">Didelės galios kombinuotas malkų ir granulių katilas PROFI DUO</div>
+      <div class="specs">150–400 kW · Dvigubas kuras · Dūmsiurbė ir pneumatinis valymas</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei / B2B portalas</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-15-ecowood-plus-25-100.webp" alt="Plieninis kieto kuro katilas su elektronika ECOWOOD PLUS" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: ECOWOOD PLUS 25–100</div>
+      <div class="card-title">Plieninis kieto kuro katilas su elektronika ECOWOOD PLUS</div>
+      <div class="specs">25–100 kW · Elektroninis valdymas · Didelė malkų pakura</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Katilų katalogas</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-16-mcl-profi-wood-120-1000.webp" alt="Pramoninis kieto kuro katilas PROFI WOOD / MCL" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: MCL / PROFI WOOD 120–1000</div>
+      <div class="card-title">Pramoninis kieto kuro katilas PROFI WOOD / MCL</div>
+      <div class="specs">120–1162 kW · BIOFIRE flanšas degikliui · Pramoninis šilumokaitis</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei / Konteinerinės katilinės</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-17-enp-steel-boiler-35-4000.webp" alt="Pramoninis skysto kuro ir dujų plieninis katilas ENP / MX" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: ENP / MX 35–4000</div>
+      <div class="card-title">Pramoninis skysto kuro ir dujų plieninis katilas ENP / MX</div>
+      <div class="specs">35–4000 kW · THETA 23B skaitmeninis valdymas · Modulinė schema</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei / Konteinerinės katilinės</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-18-enerdense-condensing-125-600.webp" alt="Pramoninis kondensacinis plieninis katilas ENERDENSE" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: ENERDENSE 125–600</div>
+      <div class="card-title">Pramoninis kondensacinis plieninis katilas ENERDENSE</div>
+      <div class="specs">125–600 kW · ELINE ekonomaizeriai iki 2000 kW · Aukštas NK</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei / Pramoninės katilinės</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-19-master-r32-heat-pump.webp" alt="Monoblokinis šilumos siurblys oras–vanduo MASTER R32" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: MASTER 60–260T (R32)</div>
+      <div class="card-title">Monoblokinis šilumos siurblys oras–vanduo MASTER R32</div>
+      <div class="specs">1,5–27 kW · 240V / 400V · Kaskadinis valdymas iki 8 įrenginių</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Šilumos siurbliai</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-20-master-plus-r290-heat-pump.webp" alt="Monoblokinis šilumos siurblys oras–vanduo MASTER PLUS R290" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: MASTER PLUS 60–160T (R290)</div>
+      <div class="card-title">Monoblokinis šilumos siurblys oras–vanduo MASTER PLUS R290</div>
+      <div class="specs">1,5–17 kW · Natūralus R290 šaltnešis · Aukšta padavimo temperatūra</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Šilumos siurbliai</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-21-haier-super-aqua-r290.webp" alt="Haier Super Aqua R290 monoblokinis šilumos siurblys" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: AW082HUGHA / AW16NHVGHA</div>
+      <div class="card-title">Haier Super Aqua R290 monoblokinis šilumos siurblys</div>
+      <div class="specs">6–16 kW · R290 šaltnešis · Darbas iki -25 °C · Padavimas iki +75 °C</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pradinis puslapis / Paketas Nr. 7</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-22-container-boiler-500kw.webp" alt="Konteinerinė mobilioji katilinė 150–500 kW (Pardavimas / Nuoma)" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: GI-KONTEINERIS-500KW</div>
+      <div class="card-title">Konteinerinė mobilioji katilinė 150–500 kW (Pardavimas / Nuoma)</div>
+      <div class="specs">150–500 kW · Granulės, biokuras, dujos · Pilnai sukomplektuota</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei: konteinerinės katilinės (Hero)</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-23-container-hot-air-90kw.webp" alt="Mobilioji granulinė karšto oro katilinė 15–90 kW" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: GI-MOBILI-ORO-90KW</div>
+      <div class="card-title">Mobilioji granulinė karšto oro katilinė 15–90 kW</div>
+      <div class="specs">15–90 kW · Statybvietėms ir sandėliams · Greitas pajungimas</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pramonei: konteinerinės katilinės (Nuoma)</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-24-biogas-industrial-boiler-room.webp" alt="Pramoninė modulinė ir biodujų katilinė 500 kW – 2 MW" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: GI-PRAMONINE-2MW</div>
+      <div class="card-title">Pramoninė modulinė ir biodujų katilinė 500 kW – 2 MW</div>
+      <div class="specs">500 kW – 2 MW · Projektavimas, gamyba, montavimas ir priežiūra</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Projektai / Pramonei</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-25-katri-25kw-pellet-boiler.webp" alt="Plieninis kieto kuro ir granulių katilas KaTRI 25 kW" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: KaTRI3850020</div>
+      <div class="card-title">Plieninis kieto kuro ir granulių katilas KaTRI 25 kW</div>
+      <div class="specs">25 kW · 5–6 mm P265GH katilinis plienas · 3 eigų šilumokaitis</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Pradinis puslapis / Paketas Nr. 1</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-26-centrometal-eko-ck-p-25.webp" alt="Centrometal EKO-CK P 25–110 kW plieninis šildymo katilas" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: EKO-CK-P-25</div>
+      <div class="card-title">Centrometal EKO-CK P 25–110 kW plieninis šildymo katilas</div>
+      <div class="specs">14–110 kW · EN 303-5 · Malkos, briketai arba granulių degiklis</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Paketas Nr. 2</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-27-centrometal-cas-1001-buffer.webp" alt="Centrometal CAS 1001 akumuliacinė talpa (1000 L)" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: CAS-1001</div>
+      <div class="card-title">Centrometal CAS 1001 akumuliacinė talpa (1000 L)</div>
+      <div class="specs">1000 L · Nuimama PU izoliacija · 8 pajungimo atvamzdžiai</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Kieto kuro katilinės paketas</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-28-pneumatic-pellet-storage-silo.webp" alt="Granulių bunkeris 400–1200 L ir vakuuminė sistema NOVA 3" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: FUEL-TANK-400-1200-NOVA3</div>
+      <div class="card-title">Granulių bunkeris 400–1200 L ir vakuuminė sistema NOVA 3</div>
+      <div class="specs">400 / 600 / 1200 L · Pneumatinis granulių transportavimas F50</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Parduotuvė / Prekės kortelė (Dažnai perkama kartu)</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-29-solar-ssv-station-kit.webp" alt="Saulės kolektorių siurblinė ir valdiklis ECOSOL 301" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: SSV-150-300-ECOSOL</div>
+      <div class="card-title">Saulės kolektorių siurblinė ir valdiklis ECOSOL 301</div>
+      <div class="specs">Vakuuminiai CS 10–30 ir plokštieji EVO kolektoriai · Siurblio grupė</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Saulės energija / Paketas Nr. 4</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    <article class="card">
+      <div class="img-well">
+        <img src="products/giles-studio-30-ecomax-920i-automation.webp" alt="Išmanus katilinės valdiklis ecoMAX 920i su jutikliniu ekranu" width="300" height="300" loading="eager" />
+      </div>
+      <div class="meta">Kodas: ECOMAX-920I-TOUCH</div>
+      <div class="card-title">Išmanus katilinės valdiklis ecoMAX 920i su jutikliniu ekranu</div>
+      <div class="specs">Jutiklinis ekranas · Lambda ir pamaišymo zonų valdymas · ecoNET Web</div>
+      <div class="stock"><span class="dot"></span>Yra sandėlyje · Automatika ir valdymas</div>
+      <div class="actions">
+        <a href="#uzklausa" class="btn-primary">Į krepšelį</a>
+      </div>
+    </article>
+    
+    </div>
+  </div>
+</body>
+</html>

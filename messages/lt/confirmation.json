@@ -1,0 +1,17 @@
+{
+    "thanks": "Ačiū už užsakymą!",
+    "confirmed": "Jūsų užsakymas sėkmingai priimtas ir apmokėtas.",
+    "orderInfo": "Užsakymo informacija",
+    "paymentId": "Mokėjimo ID:",
+    "status": "Statusas:",
+    "paid": "Apmokėtas",
+    "eta": "Numatomas pristatymas:",
+    "etaValue": "2-5 darbo dienos",
+    "next": "Kas toliau?",
+    "emailStep": "Patvirtinimo el. laiškas",
+    "emailStepDesc": "Netrukus gausite užsakymo patvirtinimą el. paštu.",
+    "shippingStep": "Siuntimo informacija",
+    "shippingStepDesc": "Kai užsakymas bus išsiųstas, atsiųsime sekimo nuorodą.",
+    "continue": "Tęsti apsipirkimą",
+    "home": "Grįžti į pradžią"
+}

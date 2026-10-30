@@ -1,0 +1,49 @@
+{
+    "exact": [
+        "SURADAI // GDPR",
+        "SYNAPSE",
+        "OpenStreetMap",
+        "Select",
+        "INITIALIZING CORE...",
+        "LOADING ASSETS...",
+        "READY."
+    ],
+    "patterns": [
+        "^\\).*;\\s*return \\($",
+        "^\\(', 'minerals':$",
+        "^, '(minerals|sports|herbs|heart|brain|energy)':$",
+        "^\\('visi'\\); const \\[addedId, setAddedId\\] = useState$",
+        "^0 \\? \\( p\\.stock$",
+        "^\\(\\[\\]\\); const \\[isLoading, setIsLoading\\] = useState\\(false\\); const inputRef = useRef$",
+        "^\\(null\\); const inputRef = useRef$",
+        "^t\\.coordinates && t\\.coordinates\\.lat && t\\.coordinates\\.lng\\); return \\($",
+        "^\\('other'\\); const \\[activeProduct, setActiveProduct\\] = useState$",
+        "^state\\.clearCart\\); const \\[isProcessing, setIsProcessing\\] = useState\\(false\\); const \\[errorMessage, setErrorMessage\\] = useState$",
+        "^\\(null\\); const \\[loading, setLoading\\] = useState\\(true\\); const \\[error, setError\\] = useState$",
+        "^\\(null\\); // Shipping Methods State const \\[methods, setMethods\\] = useState$",
+        "^\\(\\[\\]\\); const \\[loadingMethods, setLoadingMethods\\] = useState\\(true\\); const \\[shippingMethod, setShippingMethod\\] = useState\\(''\\); // Terminal State \\(Phase 10\\) const \\[terminals, setTerminals\\] = useState$",
+        "^\\(\\[\\]\\); const \\[loadingTerminals, setLoadingTerminals\\] = useState\\(false\\); const \\[selectedTerminal, setSelectedTerminal\\] = useState$",
+        "^\\) : methods\\.length === 0 \\? \\($",
+        "^\\('intro'\\); const \\[error, setError\\] = useState$",
+        "^\\(null\\); const \\[result, setResult\\] = useState$",
+        "^s\\.clearCart\\); const \\[errors, setErrors\\] = useState$",
+        "^; brands: Array$",
+        "^; selectedCategory\\?: string; selectedBrand\\?: string; selectedPrice\\?: string; selectedSort\\?: string; searchParams: Record$",
+        "^0 \\? product\\.images : undefined; return \\($",
+        "^and$",
+        "^entirely\\. let s = input\\.replace\\(/$",
+        "^/gi, ''\\); s = s\\.replace\\(/$",
+        "^/gi, ''\\); // 2\\. Walk every tag and drop disallowed ones, then strip on\\* \\+ javascript: attrs\\. s = s\\.replace\\(/$",
+        "^so // every inline next/script block",
+        "^as \\\\u003c \\\\u003e, // U\\+2028/U\\+2029\\) so supplier strings like `$",
+        "^is accepted \\(header nonce == body nonce\\)\\. const nonce = \\(await headers\\(\\)\\)\\.get\\('x-nonce'\\) \\?\\? undefined; return \\($",
+        "^= 20\\) continue; if \\(priceRange === '20-50' && \\(productWithDetails\\.price$",
+        "^50\\)\\) continue; if \\(priceRange === '50-plus' && productWithDetails\\.price$",
+        "^0 \\|\\| searchQuery; return \\($",
+        "^j % 2 === 1 \\?$"
+    ],
+    "_reasons": {
+        "exact brand/decorative": "SURADAI // GDPR = brand mark; OpenStreetMap/Select = leaflet; boot strings = decorative EN flair",
+        "patterns": "regex-scan artifacts over code/comments; not user-facing copy"
+    }
+}

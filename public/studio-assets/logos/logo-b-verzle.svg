@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 96" width="460" height="96" role="img" aria-label="Gilės Inžinerija – Variantas B (Veržlė)">
+  <title>Gilės Inžinerija – Variantas B · Veržlė</title>
+  <g transform="translate(8, 8) scale(1.25)">
+    <path d="M32 5L55.4 18.5V45.5L32 59L8.6 45.5V18.5Z" fill="#11161B" stroke="#11161B" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M20 29C20 22.4 25.4 18 32 18s12 4.4 12 11H20z" fill="#FF8A3D"/>
+    <path d="M32 18c0-1.8.8-3.2 2.6-4" fill="none" stroke="#FF8A3D" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M21.6 31.5h20.8c0 8.6-4.5 15.2-10.4 18-5.9-2.8-10.4-9.4-10.4-18z" fill="#F5F3EE"/>
+  </g>
+  <g transform="translate(104, 0)">
+    <text x="0" y="50" font-family="'Schibsted Grotesk', 'Inter', system-ui, -apple-system, sans-serif" font-size="32" letter-spacing="3.8" fill="#11161B"><tspan font-weight="800">GILĖS</tspan> <tspan font-weight="400">INŽINERIJA</tspan></text>
+    <text x="2" y="74" font-family="'JetBrains Mono', monospace" font-weight="500" font-size="11" letter-spacing="2.2" fill="#5B6470">ŠILDYMAS · KATILINĖS · NUO 2011</text>
+  </g>
+</svg>

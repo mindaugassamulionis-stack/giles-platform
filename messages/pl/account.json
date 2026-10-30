@@ -1,0 +1,8 @@
+{
+    "myAccount": "My Account",
+    "profile": "Profile",
+    "orders": "Orders",
+    "addresses": "Addresses",
+    "preferences": "Preferences",
+    "noOrders": "You don't have any orders yet"
+}

@@ -1,0 +1,14 @@
+{
+    "title": "Self-Service Returns",
+    "desc": "Enter your order details below to generate a return shipping label instantly.",
+    "orderId": "Order ID",
+    "email": "Email Address",
+    "processing": "Processing...",
+    "created": "Return Label Created!",
+    "createdDesc": "Your return shipment has been registered. Please download your label below and attach it to your package.",
+    "download": "Download Label (PDF)",
+    "another": "Process another return",
+    "needHelp": "Need help? Contact",
+    "support": "Customer Support",
+    "orderIdPlaceholder": "e.g. 123e4567-e89b..."
+}

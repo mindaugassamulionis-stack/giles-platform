@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" width="200" height="48" role="img" aria-label="GILĖS INŽINERIJA · ŠVOK SISTEMOS">
+  <rect x="0.75" y="0.75" width="198.5" height="46.5" rx="4" fill="#0B0F13" stroke="#232D37" stroke-width="1.5" />
+  <rect x="8" y="8" width="32" height="32" rx="4" fill="#11161B" />
+  <path d="M14 21C14 15.8 18.5 12.5 24 12.5S34 15.8 34 21H14Z" fill="#7FA33A" />
+  <path d="M16.5 23H31.5C31.5 30.2 28 34.8 24 36.8C20 34.8 16.5 30.2 16.5 23Z" fill="#A9C83E" />
+  <text x="48" y="25.5" font-family="Schibsted Grotesk, Inter, Arial, sans-serif" font-size="14.5" font-weight="800" letter-spacing="0.35"><tspan fill="#F5F3EE">GILĖS </tspan><tspan fill="#A9C83E">INŽINERIJA</tspan></text>
+  <text x="48" y="37.5" fill="#A3ADB8" font-family="Schibsted Grotesk, Inter, Arial, sans-serif" font-size="7.2" font-weight="700" letter-spacing="0.55">ŠILUMOS INŽINERIJA · NUO 2011 M.</text>
+</svg>

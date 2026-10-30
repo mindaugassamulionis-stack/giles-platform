@@ -1,0 +1,13 @@
+{
+  "policy": {
+    "maxPriceDropPct": 20,
+    "minMarginFloorPct": 15,
+    "maxStockDeltaUnits": 200,
+    "enforceFinancialGuardrails": true,
+    "requireHumanApprovalForBulkAndB2b": true,
+    "allowHighRiskDirect": false,
+    "rateLimitPerMinute": 60
+  },
+  "keys": [],
+  "auditLog": []
+}

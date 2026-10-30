@@ -1,0 +1,14 @@
+{
+    "title": "Techninis įrangos katalogas",
+    "label": "Šildymo ir santechnikos įrangos katalogas",
+    "searchPlaceholder": "Gamintojo kodas, DN sriegis arba pavadinimas…",
+    "searchLabel": "Greita katalogo paieška",
+    "categoriesLabel": "Inžinerinių sistemų kategorijos",
+    "all": "Visos pozicijos",
+    "empty": "Pagal pasirinktus filtrus prekių nerasta",
+    "emptyHint": "Pakeiskite paieškos kodą, išvalykite filtrus arba pasitarkite su AI konsultantu Vytautu.",
+    "lowStock": "Liko {count} vnt.",
+    "inStock": "Yra sandėlyje",
+    "openCart": "Atidaryti krepšelį",
+    "noImage": "Techninė pozicija"
+}

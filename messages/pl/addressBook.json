@@ -1,0 +1,12 @@
+{
+    "title": "My Addresses",
+    "addNew": "Add a new address",
+    "newAddress": "New Address",
+    "label": "Label (e.g. Home)",
+    "recipient": "Recipient full name",
+    "street": "Street, house no., apartment",
+    "city": "City",
+    "postalCode": "Postal code",
+    "country": "Country",
+    "cancel": "Cancel"
+}

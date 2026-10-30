@@ -1,0 +1,14 @@
+{
+    "products": "Catalog",
+    "parts": "Spare Parts",
+    "tools": "Engineering Calculators",
+    "rfq": "Project RFQ",
+    "cart": "Cart",
+    "wishlist": "Saved Items",
+    "account": "Account",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "search": "Search by code or node",
+    "menu": "Menu"
+}

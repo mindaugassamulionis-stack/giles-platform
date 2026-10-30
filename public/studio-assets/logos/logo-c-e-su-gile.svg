@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 112" width="280" height="112" role="img" aria-label="Gilės Inžinerija – Variantas C (Ė su gile)">
+  <title>Gilės Inžinerija – Variantas C · Ė su gile</title>
+  <g transform="translate(16, 8)">
+    <text x="0" y="68" font-family="'Schibsted Grotesk', 'Inter', system-ui, -apple-system, sans-serif" font-weight="800" font-size="76" letter-spacing="-3.4" fill="#11161B">giles</text>
+    <g transform="translate(103, -2) scale(0.30)">
+      <path d="M8 27C8 14.5 18.7 6 32 6s24 8.5 24 21H8z" fill="#C2410C"/>
+      <path d="M11.5 31h41c0 15.6-8.8 26.8-20.5 32-11.7-5.2-20.5-16.4-20.5-32z" fill="#C2410C"/>
+    </g>
+    <text x="4" y="94" font-family="'Schibsted Grotesk', 'Inter', system-ui, -apple-system, sans-serif" font-weight="500" font-size="18" letter-spacing="0.4" fill="#5B6470">inžinerija</text>
+  </g>
+</svg>

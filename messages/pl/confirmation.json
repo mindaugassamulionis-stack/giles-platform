@@ -1,0 +1,17 @@
+{
+    "thanks": "Thank you for your order!",
+    "confirmed": "Your order has been received and paid successfully.",
+    "orderInfo": "Order details",
+    "paymentId": "Payment ID:",
+    "status": "Status:",
+    "paid": "Paid",
+    "eta": "Estimated delivery:",
+    "etaValue": "2-5 business days",
+    "next": "What happens next?",
+    "emailStep": "Confirmation email",
+    "emailStepDesc": "You will receive an order confirmation by email shortly.",
+    "shippingStep": "Shipping information",
+    "shippingStepDesc": "Once your order ships, we will send you a tracking link.",
+    "continue": "Continue shopping",
+    "home": "Back to start"
+}

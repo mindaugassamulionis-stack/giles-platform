@@ -1,0 +1,17 @@
+{
+    "found": "Znaleziono",
+    "clearFilters": "Wyczyść wszystkie filtry",
+    "noResults": "Brak produktów pasujących do wyszukiwania",
+    "noResultsHint": "Sprawdź kod SKU producenta, wybierz inną grupę systemową lub wyślij zapytanie przez /uzklausa",
+    "kicker": "CENTRUM SYSTEMÓW GRZEWCZYCH, HYDRAULICZNYCH I INŻYNIERYJNYCH",
+    "title1": "Katalog",
+    "title2": "Techniczny",
+    "subtitle": "Czytelne opisy i kroki montażu dla właścicieli domów, dokładne parametry DN/PN/Kvs dla instalatorów oraz weryfikacja kompatybilności 24/7. Ceny z VAT i bez VAT.",
+    "productsWord": "poz.",
+    "searchPlaceholder": "Wpisz kod SKU producenta (np. 013G0013), DN15 lub nazwę produktu…",
+    "page": "Strona",
+    "of": "z",
+    "prev": "Poprzednia",
+    "next": "Następna",
+    "results": "wyników"
+}

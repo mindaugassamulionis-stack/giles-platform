@@ -1,0 +1,15 @@
+{
+    "kicker": "INŽINERINIAI ĮRANKIAI · LT STR 2.01.02:2016 / LST EN 12831",
+    "title": "Pastato šilumos poreikio (kW) skaičiuoklė",
+    "subtitle": "Apskaičiuokite orientacinį šildymo galios diapazoną (kW) pagal pastato statybos laikotarpį, šildomą plotą, lubų aukštį ir Lietuvos klimato zoną. Gautą rezultatą vienu paspaudimu perduokite įrangos komplektavimui arba aptarkite su AI konsultantu Vytautu.",
+    "areaLabel": "Šildomas pastato plotas, m²",
+    "heightLabel": "Vidutinis lubų aukštis, m",
+    "eraLabel": "Pastato statybos ir šiltinimo laikotarpis",
+    "zoneLabel": "Lietuvos klimato zona (projektinė lauko temperatūra)",
+    "calculate": "Skaičiuoti šilumos poreikį",
+    "resultBand": "Orientacinis reikalingos šildymo galios diapazonas",
+    "sourceLabel": "Skaičiavimo metodikos šaltinis",
+    "disclaimer": "Orientacinis įvertinimas pagal supaprastintą LT STR 2.01.02:2016 ir LST EN 12831 savitųjų šilumos nuostolių ribų metodiką. Šis diapazonas skirtas pirminiam katilo, šilumos siurblio ar šildymo mazgų parinkimui ir nepakeičia detalaus techninio projekto.",
+    "sendRfq": "Komplektuoti įrangą šiai galiai (Užklausa)",
+    "invalidInput": "Įveskite teisingą šildomą plotą (m²) ir lubų aukštį (m)."
+}

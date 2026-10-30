@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  giles-platform:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: giles-platform
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: "3088"
+      NEXT_PUBLIC_SITE_URL: "https://gilesinzinerija.lt"
+      STORE_PUBLIC_DOMAIN: "gilesinzinerija.lt"
+      GILES_MCP_URL: "https://gilesinzinerija.lt/api/mcp"
+    env_file:
+      - ../.env
+    expose:
+      - "3088"
+    ports:
+      - "127.0.0.1:3088:3088"
+    volumes:
+      - ../src/data:/app/src/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1:3088/lt || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+  caddy:
+    image: caddy:2.8-alpine
+    container_name: giles-caddy-proxy
+    restart: unless-stopped
+    depends_on:
+      giles-platform:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile.giles-prod:/etc/caddy/Caddyfile:ro
+      - giles_caddy_data:/data
+      - giles_caddy_config:/config
+
+volumes:
+  giles_caddy_data:
+  giles_caddy_config:

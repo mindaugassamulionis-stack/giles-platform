@@ -1,0 +1,53 @@
+# ==============================================================================
+# UAB „Gilės inžinerija“ — Production Multi-Domain Caddyfile (Auto-TLS Let's Encrypt)
+# Domains covered: 11 web domains (+ www aliases) -> giles-platform:3088
+# Protected ERP domain NOT routed here: gilesservisas.lt (stays on 79.98.28.35 / 79.98.29.20)
+# Protected Mail Server: MX records stay on 79.98.29.20 (bumslangis.serveriai.lt)
+# ==============================================================================
+
+{
+    email info@gilesinzinerija.lt
+    servers {
+        trusted_proxies static private_ranges
+    }
+}
+
+gilesinzinerija.lt,
+www.gilesinzinerija.lt,
+gilesinzinerija.com,
+www.gilesinzinerija.com,
+egip.lt,
+www.egip.lt,
+vernerkatilai.lt,
+www.vernerkatilai.lt,
+ponast.lt,
+www.ponast.lt,
+ponast-verner.lt,
+www.ponast-verner.lt,
+thermostal.lt,
+www.thermostal.lt,
+thermostal.eu,
+www.thermostal.eu,
+gilesgrupe.lt,
+www.gilesgrupe.lt,
+saukliai.lt,
+www.saukliai.lt,
+vernerbaltic.lt,
+www.vernerbaltic.lt {
+    encode zstd gzip
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        -Server
+    }
+
+    reverse_proxy giles-platform:3088 {
+        header_up Host {host}
+        header_up X-Forwarded-Host {host}
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Real-IP {remote_host}
+    }
+}

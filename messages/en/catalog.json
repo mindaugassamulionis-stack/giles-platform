@@ -1,0 +1,14 @@
+{
+    "title": "Technical Equipment Catalog",
+    "label": "Heating and plumbing equipment catalog",
+    "searchPlaceholder": "Manufacturer SKU, DN thread, or name…",
+    "searchLabel": "Quick catalog search",
+    "categoriesLabel": "Engineering system categories",
+    "all": "All items",
+    "empty": "No items match the selected filters",
+    "emptyHint": "Try another SKU, clear active filters, or ask Vytautas our AI engineering consultant.",
+    "lowStock": "{count} left",
+    "inStock": "In stock",
+    "openCart": "Open cart",
+    "noImage": "Technical item"
+}

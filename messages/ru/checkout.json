@@ -1,0 +1,10 @@
+{
+    "title": "Checkout",
+    "shippingAddress": "Shipping Address",
+    "billingAddress": "Billing Address",
+    "paymentMethod": "Payment Method",
+    "orderSummary": "Order Summary",
+    "placeOrder": "Place Order",
+    "processing": "Processing...",
+    "paymentUnavailable": "Payments are temporarily unavailable. Please try again later."
+}

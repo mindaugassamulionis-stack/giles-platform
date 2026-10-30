@@ -1,0 +1,14 @@
+{
+    "loginTitle": "Prisijunkite",
+    "loginDesc": "Norėdami matyti savo užsakymų istoriją, turite prisijungti.",
+    "backToAccount": "Grįžti į paskyrą",
+    "title": "Mano Užsakymai",
+    "empty": "Jūs dar neturite užsakymų",
+    "emptyDesc": "Čia matysite visą savo pirkimų istoriją ir galėsite sekti siuntas.",
+    "start": "Pradėti apsipirkti",
+    "orderNo": "Užsakymo Nr.",
+    "date": "Data",
+    "paidByCard": "Apmokėjimas kortele",
+    "total": "Suma:",
+    "login": "Prisijungti"
+}

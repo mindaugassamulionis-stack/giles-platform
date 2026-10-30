@@ -1,0 +1,26 @@
+{
+    "kicker": "PROJECT ASSEMBLIES & B2B QUOTES",
+    "title": "Project BOM & Equipment Quote Request (RFQ)",
+    "subtitle": "Paste your list of manufacturer SKUs from a project schedule, enter required quantities, or describe your heating/plumbing node. We will prepare an accurate quote showing prices both incl. and excl. VAT. Need an instant compatibility check for a single valve or actuator right now? Ask Vytautas, our 24/7 on-page AI engineering consultant.",
+    "topicLabel": "What are you assembling?",
+    "topics": {
+        "objekto-projektas": "Apartment building / commercial site project (full BOM)",
+        "automatika": "Boiler-room controls, hydronic balancing & regulation (Danfoss / IMI)",
+        "sildymo-sistema": "Home heating system (boiler, manifolds, radiators, expansion vessels)",
+        "atsargines-dalys": "Specific equipment or spare parts by manufacturer code",
+        "kita": "Other engineering inquiry"
+    },
+    "contactLabel": "Email address for the quote *",
+    "companyLabel": "Company / project name (optional)",
+    "messageLabel": "Manufacturer SKUs, quantities, or system description *",
+    "messagePlaceholder": "E.g.: 12 pcs Danfoss RA-N DN15 (013G0013), 12 pcs thermostatic heads, IMI Pneumatex Statico 35L expansion vessel, IMI Heimeier 8-circuit manifold…",
+    "contextLabel": "Linked SKU / calculator result",
+    "submit": "Request Commercial Quote",
+    "submitting": "Submitting request…",
+    "successTitle": "Your Quote Request Is Registered",
+    "successRef": "Request reference number",
+    "successNote": "We will verify the manufacturer codes, compatibility, and quantities and send a detailed quote (incl. and excl. VAT) to your email.",
+    "errorGeneric": "Could not submit the request — please verify your email address and try again.",
+    "rateLimited": "Too many requests in a row — please wait a minute and try again.",
+    "company": "Company"
+}

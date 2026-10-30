@@ -1,0 +1,22 @@
+{
+    "filters": "Filtrai",
+    "allCategories": "Visos kategorijos",
+    "allBrands": "Visi gamintojai",
+    "allPrices": "Visos kainos",
+    "under50": "Iki 50 €",
+    "price50-200": "50–200 €",
+    "price200-1000": "200–1000 €",
+    "over1000": "Nuo 1000 €",
+    "sortDefault": "Numatyta",
+    "sortCode": "Kodas A–Z",
+    "sortPriceAsc": "Kaina: mažiausia → didžiausia",
+    "sortPriceDesc": "Kaina: didžiausia → mažiausia",
+    "sortNewest": "Naujausi",
+    "sortPriceUp": "Kaina ↑",
+    "sortPriceDown": "Kaina ↓",
+    "showResults": "Rodyti rezultatus",
+    "categories": "Kategorijos",
+    "brands": "Gamintojai",
+    "price": "Kaina",
+    "sort": "Rikiuoti"
+}

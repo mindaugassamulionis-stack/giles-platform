@@ -1,0 +1,21 @@
+{
+    "addToWishlist": "Zapisz produkt",
+    "removeFromWishlist": "Usuń z zapisanych",
+    "addedToCart": "Dodano do koszyka",
+    "selectVariant": "Wybierz wariant",
+    "description": "Przeznaczenie i opis",
+    "ingredients": "Specyfikacja techniczna",
+    "howToUse": "Instrukcja montażu",
+    "reviews": "Weryfikacja techniczna",
+    "relatedProducts": "Kompatybilne elementy węzła",
+    "buyNow": "Zamów teraz",
+    "quantity": "Ilość",
+    "badgeNew": "NOWOŚĆ",
+    "soldOut": "Chwilowo niedostępny",
+    "added": "Dodano!",
+    "addToCart": "Do koszyka",
+    "inStock": "W magazynie",
+    "exactCode": "Kod producenta SKU",
+    "decrease": "Zmniejsz ilość",
+    "increase": "Zwiększ ilość"
+}

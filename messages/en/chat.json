@@ -1,0 +1,8 @@
+{
+    "greeting": "Hello! I am Vytautas — Gilės Inžinerija's AI + RAG Engineering Systems Consultant.",
+    "ask": "Which heating or plumbing node are you assembling?",
+    "capabilities": "I verify valve, thermostatic head, and actuator compatibility by manufacturer SKU (Danfoss, Heimeier, Pneumatex, TA, Ferroli), explain installation steps, and identify missing node parts.",
+    "agent": "Vytautas · AI + RAG Engineering Consultant",
+    "online": "Active 24/7",
+    "placeholder": "Enter a manufacturer code (e.g., 013G0013), thread (DN15), or question..."
+}

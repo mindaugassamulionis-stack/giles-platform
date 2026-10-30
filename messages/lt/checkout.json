@@ -1,0 +1,10 @@
+{
+    "title": "Apmokėjimas",
+    "shippingAddress": "Pristatymo adresas",
+    "billingAddress": "Sąskaitos adresas",
+    "paymentMethod": "Mokėjimo būdas",
+    "orderSummary": "Užsakymo suvestinė",
+    "placeOrder": "Pateikti užsakymą",
+    "processing": "Apdorojama...",
+    "paymentUnavailable": "Mokėjimo paslauga šiuo metu neprieinama. Pabandykite vėliau."
+}

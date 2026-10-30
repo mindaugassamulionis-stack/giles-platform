@@ -1,0 +1,12 @@
+{
+    "title": "Mano Adresai",
+    "addNew": "Pridėti naują adresą",
+    "newAddress": "Naujas Adresas",
+    "label": "Pavadinimas (pvz. Namai)",
+    "recipient": "Gavėjo Vardas Pavardė",
+    "street": "Gatvė, Namo nr., Butas",
+    "city": "Miestas",
+    "postalCode": "Pašto kodas",
+    "country": "Šalis",
+    "cancel": "Atšaukti"
+}

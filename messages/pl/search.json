@@ -1,0 +1,9 @@
+{
+    "title": "SZUKAJ WEDŁUG KODU SKU, ŚREDNICY DN LUB WĘZŁA",
+    "needAdvice": "Potrzebujesz sprawdzenia kompatybilności lub wyceny projektu?",
+    "aiDesc": "Konsultant AI Vytautas 24/7 weryfikuje kompatybilność części na miejscu — lub wyślij listę SKU po ofertę B2B.",
+    "askRfq": "Wyślij zapytanie projektowe / SKU",
+    "noResults": "Nie znaleziono pasujących pozycji. Spróbuj wpisać krótszy prefiks SKU (np. 013G) lub średnicę (DN15).",
+    "startTyping": "Wpisz kod producenta (np. 013G0013), markę lub nazwę elementu",
+    "placeholder": "SKU (np. 013G0013), DN15 lub nazwa produktu…"
+}

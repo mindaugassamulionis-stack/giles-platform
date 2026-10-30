@@ -1,0 +1,14 @@
+{
+    "title": "Savarankiškas grąžinimas",
+    "desc": "Įveskite užsakymo duomenis žemiau ir akimirksniu gaukite grąžinimo siuntos lipduką.",
+    "orderId": "Užsakymo ID",
+    "email": "El. pašto adresas",
+    "processing": "Apdorojama...",
+    "created": "Grąžinimo lipdukas sukurtas!",
+    "createdDesc": "Jūsų grąžinimo siunta užregistruota. Atsisiųskite lipduką žemiau ir priklijuokite jį ant pakuotės.",
+    "download": "Atsisiųsti lipduką (PDF)",
+    "another": "Grąžinti dar vieną prekę",
+    "needHelp": "Reikia pagalbos? Kreipkitės",
+    "support": "klientų aptarnavimą",
+    "orderIdPlaceholder": "pvz. 123e4567-e89b..."
+}

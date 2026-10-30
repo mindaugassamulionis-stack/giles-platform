@@ -1,0 +1,14 @@
+{
+    "products": "Katalogas",
+    "parts": "Atsarginės dalys",
+    "tools": "Inžinerinės skaičiuoklės",
+    "rfq": "Užklausa",
+    "cart": "Krepšelis",
+    "wishlist": "Išsaugoti mazgai",
+    "account": "Paskyra",
+    "login": "Prisijungti",
+    "logout": "Atsijungti",
+    "register": "Registruotis",
+    "search": "Paieška pagal kodą arba mazgą",
+    "menu": "Meniu"
+}

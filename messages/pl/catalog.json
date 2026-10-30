@@ -1,0 +1,14 @@
+{
+    "title": "Katalog urządzeń technicznych",
+    "label": "Katalog urządzeń grzewczych i hydraulicznych",
+    "searchPlaceholder": "Kod SKU producenta, gwint DN lub nazwa…",
+    "searchLabel": "Szybkie wyszukiwanie w katalogu",
+    "categoriesLabel": "Kategorie systemów inżynieryjnych",
+    "all": "Wszystkie produkty",
+    "empty": "Brak produktów spełniających wybrane filtry",
+    "emptyHint": "Wypróbuj inny kod SKU, wyczyść filtry lub zapytaj konsultanta AI Vytautasa.",
+    "lowStock": "Pozostało: {count}",
+    "inStock": "W magazynie",
+    "openCart": "Otwórz koszyk",
+    "noImage": "Element techniczny"
+}

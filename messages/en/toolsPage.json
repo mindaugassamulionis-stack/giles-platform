@@ -1,0 +1,15 @@
+{
+    "kicker": "ENGINEERING TOOLS · LT STR 2.01.02:2016 / LST EN 12831",
+    "title": "Building Heat-Load (kW) Calculator",
+    "subtitle": "Calculate the indicative heating power band (kW) based on building construction era, heated floor area, ceiling height, and Lithuanian climate zone. Send your result directly to an equipment quote request or verify nodes with our AI consultant Vytautas.",
+    "areaLabel": "Heated floor area, m²",
+    "heightLabel": "Average ceiling height, m",
+    "eraLabel": "Building construction & insulation era",
+    "zoneLabel": "Lithuanian climate zone (design outdoor temperature)",
+    "calculate": "Calculate Heat Load",
+    "resultBand": "Indicative Required Heating Power Band",
+    "sourceLabel": "Calculation methodology source",
+    "disclaimer": "Indicative estimate using a simplified LT STR 2.01.02:2016 and LST EN 12831 specific heat-loss band method. Intended for preliminary sizing of boilers, heat pumps, and hydronic nodes; does not replace a certified HVAC engineering design.",
+    "sendRfq": "Request Equipment Quote for This Power Band",
+    "invalidInput": "Please enter a valid heated floor area (m²) and ceiling height (m)."
+}

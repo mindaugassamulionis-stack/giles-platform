@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" width="360" height="96" role="img" aria-label="Gilės Inžinerija – Variantas A (Gilė-liepsna, Dark Mode)">
+  <title>Gilės Inžinerija – Variantas A · Gilė-liepsna (Tamsiam fonui)</title>
+  <g transform="translate(8, 8) scale(1.25)">
+    <path d="M10 26C10 15.5 19.8 9 32 9s22 6.5 22 17H10z" fill="#FF8A3D"/>
+    <path d="M32 9c0-2.6 1.2-4.6 3.6-5.8" fill="none" stroke="#FF8A3D" stroke-width="3" stroke-linecap="round"/>
+    <path d="M14.5 29.5h35c0 14.5-7.6 25.8-17.5 30.5-9.9-4.7-17.5-16-17.5-30.5z" fill="#F5F3EE"/>
+    <path d="M32 35.5c1.8 3.6 6 5.8 6 11a6 6 0 0 1-12 0c0-3 1.6-4.8 3.2-6.2.4 1.9 1.3 3 2.6 3.6-.2-3-.4-5.6.2-8.4z" fill="#11161B"/>
+  </g>
+  <g transform="translate(104, 0)">
+    <text x="0" y="54" font-family="'Schibsted Grotesk', 'Inter', system-ui, -apple-system, sans-serif" font-weight="800" font-size="48" letter-spacing="1.4" fill="#FFFFFF">GILĖS</text>
+    <text x="2" y="78" font-family="'Schibsted Grotesk', 'Inter', system-ui, -apple-system, sans-serif" font-weight="600" font-size="13" letter-spacing="5.4" fill="#A3ADB8">INŽINERIJA</text>
+  </g>
+</svg>

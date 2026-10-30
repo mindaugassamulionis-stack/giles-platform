@@ -1,0 +1,22 @@
+{
+    "filters": "Filtry",
+    "allCategories": "Wszystkie kategorie",
+    "allBrands": "Wszyscy producenci",
+    "allPrices": "Wszystkie ceny",
+    "under50": "Do 50 €",
+    "price50-200": "50–200 €",
+    "price200-1000": "200–1000 €",
+    "over1000": "Powyżej 1000 €",
+    "sortDefault": "Domyślnie",
+    "sortCode": "Kod A–Z",
+    "sortPriceAsc": "Cena: od najniższej",
+    "sortPriceDesc": "Cena: od najwyższej",
+    "sortNewest": "Najnowsze",
+    "sortPriceUp": "Cena ↑",
+    "sortPriceDown": "Cena ↓",
+    "showResults": "Pokaż wyniki",
+    "categories": "Kategorie",
+    "brands": "Producenci",
+    "price": "Cena",
+    "sort": "Sortowanie"
+}

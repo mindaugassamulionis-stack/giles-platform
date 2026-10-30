@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" width="200" height="48" role="img" aria-label="DRAŽICE">
+  <rect x="0.75" y="0.75" width="198.5" height="46.5" rx="4" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" />
+  <rect x="8" y="8" width="32" height="32" rx="3" fill="#0D9488" />
+  <text x="24" y="28.5" text-anchor="middle" fill="#FFFFFF" font-family="Plus Jakarta Sans, Inter, Arial, sans-serif" font-size="12.5" font-weight="800">DZ</text>
+  <text x="48" y="26" fill="#0F172A" font-family="Plus Jakarta Sans, Inter, Arial, sans-serif" font-size="17.5" font-weight="800" letter-spacing="0.4">DRAŽICE</text>
+  <text x="48" y="38" fill="#475569" font-family="Plus Jakarta Sans, Inter, Arial, sans-serif" font-size="7" font-weight="600" letter-spacing="0.5">WATER HEATERS</text>
+</svg>

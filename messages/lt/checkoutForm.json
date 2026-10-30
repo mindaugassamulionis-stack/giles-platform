@@ -1,0 +1,23 @@
+{
+    "total": "Iš viso",
+    "contactInfo": "Kontaktinė informacija",
+    "saleTerms": "prekių pardavimo taisyklėmis",
+    "paymentNote": ". Payment — after receiving the order confirmation by email.",
+    "empty": "Jūsų krepšelis dar tuščias",
+    "emptyDesc": "Prekės čia atsiras, kai pasirinksite. Kol kas apžiūrėkite katalogą.",
+    "goCatalog": "Eiti į katalogą",
+    "firstName": "Vardas *",
+    "lastName": "Pavardė *",
+    "email": "El. paštas *",
+    "phone": "Telefonas *",
+    "address": "Pristatymo adresas",
+    "street": "Adresas *",
+    "city": "Miestas *",
+    "postalCode": "Pašto kodas *",
+    "yourOrder": "Jūsų užsakymas",
+    "subtotal": "Tarpinė suma",
+    "shipping": "Pristatymas",
+    "shipFast": "Pristatymas į Lietuvą",
+    "returns14": "Grąžinimas pagal taisykles",
+    "secure": "Apsaugotas apmokėjimas"
+}

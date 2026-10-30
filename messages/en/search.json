@@ -1,0 +1,9 @@
+{
+    "title": "SEARCH BY MANUFACTURER SKU, THREAD SIZE, OR NODE",
+    "needAdvice": "Need a compatibility check or project quote?",
+    "aiDesc": "Vytautas, our 24/7 on-page AI consultant, verifies part compatibility on the spot — or submit your SKU list for a tailored B2B quote.",
+    "askRfq": "Submit Project / SKU Request",
+    "noResults": "No matching items found. Try entering a shorter SKU prefix (e.g., 013G), nominal diameter (DN15), or submit an RFQ.",
+    "startTyping": "Enter a manufacturer code (e.g., 013G0013), brand, or component name",
+    "placeholder": "SKU (e.g., 013G0013), DN15, or component name…"
+}

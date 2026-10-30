@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "giles-inzinerija-stdio": {
+      "command": "node",
+      "args": [
+        "/home/mindu/Desktop/giles/giles-platform/mcp/giles-mcp-stdio.mjs"
+      ],
+      "env": {
+        "GILES_MCP_URL": "https://gilesinzinerija.lt/api/mcp",
+        "GILES_MCP_API_KEY": "giles_mcp_live_PASTE_GENERATED_KEY_FROM_ADMIN_TAB_10"
+      }
+    },
+    "giles-inzinerija-http": {
+      "type": "http",
+      "url": "https://gilesinzinerija.lt/api/mcp",
+      "headers": {
+        "Authorization": "Bearer giles_mcp_live_PASTE_GENERATED_KEY_FROM_ADMIN_TAB_10"
+      }
+    },
+    "github-mcp-server": {
+      "command": "/home/mindu/.local/bin/github-mcp-wrapper.sh",
+      "args": [],
+      "env": {
+        "GITHUB_TOOLSETS": "all",
+        "GITHUB_ACCOUNT_EXPECTED": "mindaugassamulionis-stack"
+      }
+    }
+  }
+}

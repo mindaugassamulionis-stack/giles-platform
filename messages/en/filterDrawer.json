@@ -1,0 +1,22 @@
+{
+    "filters": "Filters",
+    "allCategories": "All categories",
+    "allBrands": "All manufacturers",
+    "allPrices": "All prices",
+    "under50": "Under €50",
+    "price50-200": "€50–200",
+    "price200-1000": "€200–1000",
+    "over1000": "€1000+",
+    "sortDefault": "Default",
+    "sortCode": "Code A–Z",
+    "sortPriceAsc": "Price: low → high",
+    "sortPriceDesc": "Price: high → low",
+    "sortNewest": "Newest",
+    "sortPriceUp": "Price ↑",
+    "sortPriceDown": "Price ↓",
+    "showResults": "Show results",
+    "categories": "Categories",
+    "brands": "Manufacturers",
+    "price": "Price",
+    "sort": "Sort"
+}

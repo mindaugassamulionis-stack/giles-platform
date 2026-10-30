@@ -1,0 +1,26 @@
+{
+    "kicker": "PROJEKTŲ KOMPLEKTAVIMAS IR B2B PASIŪLYMAI",
+    "title": "Projekto sąmatos ir įrangos užklausa (RFQ)",
+    "subtitle": "Įklijuokite gamintojų kodų sąrašą iš projekto, nurodykite kiekius arba aprašykite reikiamą šildymo ar santechnikos mazgą. Paruošime tikslų pasiūlymą su kainomis su PVM ir be PVM. Jei reikia greitos vieno mazgo suderinamumo patikros čia ir dabar — pasinaudokite puslapyje 24/7 veikiančiu AI konsultantu Vytautu.",
+    "topicLabel": "Ką komplektuojate?",
+    "topics": {
+        "objekto-projektas": "Daugiabučio / komercinio objekto projektas (pilna sąmata)",
+        "automatika": "Katilinės automatika, balansavimas ir reguliavimas (Danfoss / IMI)",
+        "sildymo-sistema": "Namo šildymo sistema (katilas, kolektoriai, radiatoriai, plėtimosi indai)",
+        "atsargines-dalys": "Konkrečios įrangos ar atsarginių dalių paieška pagal gamintojo kodą",
+        "kita": "Kita inžinerinė užklausa"
+    },
+    "contactLabel": "El. paštas pasiūlymui gauti *",
+    "companyLabel": "Įmonė / projektas (neprivaloma)",
+    "messageLabel": "Gamintojo kodai, kiekiai arba mazgo aprašymas *",
+    "messagePlaceholder": "Pvz.: 12 vnt. Danfoss RA-N DN15 (013G0013), 12 vnt. termostatinių galvučių, IMI Pneumatex Statico plėtimosi indas 35 l, IMI Heimeier grindinio šildymo kolektorius 8 kontūrų…",
+    "contextLabel": "Pasirinktas kodas / skaičiuoklės rezultatas",
+    "submit": "Gauti komercinį pasiūlymą",
+    "submitting": "Siunčiama užklausa…",
+    "successTitle": "Jūsų užklausa užregistruota",
+    "successRef": "Užklausos registracijos numeris",
+    "successNote": "Patikrinsime nurodytus gamintojo kodus, suderinamumą bei kiekius ir atsiųsime detalų pasiūlymą (su PVM ir be PVM) jūsų nurodytu el. paštu.",
+    "errorGeneric": "Nepavyko išsiųsti užklausos — patikrinkite įvestą el. paštą ir bandykite dar kartą.",
+    "rateLimited": "Per daug užklausų iš eilės — palaukite minutę ir bandykite dar kartą.",
+    "company": "Įmonė"
+}

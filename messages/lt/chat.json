@@ -1,0 +1,8 @@
+{
+    "greeting": "Sveiki! Esu Vytautas — Gilės Inžinerija inžinerinių sistemų konsultantas (AI + RAG).",
+    "ask": "Kokį šildymo ar santechnikos mazgą komplektuojate?",
+    "capabilities": "Patikrinsiu vožtuvų, galvučių ir pavarų suderinamumą pagal gamintojo kodą (Danfoss, Heimeier, Pneumatex, TA, Ferroli), paaiškinsiu montavimo eigą ir parinksiu trūkstamas dalis.",
+    "agent": "Vytautas · Inžinerinis AI + RAG konsultantas",
+    "online": "Aktyvus 24/7",
+    "placeholder": "Įveskite gamintojo kodą (pvz., 013G0013), sriegį (DN15) arba klausimą..."
+}

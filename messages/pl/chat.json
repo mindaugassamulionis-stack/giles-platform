@@ -1,0 +1,8 @@
+{
+    "greeting": "Cześć! Jestem Vytautas — konsultant inżynieryjny AI w Gilės Inžinerija.",
+    "ask": "Jaki węzeł grzewczy lub kotłownię kompletujesz?",
+    "capabilities": "Weryfikuję kompatybilność zaworów, głowic termostatycznych, palników i automatyki po kodach SKU (Danfoss, Heimeier, Pneumatex, HERZ, Haier), wyjaśniam schematy montażu i dobieram brakujące elementy.",
+    "agent": "Vytautas · Konsultant inżynieryjny AI",
+    "online": "Aktywny 24/7",
+    "placeholder": "Wpisz kod producenta (np. 013G0013), gwint (DN15) lub pytanie..."
+}

@@ -1,0 +1,9 @@
+{
+    "title": "PAIEŠKA PAGAL GAMINTOJO KODĄ, SRIEGĮ ARBA MAZGĄ",
+    "needAdvice": "Reikia mazgo suderinamumo patikros arba sąmatos?",
+    "aiDesc": "Puslapyje 24/7 veikiantis AI konsultantas Vytautas patikrins detalių suderinamumą, o pagal kodų sąrašą paruošime B2B pasiūlymą.",
+    "askRfq": "Pateikti projekto / kodo užklausą",
+    "noResults": "Pagal šį užklausimą pozicijų nerasta. Pabandykite įvesti trumpesnį kodo fragmentą (pvz., 013G), sriegį (DN15) arba pateikite užklausą.",
+    "startTyping": "Įveskite gamintojo kodą (pvz., 013G0013), gamintoją arba mazgo pavadinimą",
+    "placeholder": "Kodas (pvz., 013G0013), DN15 arba pavadinimas…"
+}

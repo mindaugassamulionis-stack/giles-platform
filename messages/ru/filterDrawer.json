@@ -1,0 +1,22 @@
+{
+    "filters": "Фильтры",
+    "allCategories": "Все категории",
+    "allBrands": "Все производители",
+    "allPrices": "Все цены",
+    "under50": "До 50 €",
+    "price50-200": "50–200 €",
+    "price200-1000": "200–1000 €",
+    "over1000": "Свыше 1000 €",
+    "sortDefault": "По умолчанию",
+    "sortCode": "Код A–Z",
+    "sortPriceAsc": "Цена: по возрастанию",
+    "sortPriceDesc": "Цена: по убыванию",
+    "sortNewest": "Новинки",
+    "sortPriceUp": "Цена ↑",
+    "sortPriceDown": "Цена ↓",
+    "showResults": "Показать результаты",
+    "categories": "Категории",
+    "brands": "Производители",
+    "price": "Цена",
+    "sort": "Сортировка"
+}

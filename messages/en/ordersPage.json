@@ -1,0 +1,14 @@
+{
+    "loginTitle": "Log in",
+    "loginDesc": "Log in to view your order history.",
+    "backToAccount": "Back to account",
+    "title": "My Orders",
+    "empty": "You have no orders yet",
+    "emptyDesc": "Your full purchase history and shipment tracking will appear here.",
+    "start": "Start shopping",
+    "orderNo": "Order No.",
+    "date": "Date",
+    "paidByCard": "Paid by card",
+    "total": "Total:",
+    "login": "Log in"
+}
