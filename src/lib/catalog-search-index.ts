@@ -91,7 +91,9 @@ function addCategoryBucket(
         bucket = [];
         map.set(norm, bucket);
     }
-    bucket.push(product);
+    if (bucket[bucket.length - 1] !== product) {
+        bucket.push(product);
+    }
 
     const rawLower = key.trim().toLowerCase();
     if (rawLower && rawLower !== norm) {
@@ -100,7 +102,9 @@ function addCategoryBucket(
             rawBucket = [];
             map.set(rawLower, rawBucket);
         }
-        rawBucket.push(product);
+        if (rawBucket[rawBucket.length - 1] !== product) {
+            rawBucket.push(product);
+        }
     }
 }
 

@@ -553,6 +553,7 @@ export function getGilesCatalogSnapshot(): GilesCatalogSnapshot {
                   name: enrichedMeta.name,
                   nameLt: enrichedMeta.name,
                   brandName: enrichedMeta.brandName,
+                  description: enrichedMeta.descriptionLt,
                   descriptionLt: enrichedMeta.descriptionLt,
               }
             : rawBaseItem;
@@ -608,6 +609,7 @@ export function getGilesCatalogSnapshot(): GilesCatalogSnapshot {
                       ? toBrandSlug(override.category)
                       : baseR.categorySlug,
                   brandName: resolvedOverrideBrand ?? baseR.brandName,
+                  description: resolvedOverrideDesc ?? baseR.description,
                   descriptionLt: resolvedOverrideDesc ?? baseR.descriptionLt,
                   rawImageUrl: override.imageUrl ?? override.image ?? baseR.rawImageUrl,
                   priceCents:
