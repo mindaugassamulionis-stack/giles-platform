@@ -2,6 +2,7 @@ import { resolveAppLocale } from '../i18n/storefront-ui-copy';
 import type { AppLocale } from '../i18n/routing';
 import type { ProductUxGuide, V3SpecRow } from './v3-description';
 import type { ProductFaqItem } from './product-faq-and-comparison';
+import { formatLtDecimalCommas } from './product-text';
 
 export type SupportedLocale = AppLocale;
 
@@ -479,7 +480,9 @@ export function localizeSpecKey(specKey: string, locale: string): string {
 export function localizeSpecValue(specVal: string, locale: string): string {
     const loc = toLoc(locale);
     const trimmed = (specVal || '').trim();
-    if (!trimmed || loc === 'lt') return trimmed;
+    if (!trimmed) return trimmed;
+    // W120-A1 P2-14: lt-LT spec values render decimals with a comma ("Kvs 1,01").
+    if (loc === 'lt') return formatLtDecimalCommas(trimmed);
 
     if (CATEGORY_MAP[trimmed]) {
         return CATEGORY_MAP[trimmed][loc];

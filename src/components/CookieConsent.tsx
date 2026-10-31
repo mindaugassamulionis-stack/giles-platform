@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 import { X, Shield, Cookie, SlidersHorizontal } from 'lucide-react';
 import { useLocale } from 'next-intl';
@@ -132,6 +132,7 @@ export function CookieConsent() {
     const [showBanner, setShowBanner] = useState(false);
     const [showSettings, setShowSettings] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
+    const bannerRef = useRef<HTMLDivElement>(null);
     const intlLocale = useLocale() || 'lt';
     const rawPathname = usePathname() || '';
     const urlMatch = rawPathname.match(/^\/(lt|en|pl|ru)(?=\/|$)/i);
@@ -159,6 +160,27 @@ export function CookieConsent() {
             }
         }
     }, []);
+
+    // W120-A1 P2-16: publish the live banner height so fixed widgets (Vytautas
+    // launcher) anchor above the banner instead of underneath it. ResizeObserver
+    // matters: a webfont load grows the banner without a window resize event.
+    useEffect(() => {
+        if (!showBanner || showSettings) return;
+        const el = bannerRef.current;
+        if (!el) return;
+        const publish = () => {
+            document.documentElement.style.setProperty('--cookie-banner-h', `${el.offsetHeight + 12}px`);
+        };
+        publish();
+        const observer = new ResizeObserver(publish);
+        observer.observe(el);
+        window.addEventListener('resize', publish);
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('resize', publish);
+            document.documentElement.style.removeProperty('--cookie-banner-h');
+        };
+    }, [showBanner, showSettings]);
 
     const saveConsent = (newConsent: ConsentState) => {
         newConsent.essential = true;
@@ -189,6 +211,7 @@ export function CookieConsent() {
             {showBanner && !showSettings && (
                 <div
                     id="cookie-consent-banner"
+                    ref={bannerRef}
                     role="dialog"
                     aria-label={copy.dialogAria}
                     data-testid="cookie-consent-bar"

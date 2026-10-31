@@ -1282,7 +1282,7 @@ export function VytautasAssistantWidget() {
         <div
             data-testid="vytautas-assistant-widget"
             id="vytautas-launcher"
-            className="fixed bottom-4 right-4 z-[9995] max-w-[calc(100vw-2rem)] font-sans"
+            className="fixed bottom-[var(--cookie-banner-h,1rem)] right-4 z-[9995] max-w-[calc(100vw-2rem)] font-sans transition-[bottom] duration-200 ease-out"
         >
             {!open && (
                 <button

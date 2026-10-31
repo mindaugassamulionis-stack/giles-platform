@@ -90,8 +90,12 @@ export default function ContactPage() {
                             </div>
                             <div>
                                 <h3 className="font-display font-bold text-base mb-1">{t('contactPage.emailLabel')}</h3>
-                                <p className="font-mono text-sm font-bold text-[var(--primary)]">{t('contactPage.emailAddress')}</p>
-                                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{t('contactPage.emailNote')}</p>
+                                <p className="font-mono text-sm font-bold text-[var(--primary)]">
+                                    <TextWithEmail text={t('contactPage.emailAddress')} />
+                                </p>
+                                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                                    <TextWithEmail text={t('contactPage.emailNote')} />
+                                </p>
                             </div>
                         </div>
 
@@ -107,7 +111,9 @@ export default function ContactPage() {
                                 <p className="font-mono text-sm font-bold text-[var(--primary)]">
                                     {t('contactPage.directPhoneService')}
                                 </p>
-                                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{t('contactPage.directPhoneNote')}</p>
+                                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                                    <TextWithEmail text={t('contactPage.directPhoneNote')} />
+                                </p>
                             </div>
                         </div>
 
@@ -118,9 +124,11 @@ export default function ContactPage() {
                             <div>
                                 <h3 className="font-display font-bold text-base mb-1">{t('contactPage.phoneLabel')}</h3>
                                 <p className="font-mono text-xs font-bold uppercase tracking-wider text-[var(--data-ok)]">
-                                    {t('contactPage.phoneValue')}
+                                    <TextWithEmail text={t('contactPage.phoneValue')} />
                                 </p>
-                                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{t('contactPage.phoneNote')}</p>
+                                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
+                                    <TextWithEmail text={t('contactPage.phoneNote')} />
+                                </p>
                             </div>
                         </div>
 
@@ -134,7 +142,7 @@ export default function ContactPage() {
                                     {t('contactPage.street')}
                                 </p>
                                 <p className="font-mono text-xs text-muted-foreground mt-1">
-                                    {t('contactPage.city')}
+                                    <TextWithEmail text={t('contactPage.city')} />
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                                     <TextWithEmail text={'UAB „Gilės inžinerija“ · Įmonės kodas: 302620907 · PVM kodas: LT100006119810 · Žirmūnų g. 68, LT-09124 Vilnius · Eigulių g. 21, LT-51418 Kaunas · info@gilesinzinerija.lt · 14 d. grąžinimo garantija · 24 mėn. garantija'} />

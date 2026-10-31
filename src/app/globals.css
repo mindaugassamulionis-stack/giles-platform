@@ -376,14 +376,10 @@ svg[data-state="after"] .l-before {
 }
 
 /* W118-A2: the cookie consent banner (fixed bottom bar) must never cover the
-   Vytautas launcher. While the banner is mounted, lift the launcher above it;
-   taller offset on phones where the banner wraps to multiple rows. */
+   Vytautas launcher. W120-A1: anchor to the live banner height published by
+   CookieConsent (--cookie-banner-h = banner height + 12px gap, updated through
+   ResizeObserver so webfont reflow cannot stale it); the old fixed 12rem/6.5rem
+   offsets left the launcher 15px under the banner on 390px screens. */
 body:has(#cookie-consent-banner) #vytautas-launcher {
-    bottom: 12rem;
-}
-
-@media (min-width: 1024px) {
-    body:has(#cookie-consent-banner) #vytautas-launcher {
-        bottom: 6.5rem;
-    }
+    bottom: var(--cookie-banner-h, 12rem);
 }

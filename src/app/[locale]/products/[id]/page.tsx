@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import { getCatalogProduct, getRelatedProducts, storeIdOrThrow } from '../../../../lib/catalog';
-import { stripLegacySkuTail } from '../../../../lib/product-text';
+import { formatLtDecimalCommas, stripLegacySkuTail } from '../../../../lib/product-text';
 import {
     findCompatibleCatalogProducts,
     type ProductCompatibilityResult,
@@ -1622,6 +1622,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         formatCleanCatalogProductTitle(product.name, product.sku, product.brand),
         loc,
     );
+    // W120-A1 P2-14: lt-LT titles render decimals with a comma ("Kvs 1,01").
+    const displayTitle = loc === 'lt' ? formatLtDecimalCommas(cleanProductTitle) : cleanProductTitle;
     const pdpProfile = resolvePdpEngineeringProfile(
         {
             id: product.id,
@@ -1633,8 +1635,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         },
         loc,
     );
-    const title = `${cleanProductTitle} (${product.sku}) | GILĖS INŽINERIJA`;
-    const description = cleanDash(pdpProfile.descriptionHook).slice(0, 155);
+    const title = `${displayTitle} (${product.sku}) | GILĖS INŽINERIJA`;
+    const cleanHook = cleanDash(pdpProfile.descriptionHook);
+    const description = (loc === 'lt' ? formatLtDecimalCommas(cleanHook) : cleanHook).slice(0, 155);
     const canonical =
         product.canonicalUrl ||
         `https://gilesinzinerija.lt/${locale}/products/${product.slug || product.id}`;
@@ -1666,8 +1669,12 @@ export default async function ProductPage({ params }: Props) {
         description: product.description,
     });
     product.brand = brandInfo.name;
-    const cleanNameLt = formatCleanCatalogProductTitle(product.name, product.sku, brandInfo.name);
+    const cleanNameLtRaw = formatCleanCatalogProductTitle(product.name, product.sku, brandInfo.name);
+    // W120-A1 P2-14: lt-LT names render decimals with a comma everywhere the
+    // name repeats (breadcrumb, alt, FAQ, kit lines), not only in the H1.
+    const cleanNameLt = loc === 'lt' ? formatLtDecimalCommas(cleanNameLtRaw) : cleanNameLtRaw;
     const localizedTitle = cleanDash(localizeProductTitle(cleanNameLt, loc));
+    const displayPageTitle = loc === 'lt' ? formatLtDecimalCommas(localizedTitle) : localizedTitle;
     product.name = localizedTitle;
     product.image = resolveProductImageUrl({
         sku: product.sku,
@@ -1920,11 +1927,14 @@ export default async function ProductPage({ params }: Props) {
                             </div>
 
                             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#11161B] leading-tight">
-                                {localizedTitle}
+                                {displayPageTitle}
                             </h1>
 
                             <p className="text-sm text-[#5B6470] leading-relaxed">
-                                {cleanDash(localizedHook.slice(0, 160))}
+                                {(() => {
+                                    const excerpt = localizedHook.slice(0, 160);
+                                    return loc === 'lt' ? formatLtDecimalCommas(excerpt) : excerpt;
+                                })()}
                             </p>
                         </div>
 
@@ -2278,7 +2288,7 @@ export default async function ProductPage({ params }: Props) {
                             </dl>
                         ) : (
                             <div className="p-5 text-sm text-[#5B6470]">
-                                {cleanDash(localizedHook)}
+                                {loc === 'lt' ? formatLtDecimalCommas(cleanDash(localizedHook)) : cleanDash(localizedHook)}
                             </div>
                         )}
                     </section>

@@ -157,11 +157,11 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         ],
         pillar2PrimaryCta: 'Ar mano katilui tinka? Patikrinti',
         pillar3Kicker: '03 / PRAMONEI IR STATYBAI',
-        pillar3Title: 'Konteinerinės katilinės 150–500 kW ir B2B montuotojų portalas',
+        pillar3Title: 'Konteinerinės katilinės 100 kW – 2,5 MW ir B2B montuotojų portalas',
         pillar3Desc:
             'Gaminame, parduodame ir nuomojame mobilias konteinerines katilines gamykloms, sandėliams ir statybvietėms. ŠVOK montuotojams – registruota B2B zona su didmeninėmis nuolaidomis.',
         pillar3Bullets: [
-            '• Konteinerinės katilinės pirkimui ir nuomai (150–500 kW)',
+            '• Konteinerinės katilinės pirkimui ir nuomai (100 kW – 2,5 MW)',
             '• B2B partnerių portalas su administracijos patvirtinimu',
             '• Oficialios PVM sąskaitos faktūros ir sąmatos pagal objektą',
         ],
@@ -206,15 +206,15 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         sec2ProdBrand: 'Megatherm · 8–35 kW su kuro tiekimo sraigtu',
         sec2ProdTitle: 'Granulių degiklio komplektas MPB NANI 35',
         sec2VatNetSuffix: 'be PVM',
-        sec4Aria: '04 / Pramonei ir statybai – Konteinerinės katilinės 150–500 kW – pirkimui ir nuomai',
+        sec4Aria: '04 / Pramonei ir statybai – Konteinerinės katilinės 100 kW – 2,5 MW – pirkimui ir nuomai',
         sec4Kicker: '04 / Pramonei ir statybai · Gamyba · Pardavimas · Nuoma',
-        sec4Title: 'Konteinerinės katilinės 150–500 kW – pirkimui ir nuomai',
+        sec4Title: 'Konteinerinės katilinės 100 kW – 2,5 MW – pirkimui ir nuomai',
         sec4Lead:
             'Pilnai gamykloje surinktos ir automatizuotos konteinerinės katilinės: kuras pristatomas mobiliais bunkeriais ir automatiškai tiekiamas į degimo kamerą. Statybvietei, gamyklai, sandėliui ar avariniam rezervui.',
         indBoxes: [
             {
                 kicker: '01 / Mobilus bunkeris',
-                title: '150–500 kW (iki 2,5 MW)',
+                title: '100 kW – 2,5 MW',
                 sub: 'Granulės, skiedra, durpės, dujos',
             },
             {
@@ -239,7 +239,7 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         cad4ZoneDTitle: '[ZONA D]',
         cad4ZoneDSub: 'Hidraulika',
         cad4BottomDim: 'L = 6 058 mm (20ft HC ISO konteineris) · H dūmtraukis = 6,5 m',
-        sec4ImgAlt: 'Gilės Inžinerija GK-500 konteinerinė katilinė 150-500 kW',
+        sec4ImgAlt: 'Gilės Inžinerija GK-500 konteinerinė katilinė, 500 kW',
         sec4ModelLabel: 'MODELIS GK-150 / GK-500',
         sec4ModelSub: 'Konteinerinė biokuro katilinė',
         sec5Aria: '05 / Realizuoti objektai ir atlikti darbai – Inžinerinė praktika nuo Kauno iki Klaipėdos',
@@ -323,11 +323,11 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         ],
         pillar2PrimaryCta: 'Does it fit my boiler? Check now',
         pillar3Kicker: '03 / INDUSTRIAL & CONSTRUCTION',
-        pillar3Title: 'Containerized Boiler Plants 150–500 kW & B2B Installer Portal',
+        pillar3Title: 'Containerized Boiler Plants 100 kW – 2.5 MW & B2B Installer Portal',
         pillar3Desc:
             'We manufacture, sell, and rent mobile containerized boiler rooms for factories, warehouses, and construction sites. Registered B2B portal with wholesale trade discounts for HVAC installers.',
         pillar3Bullets: [
-            '• Containerized boiler plants for sale & rent (150–500 kW)',
+            '• Containerized boiler plants for sale & rent (100 kW – 2.5 MW)',
             '• Verified B2B installer portal with trade pricing',
             '• Official VAT invoices & custom project BOQ estimates',
         ],
@@ -372,15 +372,15 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         sec2ProdBrand: 'Megatherm · 8–35 kW with screw feed auger',
         sec2ProdTitle: 'Pellet Burner Kit MPB NANI 35',
         sec2VatNetSuffix: 'excl. VAT',
-        sec4Aria: '04 / Industrial & Construction – Containerized Boiler Plants 150–500 kW – Sale & Rental',
+        sec4Aria: '04 / Industrial & Construction – Containerized Boiler Plants 100 kW – 2.5 MW – Sale & Rental',
         sec4Kicker: '04 / Industrial & Construction · Manufacturing · Sale · Rental',
-        sec4Title: 'Containerized Boiler Plants 150–500 kW – For Sale & Rent',
+        sec4Title: 'Containerized Boiler Plants 100 kW – 2.5 MW – For Sale & Rent',
         sec4Lead:
             'Factory-assembled, fully automated containerized boiler rooms: fuel is delivered in mobile hoppers and automatically fed into the combustion chamber. For construction sites, factories, warehouses, or emergency backup.',
         indBoxes: [
             {
                 kicker: '01 / Mobile hopper',
-                title: '150–500 kW (up to 2.5 MW)',
+                title: '100 kW – 2.5 MW',
                 sub: 'Pellets, woodchips, peat, natural gas',
             },
             {
@@ -405,7 +405,7 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         cad4ZoneDTitle: '[ZONE D]',
         cad4ZoneDSub: 'Hydronics',
         cad4BottomDim: 'L = 6,058 mm (20ft HC ISO container) · Chimney H = 6.5 m',
-        sec4ImgAlt: 'Gilės Inžinerija GK-500 containerized boiler plant 150-500 kW',
+        sec4ImgAlt: 'Gilės Inžinerija GK-500 containerized boiler plant, 500 kW',
         sec4ModelLabel: 'MODEL GK-150 / GK-500',
         sec4ModelSub: 'Containerized biomass boiler plant',
         sec5Aria: '05 / Completed Projects & Installations – Engineering Practice Across Lithuania',
@@ -489,11 +489,11 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         ],
         pillar2PrimaryCta: 'Czy pasuje do mojego kotła? Sprawdź',
         pillar3Kicker: '03 / PRZEMYSŁ I BUDOWNICTWO',
-        pillar3Title: 'Kotłownie kontenerowe 150–500 kW i portal instalatora B2B',
+        pillar3Title: 'Kotłownie kontenerowe 100 kW – 2,5 MW i portal instalatora B2B',
         pillar3Desc:
             'Produkujemy, sprzedajemy i wynajmujemy mobilne kotłownie kontenerowe dla fabryk, magazynów i budów. Dla instalatorów HVAC – strefa B2B z rabatami hurtowymi.',
         pillar3Bullets: [
-            '• Kotłownie kontenerowe na sprzedaż i wynajem (150–500 kW)',
+            '• Kotłownie kontenerowe na sprzedaż i wynajem (100 kW – 2,5 MW)',
             '• Portal partnerów B2B z weryfikacją konta',
             '• Faktury VAT UE oraz kosztorysy inwestorskie',
         ],
@@ -538,15 +538,15 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         sec2ProdBrand: 'Megatherm · 8–35 kW z podajnikiem ślimakowym',
         sec2ProdTitle: 'Zestaw palnika peletowego MPB NANI 35',
         sec2VatNetSuffix: 'bez VAT',
-        sec4Aria: '04 / Przemysł i budownictwo – Kotłownie kontenerowe 150–500 kW – sprzedaż i wynajem',
+        sec4Aria: '04 / Przemysł i budownictwo – Kotłownie kontenerowe 100 kW – 2,5 MW – sprzedaż i wynajem',
         sec4Kicker: '04 / Przemysł i budownictwo · Produkcja · Sprzedaż · Wynajem',
-        sec4Title: 'Kotłownie kontenerowe 150–500 kW – sprzedaż i wynajem',
+        sec4Title: 'Kotłownie kontenerowe 100 kW – 2,5 MW – sprzedaż i wynajem',
         sec4Lead:
             'W pełni zmontowane fabrycznie i zautomatyzowane kotłownie kontenerowe: paliwo dostarczane w mobilnych zasobnikach i automatycznie podawane do komory spalania. Na plac budowy, do fabryki, magazynu lub jako rezerwa awaryjna.',
         indBoxes: [
             {
                 kicker: '01 / Mobilny zasobnik',
-                title: '150–500 kW (do 2,5 MW)',
+                title: '100 kW – 2,5 MW',
                 sub: 'Pellet, zrębka, torf, gaz',
             },
             {
@@ -571,7 +571,7 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         cad4ZoneDTitle: '[STREFA D]',
         cad4ZoneDSub: 'Hydraulika',
         cad4BottomDim: 'L = 6 058 mm (kontener 20ft HC ISO) · Komin H = 6,5 m',
-        sec4ImgAlt: 'Kotłownia kontenerowa Gilės Inžinerija GK-500 150-500 kW',
+        sec4ImgAlt: 'Kotłownia kontenerowa Gilės Inžinerija GK-500, 500 kW',
         sec4ModelLabel: 'MODEL GK-150 / GK-500',
         sec4ModelSub: 'Kontenerowa kotłownia biomasowa',
         sec5Aria: '05 / Zrealizowane obiekty i wdrożenia – Praktyka inżynieryjna od Kowna po Kłajpedę',
@@ -655,11 +655,11 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         ],
         pillar2PrimaryCta: 'Подойдет ли к моему котлу? Проверить',
         pillar3Kicker: '03 / ПРОМЫШЛЕННОСТЬ И СТРОИТЕЛЬСТВО',
-        pillar3Title: 'Контейнерные котельные 150–500 кВт и B2B портал монтажников',
+        pillar3Title: 'Контейнерные котельные 100 кВт – 2,5 МВт и B2B портал монтажников',
         pillar3Desc:
             'Производим, продаем и сдаем в аренду мобильные контейнерные котельные для заводов, складов и стройплощадок. Для монтажников ОВиК – B2B портал с оптовыми скидками.',
         pillar3Bullets: [
-            '• Контейнерные котельные: покупка и аренда (150–500 кВт)',
+            '• Контейнерные котельные: покупка и аренда (100 кВт – 2,5 МВт)',
             '• B2B портал партнеров с подтверждением статуса',
             '• Официальные счета-фактуры НДС и объектные сметы',
         ],
@@ -704,15 +704,15 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         sec2ProdBrand: 'Megatherm · 8–35 кВт со шнеком подачи топлива',
         sec2ProdTitle: 'Комплект пеллетной горелки MPB NANI 35',
         sec2VatNetSuffix: 'без НДС',
-        sec4Aria: '04 / Промышленность и строительство – Контейнерные котельные 150–500 кВт – продажа и аренда',
+        sec4Aria: '04 / Промышленность и строительство – Контейнерные котельные 100 кВт – 2,5 МВт – продажа и аренда',
         sec4Kicker: '04 / Промышленность и строительство · Производство · Продажа · Аренда',
-        sec4Title: 'Контейнерные котельные 150–500 кВт – покупка и аренда',
+        sec4Title: 'Контейнерные котельные 100 кВт – 2,5 МВт – покупка и аренда',
         sec4Lead:
             'Полностью собранные на заводе автоматизированные контейнерные котельные: топливо доставляется мобильными бункерами и автоматически подается в камеру сгорания. Для стройплощадок, цехов, складов и аварийного резерва.',
         indBoxes: [
             {
                 kicker: '01 / Мобильный бункер',
-                title: '150–500 кВт (до 2,5 МВт)',
+                title: '100 кВт – 2,5 МВт',
                 sub: 'Пеллеты, щепа, торф, газ',
             },
             {
@@ -737,7 +737,7 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         cad4ZoneDTitle: '[ЗОНА D]',
         cad4ZoneDSub: 'Гидравлика',
         cad4BottomDim: 'L = 6 058 мм (20ft HC ISO контейнер) · Дымоход H = 6,5 м',
-        sec4ImgAlt: 'Контейнерная котельная Gilės Inžinerija GK-500 150-500 кВт',
+        sec4ImgAlt: 'Контейнерная котельная Gilės Inžinerija GK-500, 500 кВт',
         sec4ModelLabel: 'МОДЕЛЬ GK-150 / GK-500',
         sec4ModelSub: 'Контейнерная биокотельная',
         sec5Aria: '05 / Реализованные объекты и выполненные работы – Инженерная практика по всей Литве',

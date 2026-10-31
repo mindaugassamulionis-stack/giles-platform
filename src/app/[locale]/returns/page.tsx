@@ -6,6 +6,7 @@ import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { RefreshCw, ShieldCheck, Truck, CheckCircle2, ArrowRight, Wrench, Sparkles } from 'lucide-react';
 import { getBrandName, withBrandSuffix } from '../../../lib/brand';
+import { TextWithEmail } from '../../../components/email';
 
 export async function generateMetadata(): Promise<Metadata> {
     const brand = await getBrandName();
@@ -163,7 +164,7 @@ export default async function ReturnsPage() {
                                         {t('legalReturns.s14Body')}
                                     </p>
                                     <ol className="space-y-2 text-sm md:text-base text-slate-700 list-decimal pl-5">
-                                        <li>{t('legalReturns.step1')}</li>
+                                        <li><TextWithEmail text={t('legalReturns.step1')} /></li>
                                         <li>{t('legalReturns.step2')}</li>
                                         <li>{t('legalReturns.step3')}</li>
                                     </ol>
@@ -214,7 +215,7 @@ export default async function ReturnsPage() {
                                         {t('legalReturns.defectsBody')}
                                     </p>
                                     <ol className="space-y-2 text-sm md:text-base text-slate-700 list-decimal pl-5">
-                                        <li>{t('legalReturns.defect1')}</li>
+                                        <li><TextWithEmail text={t('legalReturns.defect1')} /></li>
                                         <li>{t('legalReturns.defect2')}</li>
                                         <li>{t('legalReturns.defect3')}</li>
                                     </ol>
