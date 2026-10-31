@@ -11,8 +11,7 @@ import {
     type ClientTelemetry,
     type VytautasHistoryTurn,
 } from '../../../lib/vytautas-consultant';
-
-const SURADAI_STORE_UUID = '45b4ddab-57b4-4e53-9fef-f1a1fbea564c';
+import { resolveStoreIdOrThrow } from '../../../lib/store-identity';
 
 async function syncChatTurnToSupport(params: {
     sessionId: string;
@@ -45,7 +44,7 @@ async function syncChatTurnToSupport(params: {
             const [created] = await db
                 .insert(supportThreads)
                 .values({
-                    storeId: SURADAI_STORE_UUID,
+                    storeId: await resolveStoreIdOrThrow(),
                     customerEmailHash: emailHash,
                     customerEmailEnc: emailEnc,
                     channel: 'chat',
@@ -164,8 +163,7 @@ export async function POST(request: NextRequest) {
             (typeof storeKey === 'string' && storeKey.trim()) ||
             request.nextUrl.searchParams.get('storeId') ||
             request.headers.get('x-store-id') ||
-            process.env.STORE_SLUG ||
-            'suradai';
+            (await resolveStoreIdOrThrow());
 
         const runtimeConfig = await getStorefrontRuntimeConfig(requestedStoreId);
         if (!runtimeConfig.features.vytautasWidget) {

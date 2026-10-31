@@ -9,6 +9,7 @@ import {
     type EngineeringServiceItem,
 } from '../../lib/giles-packages-data';
 import { apiUrl, assetUrl } from '../../lib/api';
+import { EmailLink, TextWithEmail } from '../email';
 
 interface ServiceLightboxItem {
     imageUrl: string;
@@ -129,7 +130,7 @@ export function EngineeringServicesClient({
             <header className="rounded-md border border-stone-300 bg-white p-4 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
                 <div>
                     <span className="text-xs font-bold text-red-800 block mb-1">
-                        UAB „Gilės inžinerija“ · El. paštas: info@gilesinzinerija.lt (tik El. paštas)
+                        <TextWithEmail text={'UAB „Gilės inžinerija“ · El. paštas: info@gilesinzinerija.lt (tik El. paštas)'} />
                     </span>
                     <h1 className="text-xl sm:text-2xl font-bold text-stone-900">
                         Inžinerinės paslaugos, ŠVOK projektavimas ir katilinių montavimas
@@ -298,9 +299,7 @@ export function EngineeringServicesClient({
                         <div className="border-t border-stone-200 pt-4 space-y-2.5 text-xs text-stone-700">
                             <p>
                                 <strong className="text-stone-900">Projektavimas, katilinės, komplektavimas ir tiekimas (tik El. paštas):</strong>{' '}
-                                <a href="mailto:info@gilesinzinerija.lt" className="font-mono font-bold text-[var(--primary)] hover:underline">
-                                    info@gilesinzinerija.lt
-                                </a>
+                                <EmailLink email="info@gilesinzinerija.lt" className="font-mono font-bold text-[var(--primary)] hover:underline" />
                             </p>
                         </div>
                     </div>

@@ -129,11 +129,8 @@ export function resolveFeedImageLink(imageUrl: string, storeDomain?: string | nu
         return trimmed;
     }
     const domain = resolveFeedDomain(storeDomain);
-    if (trimmed.startsWith('/suradai/')) {
-        return `https://${domain}${trimmed}`;
-    }
     const normalizedPath = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
-    return `https://${domain}/suradai${normalizedPath}`;
+    return `https://${domain}${normalizedPath}`;
 }
 
 export function mapRowToCatalogFeedItem(row: RawFeedProductRow, defaultDomain?: string): CatalogFeedItem {
@@ -166,7 +163,7 @@ export function mapRowToCatalogFeedItem(row: RawFeedProductRow, defaultDomain?: 
         availability: isAvailable ? 'in stock' : 'out of stock',
         condition: 'new',
         price: priceEurFormatted,
-        link: `https://${domain}/suradai/lt/products/${slug}`,
+        link: `https://${domain}/lt/products/${slug}`,
         image_link: resolveFeedImageLink(primaryImageUrl, domain),
         brand: resolvedBrand,
         category: row.category || 'Šildymo ir santechnikos įranga',
@@ -260,7 +257,7 @@ export async function queryAdReadyFeedRows(limit = 500): Promise<RawFeedProductR
                 join variants v on v.product_id = p.id
                 left join brands b on b.id = p.brand_id
                 left join categories c on c.id = p.category_id
-                where (p.store_id::text = ${sid} or s.slug = 'suradai')
+                where p.store_id::text = ${sid}
                   and p.status = 'published'
                   and coalesce(v.sku, '') not ilike 'SUR-DEMO-%'
                   and coalesce(v.sku, '') not ilike 'W16D1-%'

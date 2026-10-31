@@ -20,6 +20,7 @@ import { apiUrl, assetUrl } from '../../lib/api';
 import { resolveAppLocale } from '../../i18n/storefront-ui-copy';
 import type { AppLocale } from '../../i18n/routing';
 import { trackEvent } from '../analytics';
+import { TextWithEmail } from '../email';
 
 void GILES_SYSTEM_PACKAGES;
 void UNDERFLOOR_AREA_PRESETS;
@@ -402,7 +403,7 @@ export function SystemPackagesClient({ locale: localeProp }: { locale: string })
             <header className="rounded-md border border-stone-300 bg-white p-4 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
                 <div>
                     <span className="text-xs font-bold text-red-800 block mb-1">
-                        {ui.headerEyebrow}
+                        <TextWithEmail text={ui.headerEyebrow} />
                     </span>
                     <h1 className="text-xl sm:text-2xl font-bold text-stone-900">
                         {ui.headerTitle}

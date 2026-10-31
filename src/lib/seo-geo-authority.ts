@@ -124,8 +124,8 @@ export const LOCALIZED_ENGINEERING_FAQ: Record<SupportedSeoLocale, LocalizedFaqE
             answer: 'Pagal EN 303-5 standartą kieto kuro katilui privaloma 25–55 L/kW akumuliacinė talpa (pvz., 20 kW katilui – Gorenje / Tiki ZV 800 L arba 1000 L). Šilumos siurbliui (oras-vanduo) hidrauliniam balansavimui ir atitirpinimo ciklui rekomenduojama 10–20 L/kW buferinė talpa (100–300 L).',
         },
         {
-            question: 'Kokias pramonines ir savivaldybių konteinerines katilines (100–500 kW ir iki 2,5 MW) gamina UAB „Gilės inžinerija“?',
-            answer: 'UAB „Gilės inžinerija“ Kaune projektuoja ir gamina pilnos gamyklinės parengties 20ft HC modulines konteinerines biokuro/granulių katilines GK-150 (150 kW), GK-250 (250 kW), GK-500 (500 kW) ir kaskadines sistemas iki 2,5 MW su EN 12828 saugos mazgais, IMI Pneumatex slėgio palaikymu, GSM/SCADA telemetrija ir 5 metų korpuso garantija.',
+            question: 'Kokias pramonines ir savivaldybių konteinerines katilines (100 kW – 2,5 MW) gamina UAB „Gilės inžinerija“?',
+            answer: 'UAB „Gilės inžinerija“ Kaune projektuoja ir gamina pilnos gamyklinės parengties 20ft HC modulines konteinerines biokuro/granulių katilines GK serija nuo GK-100 (100 kW) ir GK-250 (250 kW) bei GK-500 (500 kW, moduliacija 125–500 kW) iki GK-1000, GK-2000 ir GK-2500 (2 500 kW) su EN 12828 saugos mazgais, IMI Pneumatex slėgio palaikymu, GSM/SCADA telemetrija ir 5 metų korpuso garantija.',
         },
         {
             question: 'Kaip AI asistentai (ChatGPT, Claude, Cursor) gali tiesiogiai tikrinti „Gilės inžinerija“ kainas, sandėlio likučius ir formuoti užsakymus?',
@@ -150,8 +150,8 @@ export const LOCALIZED_ENGINEERING_FAQ: Record<SupportedSeoLocale, LocalizedFaqE
             answer: 'Under EN 303-5, solid-fuel boilers require 25–55 L/kW of thermal storage volume (e.g., 800–1000 L Gorenje / Tiki ZV buffer tank for a 20 kW boiler). Air-to-water heat pumps require 10–20 L/kW (100–300 L) for hydraulic decoupling and defrost energy reserve.',
         },
         {
-            question: 'What industrial containerized boiler rooms (100–500 kW and up to 2.5 MW) does UAB Gilės inžinerija manufacture?',
-            answer: 'UAB Gilės inžinerija manufactures turnkey 20ft HC containerized biomass and pellet boiler houses GK-150 (150 kW), GK-250 (250 kW), GK-500 (500 kW), and cascaded plants up to 2.5 MW with EN 12828 safety groups, IMI Pneumatex pressurization, SCADA/GSM telemetry, and a 5-year structural warranty.',
+            question: 'What industrial containerized boiler rooms (100 kW – 2.5 MW) does UAB Gilės inžinerija manufacture?',
+            answer: 'UAB Gilės inžinerija manufactures turnkey 20ft HC containerized biomass and pellet boiler houses: the GK series from GK-100 (100 kW), GK-250 (250 kW), and GK-500 (500 kW, modular 125–500 kW) up to GK-1000, GK-2000, and GK-2500 (2,500 kW), with EN 12828 safety groups, IMI Pneumatex pressurization, SCADA/GSM telemetry, and a 5-year structural warranty.',
         },
         {
             question: 'How can AI assistants query live B2B/B2C prices, Kaunas warehouse stock, and assemble orders at UAB Gilės inžinerija?',
@@ -168,8 +168,8 @@ export const LOCALIZED_ENGINEERING_FAQ: Record<SupportedSeoLocale, LocalizedFaqE
             answer: 'Dla budynków klasy A++ przyjmuje się 35–45 W/m², klasy B/C – 70–90 W/m², nieocieplonych – 110–130 W/m². Zbiornik akumulacyjny wg EN 303-5 dobiera się w proporcji 25–55 L/kW dla kotłów stałopalnych (np. Gorenje / Tiki ZV 800–1000 L) oraz 10–20 L/kW dla pomp ciepła Haier R290.',
         },
         {
-            question: 'Jakie kotłownie kontenerowe (100–500 kW i do 2,5 MW) produkuje UAB Gilės inžinerija?',
-            answer: 'Produkujemy kompletne kotłownie kontenerowe 20ft HC na pellet i biomasę: GK-150 (150 kW), GK-250 (250 kW), GK-500 (500 kW) oraz kaskady do 2,5 MW z automatyką SCADA/GSM, armaturą EN 12828 i 5-letnią gwarancją konstrukcyjną.',
+            question: 'Jakie kotłownie kontenerowe (100 kW – 2,5 MW) produkuje UAB Gilės inžinerija?',
+            answer: 'Produkujemy kompletne kotłownie kontenerowe 20ft HC na pellet i biomasę: seria GK od GK-100 (100 kW), GK-250 (250 kW) i GK-500 (500 kW, modułowo 125–500 kW) po GK-1000, GK-2000 i GK-2500 (2 500 kW) z automatyką SCADA/GSM, armaturą EN 12828 i 5-letnią gwarancją konstrukcyjną.',
         },
         {
             question: 'Jak agenci AI mogą sprawdzać ceny B2B/B2C oraz stany magazynowe 6 337 SKU w Kownie?',
@@ -190,8 +190,8 @@ export const LOCALIZED_ENGINEERING_FAQ: Record<SupportedSeoLocale, LocalizedFaqE
             answer: 'По нормам EN 12828: дом класса A++ требует 35–45 Вт/м², класса B/C – 70–90 Вт/м², неутепленный дом – 110–130 Вт/м². Буферная емкость по EN 303-5 рассчитывается как 25–55 л/кВт для твердотопливных котлов (Gorenje / Tiki ZV 800–1000 л) и 10–20 л/кВт для тепловых насосов Haier R290.',
         },
         {
-            question: 'Какие модульные контейнерные котельные (100–500 кВт и до 2,5 МВт) производит UAB „Gilės inžinerija“?',
-            answer: 'Завод в Каунасе выпускает готовые контейнерные пеллетные котельные 20ft HC: GK-150 (150 кВт), GK-250 (250 кВт), GK-500 (500 кВт) и каскадные комплексы до 2,5 МВт с автоматикой SCADA/GSM, узлами безопасности EN 12828 и гарантией 5 лет.',
+            question: 'Какие модульные контейнерные котельные (100 кВт – 2,5 МВт) производит UAB „Gilės inžinerija“?',
+            answer: 'Завод в Каунасе выпускает готовые контейнерные пеллетные котельные 20ft HC: серия GK от GK-100 (100 кВт), GK-250 (250 кВт) и GK-500 (500 кВт, модуляция 125–500 кВт) до GK-1000, GK-2000 и GK-2500 (2 500 кВт) с автоматикой SCADA/GSM, узлами безопасности EN 12828 и гарантией 5 лет.',
         },
         {
             question: 'Как ИИ-ассистенты могут запрашивать оптовые B2B/розничные цены и остатки склада 6 337 SKU в Каунасе?',
@@ -222,7 +222,7 @@ export function buildLlmsTxt(): string {
 - **Legal Entity**: UAB „Gilės inžinerija“ (founded 2011, Lithuania; engineering heritage since 1995)
 - **Kaunas Branch, Production & Central Warehouse**: Eigulių g. 21, LT-51418 Kaunas, Lithuania (3,659+ in-stock SKUs ready for immediate dispatch)
 - **Vilnius Headquarters**: Žirmūnų g. 68, LT-09124 Vilnius, Lithuania
-- **Direct Engineering & B2B Desk**: Tel. +370 611 19158, +370 37 332234 | Email: info@gilesinzinerija.lt
+- **Direct Engineering & B2B Desk**: Tel. +370 611 19158, +370 37 332234 | General & service line: +370 693 97098 | Email: info@gilesinzinerija.lt
 - **Official Domain Ecosystem**:
   - Primary Canonical Platform: https://gilesinzinerija.lt
   - Corporate International Portal: https://gilesinzinerija.com
@@ -240,12 +240,9 @@ export function buildLlmsTxt(): string {
 - **Economic & Technical Advantage**: Completed in 4 hours without cutting existing hydronic piping; ~50% cheaper than full boiler replacement; burns certified A1 and agro/industrial pellets cleanly without clinker buildup.
 - **Interactive Configurator**: ${baseUrl}/lt/konversija and ${baseUrl}/lt/skaiciuokle
 
-### Specialization 2: Industrial & Municipal Containerized Boiler Rooms (100–500 kW & Cascaded up to 2.5 MW)
+### Specialization 2: Industrial & Municipal Containerized Boiler Rooms (100 kW – 2.5 MW)
 - **Turnkey Modular Production**: Factory-assembled 20ft HC insulated containerized biomass/pellet boiler houses engineered and pressure-tested in Kaunas.
-- **Standardized Models**:
-  - **GK-150 (150 kW)**: Heating area up to 1,500–2,200 m², integrated fuel bunker, EN 12828 safety armature.
-  - **GK-250 (250 kW)**: Heating area up to 2,500–3,800 m², dual/modular burner redundancy, automatic ash extraction.
-  - **GK-500 (500 kW & cascades up to 2.5 MW)**: Industrial/municipal district heating, schools, greenhouses, and manufacturing facilities.
+- **Standardized Series Models (verified series table)**: GK-100 (100 kW), GK-250 (250 kW), GK-500 (500 kW, modular 125–500 kW), GK-750 (750 kW), GK-1000 (2 × 500 kW cascade), GK-2000 (2 × 1 000 kW N+1, modular 250–2 000 kW), GK-2500 (2 500 kW).
 - **Compliance & Warranty**: Full EN 12828 and EN 303-5 Class 5 compliance, IMI Pneumatex static pressure maintenance, SCADA/GSM remote telemetry, 5-year structural warranty.
 - **Specification & Tendering**: ${baseUrl}/lt/pramonei and ${baseUrl}/lt/gamyba
 
@@ -397,7 +394,7 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
     const localizedCategoryNames: Record<SupportedSeoLocale, string[]> = {
         lt: [
             'Granulių degikliai, katilo durelių konversija ir katilai',
-            'Pramoninės konteinerinės katilinės (100–500 kW ir iki 2,5 MW)',
+            'Pramoninės konteinerinės katilinės (100 kW – 2,5 MW)',
             'Šilumos siurbliai ir oro kondicionieriai (Haier R290/R32)',
             'Akumuliacinės talpos ir boileriai (Gorenje / Tiki, Dražice)',
             'Radiatoriai ir grindinio šildymo sistemos (Ferroli, Comisa)',
@@ -406,7 +403,7 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
         ],
         en: [
             'Pellet Burners, Boiler Door Conversion Kits & Boilers',
-            'Industrial Containerized Boiler Rooms (100–500 kW & up to 2.5 MW)',
+            'Industrial Containerized Boiler Rooms (100 kW – 2.5 MW)',
             'Heat Pumps & Air Conditioning (Haier R290/R32)',
             'Buffer Tanks & Indirect Water Heaters (Gorenje / Tiki, Dražice)',
             'Aluminum Radiators & Underfloor Heating (Ferroli, Comisa)',
@@ -415,7 +412,7 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
         ],
         pl: [
             'Palniki na pellet, konwersja drzwiczek kotłowych i kotły',
-            'Przemysłowe kotłownie kontenerowe (100–500 kW i do 2,5 MW)',
+            'Przemysłowe kotłownie kontenerowe (100 kW – 2,5 MW)',
             'Pompy ciepła i klimatyzacja (Haier R290/R32)',
             'Zbiorniki buforowe i wymienniki CWU (Gorenje / Tiki, Dražice)',
             'Grzejniki aluminiowe i ogrzewanie podłogowe (Ferroli, Comisa)',
@@ -424,7 +421,7 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
         ],
         ru: [
             'Пеллетные горелки, переоборудование дверец котлов и котлы',
-            'Промышленные контейнерные котельные (100–500 кВт и до 2,5 МВт)',
+            'Промышленные контейнерные котельные (100 кВт – 2,5 МВт)',
             'Тепловые насосы и кондиционеры (Haier R290/R32)',
             'Буферные емкости и бойлеры косвенного нагрева (Gorenje / Tiki, Dražice)',
             'Алюминиевые радиаторы и теплый пол (Ferroli, Comisa)',
@@ -476,6 +473,14 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
                 },
                 {
                     '@type': 'ContactPoint',
+                    telephone: '+370 693 97098',
+                    contactType: 'general and service line',
+                    email: 'info@gilesinzinerija.lt',
+                    areaServed: ['LT', 'LV', 'EE', 'PL'],
+                    availableLanguage: ['lt', 'en', 'pl', 'ru'],
+                },
+                {
+                    '@type': 'ContactPoint',
                     telephone: '+370 37 332234',
                     contactType: 'customer service and warehouse',
                     email: 'info@gilesinzinerija.lt',
@@ -485,7 +490,7 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
             ],
             knowsAbout: [
                 'Katilo perdarymas į granulinį per 4 val. be katilo keitimo (Viadrus U22/U26, Kalvis, Atmos, Stropuva)',
-                'Pramoninės konteinerinės katilinės 100–500 kW ir iki 2,5 MW (GK-150, GK-250, GK-500)',
+                'Pramoninės konteinerinės katilinės 100 kW – 2,5 MW (GK serija: GK-100…GK-2500)',
                 'EN 12828 ir EN 303-5 šildymo sistemų projektavimas ir hidraulinis balansavimas',
                 'Megatherm MPB, Verner, Ponast ir Thermostal rotaciniai granulių degikliai',
                 'Danfoss, IMI Hydronic (Heimeier, Pneumatex, TA), HERZ, Haier R290/R32 ir Gorenje / Tiki ŠVOK įranga',
@@ -531,7 +536,7 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
                 'Katilo durelių granulinės konversijos atsiperkamumo skaičiuoklė',
                 'Aliumininių radiatorių sekcijų skaičiuoklė (Ferroli POL 500 = 119 W/sekcija)',
                 'Išsiplėtimo indo tūrio skaičiavimas pagal EN 12828',
-                'Pramoninės konteinerinės katilinės (100–500 kW) konfigūratorius',
+                'Pramoninės konteinerinės katilinės (100 kW – 2,5 MW) konfigūratorius',
             ],
             offers: {
                 '@type': 'Offer',
@@ -573,13 +578,13 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
         {
             '@type': 'Service',
             '@id': `${baseUrl}/#service-containerized-boiler-rooms`,
-            name: 'Pramoninių ir savivaldybių konteinerinių katilinių (100–500 kW ir iki 2,5 MW) gamyba',
-            serviceType: 'Turnkey Containerized Biomass & Pellet Boiler Houses (GK-150, GK-250, GK-500)',
+            name: 'Pramoninių ir savivaldybių konteinerinių katilinių (100 kW – 2,5 MW) gamyba',
+            serviceType: 'Turnkey Containerized Biomass & Pellet Boiler Houses (GK-100…GK-2500)',
             provider: { '@id': `${baseUrl}/#organization` },
             areaServed: ['LT', 'LV', 'EE', 'PL'],
             url: `${baseUrl}/${locale}/pramonei`,
             description:
-                'Gamyklinės parengties 20ft HC konteinerinių katilinių GK-150, GK-250 ir GK-500 projektavimas, gamyba, EN 12828 hidraulinis išbandymas ir SCADA/GSM automatizavimas su 5 m. garantija.',
+                'Gamyklinės parengties 20ft HC konteinerinių katilinių GK serijos (GK-100…GK-2500) projektavimas, gamyba, EN 12828 hidraulinis išbandymas ir SCADA/GSM automatizavimas su 5 m. garantija.',
         },
         {
             '@type': 'HowTo',
@@ -621,14 +626,14 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
         {
             '@type': 'HowTo',
             '@id': `${baseUrl}/#howto-containerized-boiler-room`,
-            name: 'Kaip įrengti pramoninę konteinerinę katilinę GK-150 / GK-250 / GK-500 (100–500 kW)',
+            name: 'Kaip įrengti pramoninę konteinerinę katilinę GK serijos modelį (100 kW – 2,5 MW)',
             totalTime: 'P30D',
             step: [
                 {
                     '@type': 'HowToStep',
                     position: 1,
                     name: 'Šiluminės apkrovos ir hidraulinės schemos auditas',
-                    text: 'Apskaičiuojamas objekto pikinės galios poreikis (100–500 kW arba kaskada iki 2,5 MW) ir parenkamas GK-150, GK-250 arba GK-500 20ft HC modulis.',
+                    text: 'Apskaičiuojamas objekto pikinės galios poreikis (100 kW – 2,5 MW) ir parenkamas GK serijos (GK-100…GK-2500) 20ft HC modulis.',
                 },
                 {
                     '@type': 'HowToStep',

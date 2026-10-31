@@ -49,7 +49,7 @@ describe('WP-W100-A3: SEO + GEO / AEO / LLM Citation Authority Architecture', ()
         // 3 Core Market-Standard Engineering Specializations
         expect(text).toContain('Katilo perdarymas į granulinį per 4 val. be katilo keitimo');
         expect(text).toContain('Viadrus U22/U26');
-        expect(text).toContain('GK-150');
+        expect(text).toContain('GK-100');
         expect(text).toContain('GK-250');
         expect(text).toContain('GK-500');
         expect(text).toContain('20ft HC');
@@ -188,7 +188,7 @@ describe('WP-W100-A3: SEO + GEO / AEO / LLM Citation Authority Architecture', ()
             expect(howToNodes.length).toBeGreaterThanOrEqual(2);
             const howToJson = JSON.stringify(howToNodes);
             expect(howToJson).toContain('Viadrus');
-            expect(howToJson).toContain('GK-150');
+            expect(howToJson).toContain('GK-100');
 
             // 5. FAQPage with localized engineering Q&A
             const faqNode = graph.find((n: any) => n['@type'] === 'FAQPage') as Record<string, any> | undefined;

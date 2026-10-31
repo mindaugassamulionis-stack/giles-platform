@@ -5,12 +5,15 @@ import { sanitizeHtml } from '@/lib/sanitize-html';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { RefreshCw, ShieldCheck, Truck, CheckCircle2, ArrowRight, Wrench, Sparkles } from 'lucide-react';
+import { getBrandName, withBrandSuffix } from '../../../lib/brand';
 
-export const metadata: Metadata = {
-    title: '14 dienų grąžinimo, sriegių keitimo ir garantijos taisyklės | SURADAI',
-    description:
-        'SURADAI grąžinimo ir garantijos sąlygos: 14 dienų nenaudotų detalių grąžinimas, nemokamas keitimas jei netiko sriegis (DN15 vs DN20 arba RA Click vs M30×1.5) ir 24 mėn. gamintojo garantija.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const brand = await getBrandName();
+    return {
+        title: withBrandSuffix('14 dienų grąžinimo, sriegių keitimo ir garantijos taisyklės', brand),
+        description: `${brand} grąžinimo ir garantijos sąlygos: 14 dienų nenaudotų detalių grąžinimas, nemokamas keitimas jei netiko sriegis (DN15 vs DN20 arba RA Click vs M30×1.5) ir 24 mėn. gamintojo garantija.`,
+    };
+}
 
 const RETURNS_TRUST_CARDS = [
     {

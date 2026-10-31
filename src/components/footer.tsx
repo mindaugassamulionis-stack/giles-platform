@@ -6,6 +6,7 @@ import { useLocale } from 'next-intl';
 import { Phone, Mail, MapPin } from 'lucide-react';
 import { HVAC_SYSTEM_GROUPS } from '../lib/v3-description';
 import { GilesBrandLogo } from './giles-logo';
+import { EmailLink } from './email';
 import { assetUrl } from '../lib/api';
 import {
     GILES_COMPANY_IDENTITY,
@@ -76,12 +77,10 @@ export function Footer(_props: { settings?: StorefrontSettings }) {
                             <p className="flex items-center gap-2">
                                 <Mail className="w-3.5 h-3.5 text-[#FF8A3D] shrink-0" />
                                 <span>
-                                    <a
-                                        href="mailto:info@gilesinzinerija.lt"
+                                    <EmailLink
+                                        email="info@gilesinzinerija.lt"
                                         className="text-white hover:text-[#FF8A3D] whitespace-nowrap"
-                                    >
-                                        info@gilesinzinerija.lt
-                                    </a>
+                                    />
                                 </span>
                             </p>
                         </div>

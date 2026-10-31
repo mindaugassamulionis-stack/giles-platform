@@ -43,10 +43,13 @@ export interface StorefrontRuntimeConfigClient {
     };
 }
 
+// W119-A2: no foreign store fallback. Identity fields start empty and are
+// filled synchronously from the SSR-injected __STORE_IDENTITY__ JSON plus the
+// server-rendered initialConfig; /api/storefront-config only refreshes.
 export const DEFAULT_CLIENT_STOREFRONT_CONFIG: StorefrontRuntimeConfigClient = {
-    storeId: 'default',
-    storeKey: 'store_lt_main',
-    storeSlug: 'suradai',
+    storeId: '',
+    storeKey: '',
+    storeSlug: '',
     storeName: 'Gilės Inžinerija',
     domain: 'gilesinzinerija.lt',
     features: {
@@ -82,6 +85,24 @@ const StorefrontConfigContext = createContext<StorefrontRuntimeConfigClient>(
     DEFAULT_CLIENT_STOREFRONT_CONFIG,
 );
 
+// Server layout injects <script id="__STORE_IDENTITY__" type="application/json">
+// with the once-resolved store identity; read it synchronously so the client
+// identity equals the server identity from first paint (no build-time env).
+function readInjectedStoreIdentity(): { storeId: string; storeSlug: string } | null {
+    if (typeof document === 'undefined') return null;
+    try {
+        const el = document.getElementById('__STORE_IDENTITY__');
+        if (!el?.textContent) return null;
+        const parsed = JSON.parse(el.textContent);
+        if (parsed && typeof parsed.storeId === 'string' && parsed.storeId) {
+            return { storeId: parsed.storeId, storeSlug: String(parsed.storeSlug || '') };
+        }
+    } catch {
+        // Malformed injection — initialConfig from SSR still carries identity.
+    }
+    return null;
+}
+
 export function StorefrontConfigProvider({
     initialConfig,
     children,
@@ -90,8 +111,10 @@ export function StorefrontConfigProvider({
     children: React.ReactNode;
 }) {
     const [config, setConfig] = useState<StorefrontRuntimeConfigClient>(() => {
+        const injected = readInjectedStoreIdentity();
         const merged: StorefrontRuntimeConfigClient = {
             ...DEFAULT_CLIENT_STOREFRONT_CONFIG,
+            ...(injected || {}),
             ...(initialConfig || {}),
             features: {
                 ...DEFAULT_CLIENT_STOREFRONT_CONFIG.features,
@@ -116,7 +139,7 @@ export function StorefrontConfigProvider({
 
     useEffect(() => {
         if (typeof window === 'undefined') return;
-        (window as any).__SURADAI_STOREFRONT_CONFIG__ = config;
+        (window as any).__GILES_STOREFRONT_CONFIG__ = config;
         setJourneyTrackingConfig({
             enabled: config.features.customerJourneyTracker,
             storeId: config.storeId,
@@ -162,7 +185,7 @@ export function StorefrontConfigProvider({
                     };
                     setConfig(next);
                     if (typeof window !== 'undefined') {
-                        (window as any).__SURADAI_STOREFRONT_CONFIG__ = next;
+                        (window as any).__GILES_STOREFRONT_CONFIG__ = next;
                     }
                     setJourneyTrackingConfig({
                         enabled: next.features.customerJourneyTracker,

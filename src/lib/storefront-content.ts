@@ -4,33 +4,15 @@ import { legalPolicies } from '@platform/database/schema/compliance';
 import { storefrontPages } from '@platform/database/schema/storefront-pages';
 import { storefrontSettings } from '@platform/database/schema/storefront-settings';
 import { and, desc, eq, type InferSelectModel } from 'drizzle-orm';
+import { resolveStoreIdOrThrow } from './store-identity';
 
 export type Store = InferSelectModel<typeof stores>;
 
-const DEFAULT_STORE_ID = '096782b2-27d1-4151-a687-0612b6cd1fba'; // Suradai.lt
 const CONTENT_CACHE_TTL_MS = 60 * 1000;
 const contentTtlCache = new Map<string, { expiresAt: number; value: unknown }>();
 
-const resolveStoreId = async () => {
-    const envStoreId = process.env.STORE_ID;
-    if (envStoreId) return envStoreId;
-    const envSlug = process.env.STORE_SLUG;
-    if (envSlug) {
-        const cacheKey = `storeId:${envSlug}`;
-        const now = Date.now();
-        const hit = contentTtlCache.get(cacheKey);
-        if (hit && hit.expiresAt > now) return hit.value as string;
-        const [store] = await db.select().from(stores).where(eq(stores.slug, envSlug)).limit(1);
-        if (store) {
-            contentTtlCache.set(cacheKey, { expiresAt: now + CONTENT_CACHE_TTL_MS, value: store.id });
-            return store.id;
-        }
-    }
-    return DEFAULT_STORE_ID;
-};
-
 export const getStore = async (): Promise<Store | null> => {
-    const storeId = await resolveStoreId();
+    const storeId = await resolveStoreIdOrThrow();
     const cacheKey = `store:${storeId}`;
     const now = Date.now();
     const hit = contentTtlCache.get(cacheKey);
@@ -42,7 +24,7 @@ export const getStore = async (): Promise<Store | null> => {
 };
 
 export const getLegalPolicy = async (type: string) => {
-    const storeId = await resolveStoreId();
+    const storeId = await resolveStoreIdOrThrow();
     const [policy] = await db
         .select()
         .from(legalPolicies)
@@ -59,7 +41,7 @@ export const getLegalPolicy = async (type: string) => {
 };
 
 export const getStorefrontPage = async (slug: string) => {
-    const storeId = await resolveStoreId();
+    const storeId = await resolveStoreIdOrThrow();
     const [page] = await db
         .select()
         .from(storefrontPages)
@@ -70,7 +52,7 @@ export const getStorefrontPage = async (slug: string) => {
 };
 
 export const getStorefrontSettings = async () => {
-    const storeId = await resolveStoreId();
+    const storeId = await resolveStoreIdOrThrow();
     const rows = await db
         .select()
         .from(storefrontSettings)

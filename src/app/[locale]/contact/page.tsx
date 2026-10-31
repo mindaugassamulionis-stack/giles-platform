@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { Mail, MapPin, Sparkles, FileText, Calculator, CheckCircle2, Wrench, ArrowRight } from 'lucide-react';
+import { Mail, MapPin, Sparkles, FileText, Calculator, CheckCircle2, Wrench, ArrowRight, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Link } from '../../../i18n/navigation';
+import { TextWithEmail } from '../../../components/email';
 
 export const metadata: Metadata = {
     title: 'Kontaktai ir inžinerinės konsultacijos | Gilės Inžinerija',
@@ -96,6 +97,22 @@ export default function ContactPage() {
 
                         <div className="flex items-start gap-4 rounded-[2px] border border-border bg-card p-5">
                             <div className="p-3 bg-muted rounded-[2px] text-[var(--primary)] shrink-0">
+                                <Phone className="w-5 h-5" strokeWidth={1.75} aria-hidden="true" />
+                            </div>
+                            <div>
+                                <h3 className="font-display font-bold text-base mb-1">{t('contactPage.directPhoneLabel')}</h3>
+                                <p className="font-mono text-sm font-bold text-[var(--primary)]">
+                                    {t('contactPage.directPhoneDarius')}
+                                </p>
+                                <p className="font-mono text-sm font-bold text-[var(--primary)]">
+                                    {t('contactPage.directPhoneService')}
+                                </p>
+                                <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{t('contactPage.directPhoneNote')}</p>
+                            </div>
+                        </div>
+
+                        <div className="flex items-start gap-4 rounded-[2px] border border-border bg-card p-5">
+                            <div className="p-3 bg-muted rounded-[2px] text-[var(--primary)] shrink-0">
                                 <Sparkles className="w-5 h-5" strokeWidth={1.75} aria-hidden="true" />
                             </div>
                             <div>
@@ -120,7 +137,7 @@ export default function ContactPage() {
                                     {t('contactPage.city')}
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                                    UAB „Gilės inžinerija“ · Įmonės kodas: 302620907 · PVM kodas: LT100006119810 · Žirmūnų g. 68, LT-09124 Vilnius · Eigulių g. 21, LT-51418 Kaunas · info@gilesinzinerija.lt · 14 d. grąžinimo garantija · 24 mėn. garantija
+                                    <TextWithEmail text={'UAB „Gilės inžinerija“ · Įmonės kodas: 302620907 · PVM kodas: LT100006119810 · Žirmūnų g. 68, LT-09124 Vilnius · Eigulių g. 21, LT-51418 Kaunas · info@gilesinzinerija.lt · 14 d. grąžinimo garantija · 24 mėn. garantija'} />
                                 </p>
                                 <div className="mt-3 flex flex-wrap gap-3">
                                     <Link

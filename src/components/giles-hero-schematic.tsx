@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useVatDisplayStore } from '../store/vat-display';
 import { assetUrl } from '../lib/api';
 import type { AppLocale } from '../i18n/routing';
+import { formatEurAmount } from '../lib/format';
 
 export type HeroPartId =
     | 'burner'
@@ -438,9 +439,7 @@ export function GilesHeroAnimatedSchematic({ locale }: { locale: AppLocale }) {
         setSelectedPartId(id);
     };
 
-    const formattedPrice = `${(showNet ? currentPart.priceNetEur : currentPart.priceGrossEur)
-        .toFixed(2)
-        .replace('.', ',')} € ${showNet ? ui.vatNet : ui.vatGross}`;
+    const formattedPrice = `${formatEurAmount(showNet ? currentPart.priceNetEur : currentPart.priceGrossEur)} € ${showNet ? ui.vatNet : ui.vatGross}`;
 
     const primaryParts = HERO_SCHEMATIC_PARTS.filter((p) => p.primary);
     const secondaryParts = HERO_SCHEMATIC_PARTS.filter((p) => !p.primary);

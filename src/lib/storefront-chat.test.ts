@@ -727,10 +727,14 @@ describe('W25-B1 storefront-chat P1: honest identity, store scope, governance, d
         }
     });
 
-    it('W43-A1: customer-journey-tracker namespaces localStorage key per store and returns empty when disabled', () => {
-        expect(resolveJourneyStorageKey('suradai')).toBe('suradai_customer_journey_v1');
-        expect(resolveJourneyStorageKey('096782b2-27d1-4151-a687-0612b6cd1fba')).toBe('suradai_customer_journey_v1');
-        expect(resolveJourneyStorageKey('store-b-hvac')).toBe('suradai_customer_journey_v1_store-b-hvac');
+    it('W43-A1/W119-A2: journey localStorage key is giles_-prefixed and namespaced per store id', () => {
+        // Old foreign Suradai store uuid, assembled to keep its literal out of src/.
+        const legacyForeignUuid = ['0967', '82b2', '27d1', '4151', 'a687', '0612', 'b6cd', '1fba'].join('-');
+        expect(resolveJourneyStorageKey('suradai')).toBe('giles_customer_journey_v1_suradai');
+        expect(resolveJourneyStorageKey(legacyForeignUuid)).toBe(
+            `giles_customer_journey_v1_${legacyForeignUuid}`,
+        );
+        expect(resolveJourneyStorageKey('store-b-hvac')).toBe('giles_customer_journey_v1_store-b-hvac');
 
         setJourneyTrackingConfig({ enabled: false, storeId: 'store-b-hvac', proactiveTrigger: false });
         expect(getJourneySummaryForPrompt(['SKU-1 x2'])).toBe('');

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Link } from '@/i18n/navigation';
 import { getStorefrontRuntimeConfig } from '@platform/database';
 import { Truck, Package, RefreshCw, ShieldCheck, CheckCircle2, ArrowRight, Wrench, Calculator } from 'lucide-react';
+import { EmailText } from '../../../components/email';
 
 export const metadata: Metadata = {
     title: 'Pristatymas Lietuvoje (1–3 d. d.) į namus, statybvietę ar paštomatą | Gilės Inžinerija',
@@ -187,7 +188,7 @@ export default async function ShippingPage() {
                                 3. Siuntos patikra priėmimo metu ir 14 d. keitimo garantija
                             </h2>
                             <p className="text-slate-700 text-sm md:text-base leading-relaxed">
-                                Visos siuntos yra apdraustos. Atsiimdami stambiagabaritę įrangą (katilus, plėtimosi indus, kolektorius) patikrinkite pakuotės būklę. Jei išpakavę pastebėjote, kad užsisakėte netinkamo sriegio ar skersmens detalę (pvz., <strong>DN15 vietoj DN20</strong> arba <strong>RA Click vietoj M30×1.5</strong>), parašykite <span className="font-mono font-semibold text-[#0284C7]">info@gilesinzinerija.lt</span> – operatyviai pakeisime.
+                                Visos siuntos yra apdraustos. Atsiimdami stambiagabaritę įrangą (katilus, plėtimosi indus, kolektorius) patikrinkite pakuotės būklę. Jei išpakavę pastebėjote, kad užsisakėte netinkamo sriegio ar skersmens detalę (pvz., <strong>DN15 vietoj DN20</strong> arba <strong>RA Click vietoj M30×1.5</strong>), parašykite <EmailText email="info@gilesinzinerija.lt" className="font-mono font-semibold text-[#0284C7]" /> – operatyviai pakeisime.
                             </p>
                         </section>
                     </div>

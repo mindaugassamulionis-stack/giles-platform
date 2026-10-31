@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { findCompatibleCatalogProducts } from '@platform/database/services/product-compatibility-rag';
 import { resolveChatStore } from '@platform/database/services/storefront-chat';
+import { getStoreIdentity } from '../../../lib/store-identity';
 
 export const runtime = 'nodejs';
 
@@ -10,11 +11,12 @@ async function resolveCompatibilityRequest(params: {
     q?: string | null;
     limit?: number;
 }) {
-    const storeSlug = process.env.STORE_SLUG || 'suradai';
-    const store = await resolveChatStore(storeSlug);
+    // Fail-closed: the Gilės store scope only, resolved once server-side.
+    const identity = await getStoreIdentity();
+    const store = await resolveChatStore(identity.storeSlug || identity.storeId);
     if (!store) {
         return NextResponse.json(
-            { error: `Store "${storeSlug}" not found` },
+            { error: `Store "${identity.storeSlug}" not found` },
             { status: 404 },
         );
     }

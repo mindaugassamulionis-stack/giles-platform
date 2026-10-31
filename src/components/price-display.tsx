@@ -4,12 +4,13 @@ import { usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { useVatDisplayStore } from '../store/vat-display';
 import { priceDisplayPair } from '../lib/vat';
+import { formatEurAmount } from '../lib/format';
 import { resolveAppLocale } from '../i18n/storefront-ui-copy';
 import type { AppLocale } from '../i18n/routing';
 import { clsx } from 'clsx';
 
 function eur(cents: number): string {
-    return (cents / 100).toFixed(2) + ' €';
+    return `${formatEurAmount(cents / 100)} €`;
 }
 
 const PRICE_DISPLAY_COPY: Record<

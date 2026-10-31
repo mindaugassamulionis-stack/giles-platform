@@ -27,7 +27,7 @@ async function getStripeConfig(): Promise<{ stripe: Stripe; webhookSecret: strin
 // (PaymentService and each storefront route); each consumer tracks its own
 // processed marker so one consumer's completion can never suppress another
 // consumer's required work.
-const CONSUMER = 'suradai';
+const CONSUMER = 'giles-inzinierija';
 const eventKey = (id: string) => `${CONSUMER}:${id}`;
 
 const STALE_PROCESSING_AFTER_MS = 10 * 60 * 1000;

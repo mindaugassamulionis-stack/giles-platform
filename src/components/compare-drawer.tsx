@@ -21,6 +21,7 @@ import { resolveProductImageUrl } from '../lib/product-visuals';
 import { resolveProductBrandInfo } from '../lib/v3-description';
 import { resolveAppLocale } from '../i18n/storefront-ui-copy';
 import type { AppLocale } from '../i18n/routing';
+import { formatEurAmount } from '../lib/format';
 
 export const COMPARE_DRAWER_I18N: Record<
     AppLocale,
@@ -479,13 +480,13 @@ export function CompareDrawer() {
                                             <div className="pt-2.5 border-t border-[#E2DDD3] flex items-end justify-between gap-2">
                                                 <div>
                                                     <span className="block text-base font-extrabold text-[#11161B] tabular-nums">
-                                                        {primaryVal.toFixed(2).replace('.', ',')} €{' '}
+                                                        {formatEurAmount(primaryVal)} €{' '}
                                                         <span className="text-xs font-semibold text-[#5B6470]">
                                                             {showNet ? copy.vatNet : copy.vatGross}
                                                         </span>
                                                     </span>
                                                     <span className="block text-xs text-[#5B6470] tabular-nums">
-                                                        {secondaryVal.toFixed(2).replace('.', ',')} €{' '}
+                                                        {formatEurAmount(secondaryVal)} €{' '}
                                                         {showNet ? copy.vatGross : copy.vatNet}
                                                     </span>
                                                 </div>

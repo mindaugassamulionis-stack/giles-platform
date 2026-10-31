@@ -790,12 +790,17 @@ export function VytautasAssistantWidget() {
     useEffect(() => {
         if (typeof window === 'undefined') return;
         try {
-            const existing = window.sessionStorage.getItem('suradai_vytautas_session_id');
+            // W119-A2: giles_ key; one-time read of the old suradai_ key so an
+            // in-flight visitor keeps their session id.
+            const legacy = window.sessionStorage.getItem('suradai_vytautas_session_id');
+            const existing =
+                window.sessionStorage.getItem('giles_vytautas_session_id') || legacy;
             if (existing) {
                 sessionIdRef.current = existing;
+                window.sessionStorage.setItem('giles_vytautas_session_id', existing);
             } else {
                 const created = `vyt-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
-                window.sessionStorage.setItem('suradai_vytautas_session_id', created);
+                window.sessionStorage.setItem('giles_vytautas_session_id', created);
                 sessionIdRef.current = created;
             }
         } catch {
@@ -980,7 +985,7 @@ export function VytautasAssistantWidget() {
             if (typeof window !== 'undefined') {
                 try {
                     window.sessionStorage.setItem(
-                        'suradai_vytautas_client_telemetry_v1',
+                        'giles_vytautas_client_telemetry_v1',
                         JSON.stringify(clientTelemetry),
                     );
                 } catch {
@@ -1276,7 +1281,8 @@ export function VytautasAssistantWidget() {
     return (
         <div
             data-testid="vytautas-assistant-widget"
-            className="fixed bottom-4 right-4 z-40 max-w-[calc(100vw-2rem)] font-sans"
+            id="vytautas-launcher"
+            className="fixed bottom-4 right-4 z-[9995] max-w-[calc(100vw-2rem)] font-sans"
         >
             {!open && (
                 <button

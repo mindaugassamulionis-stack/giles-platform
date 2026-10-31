@@ -5,12 +5,16 @@ import { sanitizeHtml } from '@/lib/sanitize-html';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/navigation';
 import { ShieldCheck, Lock, Sparkles, Calculator, CheckCircle2, ArrowRight, FileText } from 'lucide-react';
+import { getBrandName, withBrandSuffix } from '../../../lib/brand';
+import { EmailText } from '../../../components/email';
 
-export const metadata: Metadata = {
-    title: 'Privatumo ir BDAR duomenų apsaugos politika | SURADAI',
-    description:
-        'SURADAI privatumo politika (BDAR / GDPR): kaip saugomi užsakymų duomenys, kodėl 5 ŠVOK skaičiuoklių bei Vytauto AI istorija saugoma tik Jūsų naršyklėje ir nulis brukalo garantija.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+    const brand = await getBrandName();
+    return {
+        title: withBrandSuffix('Privatumo ir BDAR duomenų apsaugos politika', brand),
+        description: `${brand} privatumo politika (BDAR / GDPR): kaip saugomi užsakymų duomenys, kodėl 5 ŠVOK skaičiuoklių bei Vytauto AI istorija saugoma tik Jūsų naršyklėje ir nulis brukalo garantija.`,
+    };
+}
 
 const PRIVACY_TRUST_CARDS = [
     {
@@ -150,7 +154,9 @@ export default async function PrivacyPage() {
                             <p className="text-sm font-bold text-[#0B192C]">UAB „Gilės inžinerija“</p>
                             <p className="text-sm text-slate-700">Įmonės kodas: 302620907 · PVM mokėtojo kodas: LT100006119810</p>
                             <p className="text-sm text-slate-700">Adresas: Žirmūnų g. 68, LT-09124 Vilnius · Eigulių g. 21, LT-51418 Kaunas</p>
-                            <p className="text-sm font-mono text-[#0284C7] font-semibold">El. paštas: info@gilesinzinerija.lt</p>
+                            <p className="text-sm font-mono text-[#0284C7] font-semibold">
+                                El. paštas: <EmailText email="info@gilesinzinerija.lt" />
+                            </p>
                             <p className="text-xs text-slate-600 pt-1">
                                 Pirkėjų teisės: 14 d. grąžinimo garantija, 24 mėn. oficiali gamintojo garantija ir visos ES BDAR duomenų subjekto teisės.
                             </p>

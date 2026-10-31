@@ -408,6 +408,15 @@ export function ModelPassportView({
                             </div>
 
                             <div className="flex flex-wrap gap-3">
+                                {model.segment === 'rent' && (
+                                    <a
+                                        href={`/${locale}/pramonei#nuomos-sandoris`}
+                                        data-testid="model-rent-configurator-cta"
+                                        className="min-h-[48px] px-6 inline-flex items-center justify-center rounded-lg bg-[#FF8A3D] text-[#0E1216] font-bold text-sm sm:text-base hover:brightness-110 transition"
+                                    >
+                                        {content.rfq.modes.rent}
+                                    </a>
+                                )}
                                 <a
                                     href="#industrial-rfq"
                                     className="min-h-[48px] px-6 inline-flex items-center justify-center rounded-lg bg-[#C2410C] text-white font-bold text-sm sm:text-base hover:brightness-110 transition"
@@ -511,6 +520,7 @@ export function ModelPassportView({
                 locale={locale}
                 defaultModelSlug={model.slug}
                 defaultMode={model.segment === 'rent' ? 'rent' : 'buy'}
+                rentalConfiguratorHref={`/${locale}/pramonei#nuomos-sandoris`}
             />
 
             {/* 8. Kiti modeliai */}

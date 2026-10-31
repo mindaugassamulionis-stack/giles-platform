@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStorefrontRuntimeConfig } from '@platform/database';
+import { StoreIdentityError, resolveStoreIdOrThrow } from '../../../lib/store-identity';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -7,14 +8,12 @@ export const runtime = 'nodejs';
 export async function GET(request: NextRequest) {
     try {
         const searchParams = request.nextUrl.searchParams;
+        // Explicit preview overrides only; otherwise the once-resolved server
+        // identity (STORE_SLUG/STORE_ID) — never a foreign default.
         const requestedStoreId =
             searchParams.get('storeId') ||
             request.headers.get('x-store-id') ||
-            request.cookies.get('suradai_store_id')?.value ||
-            process.env.NEXT_PUBLIC_STORE_ID ||
-            process.env.STORE_ID ||
-            process.env.STORE_SLUG ||
-            'suradai';
+            (await resolveStoreIdOrThrow());
 
         const config = await getStorefrontRuntimeConfig(requestedStoreId, {
             includeSecretApiKey: false,
@@ -41,6 +40,13 @@ export async function GET(request: NextRequest) {
             totalFeaturesCount: config.totalFeaturesCount,
         });
     } catch (error) {
+        if (error instanceof StoreIdentityError) {
+            console.error('[/api/storefront-config] store identity not configured:', error.message);
+            return NextResponse.json(
+                { ok: false, error: 'store identity not configured' },
+                { status: 500 },
+            );
+        }
         console.error('[/api/storefront-config] GET error:', error);
         return NextResponse.json(
             { ok: false, error: 'Failed to load storefront runtime config' },

@@ -21,6 +21,7 @@ import { useStorefrontConfig } from './storefront-config-provider';
 
 interface SearchResult {
     id: string;
+    slug?: string | null;
     name: string;
     price: number;
     image: string | null;
@@ -333,7 +334,7 @@ export function SearchOverlay() {
                                         return (
                                             <Link
                                                 key={product.id}
-                                                href={`/products/${product.id}`}
+                                                href={`/products/${product.slug || product.id}`}
                                                 onClick={closeSearch}
                                                 className="flex items-center gap-4 p-3 rounded-sm border border-border bg-white hover:border-[var(--secondary)] transition-colors group"
                                             >

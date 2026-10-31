@@ -2,12 +2,15 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Atom, FlaskConical, Magnet, Rocket, ArrowRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { getBrandName, withBrandSuffix } from '../../../lib/brand';
 
-export const metadata: Metadata = {
-    title: 'Mokslas | SURADAI',
-    description:
-        "Kid-friendly science kits: what's inside, what children learn, and how experiments work at home.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        title: withBrandSuffix('Mokslas', await getBrandName()),
+        description:
+            "Kid-friendly science kits: what's inside, what children learn, and how experiments work at home.",
+    };
+}
 
 export default function SciencePage() {
     const t = useTranslations();

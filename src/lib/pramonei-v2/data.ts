@@ -372,15 +372,15 @@ export function getDefaultPublishEnv(): PublishEnv {
 
 const CONTENT_EN: PramoneiContent = {
     seo: {
-        title: 'Containerized Boiler Plants 100 kW – 2.5 MW | Built in Kaunas | Gilės inžinerija',
+        title: 'Containerized Boiler Plants 100 kW – 2.5 MW | Built in Kaunas | Gilės inžinerija',
         description:
-            'Containerized biomass boiler plants 100 kW – 2.5 MW: factory-built and tested in Kaunas, purchase or rental. Prices from 28 500 € excl. VAT, payback calculator, drawings, and quote within 24h.',
+            'Containerized biomass boiler plants 100 kW – 2.5 MW: factory-built and tested in Kaunas, purchase or rental. Prices from 28 500 € excl. VAT, payback calculator, drawings, and quote within 24h.',
         og_image: '/studio-assets/projects/giles-darbas-08.webp',
     },
     breadcrumb: ['Home', 'Industrial'],
     hero: {
         eyebrow: 'BUILT IN KAUNAS · SALE · RENTAL',
-        h1: 'Containerized Boiler Plants 100 kW – 2.5 MW',
+        h1: 'Containerized Boiler Plants 100 kW – 2.5 MW',
         lead: 'Assembled and pressure-tested at our Kaunas factory, delivered ready to connect. Wood chips, pellets, or biogas – purchase or rental. Project quote within 24h on business days.',
         cta_primary: {
             label: 'Request a Quote',
@@ -396,7 +396,7 @@ const CONTENT_EN: PramoneiContent = {
             note: 'PDF pending owner confirmation',
         },
         facts: [
-            { value: '100 kW – 2.5 MW', label: 'output range' },
+            { value: '100 kW – 2.5 MW', label: 'output range' },
             { value: '4–8 wks', label: 'production & testing in Kaunas' },
             { value: '16 sites', label: 'manufactured & commissioned' },
         ],
@@ -412,7 +412,7 @@ const CONTENT_EN: PramoneiContent = {
             segment: 'buy',
             eyebrow: 'PURCHASE',
             title: 'Permanent Boiler Plant',
-            text: 'For factories, greenhouses, schools, and district networks. 100 kW – 2.5 MW.',
+            text: 'For factories, greenhouses, schools, and district networks. 100 kW – 2.5 MW.',
             price_from: 'from 28 500 € excl. VAT',
         },
         {
@@ -622,7 +622,7 @@ const CONTENT_EN: PramoneiContent = {
                     'Not sure – help me size it',
                     '100–250 kW',
                     '250–500 kW',
-                    '500 kW – 1 MW',
+                    '500 kW – 1 MW',
                     '1–2,5 MW',
                 ],
             },
@@ -636,6 +636,8 @@ const CONTENT_EN: PramoneiContent = {
             },
             files: {
                 label: 'Project files or photos (optional)',
+                choose: 'Choose files',
+                none: 'No files selected',
                 accept: '.pdf,.dwg,.dxf,.jpg,.jpeg,.png',
                 max_files: 5,
                 max_total_mb: 20,
@@ -659,15 +661,15 @@ const CONTENT_EN: PramoneiContent = {
 
 const CONTENT_PL: PramoneiContent = {
     seo: {
-        title: 'Kotłownie kontenerowe 100 kW – 2,5 MW | Produkcja w Kownie | Gilės inžinerija',
+        title: 'Kotłownie kontenerowe 100 kW – 2,5 MW | Produkcja w Kownie | Gilės inžinerija',
         description:
-            'Kontenerowe kotłownie biomasowe 100 kW – 2,5 MW: produkcja i próby ciśnieniowe w Kownie, zakup lub wynajem. Ceny od 28 500 € netto, kalkulator zwrotu, schematy i wycena w 24h.',
+            'Kontenerowe kotłownie biomasowe 100 kW – 2,5 MW: produkcja i próby ciśnieniowe w Kownie, zakup lub wynajem. Ceny od 28 500 € netto, kalkulator zwrotu, schematy i wycena w 24h.',
         og_image: '/studio-assets/projects/giles-darbas-08.webp',
     },
     breadcrumb: ['Start', 'Przemysł'],
     hero: {
         eyebrow: 'PRODUKCJA W KOWNIE · SPRZEDAŻ · WYNAJEM',
-        h1: 'Kotłownie kontenerowe 100 kW – 2,5 MW',
+        h1: 'Kotłownie kontenerowe 100 kW – 2,5 MW',
         lead: 'Montujemy i testujemy w zakładzie w Kownie, dostarczamy gotowe do podłączenia. Zrębka, pellet lub biogaz – zakup albo wynajem. Wycena w 24 godz. w dni robocze.',
         cta_primary: {
             label: 'Otrzymaj ofertę',
@@ -683,7 +685,7 @@ const CONTENT_PL: PramoneiContent = {
             note: 'PDF w przygotowaniu',
         },
         facts: [
-            { value: '100 kW – 2,5 MW', label: 'zakres mocy' },
+            { value: '100 kW – 2,5 MW', label: 'zakres mocy' },
             { value: '4–8 tyg.', label: 'produkcja i testy w Kownie' },
             { value: '16 obiektów', label: 'wyprodukowano i wdrożono' },
         ],
@@ -699,7 +701,7 @@ const CONTENT_PL: PramoneiContent = {
             segment: 'buy',
             eyebrow: 'ZAKUP',
             title: 'Stała kotłownia',
-            text: 'Dla zakładów, szklarni, szkół i sieci ciepłowniczych. 100 kW – 2,5 MW.',
+            text: 'Dla zakładów, szklarni, szkół i sieci ciepłowniczych. 100 kW – 2,5 MW.',
             price_from: 'od 28 500 € netto',
         },
         {
@@ -909,7 +911,7 @@ const CONTENT_PL: PramoneiContent = {
                     'Nie wiem – pomóżcie dobrać',
                     '100–250 kW',
                     '250–500 kW',
-                    '500 kW – 1 MW',
+                    '500 kW – 1 MW',
                     '1–2,5 MW',
                 ],
             },
@@ -923,6 +925,8 @@ const CONTENT_PL: PramoneiContent = {
             },
             files: {
                 label: 'Projekt lub zdjęcia (opcjonalnie)',
+                choose: 'Wybierz pliki',
+                none: 'Nie wybrano plików',
                 accept: '.pdf,.dwg,.dxf,.jpg,.jpeg,.png',
                 max_files: 5,
                 max_total_mb: 20,
@@ -1210,6 +1214,8 @@ const CONTENT_RU: PramoneiContent = {
             },
             files: {
                 label: 'Проект или фото (необязательно)',
+                choose: 'Выбрать файлы',
+                none: 'Файлы не выбраны',
                 accept: '.pdf,.dwg,.dxf,.jpg,.jpeg,.png',
                 max_files: 5,
                 max_total_mb: 20,

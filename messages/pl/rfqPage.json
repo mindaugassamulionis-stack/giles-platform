@@ -20,7 +20,7 @@
     "successTitle": "Your Quote Request Is Registered",
     "successRef": "Request reference number",
     "successNote": "We will verify the manufacturer codes, compatibility, and quantities and send a detailed quote (incl. and excl. VAT) to your email.",
-    "errorGeneric": "Could not submit the request — please verify your email address and try again.",
-    "rateLimited": "Too many requests in a row — please wait a minute and try again.",
+    "errorGeneric": "Could not submit the request – please verify your email address and try again.",
+    "rateLimited": "Too many requests in a row – please wait a minute and try again.",
     "company": "Company"
 }

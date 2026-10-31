@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next';
-import { db, storefrontPages, stores } from '@platform/database';
+import { db, storefrontPages } from '@platform/database';
 import { eq } from 'drizzle-orm';
 import { HVAC_COMPARISON_GUIDES, SYMPTOM_DIAGNOSTICS } from '../lib/hvac-comparisons-data';
 import { resolvePublicSiteOrigin } from '../lib/domain-routing';
+import { getStoreIdentity } from '../lib/store-identity';
 import {
     SUPPORTED_SEO_LOCALES,
     GILES_SITEMAP_CORE_PATHS,
@@ -14,16 +15,12 @@ const locales = SUPPORTED_SEO_LOCALES;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = resolvePublicSiteOrigin().replace(/\/$/, '');
-    const storeId = process.env.STORE_ID;
-    const storeSlug = process.env.STORE_SLUG;
-    let resolvedStoreId = storeId;
-    if (!resolvedStoreId && storeSlug) {
-        try {
-            const [store] = await db.select().from(stores).where(eq(stores.slug, storeSlug)).limit(1);
-            resolvedStoreId = store?.id;
-        } catch {
-            resolvedStoreId = undefined;
-        }
+    let resolvedStoreId: string | undefined;
+    try {
+        resolvedStoreId = (await getStoreIdentity()).storeId;
+    } catch {
+        // Sitemap stays buildable without a configured store identity.
+        resolvedStoreId = undefined;
     }
 
     const alternatesFor = (path: string) => {

@@ -25,8 +25,6 @@ import { resolveAppLocale } from '../../i18n/storefront-ui-copy';
 import type { AppLocale } from '../../i18n/routing';
 import { trackEvent } from '../analytics';
 
-export const ENGINEERING_LEAD_ENDPOINT = '/suradai/api/engineering-lead';
-
 interface HeatingSystemCalculatorProps {
     defaultHeatSource?: HeatSourceType;
     compact?: boolean;
@@ -569,7 +567,7 @@ export function HeatingSystemCalculator({
         setLeadResult(null);
 
         try {
-            const endpoint = apiUrl('/api/engineering-lead') || ENGINEERING_LEAD_ENDPOINT;
+            const endpoint = apiUrl('/api/engineering-lead');
             const res = await fetch(endpoint, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

@@ -9,6 +9,7 @@ import { Navbar } from '../../components/navbar';
 import { Footer } from '../../components/footer';
 import { VytautasAssistantWidget } from '../../components/vytautas-assistant-widget';
 import { getStore, getStorefrontSettings } from '../../lib/storefront-content';
+import { StoreIdentityError } from '../../lib/store-identity';
 import { getStorefrontRuntimeConfig } from '@platform/database';
 import { Analytics } from '../../components/analytics';
 import { SeoGeoJsonLd } from '../../components/seo-geo-jsonld';
@@ -73,8 +74,13 @@ export default async function LocaleLayout({
     const t = await getTranslations();
 
     const store = await getStore();
+    if (!store) {
+        throw new StoreIdentityError(
+            'Store identity not resolved for server render. Set STORE_SLUG (e.g. giles-inzinierija) or STORE_ID.',
+        );
+    }
     const storefront = await getStorefrontSettings();
-    const rawRuntimeConfig = await getStorefrontRuntimeConfig(store?.id || process.env.STORE_SLUG || 'suradai');
+    const rawRuntimeConfig = await getStorefrontRuntimeConfig(store.id);
     const runtimeConfig = {
         ...rawRuntimeConfig,
         storeName:
@@ -98,6 +104,15 @@ export default async function LocaleLayout({
 
     return (
         <>
+            {/* W119-A2: once-resolved server identity, read synchronously by the
+                client config provider — single identity, no build-time env. */}
+            <script
+                id="__STORE_IDENTITY__"
+                type="application/json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({ storeId: store.id, storeSlug: store.slug }),
+                }}
+            />
             <SeoGeoJsonLd locale={locale} nonce={nonce} />
             {/* WP3B: NextIntlClientProvider must wrap <Providers/> — global
                 components rendered by Providers (CartDrawer, SearchOverlay,

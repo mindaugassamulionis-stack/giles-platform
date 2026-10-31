@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { headers } from 'next/headers';
 import { getCatalogProduct, getRelatedProducts, storeIdOrThrow } from '../../../../lib/catalog';
+import { stripLegacySkuTail } from '../../../../lib/product-text';
 import {
     findCompatibleCatalogProducts,
     type ProductCompatibilityResult,
@@ -25,7 +26,7 @@ import {
     extractCardTechChips,
 } from '../../../../lib/v3-description';
 import { buildProductFaqAndComparison } from '../../../../lib/product-faq-and-comparison';
-import { formatEur } from '../../../../lib/format';
+import { formatEur, formatEurAmount } from '../../../../lib/format';
 import { escapeJsonLdForScript } from '../../../../lib/jsonld';
 import {
     CheckCircle2,
@@ -1534,13 +1535,18 @@ function resolvePdpEngineeringProfile(
         (typeof rawOverrideObj.descriptionLt === 'string' && rawOverrideObj.descriptionLt.trim()) ||
         (typeof rawOverrideObj.description === 'string' && rawOverrideObj.description.trim()) ||
         '';
+    // W118-A2 finding 13: legacy generated descriptions can end with a junk
+    // "SKU: <code>," tail — strip it before the hook is resolved.
+    const cleanDescCandidate = stripLegacySkuTail(rawDescCandidate);
     const isAutoStubDesc =
-        !rawDescCandidate ||
-        rawDescCandidate.endsWith(`(SKU: ${input.sku}).`) ||
-        rawDescCandidate.endsWith(`SKU: ${input.sku}).`);
+        !cleanDescCandidate ||
+        cleanDescCandidate.endsWith(`(SKU: ${input.sku}).`) ||
+        cleanDescCandidate.endsWith(`SKU: ${input.sku}).`);
 
     const defaultHookLt = `${cleanTitleLt} (${brand}, SKU: ${input.sku}) – ${subtypeTitle.toLowerCase()}. ${compatibilityNote}`;
-    const resolvedHookLt = !isAutoStubDesc ? cleanDash(parsedV3.hook || rawDescCandidate) : cleanDash(defaultHookLt);
+    const resolvedHookLt = !isAutoStubDesc
+        ? cleanDash(stripLegacySkuTail(parsedV3.hook || cleanDescCandidate))
+        : cleanDash(defaultHookLt);
 
     const customSpecRows =
         parseSpecsOverride(rawInputObj.specs) || parseSpecsOverride(rawOverrideObj.specs);
@@ -1965,11 +1971,7 @@ export default async function ProductPage({ params }: Props) {
                                         {grossEuros > 0 ? (
                                             <div className="flex items-baseline gap-2.5 flex-wrap">
                                                 <span className="text-3xl sm:text-4xl font-extrabold text-[#11161B] tabular-nums">
-                                                    {grossEuros
-                                                        .toFixed(2)
-                                                        .replace('.', ',')
-                                                        .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}{' '}
-                                                    €
+                                                    {formatEurAmount(grossEuros)} €
                                                 </span>
                                                 <span className="text-sm font-semibold text-[#5B6470]">
                                                     {copy.vatGrossSuffix}
@@ -1989,11 +1991,7 @@ export default async function ProductPage({ params }: Props) {
                                         )}
                                         {netEuros > 0 && (
                                             <span className="block text-xs sm:text-sm text-[#5B6470] mt-1 tabular-nums">
-                                                {netEuros
-                                                    .toFixed(2)
-                                                    .replace('.', ',')
-                                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')}{' '}
-                                                {copy.vatNetSuffix}
+                                                {formatEurAmount(netEuros)} {copy.vatNetSuffix}
                                             </span>
                                         )}
                                     </div>
@@ -2401,7 +2399,7 @@ export default async function ProductPage({ params }: Props) {
                                                     </div>
 
                                                     <Link
-                                                        href={`/${locale}/products/${cp.id}`}
+                                                        href={`/${locale}/products/${cp.slug || cp.id}`}
                                                         className="block aspect-square w-full bg-[#EEEBE4] p-3 flex items-center justify-center rounded-none"
                                                     >
                                                         <img
@@ -2412,7 +2410,7 @@ export default async function ProductPage({ params }: Props) {
                                                     </Link>
 
                                                     <Link
-                                                        href={`/${locale}/products/${cp.id}`}
+                                                        href={`/${locale}/products/${cp.slug || cp.id}`}
                                                         className="text-sm font-bold text-[#11161B] hover:text-[#C2410C] leading-snug block"
                                                     >
                                                         {cpCleanName}
@@ -2429,7 +2427,7 @@ export default async function ProductPage({ params }: Props) {
                                                             : copy.priceOnRequestShort}
                                                     </span>
                                                     <Link
-                                                        href={`/${locale}/products/${cp.id}`}
+                                                        href={`/${locale}/products/${cp.slug || cp.id}`}
                                                         className="inline-flex items-center rounded-none bg-[#11161B] hover:bg-[#C2410C] px-3 py-1.5 text-xs font-bold text-white transition-colors whitespace-nowrap"
                                                     >
                                                         {copy.viewProductCta}

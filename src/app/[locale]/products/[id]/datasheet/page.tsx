@@ -17,6 +17,8 @@ import {
 } from '../../../../../lib/v3-description';
 import { DatasheetPrintButton } from '../../../../../components/datasheet-print-button';
 import { CheckCircle2, FileText, Wrench } from 'lucide-react';
+import { TextWithEmail } from '../../../../../components/email';
+import { formatEurAmount } from '../../../../../lib/format';
 
 export const dynamic = 'force-dynamic';
 
@@ -192,7 +194,7 @@ export default async function ProductDatasheetPage({ params }: Props) {
                 {/* Top Navigation & Print Action Bar */}
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-3 print:hidden">
                     <Link
-                        href={`/${locale}/products/${product.id}`}
+                        href={`/${locale}/products/${product.slug || product.id}`}
                         className="inline-flex items-center gap-1.5 rounded-sm border border-stone-300 bg-white px-3.5 py-2 text-xs font-semibold text-stone-900 hover:border-stone-900 transition-colors"
                     >
                         <span>← Grįžti į prekės kortelę</span>
@@ -237,7 +239,7 @@ export default async function ProductDatasheetPage({ params }: Props) {
                                     <>
                                         <span>·</span>
                                         <span className="font-semibold text-stone-900">
-                                            Katalogo kaina: {grossEuros.toFixed(2).replace('.', ',')} € su PVM
+                                            Katalogo kaina: {formatEurAmount(grossEuros)} € su PVM
                                         </span>
                                     </>
                                 )}
@@ -482,7 +484,7 @@ export default async function ProductDatasheetPage({ params }: Props) {
                                             <p className="text-[11px] text-stone-600">{cleanDash(cp.pairingReasonLt)}</p>
                                         </div>
                                         <span className="font-mono font-bold text-stone-900 whitespace-nowrap">
-                                            {cp.price.toFixed(2).replace('.', ',')} €
+                                            {formatEurAmount(cp.price)} €
                                         </span>
                                     </div>
                                 ))}
@@ -493,7 +495,7 @@ export default async function ProductDatasheetPage({ params }: Props) {
                     {/* Datasheet Footer */}
                     <footer className="border-t border-stone-300 pt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-stone-600">
                         <span>
-                            UAB „Gilės inžinerija“ – Šildymo, santechnikos ir inžinerinių sistemų centras · info@gilesinzinerija.lt
+                            <TextWithEmail text={'UAB „Gilės inžinerija“ – Šildymo, santechnikos ir inžinerinių sistemų centras · info@gilesinzinerija.lt'} />
                         </span>
                         <span className="font-mono">
                             Dokumento kodas: DS-{product.sku} · 24 mėn. gamintojo garantija

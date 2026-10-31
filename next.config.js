@@ -90,9 +90,38 @@ const nextConfig = {
         ];
     },
 
-    // Redirects for old URLs
+    // Redirects for old URLs.
+    // W118-A2 finding 8: non-canonical /contact and /privacy duplicate
+    // /kontaktai and /privatumo-politika (both render the same content) —
+    // 301 to the canonical routes. next.config redirects run before
+    // src/middleware.ts, so no middleware change is needed.
     async redirects() {
-        return [];
+        return [
+            {
+                source: '/:locale/contact',
+                destination: '/:locale/kontaktai',
+                statusCode: 301,
+                locale: false,
+            },
+            {
+                source: '/contact',
+                destination: '/lt/kontaktai',
+                statusCode: 301,
+                locale: false,
+            },
+            {
+                source: '/:locale/privacy',
+                destination: '/:locale/privatumo-politika',
+                statusCode: 301,
+                locale: false,
+            },
+            {
+                source: '/privacy',
+                destination: '/lt/privatumo-politika',
+                statusCode: 301,
+                locale: false,
+            },
+        ];
     },
 
     webpack: (config, { isServer, webpack }) => {

@@ -15,6 +15,7 @@ import {
     Moon,
 } from 'lucide-react';
 import { clsx } from 'clsx';
+import { EmailLink } from './email';
 import { useCartStore, useCartHydration } from '../store/cart';
 import { useWishlistStore, useWishlistHydration } from '../store/wishlist';
 import { useSearchStore } from '../store/search';
@@ -24,6 +25,7 @@ import { assetUrl } from '../lib/api';
 import { GILES_PATENTED_MARK_TRANSPARENT_PATH } from '../lib/giles-masterpiece-data';
 import { locales, type AppLocale } from '../i18n/routing';
 import { NAVBAR_UI_COPY, resolveAppLocale } from '../i18n/storefront-ui-copy';
+import { formatEurAmount } from '../lib/format';
 
 export const HEADER_THEME_STORAGE_KEY = 'giles_header_theme_v1';
 export type HeaderThemeMode = 'light' | 'dark';
@@ -112,9 +114,7 @@ export function Navbar(_props: { settings?: StorefrontSettings }) {
     const wishlistCount = useWishlistStore((state) => state.items.length);
 
     const displayedCartAmount = showNet ? cartSubtotal / 1.21 : cartSubtotal;
-    const formattedCartPrice = `${(hydrated ? displayedCartAmount : 0)
-        .toFixed(2)
-        .replace('.', ',')} €`;
+    const formattedCartPrice = `${formatEurAmount(hydrated ? displayedCartAmount : 0)} €`;
 
     const audienceLinks = [
         { href: `/${locale}`, subpath: '', label: copy.audienceHouseholds },
@@ -201,12 +201,10 @@ export function Navbar(_props: { settings?: StorefrontSettings }) {
                         >
                             +370 611 19158
                         </a>
-                        <a
-                            href="mailto:info@gilesinzinerija.lt"
+                        <EmailLink
+                            email="info@gilesinzinerija.lt"
                             className="text-[#C9D0D8] hover:text-white whitespace-nowrap shrink-0"
-                        >
-                            info@gilesinzinerija.lt
-                        </a>
+                        />
                     </div>
 
                     <div className="flex items-center gap-1 sm:gap-2 shrink-0 ml-auto">

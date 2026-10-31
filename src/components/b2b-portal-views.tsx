@@ -8,7 +8,7 @@ import type { B2BPartnerAccount } from '../lib/b2b-accounts';
 import { calculateB2BCartPricing, type B2BCustomerPricingRule, type B2BMarketingCampaign } from '../lib/b2b-pricing-engine';
 import { B2BCustomerMcpPanel } from './b2b-customer-mcp-panel';
 import { B2BBomAndClientQuote } from './b2b-bom-and-client-quote';
-
+import { TextWithEmail } from './email';
 export type B2BSidebarViewId = 'overview' | 'quick_order' | 'orders' | 'invoices' | 'projects' | 'pricelists';
 export type SupportedB2BLocale = 'lt' | 'en' | 'pl' | 'ru';
 
@@ -127,7 +127,7 @@ export function B2BPortalWorkspaceViews(props: {
                         <div className="rounded-xl bg-[#F5F3EE] p-3.5 space-y-1"><span className="text-[#5B6470] block">Įmonė / Company</span><strong className="text-[#11161B] text-sm block">{account.companyName}</strong><span className="font-mono text-[#5B6470]">{account.companyCode} · {account.vatCode}</span></div>
                         <div className="rounded-xl bg-[#F5F3EE] p-3.5 space-y-1"><span className="text-[#5B6470] block">Nuolaidų grupė / Tier</span><strong className="text-[#C2410C] text-sm block">−{account.defaultDiscountPercent}% ({account.discountTier})</strong></div>
                         <div className="rounded-xl bg-[#F5F3EE] p-3.5 space-y-1"><span className="text-[#5B6470] block">Laisvas kredito likutis</span><strong className="text-[#11161B] text-sm block">{availableCredit.toLocaleString('lt-LT')} € / {account.creditLimitEur.toLocaleString('lt-LT')} €</strong><span className="text-[#5B6470]">Atidėjimas: {account.paymentTermsDays} d.</span></div>
-                        <div className="rounded-xl bg-[#F5F3EE] p-3.5 space-y-1"><span className="text-[#5B6470] block">B2B vadybininkas</span><strong className="text-[#11161B] text-sm block">Darius Šauklys</strong><span className="text-[#C2410C] font-semibold">+370 611 19158 · info@gilesinzinerija.lt</span></div>
+                        <div className="rounded-xl bg-[#F5F3EE] p-3.5 space-y-1"><span className="text-[#5B6470] block">B2B vadybininkas</span><strong className="text-[#11161B] text-sm block">Darius Šauklys</strong><span className="text-[#C2410C] font-semibold"><TextWithEmail text={'+370 611 19158 · info@gilesinzinerija.lt'} /></span></div>
                     </div>
                 </section>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">

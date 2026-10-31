@@ -4,8 +4,7 @@
 import { products, variants, categories, productStores, brands } from '@platform/database/schema';
 import { and, asc, desc, eq, inArray, or, sql } from 'drizzle-orm';
 import { db } from '@platform/database';
-import { stores } from '@platform/database/schema';
-import { getStore } from './storefront-content';
+import { resolveStoreIdOrThrow } from './store-identity';
 import { resolveProductImageUrl, EXACT_PHOTO_SKUS } from './product-visuals';
 import { inferProductBrandName } from './v3-description';
 import {
@@ -82,17 +81,11 @@ export async function storeIdOrThrow(): Promise<string> {
         return cached.value;
     }
 
-    if (envSlug) {
-        const [bySlug] = await db.select().from(stores).where(eq(stores.slug, envSlug)).limit(1);
-        if (bySlug) {
-            storeIdCache.set(cacheKey, { expiresAt: now + STORE_ID_CACHE_TTL_MS, value: bySlug.id });
-            return bySlug.id;
-        }
-    }
-    const store = await getStore();
-    if (!store) throw new Error('Store not resolved (check STORE_SLUG/STORE_ID env)');
-    storeIdCache.set(cacheKey, { expiresAt: now + STORE_ID_CACHE_TTL_MS, value: store.id });
-    return store.id;
+    // Single fail-closed resolver (WP-W119-A2): env unset or unknown slug
+    // throws StoreIdentityError — no foreign store is ever returned.
+    const sid = await resolveStoreIdOrThrow();
+    storeIdCache.set(cacheKey, { expiresAt: now + STORE_ID_CACHE_TTL_MS, value: sid });
+    return sid;
 }
 
 export async function getStoreScopedProductIds(): Promise<string[]> {
@@ -187,12 +180,15 @@ function mapCatalogRow(r: any): CatalogProduct {
 }
 
 function catalogScope(sid: string) {
+    // WP-W118-A1 (audit P0-2): ownership scoping only. Visibility = bound to
+    // THIS store via product_stores.is_active AND products.status='published'.
+    // Test/demo products are kept out by unpublishing their junction rows
+    // (seed scripts are guarded by packages/database/scripts/_seed-guard.ts),
+    // not by a SKU blacklist that lags behind every new test seed.
     return and(
         eq(productStores.storeId, sid),
         eq(productStores.isActive, true),
         eq(products.status, 'published'),
-        sql`${variants.sku} NOT ILIKE 'SUR-DEMO-%'`,
-        sql`${variants.sku} NOT ILIKE 'W16D1-%'`,
     );
 }
 

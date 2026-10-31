@@ -164,7 +164,7 @@ export async function POST(request: NextRequest) {
             automatic_payment_methods: { enabled: true },
             metadata: {
                 email: email || 'guest',
-                store: 'suradai',
+                store: 'giles-inzinierija',
                 order_id: 'pending',
                 tax_amount: taxAmount.toFixed(2), // Compliance: Log Tax
                 net_amount: netAmount.toFixed(2),
@@ -231,7 +231,7 @@ export async function POST(request: NextRequest) {
                 await stripe.paymentIntents.update(paymentIntent.id, {
                     metadata: {
                         email: email || 'guest',
-                        store: 'suradai',
+                        store: 'giles-inzinierija',
                         db_order_id: createdOrderId,
                     }
                 });

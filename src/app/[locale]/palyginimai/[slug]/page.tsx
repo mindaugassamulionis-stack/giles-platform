@@ -21,6 +21,7 @@ import { resolveBrandLogo, resolveProductImageUrl } from '../../../../lib/produc
 import { assetUrl } from '../../../../lib/api';
 import { formatEur } from '../../../../lib/format';
 import { escapeJsonLdForScript } from '../../../../lib/jsonld';
+import { getBrandName, withBrandSuffix } from '../../../../lib/brand';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,10 +31,11 @@ const cleanDash = (s: string) => s.replace(/\u2014/g, '–').replace(/[\u00A9\u0
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
+    const brand = await getBrandName();
     const guide = getComparisonGuideBySlug(slug);
-    if (!guide) return { title: 'Palyginimas nerastas | SURADAI' };
+    if (!guide) return { title: withBrandSuffix('Palyginimas nerastas', brand) };
     return {
-        title: `${cleanDash(guide.title)} | SURADAI ŠVOK Palyginimai`,
+        title: withBrandSuffix(`${cleanDash(guide.title)} ŠVOK palyginimai`, brand),
         description: cleanDash(guide.aiDirectAnswer).slice(0, 160),
     };
 }
@@ -44,6 +46,7 @@ export default async function HvacComparisonDetailPage({ params }: Props) {
     if (!guide) notFound();
 
     const nonce = (await headers()).get('x-nonce') ?? undefined;
+    const brand = await getBrandName();
 
     const liveMatches: ListingProduct[] = [];
     const seenIds = new Set<string>();
@@ -314,7 +317,7 @@ export default async function HvacComparisonDetailPage({ params }: Props) {
                         <div>
                             <div className="flex items-center gap-2 text-xs font-bold text-emerald-700">
                                 <ShieldCheck className="w-4 h-4" aria-hidden="true" />
-                                <span>Rekomenduojamos prekės iš SURADAI sandėlio</span>
+                                <span>{`Rekomenduojamos prekės iš ${brand} sandėlio`}</span>
                             </div>
                             <h2 className="text-lg md:text-xl font-bold text-stone-900 mt-1">
                                 Šiam sprendimui tinkanti sertifikuota įranga
@@ -355,7 +358,7 @@ export default async function HvacComparisonDetailPage({ params }: Props) {
                                   return (
                                       <Link
                                           key={prod.id}
-                                          href={`/products/${prod.id}`}
+                                            href={`/products/${prod.slug || prod.id}`}
                                           className="group flex items-center gap-4 rounded-sm border border-stone-300 bg-[#FAF9F6] p-4 hover:border-stone-900 transition-colors"
                                       >
                                           <div className="w-16 h-16 rounded-xs border border-stone-200 bg-white p-1.5 flex items-center justify-center shrink-0">

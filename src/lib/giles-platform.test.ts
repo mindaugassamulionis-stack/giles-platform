@@ -141,6 +141,7 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
     it('locks the patented original UAB Gilės inžinerija logo and Darius direct contact phone (+370 611 19158)', () => {
         expect(GILES_PATENTED_LOGO_PATH).toBe('/studio-assets/logos/logo-current-original.png');
         expect(GILES_COMPANY_IDENTITY.phoneDarius).toBe('+370 611 19158');
+        expect(GILES_COMPANY_IDENTITY.phoneService).toBe('+370 693 97098');
         expect(GILES_COMPANY_IDENTITY.phoneLandline).toBe('+370 37 332234');
         expect(GILES_COMPANY_IDENTITY.emailGeneral).toBe('info@gilesinzinerija.lt');
         expect(HERO_SCHEMATIC_HOTSPOTS.length).toBe(5);

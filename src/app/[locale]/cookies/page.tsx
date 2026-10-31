@@ -92,7 +92,7 @@ export default async function CookiesPage() {
                             </h2>
                         </div>
                         <Link
-                            href="/privacy"
+                            href="/privatumo-politika"
                             className="inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-[#0284C7] hover:underline"
                         >
                             <span>Pilna BDAR privatumo politika</span>
@@ -186,7 +186,7 @@ export default async function CookiesPage() {
                                                     <td className="p-3 text-slate-600">{t('legalCookies.year1')}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td className="p-3 font-mono text-xs font-bold text-[#0284C7]">suradai_journey_v1</td>
+                                                    <td className="p-3 font-mono text-xs font-bold text-[#0284C7]">giles_customer_journey_v1</td>
                                                     <td className="p-3 text-slate-700">5 ŠVOK skaičiuoklių ir Vytauto AI parinktų mazgų atmintis naršyklėje</td>
                                                     <td className="p-3 text-slate-600">Tik Jūsų naršyklėje (iki išvalymo)</td>
                                                 </tr>

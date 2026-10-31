@@ -4,13 +4,16 @@ import { RfqForm } from '../../../components/rfq-form';
 import { getTranslations } from 'next-intl/server';
 import { Link } from '../../../i18n/navigation';
 import { Sparkles, Wrench, Calculator, CheckCircle2 } from 'lucide-react';
+import { getBrandName, withBrandSuffix } from '../../../lib/brand';
 
 // W32-B1: RFQ page – market-leader guidance for homeowners & B2B installers + Vytautas AI handoff.
-export const metadata: Metadata = {
-    title: 'Projekto sąmatos ir įrangos užklausa (RFQ) | SURADAI',
-    description:
-        'Pateikite šildymo ar santechnikos įrangos kodų sąrašą arba mazgo aprašymą – paruošime tikslų komercinį pasiūlymą per 1 darbo dieną.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        title: withBrandSuffix('Projekto sąmatos ir įrangos užklausa (RFQ)', await getBrandName()),
+        description:
+            'Pateikite šildymo ar santechnikos įrangos kodų sąrašą arba mazgo aprašymą – paruošime tikslų komercinį pasiūlymą per 1 darbo dieną.',
+    };
+}
 
 export default async function RfqPage() {
     const t = await getTranslations();

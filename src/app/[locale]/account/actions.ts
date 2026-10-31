@@ -72,8 +72,7 @@ import { orders } from '@platform/database/schema/orders';
 import { returnService, commsService } from '@platform/database';
 import { desc } from 'drizzle-orm';
 import { cancellationEmailVariables, type SupportedLanguage } from '../../../lib/cancellation';
-
-const STORE_ID = process.env.NEXT_PUBLIC_STORE_ID || 'store_lt_main';
+import { resolveStoreIdOrThrow } from '../../../lib/store-identity';
 
 /**
  * BGB §356a cancellation ("Kündigung").
@@ -140,7 +139,7 @@ export async function cancelContract(formData: FormData): Promise<{
 
         try {
             await commsService.queueMessage({
-                storeId: STORE_ID,
+                storeId: await resolveStoreIdOrThrow(),
                 channel: 'email',
                 recipientEmail: dbUser.email,
                 templateId: 'order_cancelled',

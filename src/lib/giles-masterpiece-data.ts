@@ -64,6 +64,7 @@ export const GILES_COMPANY_IDENTITY = {
     address: 'Žirmūnų g. 68, LT-09124 Vilnius · Eigulių g. 21, LT-51418 Kaunas',
     phoneLandline: '+370 37 332234',
     phoneDarius: '+370 611 19158',
+    phoneService: '+370 693 97098',
     phoneVidas: '+370 656 77679',
     emailGeneral: 'info@gilesinzinerija.lt',
     emailDarius: 'darius@gilesinzinerija.lt',

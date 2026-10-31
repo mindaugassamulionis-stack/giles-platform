@@ -11,6 +11,7 @@ import { useVatDisplayStore } from '../store/vat-display';
 import { assetUrl } from '../lib/api';
 import { resolveAppLocale } from '../i18n/storefront-ui-copy';
 import type { AppLocale } from '../i18n/routing';
+import { formatEurAmount } from '../lib/format';
 
 export const WISHLIST_DRAWER_I18N: Record<
     AppLocale,
@@ -226,10 +227,7 @@ export function WishlistDrawer() {
                         items.map((item) => {
                             const unitGross = Number(item.price || 0);
                             const displayedPrice = showNet ? unitGross / 1.21 : unitGross;
-                            const formattedPrice = `${displayedPrice
-                                .toFixed(2)
-                                .replace('.', ',')
-                                .replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €`;
+                            const formattedPrice = `${formatEurAmount(displayedPrice)} €`;
 
                             return (
                                 <div

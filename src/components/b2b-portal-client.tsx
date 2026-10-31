@@ -10,8 +10,7 @@ import { GILES_COMPANY_IDENTITY, type B2BQuickOrderResolvedRow } from '../lib/gi
 import { GilesBrandLogo } from './giles-logo';
 import type { B2BPartnerAccount } from '../lib/b2b-accounts';
 import { calculateB2BLineItemPrice, type B2BCustomerPricingRule, type B2BMarketingCampaign } from '../lib/b2b-pricing-engine';
-import { B2BPortalWorkspaceViews, INITIAL_B2B_ORDERS, INITIAL_B2B_PROJECTS, type B2BOrderRecord, type B2BProjectQuote, type B2BSidebarViewId, type SupportedB2BLocale } from './b2b-portal-views';
-
+import { B2BPortalWorkspaceViews, INITIAL_B2B_ORDERS, INITIAL_B2B_PROJECTS, type B2BOrderRecord, type B2BProjectQuote, type B2BSidebarViewId, type SupportedB2BLocale } from './b2b-portal-views'; import { TextWithEmail } from './email';
 const B2B_HEADER_BRANDS = [
     { src: '/images/brands/giles-inzinerija.svg', label: 'Gilės Inžinerija / Megatherm' },
     { src: '/images/brands/danfoss.svg', label: 'Danfoss' },
@@ -231,7 +230,7 @@ export function B2BPortalClient({ locale: propLocale, initialQuickRows }: { loca
                                 {loginError && <p className="text-xs font-semibold text-[#B91C1C]">{loginError}</p>}
                                 <button type="submit" data-testid="b2b-login-submit" className="w-full h-11 rounded-lg bg-[#11161B] hover:bg-[#C2410C] text-white font-bold text-sm cursor-pointer transition-colors">{t.loginBtn}</button>
                             </form>
-                            <div className="rounded-xl bg-[#F5F3EE] p-3.5 text-xs text-[#5B6470]">{t.deptFooter}</div>
+                            <div className="rounded-xl bg-[#F5F3EE] p-3.5 text-xs text-[#5B6470]"><TextWithEmail text={t.deptFooter} /></div>
                         </div>
 
                         <div className="lg:col-span-7 rounded-2xl border border-[#E2DDD3] bg-white p-6 sm:p-8 space-y-4">

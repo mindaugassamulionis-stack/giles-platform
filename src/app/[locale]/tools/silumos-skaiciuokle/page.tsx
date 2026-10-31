@@ -6,17 +6,20 @@ import { formatInstrumentalAgentName, type CalculatorToolId } from '../../../../
 import { getCalculatorPageJsonLd } from '../../../../lib/calculator-marketing';
 import { escapeJsonLdForScript } from '../../../../lib/jsonld';
 import { Link } from '../../../../i18n/navigation';
+import { getBrandName, withBrandSuffix } from '../../../../lib/brand';
 
 export const dynamic = 'force-dynamic';
 
 // W35-A1 & W44-A2: 5-in-1 ŠVOK Engineering Calculators & Live Product Selection Hub
 // Daylight-first layout with step-grouped pill configurators and result + matching products as the hero.
 // Includes Vytautas consultation and RFQ handoff.
-export const metadata: Metadata = {
-    title: 'Interaktyvus ŠVOK įrangos parinkimo vedlys | SURADAI',
-    description:
-        'Pasirinkite savo būsto parametrus vizualiai – skaičiuoklė iškart parodys tinkamą katilo galią, plėtimosi indo tūrį, kolektorių ar vamzdžio skersmenį ir parinks tikslias prekes iš katalogo.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        title: withBrandSuffix('Interaktyvus ŠVOK įrangos parinkimo vedlys', await getBrandName()),
+        description:
+            'Pasirinkite savo būsto parametrus vizualiai – skaičiuoklė iškart parodys tinkamą katilo galią, plėtimosi indo tūrį, kolektorių ar vamzdžio skersmenį ir parinks tikslias prekes iš katalogo.',
+    };
+}
 
 const VALID_TABS: Set<CalculatorToolId> = new Set([
     'boiler',

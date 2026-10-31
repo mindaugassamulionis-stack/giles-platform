@@ -11,6 +11,7 @@ import { getPopularProductPreviews } from '../../lib/catalog-listing';
 import { assetUrl } from '../../lib/api';
 import { getLocale } from 'next-intl/server';
 import { resolveAppLocale } from '../../i18n/storefront-ui-copy';
+import { EmailLink } from '../../components/email';
 import type { AppLocale } from '../../i18n/routing';
 
 export const dynamic = 'force-dynamic';
@@ -1307,12 +1308,10 @@ export default async function HomePage({
                             >
                                 +370 611 19158 (Darius)
                             </a>
-                            <a
-                                href="mailto:info@gilesinzinerija.lt"
+                            <EmailLink
+                                email="info@gilesinzinerija.lt"
                                 className="inline-flex items-center justify-center rounded-none border border-[#11161B] bg-white hover:bg-[#F5F3EE] px-5 py-3.5 text-sm font-bold text-[#11161B] whitespace-nowrap transition-colors"
-                            >
-                                info@gilesinzinerija.lt
-                            </a>
+                            />
                             <Link
                                 href={`/${locale}/uzklausa`}
                                 className="inline-flex items-center justify-center rounded-none bg-[#11161B] hover:bg-[#C2410C] px-5 py-3.5 text-sm font-bold text-white whitespace-nowrap transition-colors"

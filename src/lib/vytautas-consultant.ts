@@ -1087,12 +1087,12 @@ export const VYTAUTAS_ENGINEERING_KNOWLEDGE_BASE: string = [
     '- Haier 2026 šilumos siurbliai ir boileriai: oras–vanduo R32/R290 šilumos siurbliai AU052FYCRA (2 280 €) / AU052FYCRB(HW) (3 170 €), AU082FYCRA (2 900 €) / AU082FYCRA(HW) (3 662 €), AU112FYCRA (4 300 €) / AU112FYCRA(HW) (5 949 €), AU162FYCRA (4 800 €) / AU162FYCRA(HW) (6 262 € su PVM), R290 AW042HUGHA..AW16NHVGHA / AW062HVGHA (3 900 €) / AW082HUGHA (3 430 €) / AW082HVGHA (4 150 €) / AW102HVGHA (4 850 €) / AW162HVGHA (6 000 € su PVM), Super Aqua Flexi AW26NMYGHA..AW40NMYGHA (8 629–9 730 € su PVM); R290 DHW šilumos siurbliai–boileriai HP80M8-9..HP250M7C-F9 (HP80M8-9 1 682 €, HP110M8-9 1 430 €, HP150M8-9 1 505 €, HP200M7C-9 1 550 € / HP200M7C-F9 2 226 €, HP250M7C-F9 2 241 € / 2 200 €); elektriniai katilai ES10V-F1 (9 kW, 990 €), ES50V-F3(EU) (14 kW, 1 040 €), ES80V-F3(EU) (21 kW, 1 130 €), ES100V-F3(EU) (28 kW, 1 230 €) ir elektriniai boileriai ES10V..ES100V (SQM1/SQM2, TF7/TF7W Wi-Fi, VH1, RM1, A3 — 118–418 € su PVM); Nordic Split (-25..-30 °C) EXPERT PLUS, PEARL PREMIUM, REVIVE PLUS ir JADE PLUS.',
     '- Plėtimosi indų taisyklė: IMI Pneumatex Statico SD (pvz. 25 L / 3 bar SKU 7101003 už 149,62 €) skirtas TIK uždaram šildymo kontūrui (PN3/PN6). Geriamojo karšto vandens boileriui PRIVALOMAS higieninis PN10 indas IMI Pneumatex Aquapresso AD (pvz. 18 L / 10 bar SKU 7111020 už 168,40 €), kad šylant vandeniui nevarvėtų 6–8 bar apsauginis vožtuvas!',
     '- Siurbliai ir oro/šlamo šalinimas: Wilo Yonos PICO 1.0 25/1-4 (SKU 4248082, 333,96 €) ir 25/1-6 (SKU 4248084, 385,99 €, 180 mm, DN25); gręžiniui Grundfos SQE 3-65 (SKU 96510151, 985,00 €); nuotekoms / WC — Wilo DrainLift fekaliniai siurbliai; šlamo ir mikroburbuliukų šalinimui — IMI Pneumatex Zeparo ZUVS 20 (SKU 7891720, 206,23 €).',
-    '7. 9 SISTEMŲ PAKETAI (/suradai/lt/paketai) IR MOBILIOS KATILINĖS:',
+    '7. 9 SISTEMŲ PAKETAI (/lt/paketai) IR MOBILIOS KATILINĖS:',
     ...GILES_SYSTEM_PACKAGES.map(
         (p) => `- ${p.numberLabel} (${p.id}): ${p.title} [${p.powerOrScopeBadge}] – ${p.subtitle}`,
     ),
     '- Mobilios konteinerinės katilinės: 110 kW – 2 MW (nuoma, gamyba, pardavimas).',
-    '8. 6 INŽINERINĖS IR MONTAVIMO PASLAUGOS (/suradai/lt/inzinerija):',
+    '8. 6 INŽINERINĖS IR MONTAVIMO PASLAUGOS (/lt/inzinerija):',
     ...GILES_ENGINEERING_SERVICES.map(
         (s) => `- ${s.numberLabel} (${s.id}): ${s.title} (${s.shortScope}) – ${s.leadTimeLabel} (${s.referencePriceLabel})`,
     ),
@@ -1327,7 +1327,7 @@ function extractRagSearchTokens(combinedText: string): string[] {
  * merges flagship engineering matches for the detected node category, and formats the top 15 candidates +
  * 9 Gilės System Packages + 6 Engineering Services + Master Engineering Knowledge Base into a compact grounding block.
  */
-let cachedSuradaiStoreId: string | null = null;
+let cachedScopedStoreId: string | null = null;
 
 export async function retrieveVytautasRagContext(
     message: string,
@@ -1433,18 +1433,18 @@ export async function retrieveVytautasRagContext(
             const { products, variants, brands, categories, productStores, stores } = schemaMod;
             const { and, eq, or, ilike, sql } = ormMod;
 
-            if (!cachedSuradaiStoreId) {
-                const [suradaiStore] = await db
-                    .select({ id: stores.id })
-                    .from(stores)
-                    .where(eq(stores.slug, 'suradai'))
-                    .limit(1);
-                if (suradaiStore?.id) {
-                    cachedSuradaiStoreId = suradaiStore.id;
+            if (!cachedScopedStoreId) {
+                try {
+                    // W119-A2: live catalog search is scoped to the resolved
+                    // Gilės store — never the legacy slug 'suradai' row.
+                    const { resolveStoreIdOrThrow } = await import('./store-identity');
+                    cachedScopedStoreId = await resolveStoreIdOrThrow();
+                } catch {
+                    cachedScopedStoreId = null;
                 }
             }
 
-            if (cachedSuradaiStoreId) {
+            if (cachedScopedStoreId) {
                 const tokenFilters = tokens.slice(0, 6).map((tok) => {
                     const pat = `%${tok}%`;
                     return or(
@@ -1476,7 +1476,7 @@ export async function retrieveVytautasRagContext(
                     .leftJoin(categories, eq(products.categoryId, categories.id))
                     .where(
                         and(
-                            eq(productStores.storeId, cachedSuradaiStoreId),
+                            eq(productStores.storeId, cachedScopedStoreId),
                             eq(productStores.isActive, true),
                             eq(products.status, 'published'),
                             or(...tokenFilters),

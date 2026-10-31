@@ -20,7 +20,7 @@ export const useVatDisplayStore = create<VatDisplayState>()(
             setShowNet: (showNet) => set({ showNet }),
         }),
         {
-            name: 'suradai-vat-display',
+            name: 'giles-vat-display',
             storage: createJSONStorage(() => sessionStorage),
         },
     ),

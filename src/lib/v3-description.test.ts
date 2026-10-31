@@ -674,3 +674,15 @@ describe('W35-F1: Title-First, Parameter-Injected 28-Subtype Engineering UX Engi
         ]);
     });
 });
+
+describe('W118-A2: Kvs chip with decimal comma (finding 14)', () => {
+    test('extractCardTechChips formats Kvs with a decimal comma, never a dot', () => {
+        expect(extractCardTechChips('DN 200 / Kvs 685.60, flanšinis jungimas')).toContain('Kvs 685,60');
+        expect(extractCardTechChips('DN 20 / Kvs 1.8, vidinis sriegis')).toContain('Kvs 1,8');
+        expect(extractCardTechChips('Vožtuvas Kvs 1.01 DN15')).toContain('Kvs 1,01');
+    });
+
+    test('extractCardTechChips keeps already-comma Kvs values as-is', () => {
+        expect(extractCardTechChips('Grįžtamo srauto vožtuvas DN 15 (Rp 1/2), Kvs 1,36')).toContain('Kvs 1,36');
+    });
+});

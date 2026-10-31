@@ -1930,6 +1930,10 @@ export function extractCardTechChips(title: string, sku?: string | null): string
     const kwMatch = text.match(/\b(\d+(?:[.,]\d+)?)\s?kW\b/i);
     if (kwMatch) pushUnique(`${kwMatch[1].replace('.', ',')} kW`);
 
+    // W118-A2: Kvs always renders with a decimal comma (lt-LT), e.g. "Kvs 1,01".
+    const kvsMatch = text.match(/\bKvs?\s?[=-]?\s?(\d+(?:[.,]\d+)?)/i);
+    if (kvsMatch) pushUnique(`Kvs ${kvsMatch[1].replace('.', ',')}`);
+
     const voltMatch = text.match(/\b(230\s?V|24\s?V)\b/i);
     if (voltMatch) pushUnique(voltMatch[1].replace(/\s+/g, '').toUpperCase());
 

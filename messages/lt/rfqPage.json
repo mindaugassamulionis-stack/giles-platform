@@ -1,7 +1,7 @@
 {
     "kicker": "PROJEKTŲ KOMPLEKTAVIMAS IR B2B PASIŪLYMAI",
     "title": "Projekto sąmatos ir įrangos užklausa (RFQ)",
-    "subtitle": "Įklijuokite gamintojų kodų sąrašą iš projekto, nurodykite kiekius arba aprašykite reikiamą šildymo ar santechnikos mazgą. Paruošime tikslų pasiūlymą su kainomis su PVM ir be PVM. Jei reikia greitos vieno mazgo suderinamumo patikros čia ir dabar — pasinaudokite puslapyje 24/7 veikiančiu AI konsultantu Vytautu.",
+    "subtitle": "Įklijuokite gamintojų kodų sąrašą iš projekto, nurodykite kiekius arba aprašykite reikiamą šildymo ar santechnikos mazgą. Paruošime tikslų pasiūlymą su kainomis su PVM ir be PVM. Jei reikia greitos vieno mazgo suderinamumo patikros čia ir dabar – pasinaudokite puslapyje 24/7 veikiančiu AI konsultantu Vytautu.",
     "topicLabel": "Ką komplektuojate?",
     "topics": {
         "objekto-projektas": "Daugiabučio / komercinio objekto projektas (pilna sąmata)",
@@ -20,7 +20,7 @@
     "successTitle": "Jūsų užklausa užregistruota",
     "successRef": "Užklausos registracijos numeris",
     "successNote": "Patikrinsime nurodytus gamintojo kodus, suderinamumą bei kiekius ir atsiųsime detalų pasiūlymą (su PVM ir be PVM) jūsų nurodytu el. paštu.",
-    "errorGeneric": "Nepavyko išsiųsti užklausos — patikrinkite įvestą el. paštą ir bandykite dar kartą.",
-    "rateLimited": "Per daug užklausų iš eilės — palaukite minutę ir bandykite dar kartą.",
+    "errorGeneric": "Nepavyko išsiųsti užklausos – patikrinkite įvestą el. paštą ir bandykite dar kartą.",
+    "rateLimited": "Per daug užklausų iš eilės – palaukite minutę ir bandykite dar kartą.",
     "company": "Įmonė"
 }

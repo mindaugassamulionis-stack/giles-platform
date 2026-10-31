@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import { Paperclip } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import { assetUrl } from '../../lib/api';
 import type { AppLocale } from '../../i18n/routing';
@@ -89,10 +90,12 @@ export function RfqSection({
     locale,
     defaultModelSlug = '',
     defaultMode = 'buy',
+    rentalConfiguratorHref = '#nuomos-sandoris',
 }: {
     locale: AppLocale;
     defaultModelSlug?: string;
     defaultMode?: 'buy' | 'rent';
+    rentalConfiguratorHref?: string;
 }) {
     const content = getPramoneiContent(locale);
     const [mode, setMode] = useState<'buy' | 'rent'>(defaultMode);
@@ -100,6 +103,9 @@ export function RfqSection({
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [power, setPower] = useState(content.rfq.fields.power.options[0]);
+    // W118-A2: the native file input renders English browser chrome
+    // ("Choose Files / No file chosen"); show a locale-aware picker instead.
+    const [pickedFileNames, setPickedFileNames] = useState<string[]>([]);
     const [fuel, setFuel] = useState(content.rfq.fields.fuel.options[0]);
     const [modelSlug, setModelSlug] = useState(defaultModelSlug);
     const [website, setWebsite] = useState('');
@@ -253,24 +259,32 @@ export function RfqSection({
                                 className="space-y-4"
                             >
                                 <div className="flex flex-wrap gap-2.5">
-                                    {(['buy', 'rent'] as const).map((mKey) => {
-                                        const active = mode === mKey;
-                                        return (
-                                            <button
-                                                key={mKey}
-                                                type="button"
-                                                aria-pressed={active}
-                                                onClick={() => setMode(mKey)}
-                                                className={`min-h-[44px] px-4 rounded-lg border text-sm font-semibold cursor-pointer transition ${
-                                                    active
-                                                        ? 'border-[#FF8A3D] bg-[#FF8A3D] text-[#0E1216]'
-                                                        : 'border-[#3A4652] bg-transparent text-[#F5F3EE] hover:border-[#FF8A3D]'
-                                                }`}
-                                            >
-                                                {content.rfq.modes[mKey]}
-                                            </button>
-                                        );
-                                    })}
+                                    <button
+                                        type="button"
+                                        aria-pressed={mode === 'buy'}
+                                        onClick={() => setMode('buy')}
+                                        className={`min-h-[44px] px-4 rounded-lg border text-sm font-semibold cursor-pointer transition ${
+                                            mode === 'buy'
+                                                ? 'border-[#FF8A3D] bg-[#FF8A3D] text-[#0E1216]'
+                                                : 'border-[#3A4652] bg-transparent text-[#F5F3EE] hover:border-[#FF8A3D]'
+                                        }`}
+                                    >
+                                        {content.rfq.modes.buy}
+                                    </button>
+                                    {/* W118-A2: rental intent goes to the W116-A1 configurator,
+                                        not a generic RFQ textarea. */}
+                                    <a
+                                        href={rentalConfiguratorHref}
+                                        data-testid="rfq-rent-configurator-link"
+                                        aria-current={mode === 'rent' ? 'true' : undefined}
+                                        className={`min-h-[44px] px-4 inline-flex items-center rounded-lg border text-sm font-semibold transition ${
+                                            mode === 'rent'
+                                                ? 'border-[#FF8A3D] bg-[#FF8A3D] text-[#0E1216]'
+                                                : 'border-[#3A4652] bg-transparent text-[#F5F3EE] hover:border-[#FF8A3D]'
+                                        }`}
+                                    >
+                                        {content.rfq.modes.rent}
+                                    </a>
                                 </div>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -431,8 +445,25 @@ export function RfqSection({
                                         type="file"
                                         multiple
                                         accept={content.rfq.fields.files.accept}
-                                        className="p-2.5 rounded-lg border border-dashed border-[#3A4652] bg-[#151C23] text-xs text-[#C9D0D8]"
+                                        onChange={(e) =>
+                                            setPickedFileNames(
+                                                Array.from(e.target.files ?? []).map((f) => f.name),
+                                            )
+                                        }
+                                        className="sr-only"
                                     />
+                                    <label
+                                        htmlFor="rfq-files"
+                                        className="inline-flex min-h-[44px] items-center gap-2 self-start px-4 rounded-lg border border-dashed border-[#3A4652] bg-[#151C23] text-xs font-semibold text-[#F5F3EE] hover:border-[#FF8A3D] transition cursor-pointer"
+                                    >
+                                        <Paperclip className="w-3.5 h-3.5" aria-hidden="true" />
+                                        {content.rfq.fields.files.choose}
+                                    </label>
+                                    <span className="text-xs text-[#C9D0D8] break-words">
+                                        {pickedFileNames.length > 0
+                                            ? pickedFileNames.join(', ')
+                                            : content.rfq.fields.files.none}
+                                    </span>
                                 </div>
 
                                 <input

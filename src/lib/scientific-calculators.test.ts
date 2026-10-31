@@ -290,9 +290,9 @@ describe('W35-A1: 5-in-1 ŠVOK Scientific Engineering Calculators', () => {
             const searchOverlay = readFileSync(join(srcDir, 'components/search-overlay.tsx'), 'utf8');
             const catalogSearchForm = readFileSync(join(srcDir, 'components/catalog-search-form.tsx'), 'utf8');
 
-            expect(trackerFile).toContain('suradai_customer_journey_v1');
-            expect(trackerFile).toContain('suradai:journey-update');
-            expect(trackerFile).toContain('suradai:open-vytautas');
+            expect(trackerFile).toContain('giles_customer_journey_v1');
+            expect(trackerFile).toContain('giles:journey-update');
+            expect(trackerFile).toContain('giles:open-vytautas');
             expect(trackerFile).toContain('openVytautasWithContext');
             expect(trackerFile).toContain('recordSearchQuery');
             expect(trackerFile).toContain('recordCalculatorRun');

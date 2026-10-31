@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
 import { Construction } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { getBrandName, withBrandSuffix } from '../../../lib/brand';
 
-export const metadata: Metadata = {
-    title: 'Žurnalas | SURADAI',
-    description: 'Naujienos apie ilgaamžiškumą ir mokslą.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        title: withBrandSuffix('Žurnalas', await getBrandName()),
+        description: 'Naujienos apie ilgaamžiškumą ir mokslą.',
+    };
+}
 
 export default function BlogPage() {
     const t = useTranslations();

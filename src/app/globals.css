@@ -374,3 +374,16 @@ svg[data-state="after"] .l-before {
     transition: none !important;
   }
 }
+
+/* W118-A2: the cookie consent banner (fixed bottom bar) must never cover the
+   Vytautas launcher. While the banner is mounted, lift the launcher above it;
+   taller offset on phones where the banner wraps to multiple rows. */
+body:has(#cookie-consent-banner) #vytautas-launcher {
+    bottom: 12rem;
+}
+
+@media (min-width: 1024px) {
+    body:has(#cookie-consent-banner) #vytautas-launcher {
+        bottom: 6.5rem;
+    }
+}

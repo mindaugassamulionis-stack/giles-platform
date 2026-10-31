@@ -1,17 +1,19 @@
 /**
- * W40-A1 + W43-A1: Multi-Store Customer Journey Memory & Proactive Vytautas Context Bridge
+ * W40-A1 + W43-A1 + W119-A2: Multi-Store Customer Journey Memory & Proactive
+ * Vytautas Context Bridge
  *
  * Tracks the customer's active HVAC configuration journey in localStorage
- * (`suradai_customer_journey_v1` for default store, `suradai_customer_journey_v1_${storeId}`
- * for other stores) and dynamically obeys `setJourneyTrackingConfig({ enabled, storeId, proactiveTrigger })`
- * controlled from `/admin/storefront-control`.
+ * (`giles_customer_journey_v1_<storeId>`) and dynamically obeys
+ * `setJourneyTrackingConfig({ enabled, storeId, proactiveTrigger })`
+ * controlled from `/admin/storefront-control`. Values written under the old
+ * `suradai_customer_journey_v1*` keys are copied across once by
+ * migrateLegacyJourneyStorage().
  */
 
-export const CUSTOMER_JOURNEY_STORAGE_KEY = 'suradai_customer_journey_v1';
-export const JOURNEY_UPDATE_EVENT = 'suradai:journey-update';
-export const OPEN_VYTAUTAS_EVENT = 'suradai:open-vytautas';
-
-const DEFAULT_SURADAI_UUID = '096782b2-27d1-4151-a687-0612b6cd1fba';
+export const CUSTOMER_JOURNEY_STORAGE_KEY = 'giles_customer_journey_v1';
+export const LEGACY_CUSTOMER_JOURNEY_STORAGE_KEY = 'suradai_customer_journey_v1';
+export const JOURNEY_UPDATE_EVENT = 'giles:journey-update';
+export const OPEN_VYTAUTAS_EVENT = 'giles:open-vytautas';
 
 export interface JourneyTrackingRuntimeConfig {
     enabled: boolean;
@@ -94,16 +96,32 @@ function isBrowser(): boolean {
 
 export function resolveJourneyStorageKey(storeId?: string): string {
     const activeId = (storeId ?? runtimeTrackingConfig.storeId ?? '').trim();
-    if (
-        !activeId ||
-        activeId === 'default' ||
-        activeId === 'suradai' ||
-        activeId === 'store_lt_main' ||
-        activeId === DEFAULT_SURADAI_UUID
-    ) {
-        return CUSTOMER_JOURNEY_STORAGE_KEY;
+    if (!activeId) {
+        return `${CUSTOMER_JOURNEY_STORAGE_KEY}_unknown`;
     }
     return `${CUSTOMER_JOURNEY_STORAGE_KEY}_${activeId.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
+}
+
+/**
+ * One-time copy of pre-rename `suradai_customer_journey_v1*` values to the
+ * `giles_` key for the currently active store id. Idempotent: runs only when
+ * the new key is absent and the legacy twin still holds a value.
+ */
+export function migrateLegacyJourneyStorage(storeIdOverride?: string): void {
+    if (!isBrowser()) return;
+    try {
+        const suffix = (() => {
+            const key = resolveJourneyStorageKey(storeIdOverride);
+            return key.slice(CUSTOMER_JOURNEY_STORAGE_KEY.length);
+        })();
+        const nextKey = `${CUSTOMER_JOURNEY_STORAGE_KEY}${suffix}`;
+        const legacyKey = `${LEGACY_CUSTOMER_JOURNEY_STORAGE_KEY}${suffix}`;
+        if (window.localStorage.getItem(nextKey)) return;
+        const legacy = window.localStorage.getItem(legacyKey);
+        if (legacy) window.localStorage.setItem(nextKey, legacy);
+    } catch {
+        // Ignore quota / privacy mode errors
+    }
 }
 
 export function setJourneyTrackingConfig(config: {
@@ -117,7 +135,7 @@ export function setJourneyTrackingConfig(config: {
         proactiveTrigger: config.proactiveTrigger ?? runtimeTrackingConfig.proactiveTrigger ?? true,
     };
     if (isBrowser()) {
-        (window as any).__SURADAI_JOURNEY_CONFIG__ = runtimeTrackingConfig;
+        (window as any).__GILES_JOURNEY_CONFIG__ = runtimeTrackingConfig;
     }
 }
 
@@ -126,8 +144,8 @@ export function setJourneyTrackingEnabled(enabled: boolean, storeId?: string): v
 }
 
 export function getJourneyTrackingConfig(): JourneyTrackingRuntimeConfig {
-    if (isBrowser() && (window as any).__SURADAI_STOREFRONT_CONFIG__?.features) {
-        const winCfg = (window as any).__SURADAI_STOREFRONT_CONFIG__;
+    if (isBrowser() && (window as any).__GILES_STOREFRONT_CONFIG__?.features) {
+        const winCfg = (window as any).__GILES_STOREFRONT_CONFIG__;
         return {
             enabled: winCfg.features.customerJourneyTracker !== false,
             storeId: winCfg.storeId || runtimeTrackingConfig.storeId,
@@ -161,6 +179,7 @@ export function getCustomerJourney(storeIdOverride?: string): CustomerJourneySta
         };
     }
     try {
+        migrateLegacyJourneyStorage(storeIdOverride);
         const storageKey = resolveJourneyStorageKey(storeIdOverride);
         const raw = window.localStorage.getItem(storageKey);
         if (!raw) {

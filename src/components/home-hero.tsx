@@ -460,7 +460,7 @@ const HERO_I18N: Record<
     lt: {
         eyebrow: 'LIETUVIŠKA ŠILUMOS INŽINERIJA · NUO 2011 M.',
         h1: 'Šiluma, kuri veikia pati.',
-        lead: 'Automatizuojame kieto kuro katilus granulėms, gaminame ir nuomojame konteinerines katilines 150–500 kW. El. parduotuvėje – 6 337 šildymo, vėdinimo ir santechnikos pozicijos su inžinieriaus konsultacija.',
+        lead: 'Automatizuojame kieto kuro katilus granulėms, gaminame ir nuomojame konteinerines katilines 100 kW – 2,5 MW. El. parduotuvėje – 6 337 šildymo, vėdinimo ir santechnikos pozicijos su inžinieriaus konsultacija.',
         card1Kicker: '01 / EL. PARDUOTUVĖ',
         card1Title: 'Man reikia įrangos',
         card1Desc: 'Katilai, degikliai, automatika, vėdinimas ir instaliacija',
@@ -473,7 +473,7 @@ const HERO_I18N: Record<
         card2Cta: 'Paleisti katilo perdarymo vedlį',
         kpis: [
             { val: '14+ metų', label: 'patirtis nuo 2011 m.' },
-            { val: '500 kW', label: 'maks. katilinių galia' },
+            { val: '2,5 MW', label: 'maks. katilinių galia' },
             { val: '6 337+', label: 'prekių kataloge' },
             { val: '24 mėn.', label: 'garantija ir servisas' },
         ],
@@ -509,7 +509,7 @@ const HERO_I18N: Record<
             boiler: {
                 title: 'Katilas 25 kW (kieto kuro / granulinis)',
                 description:
-                    'Kieto kuro, granulinis ar kombinuotas katilas: nuo 25 kW namui iki 150–500 kW komerciniam ir pramoniniam objektui.',
+                    'Kieto kuro, granulinis ar kombinuotas katilas: nuo 25 kW namui iki 2,5 MW komerciniam ir pramoniniam objektui.',
                 ctaLabel: 'Žiūrėti prekę',
                 specPill: '25 kW · P265GH 6 mm',
             },
@@ -539,7 +539,7 @@ const HERO_I18N: Record<
     en: {
         eyebrow: 'LITHUANIAN HEATING ENGINEERING · SINCE 2011',
         h1: 'Heating that works on its own.',
-        lead: 'We convert solid-fuel boilers to automatic pellet firing and manufacture or rent 150–500 kW containerized boiler rooms. Our online store stocks 6,337 heating, ventilation, and plumbing items with direct engineering support.',
+        lead: 'We convert solid-fuel boilers to automatic pellet firing and manufacture or rent 100 kW – 2.5 MW containerized boiler rooms. Our online store stocks 6,337 heating, ventilation, and plumbing items with direct engineering support.',
         card1Kicker: '01 / ONLINE STORE',
         card1Title: 'I need equipment',
         card1Desc: 'Boilers, burners, automation, ventilation & hydronic fittings',
@@ -552,7 +552,7 @@ const HERO_I18N: Record<
         card2Cta: 'Launch boiler conversion wizard',
         kpis: [
             { val: '14+ years', label: 'experience since 2011' },
-            { val: '500 kW', label: 'max. boiler plant output' },
+            { val: '2.5 MW', label: 'max. boiler plant output' },
             { val: '6,337+', label: 'items in catalog' },
             { val: '24 mo.', label: 'warranty & service' },
         ],
@@ -588,7 +588,7 @@ const HERO_I18N: Record<
             boiler: {
                 title: '25 kW Solid-Fuel & Pellet Boiler KaTRI',
                 description:
-                    'Heavy-duty 6 mm P265GH steel boiler: from 25 kW residential units to 150–500 kW commercial and industrial plants.',
+                    'Heavy-duty 6 mm P265GH steel boiler: from 25 kW residential units to 2.5 MW commercial and industrial plants.',
                 ctaLabel: 'View product',
                 specPill: '25 kW · P265GH 6 mm',
             },
@@ -618,7 +618,7 @@ const HERO_I18N: Record<
     pl: {
         eyebrow: 'LITEWSKA INŻYNIERIA GRZEWCZA · OD 2011 R.',
         h1: 'Ciepło, które działa samo.',
-        lead: 'Automatyzujemy kotły stałopalne na pellet oraz produkujemy i wynajmujemy kotłownie kontenerowe 150–500 kW. W sklepie internetowym – 6 337 pozycji grzewczych, wentylacyjnych i sanitarnych z doradztwem inżyniera.',
+        lead: 'Automatyzujemy kotły stałopalne na pellet oraz produkujemy i wynajmujemy kotłownie kontenerowe 100 kW – 2,5 MW. W sklepie internetowym – 6 337 pozycji grzewczych, wentylacyjnych i sanitarnych z doradztwem inżyniera.',
         card1Kicker: '01 / SKLEP INTERNETOWY',
         card1Title: 'Potrzebuję sprzętu',
         card1Desc: 'Kotły, palniki, automatyka, wentylacja i armatura',
@@ -631,7 +631,7 @@ const HERO_I18N: Record<
         card2Cta: 'Uruchom kreator modernizacji kotła',
         kpis: [
             { val: '14+ lat', label: 'doświadczenia od 2011 r.' },
-            { val: '500 kW', label: 'maks. moc kotłowni' },
+            { val: '2,5 MW', label: 'maks. moc kotłowni' },
             { val: '6 337+', label: 'pozycji w katalogu' },
             { val: '24 mies.', label: 'gwarancja i serwis' },
         ],
@@ -667,7 +667,7 @@ const HERO_I18N: Record<
             boiler: {
                 title: 'Kocioł 25 kW (stałopalny / peletowy)',
                 description:
-                    'Kocioł ze stali kotłowej P265GH 6 mm: od 25 kW dla domu po 150–500 kW dla obiektów komercyjnych i przemysłowych.',
+                    'Kocioł ze stali kotłowej P265GH 6 mm: od 25 kW dla domu po 2,5 MW dla obiektów komercyjnych i przemysłowych.',
                 ctaLabel: 'Zobacz produkt',
                 specPill: '25 kW · P265GH 6 mm',
             },
@@ -697,7 +697,7 @@ const HERO_I18N: Record<
     ru: {
         eyebrow: 'ЛИТОВСКАЯ ТЕПЛОТЕХНИКА · С 2011 Г.',
         h1: 'Тепло, которое работает само.',
-        lead: 'Автоматизируем твердотопливные котлы под пеллеты, производим и сдаем в аренду контейнерные котельные 150–500 кВт. В интернет-магазине – 6 337 позиций отопления, вентиляции и сантехники с консультацией инженера.',
+        lead: 'Автоматизируем твердотопливные котлы под пеллеты, производим и сдаем в аренду контейнерные котельные 100 кВт – 2,5 МВт. В интернет-магазине – 6 337 позиций отопления, вентиляции и сантехники с консультацией инженера.',
         card1Kicker: '01 / ИНТЕРНЕТ-МАГАЗИН',
         card1Title: 'Мне нужно оборудование',
         card1Desc: 'Котлы, горелки, автоматика, вентиляция и арматура',
@@ -710,7 +710,7 @@ const HERO_I18N: Record<
         card2Cta: 'Запустить мастер модернизации котла',
         kpis: [
             { val: '14+ лет', label: 'опыт работы с 2011 г.' },
-            { val: '500 кВт', label: 'макс. мощность котельных' },
+            { val: '2,5 МВт', label: 'макс. мощность котельных' },
             { val: '6 337+', label: 'товаров в каталоге' },
             { val: '24 мес.', label: 'гарантия и servis'.replace('servis', 'сервис') },
         ],
@@ -746,7 +746,7 @@ const HERO_I18N: Record<
             boiler: {
                 title: 'Котел 25 кВт (твердотопливный / пеллетный)',
                 description:
-                    'Котел из котловой стали P265GH 6 мм: от 25 кВт для дома до 150–500 кВт для коммерческих и промышленных объектов.',
+                    'Котел из котловой стали P265GH 6 мм: от 25 кВт для дома до 2,5 МВт для коммерческих и промышленных объектов.',
                 ctaLabel: 'Смотреть товар',
                 specPill: '25 кВт · P265GH 6 мм',
             },

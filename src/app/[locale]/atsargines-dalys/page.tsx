@@ -6,15 +6,18 @@ import { ProductGridClient } from '../../../components/product-grid-client';
 import { assetUrl } from '../../../lib/api';
 import { resolveBrandLogo } from '../../../lib/product-visuals';
 import { getTranslations } from 'next-intl/server';
+import { getBrandName, withBrandSuffix } from '../../../lib/brand';
 
 // W22-D1 T2 & W34-A1: brand-group entry to spare parts with official manufacturer
 // SVG brand logos, live product counts, and curated flagship preview cards with real .webp photos.
 export const dynamic = 'force-dynamic';
 
-export const metadata: Metadata = {
-    title: 'Atsarginės dalys pagal gamintoją | SURADAI',
-    description: 'Atsarginės dalys pagal gamintojų grupes: Danfoss, IMI Heimeier, IMI Pneumatex, IMI TA, Ferroli. Originalios dalys pagal gamintojo kodą.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+    return {
+        title: withBrandSuffix('Atsarginės dalys pagal gamintoją', await getBrandName()),
+        description: 'Atsarginės dalys pagal gamintojų grupes: Danfoss, IMI Heimeier, IMI Pneumatex, IMI TA, Ferroli. Originalios dalys pagal gamintojo kodą.',
+    };
+}
 
 export default async function PartsPage() {
     const t = await getTranslations();

@@ -211,7 +211,7 @@ export function CookieConsent() {
                                                 {copy.title}
                                             </span>
                                             <Link
-                                                href="/privacy"
+                                                href="/privatumo-politika"
                                                 className="text-xs text-stone-600 hover:text-stone-900 underline underline-offset-2 transition-colors"
                                             >
                                                 {copy.privacyPolicy}
@@ -356,7 +356,7 @@ export function CookieConsent() {
 
                             <div className="flex items-center justify-between mt-4 pt-3 border-t border-stone-200 text-xs">
                                 <div className="flex items-center gap-3">
-                                    <Link href="/privacy" className="text-stone-600 hover:text-stone-900 underline underline-offset-2">
+                                    <Link href="/privatumo-politika" className="text-stone-600 hover:text-stone-900 underline underline-offset-2">
                                         {copy.privacyPolicy}
                                     </Link>
                                     <Link href="/cookies" className="text-stone-600 hover:text-stone-900 underline underline-offset-2">

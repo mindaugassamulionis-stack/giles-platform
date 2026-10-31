@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Konteinerinės katilinės 100 kW – 2,5 MW | Gamyba Kaune | Gilės inžinerija",
-    "description": "Konteinerinės biokuro katilinės 100 kW – 2,5 MW: gamyba ir bandymas Kaune, pirkimas arba nuoma. Kainos nuo 28 500 € be PVM, atsipirkimo skaičiuoklė, brėžiniai ir sąmata per 24 val.",
+    "title": "Konteinerinės katilinės 100 kW – 2,5 MW | Gamyba Kaune | Gilės inžinerija",
+    "description": "Konteinerinės biokuro katilinės 100 kW – 2,5 MW: gamyba ir bandymas Kaune, pirkimas arba nuoma. Kainos nuo 28 500 € be PVM, atsipirkimo skaičiuoklė, brėžiniai ir sąmata per 24 val.",
     "og_image": "/studio-assets/projects/giles-darbas-08.webp"
   },
   "breadcrumb": [
@@ -10,7 +10,7 @@
   ],
   "hero": {
     "eyebrow": "GAMYBA KAUNE · PARDAVIMAS · NUOMA",
-    "h1": "Konteinerinės katilinės 100 kW – 2,5 MW",
+    "h1": "Konteinerinės katilinės 100 kW – 2,5 MW",
     "lead": "Surenkame ir išbandome gamykloje Kaune, atvežame paruoštas prijungti. Skiedra, granulės ar biodujos – pirkimas arba nuoma. Sąmata – per 24 val. darbo dienomis.",
     "cta_primary": {
       "label": "Gauti pasiūlymą",
@@ -27,7 +27,7 @@
     },
     "facts": [
       {
-        "value": "100 kW – 2,5 MW",
+        "value": "100 kW – 2,5 MW",
         "label": "galios ribos"
       },
       {
@@ -51,7 +51,7 @@
       "segment": "buy",
       "eyebrow": "PIRKIMAS",
       "title": "Nuolatinė katilinė",
-      "text": "Gamykloms, šiltnamiams, mokykloms ir kvartalams. 100 kW – 2,5 MW.",
+      "text": "Gamykloms, šiltnamiams, mokykloms ir kvartalams. 100 kW – 2,5 MW.",
       "price_from": "nuo 28 500 € be PVM"
     },
     {
@@ -305,7 +305,7 @@
           "Nežinau – padėkite įvertinti",
           "100–250 kW",
           "250–500 kW",
-          "500 kW – 1 MW",
+          "500 kW – 1 MW",
           "1–2,5 MW"
         ]
       },
@@ -324,6 +324,8 @@
       },
       "files": {
         "label": "Projektas ar nuotraukos (nebūtina)",
+        "choose": "Pasirinkti failus",
+        "none": "Failai nepasirinkti",
         "accept": ".pdf,.dwg,.dxf,.jpg,.jpeg,.png",
         "max_files": 5,
         "max_total_mb": 20

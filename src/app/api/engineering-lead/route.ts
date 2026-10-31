@@ -10,9 +10,7 @@ import {
     computePackageTotalEur,
     validateEngineeringLeadPayload,
 } from '../../../lib/giles-packages-data';
-
-const SURADAI_STORE_ID = '45b4ddab-57b4-4e53-9fef-f1a1fbea564c';
-const SURADAI_STORE_KEY = 'suradai';
+import { getStoreIdentity } from '../../../lib/store-identity';
 
 export async function POST(request: NextRequest) {
     let rawBody: unknown;
@@ -64,12 +62,17 @@ export async function POST(request: NextRequest) {
 
     try {
         let createdOrderId = '';
+        // Orders and support threads belong to the resolved Gilės store —
+        // never a foreign Suradai record.
+        const identity = await getStoreIdentity();
+        const scopedStoreId = identity.storeId;
+        const scopedStoreKey = identity.storeKey || identity.storeSlug;
         await db.transaction(async (tx: any) => {
             const [insertedOrder] = await tx
                 .insert(orders)
                 .values({
-                    storeId: SURADAI_STORE_ID,
-                    storeKey: SURADAI_STORE_KEY,
+                    storeId: scopedStoreId,
+                    storeKey: scopedStoreKey,
                     customerEmail: data.email,
                     status: 'pending',
                     subtotal: roundedSubtotal.toFixed(2),
@@ -123,7 +126,7 @@ export async function POST(request: NextRequest) {
             const [supportThread] = await tx
                 .insert(supportThreads)
                 .values({
-                    storeId: SURADAI_STORE_ID,
+                    storeId: scopedStoreId,
                     customerEmailHash: emailHash,
                     customerEmailEnc: emailEnc,
                     channel: 'chat',
