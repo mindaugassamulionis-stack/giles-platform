@@ -42,7 +42,19 @@ function hasValidAdminTokenOnRequest(req: Request): boolean {
     return verifyAdminSessionToken(bearer);
 }
 
-export async function GET() {
+const isExternalHostRequest = isExternalB2BRequest;
+const hasAdminSession = hasValidAdminTokenOnRequest;
+
+export async function GET(request: Request) {
+    if (request && isExternalHostRequest(request) && !hasAdminSession(request)) {
+        return NextResponse.json(
+            {
+                ok: false,
+                error: 'Unauthorized: Admin session required to list B2B accounts on external hosts.',
+            },
+            { status: 401 },
+        );
+    }
     const accounts = listB2BPartnerAccounts();
     return NextResponse.json({
         ok: true,

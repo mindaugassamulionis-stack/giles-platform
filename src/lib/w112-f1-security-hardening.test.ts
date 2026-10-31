@@ -415,7 +415,9 @@ describe('WP-W112-F1: Security Hardening & Remediation Suite (P0-01..P0-06, P1-0
         });
 
         // 1. GET /api/b2b/accounts never leaks plaintext password
-        const getRes = await b2bAccountsRoute.GET();
+        const getRes = await b2bAccountsRoute.GET(
+            new Request('http://127.0.0.1:3088/api/b2b/accounts'),
+        );
         const getBody = await getRes.json();
         expect(getBody.accounts.length).toBe(1);
         expect(getBody.accounts[0].password).toBeUndefined();
@@ -450,6 +452,36 @@ describe('WP-W112-F1: Security Hardening & Remediation Suite (P0-01..P0-06, P1-0
             }),
         );
         expect(extApproveRes.status).toBe(401);
+
+        // 4. External-host GET /api/b2b/accounts without admin session cookie -> 401
+        const extGetUnauthRes = await b2bAccountsRoute.GET(
+            new NextRequest('http://127.0.0.1:3088/api/b2b/accounts', {
+                method: 'GET',
+                headers: {
+                    'x-forwarded-host': 'signature-policies-medline-explaining.trycloudflare.com',
+                },
+            }),
+        );
+        expect(extGetUnauthRes.status).toBe(401);
+        const extGetUnauthBody = await extGetUnauthRes.json();
+        expect(extGetUnauthBody.ok).toBe(false);
+
+        // 5. External-host GET /api/b2b/accounts with valid Darius giles_admin_session cookie -> 200
+        const validAdminCookie = createAdminSessionToken('darius@gilesinzinerija.com');
+        const extGetAuthRes = await b2bAccountsRoute.GET(
+            new NextRequest('http://127.0.0.1:3088/api/b2b/accounts', {
+                method: 'GET',
+                headers: {
+                    'x-forwarded-host': 'signature-policies-medline-explaining.trycloudflare.com',
+                    cookie: `${ADMIN_SESSION_COOKIE_NAME}=${validAdminCookie}`,
+                },
+            }),
+        );
+        expect(extGetAuthRes.status).toBe(200);
+        const extGetAuthBody = await extGetAuthRes.json();
+        expect(extGetAuthBody.ok).toBe(true);
+        expect(extGetAuthBody.accounts.length).toBe(1);
+        expect(extGetAuthBody.accounts[0].password).toBeUndefined();
     });
 
     it('[P2-01..P2-03] & [P3-01..P3-02] blocks path traversal & prototype pollution in transactional-store, escapes < in SeoGeoJsonLd, sets HSTS & Permissions-Policy headers, and removes static JWT from w110 test', async () => {

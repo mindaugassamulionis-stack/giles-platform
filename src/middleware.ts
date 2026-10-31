@@ -304,7 +304,8 @@ export async function middleware(request: NextRequest) {
         const isProtectedAdminApiPath =
             (pathname.startsWith('/api/admin/') && !pathname.startsWith('/api/admin/auth')) ||
             pathname.startsWith('/api/accounting/skaita') ||
-            pathname.startsWith('/api/inventory/sync');
+            pathname.startsWith('/api/inventory/sync') ||
+            (pathname.startsWith('/api/b2b/accounts') && request.method === 'GET');
 
         if (isProtectedAdminApiPath) {
             const rawHost =
