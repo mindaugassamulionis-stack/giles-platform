@@ -1130,7 +1130,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
                                         scope="col"
                                         className="hidden md:table-cell py-3.5 px-4 w-36"
                                     >
-                                        <span className="sr-only">Modelio pasas</span>
+                                        <span className="sr-only">{content.models_section.row_cta}</span>
                                     </th>
                                 </tr>
                             </thead>
