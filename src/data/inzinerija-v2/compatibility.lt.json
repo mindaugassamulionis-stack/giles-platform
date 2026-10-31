@@ -1,0 +1,59 @@
+{
+  "note": "Kiekvienam gamintojui rekomenduojamas atskiras SEO puslapis /lt/katilu-perdarymas/[slug] (SPEC 5).",
+  "boilers": [
+    {
+      "slug": "viadrus",
+      "brand": "Viadrus U22 / U26 / Hercules",
+      "range_kw": "15–58",
+      "type": "Ketiniai sekcijiniai katilai (4–10 sekcijų)",
+      "door": "Naujos CNC plieninės pakrovimo durelės su degiklio anga ir šilumokaičio ekonomaizeriais",
+      "burner": "Megatherm MPB 25 / 35 arba Pelltech PV20a / PV30a",
+      "vedlys": "/lt/vedlys?boiler=viadrus-u22"
+    },
+    {
+      "slug": "kalvis",
+      "brand": "Kalvis 2-12, 2-16, 2-20, 2-30, 2-40",
+      "range_kw": "12–40",
+      "type": "Plieniniai apatinio degimo katilai",
+      "door": "Durelių adapteris su keraminiu izoliaciniu žiedu ir sraigtiniu tiektuvu (200–2 000 kg bunkeris)",
+      "burner": "Megatherm MPB 10–35 kW su judančiomis ardelėmis",
+      "vedlys": "/lt/vedlys?boiler=kalvis"
+    },
+    {
+      "slug": "atmos",
+      "brand": "Atmos DC18S, DC25S, DC32S, DC50S",
+      "range_kw": "18–50",
+      "type": "Dujų generaciniai kieto kuro katilai",
+      "door": "Viršutinių arba apatinių durelių CNC flanšas, išsaugant galimybę kūrenti malkomis",
+      "burner": "Pelltech PV20a / PV30a arba Centrometal Cm Pelet-set 14–90 kW",
+      "vedlys": "/lt/vedlys?boiler=atmos"
+    },
+    {
+      "slug": "buderus-dakon",
+      "brand": "Buderus Logano S111 / G221, Dakon DOR 16–45",
+      "range_kw": "16–45",
+      "type": "Plieniniai ir ketiniai katilai",
+      "door": "Šoninės arba priekinės angos montavimo plokštė su greito nuėmimo aklėmis",
+      "burner": "Pelltech PV20a arba Megatherm MPB 15–50 kW",
+      "vedlys": "/lt/vedlys?boiler=buderus-s111"
+    },
+    {
+      "slug": "stropuva",
+      "brand": "Stropuva S15, S20, S40, ZVAK / Vienybė",
+      "range_kw": "15–40",
+      "type": "Ilgai degantys plieniniai katilai",
+      "door": "Individualus tvirtinimo kakliukas su dūmų kanalų užsklandomis",
+      "burner": "Megatherm MPB 10–35 kW su automatiniu šlako valymu",
+      "vedlys": "/lt/vedlys?boiler=stropuva"
+    },
+    {
+      "slug": "pramoniniai",
+      "brand": "Pramoniniai: Verner, Ferroli, Kalvis-100…500",
+      "range_kw": "50–500",
+      "type": "Pramoniniai plieniniai ir ketiniai katilai",
+      "door": "Pramoninis degiklio flanšas, kuro padavimo sraigtai, kaskadinė automatika",
+      "burner": "Megatherm MPB PRO 50–300 kW / Pelltech PV100–PV500 / Verner",
+      "vedlys": "/lt/pramonei"
+    }
+  ]
+}

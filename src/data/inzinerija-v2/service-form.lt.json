@@ -1,0 +1,138 @@
+{
+  "anchor_id": "servisas",
+  "endpoint": "POST /api/service-request (išlaikyti esamą /api/admin/support integraciją serveryje, bet nerodyti kliento sąsajoje)",
+  "urgency": [
+    {
+      "id": "urgent",
+      "label": "Skubu",
+      "sub": "Sustojo šildymas žiemą · 2–6 val.",
+      "sla_hours": [
+        2,
+        6
+      ],
+      "source": "site"
+    },
+    {
+      "id": "high",
+      "label": "Gedimas",
+      "sub": "Klaida, neužsikuria · per 24 val.",
+      "sla_hours": [
+        0,
+        24
+      ],
+      "source": "assumption (I1)",
+      "default": true
+    },
+    {
+      "id": "plan",
+      "label": "Planinis",
+      "sub": "Profilaktika, derinimas · suderinus",
+      "sla_hours": null,
+      "source": "site"
+    }
+  ],
+  "types": [
+    {
+      "id": "post",
+      "label": "Gedimo šalinimas",
+      "default": true
+    },
+    {
+      "id": "warranty",
+      "label": "Garantinis (su S/N)"
+    },
+    {
+      "id": "start",
+      "label": "Paleidimas ir derinimas"
+    },
+    {
+      "id": "part",
+      "label": "Atsarginė dalis"
+    }
+  ],
+  "fields": [
+    {
+      "id": "model",
+      "label": "Katilo / degiklio modelis arba S/N",
+      "type": "text",
+      "required": false,
+      "placeholder": "pvz., Viadrus U26 + Megatherm MPB 35"
+    },
+    {
+      "id": "error_code",
+      "label": "Klaidos kodas (jei rodo)",
+      "type": "text",
+      "required": false,
+      "placeholder": "pvz., A01"
+    },
+    {
+      "id": "name",
+      "label": "Vardas arba įmonė",
+      "type": "text",
+      "required": true,
+      "autocomplete": "name"
+    },
+    {
+      "id": "phone",
+      "label": "Telefonas",
+      "type": "tel",
+      "required": true,
+      "placeholder": "+370",
+      "pattern": "^\\+?[0-9 ()-]{8,20}$"
+    },
+    {
+      "id": "city",
+      "label": "Miestas / rajonas",
+      "type": "text",
+      "required": false,
+      "placeholder": "pvz., Kaunas",
+      "note": "TIK placeholder, ne iš anksto įrašyta reikšmė"
+    },
+    {
+      "id": "photo",
+      "label": "Valdiklio ekrano nuotrauka",
+      "type": "file",
+      "required": false,
+      "accept": "image/*",
+      "max_mb": 10
+    },
+    {
+      "id": "description",
+      "label": "Kas atsitiko?",
+      "type": "textarea",
+      "required": false,
+      "placeholder": "pvz., neuždega granulių, sustojo sraigtas"
+    },
+    {
+      "id": "part",
+      "label": "Reikalinga dalis",
+      "type": "select",
+      "required": false,
+      "visible_when": {
+        "type": "part"
+      },
+      "options": [
+        "Nežinau – reikia diagnostikos",
+        "MPB-IGN-300 · Keraminis uždegimo tenas 300 W",
+        "MPB-PHOTO-01 · Liepsnos fotoelementas",
+        "MPB-GRATE-35 · Judančios ardelės",
+        "ECOMAX-860P · Valdiklis Plum ecoMAX 860P",
+        "SUNP7-NOZZLE · Ferroli SUN P7 / P12 degimo tūta",
+        "A1-16-AUGER · Padavimo sraigtas 1,6 m su varikliu"
+      ]
+    }
+  ],
+  "submit": "Iškviesti servisą",
+  "notes_by_urgency": {
+    "urgent": "Skubiai paskambinsime per 2–6 val. Jei labai skubu – skambinkite +370 693 97098.",
+    "high": "Susisieksime per 24 val. darbo dienomis.",
+    "plan": "Susisieksime ir suderinsime laiką."
+  },
+  "success": "Ačiū! Užklausą gavome. Serviso inžinierius susisieks pagal pasirinktą skubumą. Užklausos Nr. {id}.",
+  "errors": {
+    "required": "Užpildykite šį lauką",
+    "phone": "Įveskite telefono numerį, pvz., +370 600 00000",
+    "file": "Nuotrauka iki 10 MB (JPG, PNG, HEIC)",
+    "server": "Nepavyko išsiųsti. Skambinkite +370 693 97098."
+  }
+}

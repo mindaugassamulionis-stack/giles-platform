@@ -1,0 +1,59 @@
+/* Pramonei v2 – dizaino žetonai (iš maketų Pradinis v2 / Pramonei v2 / GK brėžiniai).
+   Jei projekte jau yra Tailwind ar kita sistema – susiekite šias reikšmes su ja, nekurkite dublikatų. */
+:root {
+  /* Spalvos – šviesios sekcijos */
+  --gi-paper: #F5F3EE;          /* puslapio fonas */
+  --gi-paper-2: #EEEBE4;        /* nuotraukų fonas (sutampa su studijinių nuotraukų vinjete) */
+  --gi-surface: #FFFFFF;        /* kortelės */
+  --gi-line: #E2DDD3;           /* rėmeliai */
+  --gi-line-strong: #D5CFC3;
+  --gi-ink: #11161B;            /* pagrindinis tekstas */
+  --gi-ink-2: #3A4652;
+  --gi-muted: #5B6470;          /* antrinis tekstas, 5,4:1 ant --gi-paper */
+  --gi-tint: #FBEADF;           /* pasirinkimo fonas */
+
+  /* Spalvos – tamsios sekcijos */
+  --gi-dark: #0E1216;
+  --gi-dark-2: #11171D;
+  --gi-dark-card: #151C23;
+  --gi-dark-line: #26313B;
+  --gi-dark-text: #F5F3EE;
+  --gi-dark-muted: #A3ADB8;     /* 7,9:1 ant --gi-dark */
+  --gi-dark-muted-2: #8E99A5;
+
+  /* Akcentai */
+  --gi-ember: #C2410C;          /* mygtukai su baltu tekstu (5,2:1) */
+  --gi-ember-bright: #FF8A3D;   /* akcentas TIK ant tamsaus fono */
+  --gi-ok: #157A3B;             /* „yra sandėlyje“, teigiami rezultatai šviesiame fone */
+  --gi-ok-dark: #3FB950;        /* teigiami rezultatai tamsiame fone */
+  --gi-warn: #8A5300;
+  --gi-supply: #FF8A3D;         /* brėžiniai: tiekimas */
+  --gi-return: #5B9BD5;         /* brėžiniai: grąžinimas */
+  --gi-fire: #F2555A;           /* brėžiniai: priešgaisrinė pertvara */
+  --gi-control: #3FB950;        /* brėžiniai: valdymas */
+
+  /* Tipografija */
+  --gi-font-display: 'Schibsted Grotesk', 'Inter', system-ui, sans-serif; /* antraštės, kainos */
+  --gi-font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --gi-font-mono: 'JetBrains Mono', ui-monospace, monospace;                /* kodai, žymos, matmenys */
+  --gi-h1: clamp(40px, 4.8vw, 66px);
+  --gi-h2: clamp(30px, 3.4vw, 44px);
+  --gi-h3: 22px;
+  --gi-body: 16px;
+  --gi-small: 14px;
+  --gi-eyebrow: 12px;            /* mono, letter-spacing .1em, didžiosios */
+
+  /* Erdvės ir formos */
+  --gi-container: 1280px;
+  --gi-gutter: clamp(16px, 4vw, 32px);
+  --gi-section-gap: 72px;
+  --gi-radius-s: 8px;
+  --gi-radius-m: 10px;           /* mygtukai, laukai */
+  --gi-radius-l: 16px;           /* kortelės */
+  --gi-radius-xl: 20px;          /* didelės kortelės, skaičiuoklė */
+  --gi-hit: 44px;                /* min. paspaudimo plotas */
+  --gi-shadow-hover: 0 14px 36px rgba(17, 22, 27, .12);
+}
+/* Fokusas – privalomas visiems interaktyviems elementams */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible { outline: 2px solid var(--gi-ember); outline-offset: 3px; }
+.gi-dark :where(a, button, input, select, textarea):focus-visible { outline-color: var(--gi-ember-bright); }

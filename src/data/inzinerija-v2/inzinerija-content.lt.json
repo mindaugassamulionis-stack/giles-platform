@@ -1,0 +1,251 @@
+{
+  "seo": {
+    "title": "Katilinių projektavimas, katilų perdarymas ir servisas | Gilės inžinerija",
+    "description": "Katilinių projektavimas ir montavimas, kieto kuro katilų perdarymas į granulinius nuo 2 150 € su montavimu, degiklių ir katilų servisas visoje Lietuvoje – reakcija per 2–24 val. Nuo 2011 m."
+  },
+  "breadcrumb": [
+    "Pradžia",
+    "Inžinerija ir servisas"
+  ],
+  "hero": {
+    "eyebrow": "PROJEKTAVIMAS · MONTAVIMAS · SERVISAS · NUO 2011 M.",
+    "h1": "Nuo projekto iki serviso – viena atsakinga komanda",
+    "lead": "Projektuojame ir montuojame katilines, perdarome kieto kuro katilus į granulinius, gaminame konteinerines katilines Kaune ir aptarnaujame įrangą visoje Lietuvoje.",
+    "contacts": [
+      {
+        "label": "Darius, inžinierius",
+        "phone": "+370 611 19158"
+      },
+      {
+        "label": "Servisas",
+        "phone": "+370 693 97098"
+      }
+    ],
+    "paths": [
+      {
+        "id": "service",
+        "title": "Sugedo – reikia serviso",
+        "sub": "Reakcija per 2–24 val. · skubiai žiemą – per 2–6 val.",
+        "href": "#servisas",
+        "primary": true
+      },
+      {
+        "id": "conversion",
+        "title": "Perdaryti katilą į granulinį",
+        "sub": "Komplektas su montavimu nuo 2 150 € su PVM · per 4–6 val.",
+        "href": "#perdarymas"
+      },
+      {
+        "id": "project",
+        "title": "Reikia projekto ar katilinės",
+        "sub": "Sąmata per 24 val. · projektas per 3–5 d. d.",
+        "href": "#uzklausa"
+      }
+    ]
+  },
+  "trust": [
+    {
+      "value": "Nuo 2011 m.",
+      "label": "UAB „Gilės inžinerija“"
+    },
+    {
+      "value": "16 objektų",
+      "label": "nuo 10 kW iki 2 MW"
+    },
+    {
+      "value": "2–24 val.",
+      "label": "serviso reakcija"
+    },
+    {
+      "value": "24 mėn.",
+      "label": "garantija montavimui"
+    },
+    {
+      "value": "6 337 prekės",
+      "label": "sandėliuose Kaune ir Vilniuje"
+    },
+    {
+      "value": "Gamyba Kaune",
+      "label": "konteinerinės katilinės"
+    }
+  ],
+  "brands_label": "APTARNAUJAME IR TURIME DALIŲ",
+  "brands": [
+    "Megatherm",
+    "Pelltech",
+    "Ferroli",
+    "Centrometal",
+    "Verner",
+    "Ponast",
+    "Buderus",
+    "Viessmann",
+    "Protherm",
+    "HERZ",
+    "Defro",
+    "Danfoss"
+  ],
+  "services_section": {
+    "eyebrow": "PASLAUGOS",
+    "title": "Šešios paslaugos su aiškiais terminais ir kainomis",
+    "note": "Kiekvienos paslaugos kainoje nurodyta, ar su PVM."
+  },
+  "service_section": {
+    "eyebrow": "SERVISAS",
+    "title": "Iškvieskite serviso inžinierių",
+    "lead": "Užklausa iškart patenka serviso inžinieriui. Susisieksime per pasirinktą reakcijos laiką."
+  },
+  "a01": {
+    "eyebrow": "PRIEŠ SKAMBINANT",
+    "title": "Degiklis rodo klaidą A01?",
+    "steps": [
+      {
+        "t": "Patikrinkite granulių lygį.",
+        "d": "Jei matosi sraigtas – pripilkite bunkerį."
+      },
+      {
+        "t": "Patikrinkite degiklį ir vamzdį.",
+        "d": "Jei užsikimšo granulėmis – išvalykite."
+      },
+      {
+        "t": "Nuvalykite fotoelementą ir dūmų kanalus.",
+        "d": "Patikrinkite ir pelenų dėžę."
+      },
+      {
+        "t": "Paleiskite iš naujo „P“ mygtuku.",
+        "d": "Jei granulės buvo pasibaigusios – pakartokite 3–5 kartus."
+      }
+    ],
+    "link": {
+      "label": "Klaidų kodas – įrašykite serviso užklausoje",
+      "href": "#servisas",
+      "note": "T9 klaidų puslapis dar kuriamas; nuoroda veda į serviso formą su kodo lauku"
+    }
+  },
+  "parts_box": {
+    "title": "Dažniausios dalys – sandėlyje",
+    "footer": "Sandėliai Kaune ir Vilniuje · servisas@gilesinzinerija.lt"
+  },
+  "projects_section": {
+    "eyebrow": "ATLIKTI DARBAI",
+    "title": "16 objektų – nuo 10 kW namo iki 2 MW katilinės",
+    "lead": "Visos nuotraukos – mūsų sumontuoti ir prižiūrimi objektai Lietuvoje.",
+    "show_initial": 6,
+    "show_more": "Rodyti visus ({n})",
+    "anchor_id": "atlikti-darbai"
+  },
+  "conversion_section": {
+    "eyebrow": "KATILŲ PERDARYMAS",
+    "title": "Fiksuota kaina su montavimu ir 24 mėn. garantija",
+    "cta": {
+      "label": "Patikrinti mano katilą",
+      "href": "/lt/vedlys"
+    },
+    "compat_title": "Kuriuos katilus perdarome",
+    "compat_hint": "Spauskite savo katilą – vedlys jį jau bus pasirinkęs",
+    "anchor_id": "perdarymas"
+  },
+  "process": {
+    "eyebrow": "KAIP DIRBAME",
+    "title": "Aiški eiga be staigmenų",
+    "steps": [
+      {
+        "n": "01",
+        "t": "Užklausa",
+        "d": "Telefonu arba forma"
+      },
+      {
+        "n": "02",
+        "t": "Apžiūra ir sąmata",
+        "d": "Sąmata per 24 val."
+      },
+      {
+        "n": "03",
+        "t": "Montavimas",
+        "d": "Nuo 4–6 val. iki 1–5 d. d."
+      },
+      {
+        "n": "04",
+        "t": "Paleidimas",
+        "d": "Derinimas dūmų analizatoriumi"
+      },
+      {
+        "n": "05",
+        "t": "Garantija ir servisas",
+        "d": "24 mėn., nuotolinė diagnostika"
+      }
+    ]
+  },
+  "commitments": {
+    "title": "Mūsų įsipareigojimai",
+    "items": [
+      "Kaina žinoma prieš darbų pradžią",
+      "24 mėn. garantija montavimo darbams ir komplektams",
+      "Degimas suderinamas dūmų analizatoriumi, rezultatai – jums",
+      "Atsarginės dalys – savuose sandėliuose Kaune ir Vilniuje",
+      "APVA kompensacijai – visi dokumentai"
+    ],
+    "source": "site + assumption (pirmas punktas – OPEN-QUESTIONS I2)"
+  },
+  "faq": [
+    {
+      "q": "Per kiek laiko atvyksite?",
+      "a": "Kai žiemą sustoja šildymas – per 2–6 valandas. Esant gedimui ar klaidai – per 24 valandas darbo dienomis. Profilaktikos ir derinimo laiką suderiname."
+    },
+    {
+      "q": "Kiek kainuoja serviso iškvietimas?",
+      "a": "Kaina priklauso nuo atstumo ir darbų. Ją pasakome prieš atvykdami, o atsargines dalis vežamės iš savo sandėlių Kaune ir Vilniuje.",
+      "source": "assumption (I2)"
+    },
+    {
+      "q": "Ar perdarius katilą galėsiu kūrenti malkomis?",
+      "a": "Daugeliu atvejų – taip. Montuojame atskiras CNC dureles degikliui, todėl originalios pakrovimo durelės išlieka."
+    },
+    {
+      "q": "Kiek trunka katilo perdarymas?",
+      "a": "Paprastai 4–6 valandas, be katilinės griovimo. Tą pačią dieną katilas dirba automatiškai."
+    },
+    {
+      "q": "Ar padedate gauti APVA kompensaciją?",
+      "a": "Taip. Parengiame techninius pasus, V emisijų klasės sertifikatus ir sąskaitas, reikalingas APVA paraiškai."
+    }
+  ],
+  "project_form": {
+    "anchor_id": "uzklausa",
+    "eyebrow": "PROJEKTAS AR SĄMATA",
+    "title": "Gaukite sąmatą per 24 val.",
+    "types": [
+      "Katilinės projektas ir montavimas",
+      "Katilo perdarymas",
+      "Renovacija ir balansavimas",
+      "Konteinerinė katilinė",
+      "Šilumos siurblys ir APVA"
+    ],
+    "submit": "Gauti sąmatą",
+    "note": "Atsakome darbo dienomis per 24 val."
+  },
+  "locations": [
+    {
+      "label": "Kauno gamyba ir sandėlis",
+      "address": "Eigulių g. 21, LT-51418 Kaunas"
+    },
+    {
+      "label": "Vilniaus padalinys",
+      "address": "Žirmūnų g. 68, LT-09124 Vilnius"
+    }
+  ],
+  "contacts": {
+    "engineer": {
+      "name": "Darius, inžinierius",
+      "phone": "+370 611 19158"
+    },
+    "service": {
+      "phone": "+370 693 97098",
+      "email": "servisas@gilesinzinerija.lt"
+    },
+    "office": {
+      "phone": "+370 37 332234",
+      "email": "info@gilesinzinerija.lt",
+      "hours": "I–V 8:30–17:30"
+    }
+  }
+}

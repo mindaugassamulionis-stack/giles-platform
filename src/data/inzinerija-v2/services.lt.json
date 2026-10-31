@@ -1,0 +1,152 @@
+{
+  "services": [
+    {
+      "id": "projektavimas",
+      "n": "01",
+      "eyebrow": "PROJEKTAVIMAS IR MONTAVIMAS",
+      "title": "Katilinių projektavimas ir montavimas iki rakto",
+      "text": "Techniniai ir darbo projektai šildymui, vandentiekiui, konteinerinėms ir dujinėms katilinėms bei kuro sandėliams.",
+      "points": [
+        "2D / 3D katilinių ir kuro sandėlių projektai",
+        "Pilnas surinkimas su apsauginėmis grupėmis, talpomis ir siurblių mazgais",
+        "Grindinis šildymas ir kolektorių spintos (HERZ, Comisa)"
+      ],
+      "term": "Projektas per 3–5 d. d. · montavimas per 1–5 d. d.",
+      "price": {
+        "label": "Montavimas nuo 480 € be PVM",
+        "value_eur": 480,
+        "vat": "excl",
+        "source": "site"
+      },
+      "cta": {
+        "label": "Gauti sąmatą per 24 val.",
+        "href": "#uzklausa"
+      },
+      "image": "/studio-assets/projects/giles-darbas-11.webp",
+      "image_alt": "Katilinės hidraulinis mazgas su kolektoriais"
+    },
+    {
+      "id": "perdarymas",
+      "n": "02",
+      "eyebrow": "KATILŲ PERDARYMAS",
+      "title": "Kieto kuro katilo perdarymas į granulinį",
+      "text": "Vietoje pakrovimo durelių montuojame CNC dureles su granulių degikliu, ekonomaizerius ir 200–2 000 kg bunkerį.",
+      "points": [
+        "Viadrus, Kalvis, Atmos, Stropuva, Dakon, Buderus ir pramoniniai katilai",
+        "Be katilinės griovimo, galimybė kūrenti malkomis išlieka",
+        "4 fiksuotos kainos komplektai su montavimu"
+      ],
+      "term": "4–6 val. su paleidimu",
+      "price": {
+        "label": "nuo 2 150 € su PVM",
+        "value_eur": 2150,
+        "vat": "incl",
+        "source": "site"
+      },
+      "cta": {
+        "label": "Parinkti komplektą",
+        "href": "#perdarymas"
+      },
+      "image": "/studio-assets/projects/giles-darbas-01.webp",
+      "image_alt": "Viadrus U26 katilas su Megatherm granulių degikliu"
+    },
+    {
+      "id": "servisas",
+      "n": "03",
+      "eyebrow": "SERVISAS",
+      "title": "Degiklių, katilų ir šilumos siurblių servisas",
+      "text": "Garantinis ir pogarantinis Centrometal, Buderus, Viessmann, Ferroli, Verner, Protherm, Pelltech, Megatherm ir HERZ įrangos aptarnavimas.",
+      "points": [
+        "Gedimų šalinimas: uždegimo tenai, fotoelementai, sraigtai, ardelės, valdikliai",
+        "Degimo derinimas dūmų analizatoriumi",
+        "Atsarginės dalys savuose sandėliuose"
+      ],
+      "term": "Reakcija per 2–24 val.",
+      "price": {
+        "label": "Sąmata prieš darbus",
+        "value_eur": null,
+        "vat": null,
+        "source": "assumption",
+        "note": "OPEN-QUESTIONS I2"
+      },
+      "cta": {
+        "label": "Iškviesti servisą",
+        "href": "#servisas"
+      },
+      "image": "/studio-assets/projects/giles-darbas-12.webp",
+      "image_alt": "Katilinės montavimas su GSM telemetrija"
+    },
+    {
+      "id": "renovacija",
+      "n": "04",
+      "eyebrow": "RENOVACIJA",
+      "title": "Šildymo sistemų renovacija ir balansavimas",
+      "text": "Daugiabučių, mokyklų, darželių ir gamybinių pastatų vienvamzdžių bei dvivamzdžių sistemų modernizavimas.",
+      "points": [
+        "Slėgio ir srauto reguliatoriai IMI TA STAD, STAP, TBV-CMP",
+        "Radiatorių termostatika Heimeier, Danfoss, Watts",
+        "Nerūdijančio plieno dūmtraukių įdėklai ir kaminai"
+      ],
+      "term": "Matavimai IMI TA Scope · balansavimo pasas",
+      "price": {
+        "label": "Pagal stovų ir kontūrų skaičių",
+        "value_eur": null,
+        "vat": null,
+        "source": "site"
+      },
+      "cta": {
+        "label": "Gauti sąmatą",
+        "href": "#uzklausa"
+      },
+      "image": "/studio-assets/projects/giles-darbas-10.webp",
+      "image_alt": "Dujinė katilinė su kaskadiniais katilais"
+    },
+    {
+      "id": "konteinerines",
+      "n": "05",
+      "eyebrow": "KONTEINERINĖS KATILINĖS",
+      "title": "Konteinerinės katilinės ir mobilių katilinių nuoma",
+      "text": "Gamykloje Kaune surinktos biokuro, dujinės ir biodujų katilinės 100 kW – 2,5 MW bei mobilios 15–500 kW katilinės.",
+      "points": [
+        "Gamyba ir bandymas Kaune per 4–8 savaites",
+        "Mobili katilinė pristatoma per 24 val.",
+        "Prijungimas prie šilumos trasos per 1–2 dienas"
+      ],
+      "term": "Gamyba 4–8 sav. · nuoma per 24 val.",
+      "price": {
+        "label": "nuo 28 500 € arba 690 €/mėn. be PVM",
+        "source": "pramonei-v2 data (industrial-models.lt.json)"
+      },
+      "cta": {
+        "label": "Pramonei: modeliai ir kainos",
+        "href": "/lt/pramonei"
+      },
+      "image": "/studio-assets/projects/giles-darbas-06.webp",
+      "image_alt": "Konteinerinė katilinė GK-500 keliama kranu"
+    },
+    {
+      "id": "silumos-siurbliai",
+      "n": "06",
+      "eyebrow": "ŠILUMOS SIURBLIAI IR APVA",
+      "title": "Šilumos siurbliai, boileriai ir APVA dokumentai",
+      "text": "Oras–vanduo ir oras–oras šilumos siurblių montavimas, boilerių ir akumuliacinių talpų parinkimas.",
+      "points": [
+        "Haier Super Aqua R290, Bosch Climate 3000i",
+        "Akumuliacinės talpos Gorenje, boileriai Centrometal ir Dražice",
+        "Visi dokumentai APVA kompensacijai"
+      ],
+      "term": "Montavimas per 1–2 d. d.",
+      "price": {
+        "label": "Pagal sistemą · su APVA dokumentais",
+        "value_eur": null,
+        "source": "assumption"
+      },
+      "cta": {
+        "label": "Peržiūrėti paketus",
+        "href": "/lt/paketai"
+      },
+      "image": null,
+      "image_alt": ""
+    }
+  ]
+}

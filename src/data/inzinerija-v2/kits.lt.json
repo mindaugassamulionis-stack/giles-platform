@@ -1,0 +1,64 @@
+{
+  "note": "Kainos – su montavimu ir su PVM (B2C). Pavadinimuose pirmiausia galia, prekinis pavadinimas – antroje eilutėje.",
+  "kits": [
+    {
+      "code": "GILES-LINK-LYDERIU-35",
+      "legacy_name": "„Link lyderių“",
+      "title": "Perdarymo komplektas 10–35 kW",
+      "range_kw": "10–35",
+      "brand": "Megatherm",
+      "items": [
+        "Megatherm 10–35 kW degiklis",
+        "460 l granulių talpa ir 1,5 m sraigtas",
+        "Oro kompresorius šlako valymui",
+        "Laidinis patalpos termostatas",
+        "Montavimas, paleidimas, 24 mėn. garantija"
+      ],
+      "price_eur_incl_vat": 2150
+    },
+    {
+      "code": "GILES-NORD-KOMFORTUI-20",
+      "legacy_name": "„Nord komfortui“",
+      "title": "Perdarymo komplektas 10–20 kW",
+      "range_kw": "10–20",
+      "brand": "Pelltech PV20a",
+      "items": [
+        "Pelltech PV20a savaime išsivalantis degiklis",
+        "460 l talpa ir 1,5 m sraigtas",
+        "10 l oro kompresorius",
+        "Laidinis termostatas",
+        "Montavimas, derinimas, 24 mėn. garantija"
+      ],
+      "price_eur_incl_vat": 2350
+    },
+    {
+      "code": "GILES-VIDUTINIAMS-50",
+      "legacy_name": "„Vidutiniams“",
+      "title": "Perdarymo komplektas 25–50 kW",
+      "range_kw": "25–50",
+      "brand": "Megatherm MPB",
+      "items": [
+        "MPB 15–50 kW su judančiomis ardelėmis",
+        "460 l talpa, sraigtas su reduktoriumi",
+        "Programuojamas termostatas",
+        "Montavimas, dūmų analizė, 24 mėn. garantija"
+      ],
+      "price_eur_incl_vat": 2690
+    },
+    {
+      "code": "PONAST-KP08-SET",
+      "legacy_name": "PONAST KP08",
+      "title": "Granulinis katilas PONAST KP08",
+      "range_kw": "8",
+      "brand": "Ponast · V emisijų klasė",
+      "items": [
+        "Integruotas 130 l bunkeris",
+        "Visiškai automatinis",
+        "Namams iki 100 m²",
+        "Tinka APVA kompensacijai",
+        "Montavimas ir 24 mėn. garantija"
+      ],
+      "price_eur_incl_vat": 2890
+    }
+  ]
+}

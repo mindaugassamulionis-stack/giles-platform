@@ -26,6 +26,7 @@ import {
 } from '../../lib/pramonei-v2/format';
 import { computeRoi } from '../../lib/pramonei-v2/roi';
 import { isEstimate, isPublishable, type IndustrialModel, type Segment } from '../../lib/pramonei-v2/types';
+import { BoilerRentalDealFlow, InstantDealDrawerMount } from '../instant-deal-drawer';
 
 export { formatModelArea, formatModelFuel, formatModelPower, formatModelPriceCell };
 
@@ -795,6 +796,16 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
         }
     }, [querySegment]);
 
+    // „Katilinė nuomai" įvestis: #nuomos-sandoris veda tiesiai į sandorio konfigūratorių.
+    useEffect(() => {
+        if (typeof window === 'undefined' || window.location.hash !== '#nuomos-sandoris') return;
+        const t = window.setTimeout(() => {
+            const el = document.getElementById('nuomos-sandoris');
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }, 350);
+        return () => window.clearTimeout(t);
+    }, []);
+
     useEffect(() => {
         try {
             const saved = window.localStorage.getItem('gi.vat');
@@ -972,7 +983,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
                                     onClick={() => {
                                         setSegment(segKey);
                                         const el = document.getElementById('modeliai');
-                                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                                        if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' });
                                     }}
                                     className={`p-5 rounded-xl border-2 bg-transparent text-left cursor-pointer flex flex-col gap-2 transition ${
                                         active
@@ -1221,12 +1232,24 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
                                                 </div>
                                             </td>
                                             <td className="block md:table-cell pt-2 md:py-3 md:px-4">
-                                                <Link
-                                                    href={`/${locale}/pramonei/${m.slug}`}
-                                                    className="min-h-[38px] px-3 inline-flex items-center justify-center rounded-lg border border-[#11161B] text-xs font-semibold text-[#11161B] hover:border-[#C2410C] hover:text-[#C2410C] whitespace-nowrap transition"
-                                                >
-                                                    {content.models_section.row_cta}
-                                                </Link>
+                                                <div className="flex flex-wrap items-center gap-2">
+                                                    <Link
+                                                        href={`/${locale}/pramonei/${m.slug}`}
+                                                        className="min-h-[38px] px-3 inline-flex items-center justify-center rounded-lg border border-[#11161B] text-xs font-semibold text-[#11161B] hover:border-[#C2410C] hover:text-[#C2410C] whitespace-nowrap transition"
+                                                    >
+                                                        {content.models_section.row_cta}
+                                                    </Link>
+                                                    {m.segment === 'rent' && (
+                                                        <a
+                                                            href="#nuomos-sandoris"
+                                                            data-testid={`row-rent-deal-${m.slug}`}
+                                                            onClick={() => setSegment('rent')}
+                                                            className="min-h-[38px] px-3 inline-flex items-center justify-center rounded-lg bg-[#C2410C] text-white text-xs font-bold hover:brightness-110 whitespace-nowrap transition"
+                                                        >
+                                                            {locale === 'lt' ? 'Užsakyti nuomą' : locale === 'en' ? 'Order rental' : locale === 'pl' ? 'Zamów wynajem' : 'Арендовать'}
+                                                        </a>
+                                                    )}
+                                                </div>
                                             </td>
                                         </tr>
                                     );
@@ -1240,6 +1263,10 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
                     </p>
                 </div>
             </section>
+
+            {/* 3b. Mobilios katilinės nuomos sandorio konfigūratorius */}
+            <BoilerRentalDealFlow locale={locale} />
+            <InstantDealDrawerMount locale={locale} />
 
             {/* 4. Sandara */}
             <section className="pt-12 sm:pt-16">

@@ -492,7 +492,7 @@ export const GILES_COMPLETED_WORKS: readonly GilesCompletedWorkItem[] = [
         sourceImageUrl: 'https://www.gilesinzinerija.com/wp-content/uploads/2026/01/IMG_2942-mobili-scaled.jpg',
         sourcePageUrl: 'https://www.gilesinzinerija.com/mobilios-katilines/',
         studioBackdropHex: '#EEEBE4',
-        ctaHref: '/pramonei',
+        ctaHref: '/pramonei?segment=rent#nuomos-sandoris',
         ctaLabel: 'Užsakyti mobilios katilinės nuomą',
     },
     {
