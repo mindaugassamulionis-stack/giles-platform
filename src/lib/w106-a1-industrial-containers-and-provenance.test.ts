@@ -6,8 +6,8 @@ import {
     LITHUANIAN_INDUSTRIAL_FUEL_BENCHMARKS,
     INDUSTRIAL_ZERO_TO_HERO_STEPS,
     calculateIndustrialContainerRoi,
-    COMPATIBILITY_SOURCE_PROVENANCE_COPY,
 } from '../components/industrial-containers-hub';
+import { COMPATIBILITY_SOURCE_PROVENANCE_COPY } from './compatibility-provenance';
 import {
     LITHUANIAN_BOILER_SYSTEM_MODELS,
     resolveBoilerCompatibilityPassport,

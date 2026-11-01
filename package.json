@@ -7,6 +7,7 @@
         "build": "NODE_OPTIONS=\"--max-old-space-size=${NEXT_BUILD_HEAP_MB:-8192}\" next build",
         "start": "next start -p 3001",
         "verify:i18n": "node scripts/html-shell-check.mjs",
+        "test:pdp-locales": "node scripts/pdp-locale-regression.mjs",
         "lint": "next lint",
         "test": "vitest run src/lib",
         "seed:de-cancellation": "node --import tsx scripts/seed-de-cancellation-template.ts"

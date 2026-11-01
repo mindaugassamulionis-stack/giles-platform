@@ -10,7 +10,7 @@ import {
     type BoilerCompatLocale,
     type BoilerSystemGroupId,
 } from '../lib/lithuanian-boiler-compatibility';
-import { COMPATIBILITY_SOURCE_PROVENANCE_COPY } from './industrial-containers-hub';
+import { COMPATIBILITY_SOURCE_PROVENANCE_COPY } from '../lib/compatibility-provenance';
 import { assetUrl } from '../lib/api';
 
 export interface BoilerQuickPickItem {

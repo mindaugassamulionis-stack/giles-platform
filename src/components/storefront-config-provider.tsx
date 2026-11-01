@@ -29,6 +29,8 @@ export interface StorefrontConsultantPersonaClient {
 export interface StorefrontCatalogClient {
     /** Live SKU count from the catalog snapshot (W121-A2 dynamic count). */
     skuCount: number;
+    /** Live in-stock SKU count (W121-F1 honest admin stock summary); null = unknown. */
+    inStockCount?: number | null;
 }
 
 export interface StorefrontRuntimeConfigClient {
@@ -133,6 +135,10 @@ export function StorefrontConfigProvider({
             catalog: {
                 skuCount:
                     initialConfig?.catalog?.skuCount ?? DEFAULT_CLIENT_STOREFRONT_CONFIG.catalog?.skuCount ?? 0,
+                inStockCount:
+                    initialConfig?.catalog?.inStockCount ??
+                    DEFAULT_CLIENT_STOREFRONT_CONFIG.catalog?.inStockCount ??
+                    null,
             },
             llm: {
                 ...DEFAULT_CLIENT_STOREFRONT_CONFIG.llm,
@@ -193,6 +199,10 @@ export function StorefrontConfigProvider({
                                 data.catalog?.skuCount ??
                                 config.catalog?.skuCount ??
                                 0,
+                            inStockCount:
+                                data.catalog?.inStockCount !== undefined
+                                    ? data.catalog.inStockCount
+                                    : (config.catalog?.inStockCount ?? null),
                         },
                         llm: {
                             ...DEFAULT_CLIENT_STOREFRONT_CONFIG.llm,

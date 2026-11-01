@@ -54,7 +54,7 @@ import {
     localizePairingReason,
 } from '../../../../lib/product-i18n';
 import { PdpCadExplodedSchematic } from '../../../../components/pdp-cad-exploded-schematic';
-import { COMPATIBILITY_SOURCE_PROVENANCE_COPY } from '../../../../components/industrial-containers-hub';
+import { COMPATIBILITY_SOURCE_PROVENANCE_COPY } from '../../../../lib/compatibility-provenance';
 import { readCatalogOverrides } from '../../../../lib/giles-catalog-snapshot';
 import type { ProductUxStep, V3SpecRow } from '../../../../lib/v3-description';
 

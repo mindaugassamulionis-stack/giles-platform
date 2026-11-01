@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStorefrontRuntimeConfig } from '@platform/database';
 import { StoreIdentityError, resolveStoreIdOrThrow } from '../../../lib/store-identity';
-import { getGilesCatalogSkuCount } from '../../../lib/catalog-count';
+import { getGilesCatalogInStockCount, getGilesCatalogSkuCount } from '../../../lib/catalog-count';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -30,7 +30,10 @@ export async function GET(request: NextRequest) {
             features: config.features,
             featureModules: config.featureModules,
             persona: config.persona,
-            catalog: { skuCount: getGilesCatalogSkuCount() ?? 0 },
+            catalog: {
+                skuCount: getGilesCatalogSkuCount() ?? 0,
+                inStockCount: getGilesCatalogInStockCount(),
+            },
             llm: {
                 enabled: config.llm.enabled,
                 provider: config.llm.provider,

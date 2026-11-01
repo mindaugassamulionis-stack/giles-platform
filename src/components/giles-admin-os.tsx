@@ -18,6 +18,7 @@ import { GilesAdminIntegrations } from './giles-admin-integrations';
 import { GilesAdminMcp } from './giles-admin-mcp';
 import { useStorefrontConfig } from './storefront-config-provider';
 import { formatCatalogCount } from '../lib/w121-honest-commerce';
+import { formatAdminCatalogStockSummary } from '../lib/admin-stock-summary';
 import { GilesAdminB2BCrm } from './giles-admin-b2b-crm';
 import { GilesAdminAiAgentsCommandCenter } from './giles-admin-suppliers-and-agents';
 
@@ -89,6 +90,7 @@ export function GilesAdminOsModules({
     const [crmNotice, setCrmNotice] = useState<string>('');
     // W121-A2: live catalog size for the overview KPI card.
     const adminCatalogSkuCount = useStorefrontConfig().catalog?.skuCount ?? 0;
+    const adminCatalogInStockCount = useStorefrontConfig().catalog?.inStockCount ?? null;
 
     const [newTicketTitle, setNewTicketTitle] = useState('');
     const [newTicketType, setNewTicketType] = useState('Garantinis servisas');
@@ -273,7 +275,7 @@ export function GilesAdminOsModules({
                                     : '28 gamintojai'}
                             </div>
                             <p className="text-xs text-[#5B6470]">
-                                5 tiekėjų kainynai · 3 659 pozicijos sandėlyje · Išrašyta sąskaitų: {invoicesCount} · Užsakymų: {orders.length}
+                                5 tiekėjų kainynai · {formatAdminCatalogStockSummary(adminCatalogSkuCount, adminCatalogInStockCount)} · Išrašyta sąskaitų: {invoicesCount} · Užsakymų: {orders.length}
                             </p>
                             <button
                                 type="button"
