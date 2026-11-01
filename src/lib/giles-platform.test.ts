@@ -552,19 +552,23 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
         expect(postSyncData.updatedCount).toBeGreaterThanOrEqual(1);
 
         // 3. Owner Item C: Bespoke Gilės CAD Calculators Workbench on /[locale]/skaiciuokle
-        const skaiciuoklePageSrc = fs.readFileSync(
-            path.join(repoRoot, 'src/app/[locale]/skaiciuokle/page.tsx'),
+        const proPageSrc = fs.readFileSync(
+            path.join(repoRoot, 'src/app/[locale]/skaiciuokle/hidraulinis-mazgas/page.tsx'),
             'utf8',
         );
         const hubSrc = fs.readFileSync(
             path.join(repoRoot, 'src/components/scientific-calculators-hub.tsx'),
             'utf8',
         );
-        const combinedCalcSrc = `${skaiciuoklePageSrc}\n${hubSrc}`;
+        const combinedCalcSrc = `${proPageSrc}\n${hubSrc}`;
         expect(combinedCalcSrc).toContain('giles-cad-calculators-workbench');
+        // W126-A1: DARBASTALIS/EN 12831 teiginiai pakeisti sąžiningais EN 12828 / EN 303-5.
         expect(combinedCalcSrc).toContain(
-            'INŽINERINIS PROJEKTAVIMO DARBASTALIS · EN 12831 / STR 2.09.02',
+            'HIDRAULINIO MAZGO SKAIČIUOKLĖ MONTUOTOJAMS · EN 12828 / EN 303-5',
         );
+        expect(combinedCalcSrc).not.toContain('DARBASTALIS');
+        expect(combinedCalcSrc).not.toContain('pagal EN 12831 standartą');
+        expect(combinedCalcSrc).not.toContain('STR 2.09.02');
         expect(combinedCalcSrc).toContain(
             'Katilinių, granulių degiklių ir hidraulinių mazgų skaičiuoklės',
         );
@@ -574,7 +578,7 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
         expect(combinedCalcSrc).toContain('04 / Hidraulinis balansavimas (Danfoss / IMI Kvs)');
         expect(combinedCalcSrc).toContain('05 / Grindinio šildymo kontūrai (Comisa PEX)');
         expect(combinedCalcSrc).toContain('06 / Cirkuliacinis siurblys (Wilo / Grundfos ΔT)');
-        expect(combinedCalcSrc).toContain('MAZGO SKAIČIAVIMO PROTOKOLAS · EN 12831');
+        expect(combinedCalcSrc).toContain('MAZGO SKAIČIAVIMO PROTOKOLAS · EN 12828 / EN 303-5');
         expect(combinedCalcSrc).toContain('+ Įtraukti mazgą į krepšelį');
     });
 

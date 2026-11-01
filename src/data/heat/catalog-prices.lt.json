@@ -1,0 +1,167 @@
+{
+  "_about": "Katalogo kainos su PVM (šešėlis iš giles-catalog-6337.json, generuota scripts/gen-heat-catalog-prices.mjs). price = null → „Kaina pagal užklausą“ (on_request). Neredaguoti ranka – generuoti iš naujo.",
+  "generated": "2026-11-01",
+  "prices": {
+    "1776603": {
+      "sku": "1776603",
+      "price": 79.79,
+      "availability": "supplier_2_4d",
+      "name": "HERZ Trieigis pamaišymo vožtuvas su įmontuotu termostatiniu elementu, grįžtamo srauto temperatūros palaikymui.Tmax=110°C, AB=61°C DN25, Kvs=11",
+      "slug": "herz-trieigis-pamaisymo-voztuvas-su-imontuotu-termostatiniu-eleme-1776603"
+    },
+    "2217972": {
+      "sku": "2217972",
+      "price": null,
+      "availability": "on_request",
+      "name": "Wilo STRATOS MAXO 100/0,5-12 PN10-R7 (DN100, 360)",
+      "slug": "wilo-stratos-maxo-100-0-5-12-pn10-r7-dn100-360-2217972"
+    },
+    "4248084": {
+      "sku": "4248084",
+      "price": null,
+      "availability": "on_request",
+      "name": "Wilo YONOS PICO1.0 25/1-6 (1, 180)",
+      "slug": "wilo-yonos-pico1-0-25-1-6-1-180-4248084"
+    },
+    "5363019": {
+      "sku": "5363019",
+      "price": 426.3,
+      "availability": "supplier_2_4d",
+      "name": "Zubehör-DSV 25-1,9 DGH",
+      "slug": "zubeh-r-dsv-25-1-9-dgh-5363019"
+    },
+    "7101003": {
+      "sku": "7101003",
+      "price": 149.62,
+      "availability": "supplier_2_4d",
+      "name": "Statico-SD 25.3 išsiplėtimo indas disko formos pakabinamas, su butyl gumos kamera 25ltr/3bar antifrizui iki 50%. Po-1bar, R3/4″",
+      "slug": "statico-sd-25-3-issipletimo-indas-disko-formos-pakabinamas-su-butyl-gu-7101003"
+    },
+    "MPB-NANI-35": {
+      "sku": "MPB-NANI-35",
+      "price": 1294.7,
+      "availability": "supplier_2_4d",
+      "name": "Granulių degiklio komplektas Megatherm MPB NANI 35 (8–35 kW) su kuro padavimo sraigtu ir valdikliu (Viadrus U22/U26, Kalvis 2-16/2-20)",
+      "slug": "granuliu-degiklio-komplektas-megatherm-mpb-nani-35-8-35-kw-s-mpb-nani-35"
+    },
+    "MPB-NANI-50": {
+      "sku": "MPB-NANI-50",
+      "price": 1518.55,
+      "availability": "supplier_2_4d",
+      "name": "Granulių degiklio komplektas Megatherm MPB NANI 50 (10–50 kW) su savaime išsivalančiomis ardelėmis ir sraigtu",
+      "slug": "granuliu-degiklio-komplektas-megatherm-mpb-nani-50-10-50-kw-mpb-nani-50"
+    },
+    "MPB-80-PRO": {
+      "sku": "MPB-80-PRO",
+      "price": 2595.45,
+      "availability": "supplier_2_4d",
+      "name": "Pramoninis granulių degiklis Megatherm MPB 80 PRO (20–80 kW) su keramika ir judančiomis ardelėmis",
+      "slug": "pramoninis-granuliu-degiklis-megatherm-mpb-80-pro-20-80-kw-s-mpb-80-pro"
+    },
+    "MPB-150-PRO": {
+      "sku": "MPB-150-PRO",
+      "price": 5426.85,
+      "availability": "supplier_2_4d",
+      "name": "Pramoninis granulių degiklis Megatherm MPB 150 PRO (35–150 kW) su judančiu ardelių dugnu ir automatika",
+      "slug": "pramoninis-granuliu-degiklis-megatherm-mpb-150-pro-35-150-kw-mpb-150-pro"
+    },
+    "MPB-300-PRO": {
+      "sku": "MPB-300-PRO",
+      "price": 7450,
+      "availability": "supplier_2_4d",
+      "name": "Pramoninis granulių degiklis Megatherm MPB 300 PRO (60–300 kW) su automatiniu šlako šalinimu",
+      "slug": "pramoninis-granuliu-degiklis-megatherm-mpb-300-pro-60-300-kw-mpb-300-pro"
+    },
+    "DEGKMPL140MG20": {
+      "sku": "DEGKMPL140MG20",
+      "price": 2350,
+      "availability": "in_stock",
+      "name": "Automatinis medienos granulių degiklio komplektas Megatherm MPB 20 kW su sraigtu (Viadrus U22/U26, Kalvis 2-16/2-20, Atmos)",
+      "slug": "automatinis-medienos-granuliu-degiklio-komplektas-megatherm-20-kw-degkmpl140mg20"
+    },
+    "DEGKMPL140PV20": {
+      "sku": "DEGKMPL140PV20",
+      "price": 2350,
+      "availability": "in_stock",
+      "name": "Automatinis medienos granulių degiklio komplektas Pelltech PV20a 20 kW su sraigtu ir valdikliu (degkmpl140pv20)",
+      "slug": "automatinis-medienos-granuliu-degiklio-komplektas-pelltech-pv20a-degkmpl140pv20"
+    },
+    "AW082HUGHA": {
+      "sku": "AW082HUGHA",
+      "price": 3430,
+      "availability": "supplier_2_4d",
+      "name": "Haier R290 šilumos siurblys oras–vanduo AW082HUGHA, 8 kW (R290)",
+      "slug": "haier-r290-silumos-siurblys-oras-vanduo-aw082hugha-8-kw-r290-aw082hugha"
+    },
+    "KATRI3850020": {
+      "sku": "KATRI3850020",
+      "price": 1750,
+      "availability": "in_stock",
+      "name": "Plieninis kieto kuro ir granulių šildymo katilas 25 kW su trijų eigų šilumokaičiu (KaTRI3850020)",
+      "slug": "plieninis-kieto-kuro-ir-granuliu-sildymo-katilas-25-kw-su-triju-e-katri3850020"
+    },
+    "ZV 100": {
+      "sku": "ZV 100",
+      "price": 400,
+      "availability": "supplier_2_4d",
+      "name": "Gorenje / TIKI ZV 100 pakabinama akumuliacinė šildymo sistemos talpa (100 L, šilumos siurbliams)",
+      "slug": "gorenje-tiki-zv-100-pakabinama-akumuliacine-sildymo-sistemos-zv-100"
+    },
+    "013G2990": {
+      "sku": "013G2990",
+      "price": 41.26,
+      "availability": "supplier_2_4d",
+      "name": "Standartinis, įmontuotas daviklis su dujinu užpildu",
+      "slug": "standartinis-imontuotas-daviklis-su-dujinu-uzpildu-temp-ribos-5-26-c-0-013g2990"
+    },
+    "52-151-014": {
+      "sku": "52-151-014",
+      "price": 71.84,
+      "availability": "supplier_2_4d",
+      "name": "STAD BAL.VALVE BALANCING PRE-SETTING MEASURING SHUT-OFF WITHOUT DRAINING PN20 DN15/14 G1/2",
+      "slug": "stad-balansinis-srauto-reguliavimo-voztuvas-su-istrizu-kotu-su-uzsisan-52-151-014"
+    },
+    "52-151-020": {
+      "sku": "52-151-020",
+      "price": 81.84,
+      "availability": "supplier_2_4d",
+      "name": "STAD BAL.VALVE BALANCING PRE-SETTING MEASURING SHUT-OFF WITHOUT DRAINING PN20 DN20 G3/4",
+      "slug": "stad-balansinis-srauto-reguliavimo-voztuvas-su-istrizu-kotu-su-uzsisan-52-151-020"
+    },
+    "0270132": {
+      "sku": "0270132",
+      "price": null,
+      "availability": "on_request",
+      "name": "Watts KSG 30, komplektacija: manometras 4bar, nuorintuvas, apsauginis vožtuvas 1/2″ 3 bar. Pajungimas 1″ vidiniu sriegiu",
+      "slug": "watts-ksg-30-komplektacija-manometras-4bar-nuorintuvas-apsauginis-0270132"
+    },
+    "065B0774": {
+      "sku": "065B0774",
+      "price": 786.5,
+      "availability": "supplier_2_4d",
+      "name": "Danfoss Išorinis sriegis, bronza, ΔPmaks. = 20 bar (VG 2, 15)",
+      "slug": "danfoss-isorinis-sriegis-bronza-pmaks-20-bar-vg-2-15-065b0774"
+    },
+    "9330-08.800": {
+      "sku": "9330-08.800",
+      "price": 716.87,
+      "availability": "supplier_2_4d",
+      "name": "Dynacon nerūdyjančio pl. grindinio šildymo kolektorius su automatiniais balansiniais ir reguliavimo vožtuvais (8 žiedai G3/4″) komplekte nuorintojas, išleidėjas , laikikliai, pajungimas 1″",
+      "slug": "dynacon-nerudyjancio-pl-grindinio-sildymo-kolektorius-su-automatiniais-9330-08-800"
+    },
+    "88.04.120": {
+      "sku": "88.04.120",
+      "price": null,
+      "availability": "on_request",
+      "name": "Comisa Alkūnė išoriniu sriegiu (16×2 – 1/2″M)",
+      "slug": "comisa-alkune-isoriniu-sriegiu-16-2-1-2-m-88-04-120"
+    },
+    "0675-05.000": {
+      "sku": "0675-05.000",
+      "price": 71.68,
+      "availability": "supplier_2_4d",
+      "name": "Dlobo D su drenažu DN 32",
+      "slug": "dlobo-d-su-drenazu-dn-32-0675-05-000"
+    }
+  }
+}

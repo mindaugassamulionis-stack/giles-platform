@@ -69,6 +69,14 @@ import {
 } from './giles-live-hydronic-schematic';
 import { ApvaSubsidyWidget } from './apva-subsidy-widget';
 
+// W126-A1 (S1): BOM kainos – tik iš katalogo šešėlio (ta pati SKU kaina kaip /lt/products).
+import heatCatalogPricesJson from '../data/heat/catalog-prices.lt.json';
+
+type HeatCatalogPriceEntry = { sku: string; price: number | null; availability: string; name: string; slug: string | null };
+const HEAT_CATALOG_PRICES = (heatCatalogPricesJson as { prices: Record<string, HeatCatalogPriceEntry> }).prices;
+/** Katalogo kaina su PVM; null → „Kaina pagal užklausą“ (on_request). */
+const catPrice = (sku: string): number | null => HEAT_CATALOG_PRICES[sku.toUpperCase()]?.price ?? null;
+
 export interface ScientificCalculatorsHubProps {
     initialTab?: CalculatorToolId;
     initialRecommendationsByTool?: Partial<Record<CalculatorToolId, CalculatorRecommendedProduct[]>>;
@@ -1707,7 +1715,7 @@ interface CadBomItem {
     brand: string;
     role: Record<AppLocale, string>;
     qty: number;
-    unitGrossEur: number;
+    unitGrossEur: number | null; // null → kaina pagal užklausą
     stockQuantity: number;
     stockSource: string;
     imageUrl: string;
@@ -1848,6 +1856,8 @@ const WORKBENCH_COPY: Record<
         vatNet: string;
         vatGroupAria: string;
         wizardBtn: string;
+        modeBtn: string;
+        priceOnRequest: string;
         tabsAria: string;
         stockInKaunas: (qty: number) => string;
         paramsHeading: string;
@@ -1912,21 +1922,23 @@ const WORKBENCH_COPY: Record<
     }
 > = {
     lt: {
-        eyebrow: 'INŽINERINIS PROJEKTAVIMO DARBASTALIS · EN 12831 / STR 2.09.02',
+        eyebrow: 'HIDRAULINIO MAZGO SKAIČIUOKLĖ MONTUOTOJAMS · EN 12828 / EN 303-5',
         h1: 'Katilinių, granulių degiklių ir hidraulinių mazgų skaičiuoklės',
         subtitle:
-            'Tikslus katilinių, granulių degiklių, šilumos siurblių ir hidraulinių mazgų parinkimas pagal EN 12831 standartą su tiesioginiu įrangos komplektavimu iš Kauno sandėlio.',
+            'Katilinių, granulių degiklių, šilumos siurblių ir hidraulinių mazgų parinkimas pagal EN 12828 ir EN 303-5 formules (supaprastintas inžinieriaus įvertinimas, ne EN 12831 projektas) su tiesioginiu įrangos komplektavimu iš Kauno sandėlio.',
         vatGross: 'Su PVM',
         vatNet: 'Be PVM',
         vatGroupAria: 'Kainų rodymas',
         wizardBtn: 'Katilo perdarymo vedlys',
+        modeBtn: 'Namų skaičiuoklė: galia ir LEA kompensacija',
+        priceOnRequest: 'Kaina pagal užklausą',
         tabsAria: 'Gilės Inžinerija skaičiuoklių mazgai',
         stockInKaunas: (qty: number) => `Sandėlyje Kaune: ${qty} vnt.`,
         paramsHeading: '01. Pastato ir hidraulinio mazgo parametrai',
         paramsSubtitle:
             'Nustatykite pastato plotą, energinę klasę, šilumos šaltinį ir sistemos slėgį.',
         areaLabel: 'Pastato plotas m²',
-        energyClassLabel: 'Energinė klasė (A++ .. D pagal STR 2.09.02)',
+        energyClassLabel: 'Energinė klasė (A++ .. D pagal STR 2.01.02:2016)',
         heatSourceLabel: 'Šilumos šaltinis ir katilinės mazgas',
         heatSources: {
             megatherm_pellet: 'Megatherm granulių degiklis MPB NANI 8–35 kW + sraigtas',
@@ -1952,7 +1964,7 @@ const WORKBENCH_COPY: Record<
         supportTitle: 'Tiesioginė inžinieriaus Dariaus patikra · Eigulių g. 21, LT-51418 Kaunas',
         supportDesc:
             'Reikia nestandartinės katilinės schemos ar B2B montuotojo kainos? Skambinkite +370 611 19158 arba atidarykite Vytauto konsultaciją.',
-        protocolHeader: 'MAZGO SKAIČIAVIMO PROTOKOLAS · EN 12831',
+        protocolHeader: 'MAZGO SKAIČIAVIMO PROTOKOLAS · EN 12828 / EN 303-5',
         reqPowerLabel: 'Skaičiuotinė galia P_kW',
         bufferVesselLabel: 'Akumuliacinė / indas',
         flowKvsLabel: 'Srautas G ir Kvs',
@@ -1979,7 +1991,7 @@ const WORKBENCH_COPY: Record<
         qtyUnit: 'vnt.',
         totalBomFooter: (grossStr: string, netValStr: string) =>
             `Viso mazgo sąmata (${grossStr} · ${netValStr} € be PVM)`,
-        presetsLabel: 'Tipiniai pastatų ruošiniai (EN 12831):',
+        presetsLabel: 'Tipiniai pastatų ruošiniai:',
         ufhShareLabel: 'Grindinio šildymo dalis (%)',
         staticHeightLabel: 'Statinis aukštis H (m)',
         leaderLengthLabel: 'Pievadas iki kolektoriaus L_l (m)',
@@ -1987,14 +1999,16 @@ const WORKBENCH_COPY: Record<
         noUfhShort: '0 kont.',
     },
     en: {
-        eyebrow: 'ENGINEERING DESIGN WORKBENCH · EN 12831',
+        eyebrow: 'HYDRONIC NODE CALCULATOR FOR INSTALLERS · EN 12828 / EN 303-5',
         h1: 'Boiler Room, Pellet Burner & Hydronic Node Calculators',
         subtitle:
-            'Precision boiler room, pellet burner, heat pump, and hydronic node sizing per EN 12831 with direct equipment selection from our Kaunas warehouse.',
+            'Boiler room, pellet burner, heat pump, and hydronic node sizing per EN 12828 and EN 303-5 formulas (simplified engineering estimate, not an EN 12831 design) with direct equipment selection from our Kaunas warehouse.',
         vatGross: 'Incl. VAT',
         vatNet: 'Excl. VAT',
         vatGroupAria: 'Price display mode',
         wizardBtn: '4-Step Boiler Wizard',
+        modeBtn: 'Home calculator: power & LEA grant',
+        priceOnRequest: 'Price on request',
         tabsAria: 'Gilės Inžinerija engineering calculator nodes',
         stockInKaunas: (qty: number) => `In stock in Kaunas: ${qty} pcs`,
         paramsHeading: '01. Architectural & System Parameters',
@@ -2027,7 +2041,7 @@ const WORKBENCH_COPY: Record<
         supportTitle: 'Direct Engineering Support · Eigulių St. 21, LT-51418 Kaunas',
         supportDesc:
             'Need a custom boiler room schematic or B2B contractor pricing? Call +370 611 19158 or ask Vytautas AI.',
-        protocolHeader: 'NODE SIZING PROTOCOL · EN 12831',
+        protocolHeader: 'NODE SIZING PROTOCOL · EN 12828 / EN 303-5',
         reqPowerLabel: 'Required Power P_kW',
         bufferVesselLabel: 'Buffer / Vessel',
         flowKvsLabel: 'Flow G & Kvs',
@@ -2054,7 +2068,7 @@ const WORKBENCH_COPY: Record<
         qtyUnit: 'pcs',
         totalBomFooter: (grossStr: string, netValStr: string) =>
             `Total node kit (${grossStr} · ${netValStr} € excl. VAT)`,
-        presetsLabel: 'Quick Building Presets (EN 12831):',
+        presetsLabel: 'Quick Building Presets:',
         ufhShareLabel: 'Underfloor Heating Share (%)',
         staticHeightLabel: 'Static Height H (m)',
         leaderLengthLabel: 'Collector Leader Length L_l (m)',
@@ -2062,14 +2076,16 @@ const WORKBENCH_COPY: Record<
         noUfhShort: '0 loops',
     },
     pl: {
-        eyebrow: 'INŻYNIERYJNY PULPIT PROJEKTOWY · EN 12831',
+        eyebrow: 'KALKULATOR WĘZŁA HYDRAULICZNEGO · EN 12828 / EN 303-5',
         h1: 'Kalkulatory kotłowni, palników pelletowych i węzłów hydraulicznych',
         subtitle:
-            'Precyzyjny dobór kotłowni, palników pelletowych, pomp ciepła i węzłów hydraulicznych wg EN 12831 z bezpośrednim doborem urządzeń z magazynu w Kownie.',
+            'Dobór kotłowni, palników pelletowych, pomp ciepła i węzłów hydraulicznych wg EN 12828 i EN 303-5 (szacunek uproszczony, nie projekt EN 12831) z bezpośrednim doborem urządzeń z magazynu w Kownie.',
         vatGross: 'Z VAT',
         vatNet: 'Bez VAT',
         vatGroupAria: 'Tryb wyświetlania cen',
         wizardBtn: 'Kreator modernizacji kotła',
+        modeBtn: 'Kalkulator domowy: moc i dotacja LEA',
+        priceOnRequest: 'Cena na zapytanie',
         tabsAria: 'Węzły kalkulatorów inżynieryjnych Gilės Inžinerija',
         stockInKaunas: (qty: number) => `W magazynie w Kownie: ${qty} szt.`,
         paramsHeading: '01. Parametry budynku i węzła hydraulicznego',
@@ -2102,7 +2118,7 @@ const WORKBENCH_COPY: Record<
         supportTitle: 'Bezpośrednie wsparcie inżyniera Dariusa · Eigulių g. 21, LT-51418 Kowno',
         supportDesc:
             'Potrzebujesz indywidualnego schematu kotłowni lub cen hurtowych B2B? Zadzwoń +370 611 19158 lub zapytaj Vytautasa AI.',
-        protocolHeader: 'PROTOKÓŁ OBLICZEŃ WĘZŁA · EN 12831',
+        protocolHeader: 'PROTOKÓŁ OBLICZEŃ WĘZŁA · EN 12828 / EN 303-5',
         reqPowerLabel: 'Wymagana moc P_kW',
         bufferVesselLabel: 'Bufor / naczynie',
         flowKvsLabel: 'Przepływ G i Kvs',
@@ -2129,7 +2145,7 @@ const WORKBENCH_COPY: Record<
         qtyUnit: 'szt.',
         totalBomFooter: (grossStr: string, netValStr: string) =>
             `Kosztorys całego węzła (${grossStr} · ${netValStr} € bez VAT)`,
-        presetsLabel: 'Typowe profile budynków (EN 12831):',
+        presetsLabel: 'Typowe profile budynków:',
         ufhShareLabel: 'Udział ogrzewania podłogowego (%)',
         staticHeightLabel: 'Wysokość statyczna H (m)',
         leaderLengthLabel: 'Podejście do rozdzielacza L_l (m)',
@@ -2137,14 +2153,16 @@ const WORKBENCH_COPY: Record<
         noUfhShort: '0 obw.',
     },
     ru: {
-        eyebrow: 'ИНЖЕНЕРНЫЙ РАСЧЕТНЫЙ СТЕНД · EN 12831',
+        eyebrow: 'КАЛЬКУЛЯТОР ГИДРАВЛИЧЕСКОГО УЗЛА · EN 12828 / EN 303-5',
         h1: 'Калькуляторы котельных, пеллетных горелок и гидравлических узлов',
         subtitle:
-            'Точный расчет котельных, пеллетных горелок, тепловых насосов и гидравлических узлов по стандарту EN 12831 с прямым подбором оборудования со склада в Каунасе.',
+            'Расчет котельных, пеллетных горелок, тепловых насосов и гидравлических узлов по формулам EN 12828 и EN 303-5 (упрощенная оценка инженера, не проект EN 12831) с прямым подбором оборудования со склада в Каунасе.',
         vatGross: 'С НДС',
         vatNet: 'Без НДС',
         vatGroupAria: 'Режим отображения цен',
         wizardBtn: 'Мастер модернизации котла',
+        modeBtn: 'Калькулятор для дома: мощность и субсидия LEA',
+        priceOnRequest: 'Цена по запросу',
         tabsAria: 'Инженерные узлы калькуляторов Gilės Inžinerija',
         stockInKaunas: (qty: number) => `На складе в Каунасе: ${qty} шт.`,
         paramsHeading: '01. Параметры здания и гидравлического узла',
@@ -2177,7 +2195,7 @@ const WORKBENCH_COPY: Record<
         supportTitle: 'Прямая проверка инженера Дарюса · ул. Эйгулю 21, LT-51418 Каунас',
         supportDesc:
             'Нужна нестандартная схема котельной или оптовая цена B2B? Звоните +370 611 19158 или откройте консультацию Витаутаса.',
-        protocolHeader: 'ПРОТОКОЛ РАСЧЕТА УЗЛА · EN 12831',
+        protocolHeader: 'ПРОТОКОЛ РАСЧЕТА УЗЛА · EN 12828 / EN 303-5',
         reqPowerLabel: 'Расчетная мощность P_kW',
         bufferVesselLabel: 'Буфер / расш. бак',
         flowKvsLabel: 'Расход G и Kvs',
@@ -2204,7 +2222,7 @@ const WORKBENCH_COPY: Record<
         qtyUnit: 'шт.',
         totalBomFooter: (grossStr: string, netValStr: string) =>
             `Итого смета узла (${grossStr} · ${netValStr} € без НДС)`,
-        presetsLabel: 'Типовые профили зданий (EN 12831):',
+        presetsLabel: 'Типовые профили зданий:',
         ufhShareLabel: 'Доля теплого пола (%)',
         staticHeightLabel: 'Статическая высота H (м)',
         leaderLengthLabel: 'Подводка к коллектору L_l (м)',
@@ -2343,7 +2361,7 @@ export function GilesCadCalculatorsWorkbench({
                             ru: '01. Основной источник тепла R290',
                         },
                         qty: 1,
-                        unitGrossEur: 3430.0,
+                        unitGrossEur: catPrice('AW082HUGHA'),
                         stockQuantity: 5,
                         stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                         imageUrl: '/images/products/giles-studio-21-haier-super-aqua-r290.webp',
@@ -2365,7 +2383,7 @@ export function GilesCadCalculatorsWorkbench({
                             ru: '02. Гидравлический буферный бак',
                         },
                         qty: 1,
-                        unitGrossEur: 289.0,
+                        unitGrossEur: catPrice('ZV 100'),
                         stockQuantity: 12,
                         stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                         imageUrl: '/images/products/giles-studio-27-centrometal-cas-1001-buffer.webp',
@@ -2435,7 +2453,7 @@ export function GilesCadCalculatorsWorkbench({
                             ru: '02. Компенсация давления',
                         },
                         qty: 1,
-                        unitGrossEur: 84.0,
+                        unitGrossEur: catPrice('7101003'),
                         stockQuantity: 18,
                         stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                         imageUrl: '/images/products/7101003.webp',
@@ -2457,14 +2475,16 @@ export function GilesCadCalculatorsWorkbench({
                             ru: '03. Термостатика контуров',
                         },
                         qty: 4,
-                        unitGrossEur: 24.9,
+                        unitGrossEur: catPrice('013G2990'),
                         stockQuantity: 48,
                         stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                         imageUrl: '/images/products/013g2990.webp',
                     },
                 ];
             }
-            return [
+            // W126-A1 (S6): perdarymo metu klientas pasilieka savo katilą – naujo katilo (KaTRI)
+            // eilutės nepridedame; degiklis rodomas tik granulių šaltiniui, katilas – tik naujo katilo keliui.
+            const boilerTabItems: CadBomItem[] = [
                 {
                     id: 'mpb-nani-35',
                     sku: 'MPB-NANI-35',
@@ -2482,7 +2502,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: '01. Автоматическая пеллетная горелка',
                     },
                     qty: 1,
-                    unitGrossEur: 2350.0,
+                    unitGrossEur: catPrice('MPB-NANI-35'),
                     stockQuantity: 6,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/giles-studio-01-mpb-nani-35-50.webp',
@@ -2504,7 +2524,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: '02. Корпус котла (сталь 6 мм)',
                     },
                     qty: 1,
-                    unitGrossEur: 1750.0,
+                    unitGrossEur: catPrice('KATRI3850020'),
                     stockQuantity: 4,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/giles-studio-25-katri-25kw-pellet-boiler.webp',
@@ -2526,12 +2546,149 @@ export function GilesCadCalculatorsWorkbench({
                         ru: '03. Защита от конденсата (55–61 °C)',
                     },
                     qty: 1,
-                    unitGrossEur: 94.0,
+                    unitGrossEur: catPrice('1776603'),
                     stockQuantity: 34,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/giles-studio-29-solar-ssv-station-kit.webp',
                 },
+                {
+                    id: 'zv-100-buf',
+                    sku: 'ZV 100',
+                    title: {
+                        lt: 'Akumuliacinė talpa Gorenje ZV 100 L (PN6 bar, G 3/4")',
+                        en: 'Gorenje ZV 100 L Buffer Tank (PN6 bar, G 3/4")',
+                        pl: 'Zbiornik buforowy Gorenje ZV 100 L (PN6 bar, G 3/4")',
+                        ru: 'Буферная емкость Gorenje ZV 100 л (PN6 бар, G 3/4")',
+                    },
+                    brand: 'Gorenje',
+                    role: {
+                        lt: '04. Akumuliacinė talpa ciklams mažinti',
+                        en: '04. Buffer Tank (cycle reduction)',
+                        pl: '04. Zbiornik buforowy (redukcja cykli)',
+                        ru: '04. Буферная емкость (снижение циклов)',
+                    },
+                    qty: Math.max(1, Math.round(bufferVolumeL / 100)),
+                    unitGrossEur: catPrice('ZV 100'),
+                    stockQuantity: 12,
+                    stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
+                    imageUrl: '/images/products/giles-studio-27-centrometal-cas-1001-buffer.webp',
+                },
+                {
+                    id: '7101003-vessel',
+                    sku: '7101003',
+                    title: {
+                        lt: 'IMI Pneumatex Statico SD 25.3 išsiplėtimo indas su Airproof membrana',
+                        en: 'IMI Pneumatex Statico SD 25.3 Expansion Vessel with Airproof Bladder',
+                        pl: 'Naczynie wzbiorcze IMI Pneumatex Statico SD 25.3 z membraną Airproof',
+                        ru: 'Расширительный бак IMI Pneumatex Statico SD 25.3 с мембраной Airproof',
+                    },
+                    brand: 'IMI Pneumatex',
+                    role: {
+                        lt: '05. Išsiplėtimo indas (EN 12828)',
+                        en: '05. Expansion Vessel (EN 12828)',
+                        pl: '05. Naczynie wzbiorcze (EN 12828)',
+                        ru: '05. Расширительный бак (EN 12828)',
+                    },
+                    qty: 1,
+                    unitGrossEur: catPrice('7101003'),
+                    stockQuantity: 18,
+                    stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
+                    imageUrl: '/images/products/7101003.webp',
+                },
+                {
+                    id: '0270132-safety',
+                    sku: '0270132',
+                    title: {
+                        lt: 'Apsauginė katilo grupė Watts KSG 30 (manometras, atbulinis, nuorintuvas)',
+                        en: 'Watts KSG 30 Safety Group (gauge, check valve, drain)',
+                        pl: 'Grupa bezpieczeństwa Watts KSG 30 (manometr, zawór zwrotny, spust)',
+                        ru: 'Группа безопасности Watts KSG 30 (манометр, обратный клапан, дренаж)',
+                    },
+                    brand: 'Watts',
+                    role: {
+                        lt: '06. Apsauginė grupė 3 bar',
+                        en: '06. Safety Group (3 bar)',
+                        pl: '06. Grupa bezpieczeństwa (3 bar)',
+                        ru: '06. Группа безопасности (3 бар)',
+                    },
+                    qty: 1,
+                    unitGrossEur: catPrice('0270132'),
+                    stockQuantity: 9,
+                    stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
+                    imageUrl: '/images/products/0270132.webp',
+                },
+                {
+                    id: '4248084-pump',
+                    sku: '4248084',
+                    title: {
+                        lt: 'Elektroninis cirkuliacinis siurblys Wilo Yonos PICO 25/1-6',
+                        en: 'Wilo Yonos PICO 25/1-6 Electronic Circulation Pump',
+                        pl: 'Elektroniczna pompa obiegowa Wilo Yonos PICO 25/1-6',
+                        ru: 'Электронный циркуляционный насос Wilo Yonos PICO 25/1-6',
+                    },
+                    brand: 'Wilo',
+                    role: {
+                        lt: '07. Cirkuliacinis siurblys',
+                        en: '07. Circulation Pump',
+                        pl: '07. Pompa obiegowa',
+                        ru: '07. Циркуляционный насос',
+                    },
+                    qty: 1,
+                    unitGrossEur: catPrice('4248084'),
+                    stockQuantity: 7,
+                    stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
+                    imageUrl: '/images/products/giles-stratos-40-1-6-pn6-10-f4ef4954.webp',
+                },
+                {
+                    id: '52-151-014-balance',
+                    sku: '52-151-014',
+                    title: {
+                        lt: 'IMI TA STAD DN15 balansinis-matavimo ventilis su nipeliais',
+                        en: 'IMI TA STAD DN15 Balancing & Measuring Valve with Test Points',
+                        pl: 'Zawór równoważący IMI TA STAD DN15 z króćcami pomiarowymi',
+                        ru: 'Балансировочный вентиль IMI TA STAD DN15 с измерительными ниппелями',
+                    },
+                    brand: 'IMI TA',
+                    role: {
+                        lt: '08. Magistralės balansavimas',
+                        en: '08. Main Line Balancing',
+                        pl: '08. Równoważenie magistrali',
+                        ru: '08. Балансировка магистрали',
+                    },
+                    qty: 1,
+                    unitGrossEur: catPrice('52-151-014'),
+                    stockQuantity: 22,
+                    stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
+                    imageUrl: '/images/products/52-151-014.webp',
+                },
+                {
+                    id: '013g2990-thermo',
+                    sku: '013G2990',
+                    title: {
+                        lt: 'Danfoss RA 2990 termostatinė galvutė su dujiniu jutikliu',
+                        en: 'Danfoss RA 2990 Gas-Bellows Thermostatic Head',
+                        pl: 'Głowica termostatyczna Danfoss RA 2990 z czujnikiem gazowym',
+                        ru: 'Термостатическая головка Danfoss RA 2990 с газовым сильфоном',
+                    },
+                    brand: 'Danfoss',
+                    role: {
+                        lt: '09. Kontūrų termostatika',
+                        en: '09. Loop Thermostatic Control',
+                        pl: '09. Regulacja termostatyczna obwodów',
+                        ru: '09. Термостатика контуров',
+                    },
+                    qty: 4,
+                    unitGrossEur: catPrice('013G2990'),
+                    stockQuantity: 48,
+                    stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
+                    imageUrl: '/images/products/013g2990.webp',
+                },
             ];
+            return boilerTabItems.filter(
+                (item) =>
+                    (item.id !== 'mpb-nani-35' || heatSource === 'megatherm_pellet') &&
+                    (item.id !== 'kat-25kw-gi' || heatSource === 'giles_boiler'),
+            );
         }
         if (activeTab === 'buffer') {
             return [
@@ -2552,7 +2709,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: '01. Буферная емкость (50 л/кВт)',
                     },
                     qty: Math.max(1, Math.round(bufferVolumeL / 500)),
-                    unitGrossEur: 289.0,
+                    unitGrossEur: catPrice('ZV 100'),
                     stockQuantity: 12,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/giles-studio-27-centrometal-cas-1001-buffer.webp',
@@ -2574,7 +2731,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: '02. Узел загрузки буферной емкости',
                     },
                     qty: 1,
-                    unitGrossEur: 94.0,
+                    unitGrossEur: catPrice('1776603'),
                     stockQuantity: 34,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/giles-studio-29-solar-ssv-station-kit.webp',
@@ -2600,7 +2757,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: `01. Расширительный бак (${vesselNominalL} л · EN 12828)`,
                     },
                     qty: 1,
-                    unitGrossEur: 84.0,
+                    unitGrossEur: catPrice('7101003'),
                     stockQuantity: 18,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/7101003.webp',
@@ -2622,7 +2779,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: '02. Предохранительный клапан (3,0 бар)',
                     },
                     qty: 1,
-                    unitGrossEur: 68.5,
+                    unitGrossEur: catPrice('5363019'),
                     stockQuantity: 15,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/7111020.webp',
@@ -2648,7 +2805,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: `01. Балансировка ветки (${recommendedDn})`,
                     },
                     qty: 1,
-                    unitGrossEur: 76.4,
+                    unitGrossEur: catPrice('52-151-020'),
                     stockQuantity: 22,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/52-151-014.webp',
@@ -2670,7 +2827,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: '02. Поддержание перепада давления',
                     },
                     qty: 1,
-                    unitGrossEur: 124.0,
+                    unitGrossEur: catPrice('065B0774'),
                     stockQuantity: 11,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/giles-8826005-e1409650886687-b0fa6b47.webp',
@@ -2696,7 +2853,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: '01. Автоматический коллектор AFC (л/ч)',
                     },
                     qty: 1,
-                    unitGrossEur: 318.0,
+                    unitGrossEur: catPrice('9330-08.800'),
                     stockQuantity: 9,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/9330-08.800.webp',
@@ -2718,7 +2875,7 @@ export function GilesCadCalculatorsWorkbench({
                         ru: `02. Комплект евроконусов (${underfloorLoops * 2} шт.)`,
                     },
                     qty: underfloorLoops * 2,
-                    unitGrossEur: 5.92,
+                    unitGrossEur: catPrice('88.04.120'),
                     stockQuantity: 64,
                     stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                     imageUrl: '/images/products/giles-241-e1411971950854-591c2498.webp',
@@ -2743,7 +2900,7 @@ export function GilesCadCalculatorsWorkbench({
                     ru: `01. Циркуляционный насос (${flowLh} л/ч, H=${pumpHeadM} м)`,
                 },
                 qty: 1,
-                unitGrossEur: 248.0,
+                unitGrossEur: catPrice('2217972'),
                 stockQuantity: 7,
                 stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                 imageUrl: '/images/products/giles-stratos-40-1-6-pn6-10-f4ef4954.webp',
@@ -2765,7 +2922,7 @@ export function GilesCadCalculatorsWorkbench({
                     ru: '02. Запорная арматура насосного узла',
                 },
                 qty: 2,
-                unitGrossEur: 38.5,
+                unitGrossEur: catPrice('0675-05.000'),
                 stockQuantity: 24,
                 stockSource: 'Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
                 imageUrl: '/images/products/0601-02.350.webp',
@@ -2786,7 +2943,10 @@ export function GilesCadCalculatorsWorkbench({
     const totalBomGrossEur = useMemo(
         () =>
             Math.round(
-                activeBomItems.reduce((sum, item) => sum + item.unitGrossEur * item.qty, 0) * 100,
+                activeBomItems.reduce(
+                    (sum, item) => sum + (item.unitGrossEur ?? 0) * item.qty,
+                    0,
+                ) * 100,
             ) / 100,
         [activeBomItems],
     );
@@ -2796,9 +2956,13 @@ export function GilesCadCalculatorsWorkbench({
         const v = showNet ? gross / 1.21 : gross;
         return `${v.toFixed(2).replace('.', ',')} €`;
     };
+    // W126-A1: on_request SKU kainos rodomos kaip „pagal užklausą“ – jokių sugalvotų skaičių.
+    const formatLineMoney = (gross: number | null) =>
+        gross == null ? copy.priceOnRequest : formatMoney(gross);
 
     const handleAddWholeNodeToCart = () => {
         for (const item of activeBomItems) {
+            if (item.unitGrossEur == null) continue; // „pagal užklausą“ į krepšelį neįtraukiama
             addItem({
                 id: item.id,
                 productId: item.id,
@@ -2867,6 +3031,13 @@ export function GilesCadCalculatorsWorkbench({
                             </div>
 
                             <NextLink
+                                href={`/${loc}/skaiciuokle`}
+                                className="inline-flex items-center border border-[#2C3742] bg-transparent hover:border-[#FF8A3D] px-3.5 py-2 text-xs font-bold text-[#F5F3EE] rounded-none whitespace-nowrap transition-colors"
+                            >
+                                {copy.modeBtn}
+                            </NextLink>
+
+                            <NextLink
                                 href={`/${loc}/vedlys`}
                                 className="inline-flex items-center border border-[#2C3742] bg-transparent hover:border-[#FF8A3D] px-3.5 py-2 text-xs font-bold text-[#F5F3EE] rounded-none whitespace-nowrap transition-colors"
                             >
@@ -2927,7 +3098,7 @@ export function GilesCadCalculatorsWorkbench({
             </section>
 
             <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 space-y-6">
-                {/* 4 Quick Building Presets (EN 12831) */}
+                {/* 4 Quick Building Presets */}
                 <div
                     data-testid="calculator-building-presets"
                     role="group"
@@ -3276,7 +3447,10 @@ export function GilesCadCalculatorsWorkbench({
                                     {CAD_WORKBENCH_TABS.find((t) => t.id === activeTab)?.label[loc]}
                                 </h3>
                             </div>
-                            <span className="border border-[#2C3742] bg-[#192028] px-2.5 py-1 text-xs font-semibold text-[#C9D0D8] rounded-none tabular-nums">
+                            <span
+                                data-testid="proto-formula"
+                                className="border border-[#2C3742] bg-[#192028] px-2.5 py-1 text-xs font-semibold text-[#C9D0D8] rounded-none tabular-nums"
+                            >
                                 Q = A × q × ΔT · V_buf = P_kW × 50 L/kW
                             </span>
                         </div>
@@ -3369,6 +3543,8 @@ export function GilesCadCalculatorsWorkbench({
                                 {activeBomItems.map((item) => (
                                     <div
                                         key={`mob-${item.sku}`}
+                                        data-testid="bom-row"
+                                        data-sku={item.sku}
                                         className="border-r border-b border-[#2C3742] bg-[#192028] p-3.5 space-y-2 rounded-none"
                                     >
                                         <div className="flex items-center justify-between gap-2 text-xs">
@@ -3384,7 +3560,7 @@ export function GilesCadCalculatorsWorkbench({
                                         </p>
                                         <div className="flex items-center justify-between gap-2 pt-1">
                                             <span className="text-xs text-[#C9D0D8] tabular-nums">
-                                                {item.qty} {copy.qtyUnit} × {formatMoney(item.unitGrossEur)}
+                                                {item.qty} {copy.qtyUnit} × {formatLineMoney(item.unitGrossEur)}
                                             </span>
                                             <NextLink
                                                 href={`/${loc}/products?q=${encodeURIComponent(item.sku)}`}
@@ -3412,9 +3588,14 @@ export function GilesCadCalculatorsWorkbench({
                                     </thead>
                                     <tbody className="divide-y divide-[#2C3742]">
                                         {activeBomItems.map((item) => {
-                                            const lineGross = item.unitGrossEur * item.qty;
+                                            const lineGross = (item.unitGrossEur ?? 0) * item.qty;
                                             return (
-                                                <tr key={item.sku} className="hover:bg-[#222B35]">
+                                                <tr
+                                                    key={item.sku}
+                                                    data-testid="bom-row"
+                                                    data-sku={item.sku}
+                                                    className="hover:bg-[#222B35]"
+                                                >
                                                     <td className="py-2.5 px-3">
                                                         <span className="block text-xs font-bold text-[#FF8A3D]">
                                                             {item.role[loc]}
@@ -3438,7 +3619,7 @@ export function GilesCadCalculatorsWorkbench({
                                                         {item.qty} {copy.qtyUnit}
                                                     </td>
                                                     <td className="py-2.5 px-3 text-right font-extrabold text-white tabular-nums whitespace-nowrap">
-                                                        {formatMoney(lineGross)}
+                                                        {formatLineMoney(item.unitGrossEur)}
                                                     </td>
                                                 </tr>
                                             );

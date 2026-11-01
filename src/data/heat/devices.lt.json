@@ -1,0 +1,119 @@
+{
+  "_about": "Įrenginių parinkimas. PRODUKCIJOJE kainos ir likučiai – TIK iš katalogo API pagal SKU (tas pats šaltinis kaip /lt/products ir krepšelis). ref_price_eur – tik maketui ir testams; jei SKU kataloge nerastas – rodyti „Kaina pagal užklausą“, ne šį skaičių.",
+  "select_rule": "Mažiausias modelis, kurio vardinė galia ≥ reikalinga galia (šilumos siurbliui – su karšto vandens priedu). Pirmenybė – „Sandėlyje Kaune“. Jei du modeliai skiriasi ≤ 10 % galios, rinktis pigesnį pagal 10 m. išlaidas.",
+  "hp_aw": [
+    {
+      "sku": null,
+      "label": "Haier R290 monoblokas 6 kW",
+      "kw": 6,
+      "dhw_integrated": false,
+      "ref_price_eur": 3190,
+      "source": "assumption – susieti su katalogu"
+    },
+    {
+      "sku": "AW082HUGHA",
+      "label": "Haier Super Aqua Monoblock R290 8 kW",
+      "kw": 8,
+      "dhw_integrated": false,
+      "ref_price_eur": 3490,
+      "scop_35": 4.85,
+      "source": "site:skaiciuokle (APVA blokas, 3 490 € su PVM)"
+    },
+    {
+      "sku": null,
+      "label": "Haier R290 monoblokas 10 kW",
+      "kw": 10,
+      "dhw_integrated": false,
+      "ref_price_eur": 4190,
+      "source": "assumption"
+    },
+    {
+      "sku": null,
+      "label": "Haier R290 monoblokas 12 kW",
+      "kw": 12,
+      "dhw_integrated": false,
+      "ref_price_eur": 4690,
+      "source": "assumption"
+    },
+    {
+      "sku": null,
+      "label": "Haier R290 monoblokas 14 kW",
+      "kw": 14,
+      "dhw_integrated": false,
+      "ref_price_eur": 5190,
+      "source": "assumption"
+    },
+    {
+      "sku": null,
+      "label": "Haier R290 monoblokas 16 kW",
+      "kw": 16,
+      "dhw_integrated": false,
+      "ref_price_eur": 5590,
+      "source": "assumption"
+    }
+  ],
+  "pellet_boiler": [
+    {
+      "sku": "PONAST-KP08",
+      "label": "Ponast KP08 (V klasė, 130 l bunkeris)",
+      "kw": 8,
+      "ref_price_eur": 1990,
+      "source": "assumption – iš komplekto 2 890 € su montavimu atėmus 900 €"
+    },
+    {
+      "sku": null,
+      "label": "Granulinis katilas 5 kl. 15 kW su degikliu ir bunkeriu",
+      "kw": 15,
+      "ref_price_eur": 3900,
+      "source": "assumption"
+    },
+    {
+      "sku": null,
+      "label": "Granulinis katilas 5 kl. 20 kW su degikliu ir bunkeriu",
+      "kw": 20,
+      "ref_price_eur": 4300,
+      "source": "assumption"
+    },
+    {
+      "sku": null,
+      "label": "Granulinis katilas 5 kl. 25 kW su degikliu ir bunkeriu",
+      "kw": 25,
+      "ref_price_eur": 4700,
+      "source": "assumption"
+    },
+    {
+      "sku": null,
+      "label": "Granulinis katilas 5 kl. 30 kW su degikliu ir bunkeriu",
+      "kw": 30,
+      "ref_price_eur": 5200,
+      "source": "assumption"
+    }
+  ],
+  "conversion": [
+    {
+      "sku": "MPB-NANI-35",
+      "label": "Perdarymas: Megatherm MPB NANI 35 (8–35 kW) + flanšas + 350 l + montavimas",
+      "kw": 35,
+      "kw_min": 8,
+      "ref_price_eur": 2425,
+      "source": "computed – vertinimas-2026-11-01/vedlys-calc.ts buildKit (katalogo 1 294,70 € + priedai)"
+    },
+    {
+      "sku": "MPB-NANI-50",
+      "label": "Perdarymas: Megatherm MPB NANI 50 (10–50 kW) + flanšas + 350 l + montavimas",
+      "kw": 50,
+      "kw_min": 10,
+      "ref_price_eur": 2650,
+      "source": "computed"
+    }
+  ],
+  "_price_conflicts_found_2026_11_01": {
+    "MPB-NANI-35": {
+      "katalogas": 1294.7,
+      "vedlys": 1590,
+      "skaiciuokle_BOM": 2350,
+      "inzinerija_komplektas_su_montavimu": 2150
+    },
+    "action": "Visur rodyti katalogo kainą. Komplektai – kaip katalogo SKU rinkinys. Žr. TASKS S1."
+  }
+}

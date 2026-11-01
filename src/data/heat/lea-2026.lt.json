@@ -1,0 +1,38 @@
+{
+  "_about": "Oficialūs LEA (VšĮ Lietuvos energetikos agentūra) katilų keitimo įkainiai ir sąlygos. NE APVA – programą administruoja LEA. Atnaujinti, kai LEA paskelbia naują kvietimą.",
+  "program": "Neefektyvių biomasę ar iškastinį kurą naudojančių katilų keitimas į AEI technologijas individualiuose namuose (2021–2027 ES fondų investicijų programa)",
+  "administrator": "VšĮ Lietuvos energetikos agentūra (LEA)",
+  "source_url": "https://www.ena.lt/inpa-katilokeita/",
+  "source_memo": "https://vrsa.lt/data/public/uploads/2026/04/trumpa-atmintine-katilu-jp-nuo-2026-04-01.pdf",
+  "data_date": "2026-10-26",
+  "checked": "2026-11-01",
+  "next_call": "2027-01-04T14:00:00+02:00",
+  "call_rule": "Kvietimai skelbiami pirmąją kiekvieno ketvirčio darbo dieną",
+  "max_share": 0.5,
+  "formula": "kompensacija = fiksuotasis įkainis (€/kW su PVM) × Prated (kW) × 50 %",
+  "official_example": { "type": "bio", "kw": 20, "grant_eur": 1662 },
+  "rates_eur_per_kw_incl_vat": {
+    "bio": [ { "max_kw": 15, "rate": 272.40 }, { "max_kw": 25, "rate": 166.20 }, { "max_kw": null, "rate": 108.04 } ],
+    "hp_aw": [ { "max_kw": 7, "rate": 903.49 }, { "max_kw": 13, "rate": 591.38 }, { "max_kw": null, "rate": 473.14 } ],
+    "hp_aw_dhw": [ { "max_kw": 7, "rate": 1222.99 }, { "max_kw": 13, "rate": 733.28 }, { "max_kw": null, "rate": 564.62 } ],
+    "hp_gw": [ { "max_kw": 7, "rate": 1187.95 }, { "max_kw": 13, "rate": 724.45 }, { "max_kw": null, "rate": 449.63 } ],
+    "hp_gw_dhw": [ { "max_kw": 7, "rate": 1610.52 }, { "max_kw": null, "rate": 1070.67 } ],
+    "hp_aa": [ { "max_kw": null, "rate": 316.10 } ]
+  },
+  "_band_note": "Įkainis taikomas VISAI galiai pagal juostą (ne laipsniškai). Todėl 7 kW siurblys gali gauti daugiau nei 8 kW, 15 kW katilas – daugiau nei 16 kW. Rodyti kaip patarimą TIK jei mažesnis įrenginys vis tiek ≥ reikiamos galios.",
+  "eligibility": {
+    "buildings": {
+      "house": { "label": "Vieno / dviejų butų gyvenamasis ar sodo namas", "water": ["bio", "hp_aw", "hp_aw_dhw", "hp_gw", "hp_gw_dhw"], "air": ["bio", "hp_aw", "hp_aw_dhw", "hp_gw", "hp_gw_dhw", "hp_aa"] },
+      "apartment": { "label": "Butas daugiabutyje, neprijungtame prie CŠT, ar kitos paskirties pastate", "water": ["hp_aw", "hp_aw_dhw", "hp_gw", "hp_gw_dhw"], "air": ["hp_aa", "hp_aw", "hp_aw_dhw", "hp_gw", "hp_gw_dhw"] }
+    },
+    "installed_from": { "water": "2023-07-26", "air": "2024-12-16" },
+    "bio_excluded": "5 didžiųjų miestų (Vilnius, Kaunas, Klaipėda, Šiauliai, Panevėžys) CŠT zonose biokuro katilams parama netaikoma",
+    "old_must_be": "Neefektyvus biomasę ar iškastinį kurą naudojantis katilas (vandens sistema) arba krosnis / židinys (oro šildymas)",
+    "not_eligible": ["Elektrinis šildymas", "Naujai statomas namas be seno įrenginio", "Katilo perdarymas degikliu (nėra naujas 5 klasės katilas)", "Naudotas įrenginys"],
+    "apply_after_install": true,
+    "keep_years": 5,
+    "one_object_per_application": true,
+    "contact": { "email": "katilukeitimas@ena.lt", "phone": "+370 5 230 3312" }
+  },
+  "stats": { "date": "2026-10-26", "households_replaced": 23097, "paid_meur": 75.62 }
+}

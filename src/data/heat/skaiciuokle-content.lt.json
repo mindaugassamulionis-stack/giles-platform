@@ -1,0 +1,74 @@
+{
+  "seo": {
+    "home": {
+      "path": "/lt/skaiciuokle",
+      "title": "Šildymo skaičiuoklė: galia, kaina ir LEA kompensacija | Gilės inžinerija",
+      "description": "Sužinokite, kokios galios šilumos siurblio ar granulinio katilo reikia jūsų namui, kiek kainuos šildymas per metus ir kokią LEA kompensaciją gausite. Skaičiuoja Gilės inžinieriai, nuo 2011 m.",
+      "h1": "Kokios galios šildymo reikia jūsų namui ir kiek tai kainuos?"
+    },
+    "pro": {
+      "path": "/lt/skaiciuokle/hidraulinis-mazgas",
+      "title": "Hidraulinio mazgo skaičiuoklė montuotojams: talpa, indas, siurblys | Gilės inžinerija",
+      "description": "Akumuliacinė talpa pagal EN 303-5, išsiplėtimo indas pagal EN 12828, srautas, Kv, grindinio kontūrai ir siurblys. Pilna komplektacija su likučiais Kauno sandėlyje ir protokolas PDF.",
+      "h1": "Hidraulinio mazgo skaičiuoklė"
+    },
+    "jsonld": "WebApplication (1), FAQPage (1, iš faq žemiau), BreadcrumbList (1). Globalių Organization/WebSite nekartoti."
+  },
+  "eyebrow": "ŠILDYMO SKAIČIUOKLĖ · LEA ĮKAINIAI {lea_date}",
+  "lead": "Trys klausimai – ir matote reikiamą galią, tris sprendimus su LEA kompensacija, metines šildymo išlaidas ir 10 metų kainą. Visos prielaidos matomos ir keičiamos.",
+  "trust": ["Skaičiuoja Gilės inžinieriai, nuo 2011 m.", "Oficialūs LEA kompensacijos įkainiai", "Rezultatą nemokamai patikrina inžinierius"],
+  "questions": { "area": "Šildomas plotas", "class": "Namo būklė", "class_hint": "nežinote klasės – rinkitės pagal metus", "current": "Kuo šildote dabar?", "more": "Patikslinti skaičiavimą" },
+  "result": {
+    "power": "Reikalinga šildymo galia",
+    "hp_note": "Šilumos siurbliui su karštu vandeniu – {hp_kw} kW",
+    "annual": "Šilumos per metus",
+    "current_cost": "Dabar kainuoja",
+    "disclaimer": "Supaprastintas įvertinimas pagal pastato būklę ({q} W/m²), ne EN 12831 projektas. Tikslų skaičiavimą pagal jūsų namo brėžinius atlieka inžinierius – nemokamai, užsakius pasiūlymą.",
+    "cta_primary": "Palyginti 3 sprendimus",
+    "cta_secondary": "Gauti tikslų pasiūlymą"
+  },
+  "compare": {
+    "title": "Trys sprendimai jūsų namui",
+    "lead": "Kainos su PVM ir montavimu. Pigiausias sprendimas – tas, kurio 10 metų išlaidos (investicija po paramos + šildymas) mažiausios.",
+    "best_badge": "Mažiausios 10 m. išlaidos",
+    "rows": ["Įranga ir montavimas", "LEA kompensacija", "Jums kainuos", "Šildymas per metus", "Palyginti su dabar", "Atsipirkimas", "10 metų išlaidos", "Kuro krovimas"],
+    "payback_none": "Kuro sąskaita neatsiperka",
+    "payback_long": "Daugiau nei 20 m.",
+    "payback_newbuild": "Naujam namui neskaičiuojama",
+    "grant_none": "Netaikoma",
+    "choose": "Rinktis šį sprendimą",
+    "chosen": "Pasirinkta – gauti pasiūlymą",
+    "na_hp": "Reikalinga {kw} kW – daugiau nei vieno namų modelio galia. Parengsime 2 siurblių kaskadą arba hibridinį sprendimą.",
+    "na_conversion": "Tinka tik turint kieto kuro (malkų, anglių) katilą su vandens šildymo sistema.",
+    "tip": "Patarimas: {kw} kW šilumos siurblio galios jūsų namui pakanka, o LEA kompensacija jam didesnė – {grant} vietoj {current}. Inžinierius patikrins, ar tinka."
+  },
+  "lea": {
+    "title_ok": "Jums priklauso iki {grant} kompensacija",
+    "title_conversion": "Perdarymui LEA kompensacija netaikoma",
+    "title_none": "LEA kompensacija šiuo atveju netaikoma",
+    "lead": "Kompensaciją skiria Lietuvos energetikos agentūra (LEA): iki 50 % fiksuotojo įkainio, padauginto iš įrenginio galios. Paraiška teikiama tik įrengus naują įrenginį.",
+    "we_do": "Parenkame LEA reikalavimus atitinkantį įrenginį, sąskaitoje nurodome modelį, vardinę galią Prated ir sertifikatą, perduodame techninius dokumentus ir priėmimo aktą paraiškai.",
+    "band_note": "Įkainis taikomas visai galiai pagal juostą, todėl šiek tiek mažesnis įrenginys kartais gauna daugiau. Patariame tai tik tada, kai jo galios pakanka.",
+    "banned": ["APVA parama", "APVA / ENA", "patvirtinama be papildomų pažymų", "~415 €/kW", "65 % įrangos vertės"]
+  },
+  "form": {
+    "title": "Gaukite tikslų pasiūlymą su montavimu",
+    "lead": "Inžinierius patikrins skaičiavimą pagal jūsų namą, parinks įrangą iš sandėlio ir paskaičiuos LEA kompensaciją. Nemokamai ir be įsipareigojimų.",
+    "fields": { "phone": "Telefonas *", "name": "Vardas", "city": "Miestas / rajonas", "city_placeholder": "pvz., Kaunas", "email": "El. paštas (skaičiavimui PDF)", "time": "Kada patogu skambinti?", "visit": "Noriu, kad inžinierius apžiūrėtų namą (Kaunas, Vilnius ir apylinkės – nemokamai)" },
+    "submit": "Gauti pasiūlymą",
+    "privacy": "Duomenis naudojame tik atsakyti į užklausą. Siųsdami sutinkate su privatumo politika.",
+    "err_phone": "Įveskite telefono numerį, pvz., +370 600 00000",
+    "err_network": "Nepavyko išsiųsti. Paskambinkite +370 611 19158 arba bandykite dar kartą.",
+    "success": "Užklausa {id} gauta. Darius paskambins per 1 darbo dieną.",
+    "success_offhours": "Užklausa {id} gauta. Darius paskambins kitą darbo dieną iki 10:00.",
+    "success_pdf": "Skaičiavimą PDF išsiuntėme į {email}."
+  },
+  "faq": [
+    { "q": "Kokios galios šilumos siurblio reikia 150 m² namui?", "a": "Priklauso nuo namo būklės: naujam A++ namui – apie 5 kW, renovuotam – apie 12 kW, senam neapšiltintam – apie 17 kW (su 10 % rezervu, be karšto vandens). Šilumos siurbliui dar pridedama apie 0,25 kW vienam gyventojui karštam vandeniui. Tikslią galią apskaičiuojame pagal EN 12831 iš namo brėžinių." },
+    { "q": "Kokia LEA kompensacija 2026–2027 m.?", "a": "Iki 50 % fiksuotojo įkainio, padauginto iš įrenginio galios. Pvz., 8 kW šilumos siurbliui oras–vanduo be integruoto boilerio – iki 2 365 €, 20 kW biokuro katilui – iki 1 662 €. Paraiška teikiama tik įrengus įrenginį; kitas kvietimas – 2027-01-04, 14:00." },
+    { "q": "Ar galima gauti paramą perdarant katilą į granulinį?", "a": "Ne. LEA kompensuoja tik naujus 5 klasės biokuro katilus ir šilumos siurblius. Perdarymas degikliu pigesnis, bet paramos negausite – skaičiuoklė tai įvertina automatiškai." },
+    { "q": "Kodėl granulės kartais brangesnės už malkas?", "a": "Kuro MWh kaina granulėmis dažnai didesnė nei malkomis. Perėjimo nauda – automatika: nereikia krauti kelis kartus per dieną, temperatūra stabili, mažiau taršos. Todėl rodome sąžiningą metinę kainą, o ne tik „sutaupymą“." },
+    { "q": "Ar skaičiuoklė pakeičia projektą?", "a": "Ne. Tai supaprastintas įvertinimas pagal pastato būklę. Užsakius pasiūlymą, inžinierius nemokamai patikrina skaičiavimą pagal jūsų namo duomenis ir parenka konkrečią įrangą iš sandėlio." }
+  ],
+  "_faq_note": "FAQ skaičiai (2 365 €, 1 662 €, 5/12/17 kW) turi būti generuojami iš to paties branduolio (lea.ts, heat-calc.ts), o ne rašomi ranka – test `faq atitinka branduolį`."
+}

@@ -7,6 +7,10 @@ import { CheckCircle2, FileText, ShieldCheck, Flame, Thermometer } from 'lucide-
 import { useLocale } from 'next-intl';
 import { resolveAppLocale } from '../i18n/storefront-ui-copy';
 import type { AppLocale } from '../i18n/routing';
+import { leaGrant, leaRate, type LeaData, type LeaType } from '../lib/heat/lea';
+import lea2026Json from '../data/heat/lea-2026.lt.json';
+
+const LEA_2026 = lea2026Json as unknown as LeaData;
 
 export type ApvaReplacedBoilerType =
     | 'fossil_coal_wood'
@@ -76,30 +80,21 @@ export function calculateApvaSubsidyEstimate(
     input: ApvaSubsidyCalculationInput,
 ): ApvaSubsidyCalculationResult {
     const cleanKw = Math.max(4, Math.min(35, Number(input.powerKw) || 8));
-    const cleanPrice = Math.max(500, Number(input.devicePriceEur) || 3490);
+    const cleanPrice = Math.max(500, Number(input.devicePriceEur) || 3430);
 
-    // Official Lithuanian APVA / LEA fixed unit rates guidelines for boiler replacement:
-    // Air-to-Water Heat Pump (A+++): ~446 EUR/kW up to 14 kW cap (max ~3 500 - 4 500 EUR depending on replaced boiler, capped at 50-65% of cost)
-    // 5th Class EcoDesign Pellet / Bio Boiler: ~180 - 230 EUR/kW (capped at ~1 800 - 2 500 EUR and 50% of cost)
+    // W126-A1: LEA (VšĮ Lietuvos energetikos agentūra) oficialūs juostiniai įkainiai iš
+    // src/data/heat/lea-2026.lt.json – nebenaudojami apytiksliai „415 €/kW × 65 %“.
+    // kompensacija = fiksuotasis įkainis (€/kW su PVM) × Prated (kW) × 50 %, bet ne daugiau įrangos kainos.
     const isHeatPump = input.newDeviceType === 'heat_pump_air_water';
-    const baseRatePerKw = isHeatPump ? 415 : 195;
-    const boilerMultiplier =
-        input.replacedBoilerType === 'fossil_coal_wood'
-            ? 1.0
-            : input.replacedBoilerType === 'fossil_gas_oil'
-              ? 0.95
-              : 0.88;
+    const leaType: LeaType = isHeatPump ? 'hp_aw' : 'bio';
 
-    const fixedRatePerKwEur = Math.round(baseRatePerKw * boilerMultiplier);
-    const effectiveSubsidizedKw = Math.min(cleanKw, 14);
-    const rawGrant = Math.round(effectiveSubsidizedKw * fixedRatePerKwEur);
-    const maxCapEur = isHeatPump ? 4200 : 2200;
-    const maxShareOfPrice = Math.round(cleanPrice * 0.65);
-
-    const estimatedGrantEur = Math.min(rawGrant, maxCapEur, maxShareOfPrice);
-    const netCustomerInvestmentEur = Math.max(0, Math.round((cleanPrice - estimatedGrantEur) * 100) / 100);
+    const fixedRatePerKwEur = leaRate(LEA_2026, leaType, cleanKw);
+    const estimatedGrantEur =
+        Math.floor(Math.min(leaGrant(LEA_2026, leaType, cleanKw), cleanPrice) * 100) / 100;
+    const netCustomerInvestmentEur =
+        Math.max(0, Math.round((cleanPrice - estimatedGrantEur) * 100) / 100);
     const subsidySharePercent = Math.min(
-        65,
+        50,
         Math.max(10, Math.round((estimatedGrantEur / cleanPrice) * 100)),
     );
 
@@ -167,7 +162,7 @@ export function formatApvaInvoiceComplianceNote(params: {
     const ecoStr = isHp ? 'EcoDesign ES 813/2013' : 'EcoDesign ES 2015/1189';
     const addr = params.buyerAddress?.trim() || 'Eigulių g. 21, LT-51418 Kaunas';
 
-    return `[APVA / ENA ATITIKTIS: Modelis ${params.sku} | Vardinė galia: ${kwStr} | Efektyvumas: ${effStr} | Sertifikatas: ${ecoStr} | Montavimo adresas: ${addr}]`;
+    return `[LEA ATITIKTIS: Modelis ${params.sku} | Vardinė galia: ${kwStr} | Efektyvumas: ${effStr} | Sertifikatas: ${ecoStr} | Montavimo adresas: ${addr}]`;
 }
 
 const APVA_WIDGET_I18N: Record<
@@ -193,8 +188,8 @@ const APVA_WIDGET_I18N: Record<
     }
 > = {
     lt: {
-        kicker: 'VALSTYBĖS PARAMA KATILŲ KEITIMUI · APVA / LEA KOMPENSACIJA',
-        heading: 'APVA / ENA paramos skaičiuoklė ir PVM sąskaitos faktūros reikalavimai',
+        kicker: 'LEA KOMPENSACIJA KATILŲ KEITIMUI · LIETUVOS ENERGETIKOS AGENTŪRA',
+        heading: 'LEA katilų keitimo kompensacijos skaičiuoklė ir PVM sąskaitos faktūros reikalavimai',
         subtitle:
             'Apskaičiuokite preliminarią valstybės kompensaciją keičiant neefektyvų malkinį, anglies ar dujinį katilą į A+++ šilumos siurblį Oras–Vanduo arba 5 klasės EcoDesign biokuro katilą.',
         step1ReplacedLabel: '1. Keičiamo katilo tipas',
@@ -218,22 +213,22 @@ const APVA_WIDGET_I18N: Record<
         },
         step3PowerLabel: '3. Reikalinga šiluminė galia (kW)',
         step4PriceLabel: '4. Įrenginio kaina (€ su PVM)',
-        resultBadge: 'APVA / LEA KOMPENSACIJOS SUVESTINĖ',
-        estimatedGrantLabel: 'Preliminari APVA išmoka',
+        resultBadge: 'LEA KOMPENSACIJOS SUVESTINĖ',
+        estimatedGrantLabel: 'Preliminari LEA kompensacija',
         netInvestmentLabel: 'Kliento grynoji investicija po paramos',
         rateFormulaNote: (rateEur, sharePct) =>
-            `Skaičiuojama pagal fiksuotą įkainį (~${rateEur} €/kW), kompensuojant ~${sharePct} % įrangos vertės.`,
-        mandatoryFieldsHeading: '5 privalomi APVA PVM sąskaitos faktūros ir deklaracijos rekvizitai',
+            `Skaičiuojama pagal LEA fiksuotąjį įkainį (${rateEur.toLocaleString('lt-LT')} €/kW šioje galios juostoje), kompensuojant iki ${sharePct} % įrenginio kainos.`,
+        mandatoryFieldsHeading: '5 privalomi LEA PVM sąskaitos faktūros ir deklaracijos rekvizitai',
         mandatoryFieldsSub:
-            'UAB „Gilės inžinerija“ išrašomose GILE serijos sąskaitose visi šie rodikliai nurodomi automatiškai, todėl APVA paraiška patvirtinama be papildomų pažymų:',
-        recommendedModelLabel: 'Rekomenduojamas APVA reikalavimus atitinkantis įrenginys:',
-        viewEligibleProductsBtn: 'Peržiūrėti APVA tinkamus katilus ir ŠS',
+            'UAB „Gilės inžinerija“ GILE serijos sąskaitose visi šie rodikliai nurodomi automatiškai – LEA paraiškai papildomų pažymų nebereikia:',
+        recommendedModelLabel: 'Rekomenduojamas LEA reikalavimus atitinkantis įrenginys:',
+        viewEligibleProductsBtn: 'Peržiūrėti LEA tinkamus katilus ir ŠS',
     },
     en: {
-        kicker: 'LITHUANIAN STATE SUBSIDY · APVA / LEA BOILER REPLACEMENT GRANT',
-        heading: 'APVA / ENA State Subsidy Calculator & Invoice Compliance Checklist',
+        kicker: 'LEA BOILER REPLACEMENT GRANT · LITHUANIAN ENERGY AGENCY',
+        heading: 'LEA State Subsidy Calculator & Invoice Compliance Checklist',
         subtitle:
-            'Estimate your Lithuanian APVA / LEA state grant when replacing an inefficient wood, coal, or fossil boiler with an A+++ Air-to-Water heat pump or 5th-class EcoDesign pellet boiler.',
+            'Estimate your Lithuanian LEA state grant when replacing an inefficient wood, coal, or fossil boiler with an A+++ Air-to-Water heat pump or 5th-class EcoDesign pellet boiler.',
         step1ReplacedLabel: '1. Replaced Boiler Type (Keičiamo katilo tipas)',
         replacedOptions: {
             fossil_coal_wood: 'Old wood / coal / peat solid-fuel boiler',
@@ -255,20 +250,20 @@ const APVA_WIDGET_I18N: Record<
         },
         step3PowerLabel: '3. Required Thermal Power (Reikalinga šiluminė galia, kW)',
         step4PriceLabel: '4. Device Price (€ incl. VAT / Įrenginio kaina €)',
-        resultBadge: 'APVA / LEA GRANT ESTIMATE',
-        estimatedGrantLabel: 'Estimated APVA Grant (€)',
+        resultBadge: 'LEA GRANT ESTIMATE',
+        estimatedGrantLabel: 'Estimated LEA Grant (€)',
         netInvestmentLabel: 'Net Customer Investment After Grant (€)',
         rateFormulaNote: (rateEur, sharePct) =>
-            `Calculated at ~${rateEur} €/kW unit rate (~${sharePct}% of device cost covered).`,
-        mandatoryFieldsHeading: '5 Mandatory APVA Invoice & Declaration Fields',
+            `Calculated at the LEA fixed rate of ${rateEur} €/kW for this power band (up to ${sharePct}% of device cost covered).`,
+        mandatoryFieldsHeading: '5 Mandatory LEA Invoice & Declaration Fields',
         mandatoryFieldsSub:
-            'UAB "Gilės inžinerija" automatically includes all 5 technical parameters on GILE VAT invoices for immediate APVA approval:',
-        recommendedModelLabel: 'Recommended APVA-Eligible Equipment:',
-        viewEligibleProductsBtn: 'Browse APVA-Eligible Boilers & Heat Pumps',
+            'UAB "Gilės inžinerija" automatically includes all 5 technical parameters on GILE VAT invoices for the LEA application:',
+        recommendedModelLabel: 'Recommended LEA-Eligible Equipment:',
+        viewEligibleProductsBtn: 'Browse LEA-Eligible Boilers & Heat Pumps',
     },
     pl: {
-        kicker: 'DOTACJA PAŃSTWOWA APVA / LEA · WYMIANA KOTŁA',
-        heading: 'Kalkulator dotacji APVA / ENA i wymogi faktury VAT',
+        kicker: 'DOTACJA LEA · WYMIANA KOTŁA',
+        heading: 'Kalkulator dotacji LEA i wymogi faktury VAT',
         subtitle:
             'Oblicz szacunkową dotację przy wymianie starego kotła węglowego lub drzewnego na pompę ciepła Powietrze–Woda A+++ lub kocioł peletowy 5 klasy EcoDesign.',
         step1ReplacedLabel: '1. Typ wymienianego kotła (Keičiamo katilo tipas)',
@@ -292,20 +287,20 @@ const APVA_WIDGET_I18N: Record<
         },
         step3PowerLabel: '3. Wymagana moc grzewcza (kW)',
         step4PriceLabel: '4. Cena urządzenia (€ z VAT)',
-        resultBadge: 'SZACOWANA DOTACJA APVA / LEA',
-        estimatedGrantLabel: 'Szacowana dotacja APVA (€)',
+        resultBadge: 'SZACOWANA DOTACJA LEA',
+        estimatedGrantLabel: 'Szacowana dotacja LEA (€)',
         netInvestmentLabel: 'Koszt netto klienta po dotacji (€)',
         rateFormulaNote: (rateEur, sharePct) =>
-            `Stawka jednostkowa ~${rateEur} €/kW (~${sharePct}% wartości urządzenia).`,
-        mandatoryFieldsHeading: '5 obowiązkowych danych technicznych na fakturze APVA',
+            `Stawka jednostkowa LEA: ${rateEur} €/kW (do ${sharePct}% wartości urządzenia).`,
+        mandatoryFieldsHeading: '5 obowiązkowych danych technicznych na fakturze LEA',
         mandatoryFieldsSub:
-            'Faktury VAT serii GILE zawierają wszystkie 5 parametrów wymaganych przez APVA:',
-        recommendedModelLabel: 'Rekomendowane urządzenie kwalifikujące się do APVA:',
-        viewEligibleProductsBtn: 'Zobacz kotły i pompy ciepła APVA',
+            'Faktury VAT serii GILE zawierają wszystkie 5 parametrów wymaganych przez LEA:',
+        recommendedModelLabel: 'Rekomendowane urządzenie kwalifikujące się do LEA:',
+        viewEligibleProductsBtn: 'Zobacz kotły i pompy ciepła LEA',
     },
     ru: {
-        kicker: 'ГОСУДАРСТВЕННАЯ СУБСИДИЯ APVA / LEA · ЗАМЕНА КОТЛА',
-        heading: 'Калькулятор субсидии APVA / ENA и реквизиты счета-фактуры',
+        kicker: 'СУБСИДИЯ LEA · ЗАМЕНА КОТЛА',
+        heading: 'Калькулятор субсидии LEA и реквизиты счета-фактуры',
         subtitle:
             'Рассчитайте государственную компенсацию при замене старого твердотопливного котла на тепловой насос Воздух–Вода A+++ или пеллетный котел 5 класса EcoDesign.',
         step1ReplacedLabel: '1. Тип заменяемого котла (Keičiamo katilo tipas)',
@@ -329,16 +324,16 @@ const APVA_WIDGET_I18N: Record<
         },
         step3PowerLabel: '3. Требуемая тепловая мощность (кВт)',
         step4PriceLabel: '4. Цена оборудования (€ с НДС)',
-        resultBadge: 'РАСЧЕТ КОМПЕНСАЦИИ APVA / LEA',
-        estimatedGrantLabel: 'Предварительная выплата APVA (€)',
+        resultBadge: 'РАСЧЕТ КОМПЕНСАЦИИ LEA',
+        estimatedGrantLabel: 'Предварительная выплата LEA (€)',
         netInvestmentLabel: 'Чистая инвестиция клиента после субсидии (€)',
         rateFormulaNote: (rateEur, sharePct) =>
-            `Расчет по фиксированному тарифу ~${rateEur} €/кВт (~${sharePct}% стоимости).`,
-        mandatoryFieldsHeading: '5 обязательных реквизитов счета-фактуры для APVA',
+            `Расчет по тарифу LEA ${rateEur} €/кВт (до ${sharePct}% стоимости).`,
+        mandatoryFieldsHeading: '5 обязательных реквизитов счета-фактуры для LEA',
         mandatoryFieldsSub:
             'В счетах серии GILE от UAB «Gilės inžinerija» все 5 параметров указываются автоматически:',
-        recommendedModelLabel: 'Рекомендуемая модель, подходящая для APVA:',
-        viewEligibleProductsBtn: 'Смотреть котлы и тепловые насосы для APVA',
+        recommendedModelLabel: 'Рекомендуемая модель, подходящая для LEA:',
+        viewEligibleProductsBtn: 'Смотреть котлы и тепловые насосы для LEA',
     },
 };
 
@@ -355,7 +350,7 @@ export function ApvaSubsidyWidget({ locale: propLocale }: { locale?: AppLocale }
     const [newDeviceType, setNewDeviceType] =
         useState<ApvaNewDeviceType>('heat_pump_air_water');
     const [powerKw, setPowerKw] = useState<ApvaPowerStepKw>(8);
-    const [devicePriceEur, setDevicePriceEur] = useState<number>(3490);
+    const [devicePriceEur, setDevicePriceEur] = useState<number>(3430);
 
     const calc = useMemo(
         () =>
@@ -371,9 +366,9 @@ export function ApvaSubsidyWidget({ locale: propLocale }: { locale?: AppLocale }
     const handleSelectDeviceType = (type: ApvaNewDeviceType) => {
         setNewDeviceType(type);
         if (type === 'heat_pump_air_water' && devicePriceEur < 2600) {
-            setDevicePriceEur(3490);
+            setDevicePriceEur(3430); // AW082HUGHA katalogo kaina su PVM
         } else if (type === 'ecodesign_pellet_boiler' && devicePriceEur > 3200) {
-            setDevicePriceEur(2350);
+            setDevicePriceEur(2350); // DEGKMPL140MG20 komplekto katalogo kaina su PVM
         }
     };
 
@@ -587,7 +582,7 @@ export function ApvaSubsidyWidget({ locale: propLocale }: { locale?: AppLocale }
                             </div>
                         </div>
 
-                        {/* 5 Mandatory APVA Invoice & Declaration Fields */}
+                        {/* 5 Mandatory LEA Invoice & Declaration Fields */}
                         <div className="border border-[#D5CFC3] bg-white p-4 space-y-2.5 rounded-none">
                             <div className="flex items-center gap-2">
                                 <FileText className="h-4 w-4 text-[#C2410C] shrink-0" aria-hidden="true" />

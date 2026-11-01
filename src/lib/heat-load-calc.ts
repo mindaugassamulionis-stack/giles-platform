@@ -129,7 +129,8 @@ export const HYDRONIC_HEAT_SOURCES: Record<HydronicHeatSourceId, HeatSourceEngin
         iconType: 'flame',
         sku: 'MPB-NANI-35',
         stockQuantity: 6,
-        unitGrossEur: 2350.0,
+        // W126-A1 (S1): katalogo kaina (1294,70 € su PVM) – anksčiau buvo 2 350 €.
+        unitGrossEur: 1294.7,
     },
     giles_boiler: {
         id: 'giles_boiler',
@@ -438,7 +439,8 @@ export function calcEn12828ExpansionVessel(
     const H = Math.min(Math.max(Number(input.staticHeightM) || 8, 2), 40);
     const Psv = Math.max(2.5, Number(input.safetyValveBar) || 3.0);
 
-    const P0 = H / 10 + 0.2;
+    // W126-A1 (S2): p0 = H/10 + 0,2 bar, bet ne mažiau 0,5 bar (EN 12828; sutampa su lib/heat/hydraulics.ts).
+    const P0 = Math.max(H / 10 + 0.2, 0.5);
     const Pe = Psv <= 5 ? Psv - 0.5 : 0.9 * Psv;
     const Pf = P0 + 0.3;
     const okP = Pe - P0 > 0.1;

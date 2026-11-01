@@ -1,0 +1,247 @@
+{
+  "_about": "VIENAS šaltinis šildymo skaičiavimams visoje svetainėje: /skaiciuokle, /vedlys, produktų kortelės, Vytauto AI. Vedlys (vedlys-rules.lt.json) pastatų reikšmes ima iš čia. Šaltinio žymės: site:* | official:* | computed | assumption | owner-input. assumption/owner-input reikšmės produkcijoje rodomos su žyma „prielaida“ ir yra redaguojamos „Mano kainos“ lauke.",
+  "version": "2026-11",
+  "reviewed_by": null,
+  "building_classes": [
+    {
+      "id": "app",
+      "label": "Naujas, A++ / A+",
+      "hint": "Pastatytas po 2021 m.",
+      "q_w_m2": 30,
+      "e_kwh_m2a": 40,
+      "source": "assumption – inžinierius patvirtina"
+    },
+    {
+      "id": "a",
+      "label": "Naujas, A",
+      "hint": "2016–2020 m.",
+      "q_w_m2": 40,
+      "e_kwh_m2a": 55,
+      "source": "assumption"
+    },
+    {
+      "id": "b",
+      "label": "B klasė",
+      "hint": "2006–2015 m. arba kokybiškai renovuotas",
+      "q_w_m2": 55,
+      "e_kwh_m2a": 80,
+      "source": "assumption"
+    },
+    {
+      "id": "c",
+      "label": "Renovuotas / apšiltintas (C)",
+      "hint": "Apšiltintos sienos ir stogas, nauji langai",
+      "q_w_m2": 70,
+      "e_kwh_m2a": 110,
+      "source": "assumption",
+      "default": true
+    },
+    {
+      "id": "d",
+      "label": "Dalinai apšiltintas (D)",
+      "hint": "1993–2005 m., pakeisti langai",
+      "q_w_m2": 85,
+      "e_kwh_m2a": 150,
+      "source": "assumption"
+    },
+    {
+      "id": "old",
+      "label": "Senas, neapšiltintas",
+      "hint": "Iki 1992 m., nerenovuotas",
+      "q_w_m2": 100,
+      "e_kwh_m2a": 180,
+      "source": "assumption"
+    }
+  ],
+  "_classes_note": "q – projektinis šilumos nuostolių tankis esant projektinei lauko temperatūrai; e – metinis šildymo poreikis. Klasių apibrėžimas – STR 2.01.02:2016 (NE STR 2.09.02). Tai supaprastintas įvertinimas, ne EN 12831 projektas – taip ir rašoma puslapyje.",
+  "ceiling_ref_m": 2.7,
+  "sizing_reserve": 0.1,
+  "dhw": {
+    "kw_per_person_hp": 0.25,
+    "mwh_per_person_year": 0.8,
+    "source": "assumption – ~40 l/d. 45 °C vandens žmogui su nuostoliais"
+  },
+  "area_limits": {
+    "min": 40,
+    "max": 400,
+    "b2b_above": 400
+  },
+  "current_heating": [
+    {
+      "id": "wood",
+      "label": "Malkos (rankinis katilas)",
+      "fuel_eur_mwh": 40,
+      "eff": 0.6,
+      "service_eur_year": 60,
+      "lea_old": "inefficient",
+      "water": true,
+      "convertible": true,
+      "source": "owner-input",
+      "slug": "malkos"
+    },
+    {
+      "id": "coal",
+      "label": "Anglys / briketai",
+      "fuel_eur_mwh": 52,
+      "eff": 0.6,
+      "service_eur_year": 60,
+      "lea_old": "inefficient",
+      "water": true,
+      "convertible": true,
+      "source": "owner-input",
+      "slug": "anglys"
+    },
+    {
+      "id": "gas",
+      "label": "Gamtinės dujos",
+      "fuel_eur_mwh": 75,
+      "eff": 0.9,
+      "service_eur_year": 80,
+      "lea_old": "inefficient",
+      "water": true,
+      "convertible": false,
+      "source": "owner-input",
+      "slug": "dujos"
+    },
+    {
+      "id": "oil",
+      "label": "Suskystintos dujos / skystas kuras",
+      "fuel_eur_mwh": 110,
+      "eff": 0.85,
+      "service_eur_year": 120,
+      "lea_old": "inefficient",
+      "water": true,
+      "convertible": false,
+      "source": "owner-input",
+      "slug": "skystas"
+    },
+    {
+      "id": "electric",
+      "label": "Elektra (katilas, radiatoriai)",
+      "fuel_eur_mwh": 240,
+      "eff": 1.0,
+      "service_eur_year": 0,
+      "lea_old": "not-eligible",
+      "water": true,
+      "convertible": false,
+      "source": "owner-input",
+      "slug": "elektra"
+    },
+    {
+      "id": "stove",
+      "label": "Krosnis / židinys (be vandens sistemos)",
+      "fuel_eur_mwh": 40,
+      "eff": 0.55,
+      "service_eur_year": 60,
+      "lea_old": "air-heating",
+      "water": false,
+      "convertible": false,
+      "source": "owner-input",
+      "slug": "krosnis"
+    },
+    {
+      "id": "none",
+      "label": "Naujas namas – šildymo dar nėra",
+      "fuel_eur_mwh": null,
+      "eff": null,
+      "service_eur_year": 0,
+      "lea_old": "not-eligible",
+      "water": false,
+      "convertible": false,
+      "source": "computed",
+      "slug": "naujas"
+    }
+  ],
+  "_fuel_note": "Kainos – kuro €/MWh su PVM (ne šilumos). Elektra 0,24 €/kWh su skirstymu ir PVM. Pakeisti tikromis regiono kainomis (OPEN-QUESTIONS S2) ir peržiūrėti kas ketvirtį.",
+  "emitters": [
+    {
+      "id": "ufh",
+      "label": "Grindinis šildymas",
+      "flow_c": 35,
+      "scop_aw": 4.5
+    },
+    {
+      "id": "mixed",
+      "label": "Grindinis + radiatoriai",
+      "flow_c": 45,
+      "scop_aw": 3.9,
+      "default": true
+    },
+    {
+      "id": "rad",
+      "label": "Radiatoriai",
+      "flow_c": 55,
+      "scop_aw": 3.3
+    }
+  ],
+  "_scop_note": "SCOP – sezoninis, vidutinis klimatas (EN 14825), priklauso nuo tiekiamo vandens temperatūros. assumption – pakeisti konkretaus modelio duomenimis iš techninio paso.",
+  "solutions": [
+    {
+      "id": "hp_aw",
+      "label": "Šilumos siurblys oras–vanduo",
+      "electricity_eur_mwh": 240,
+      "service_eur_year": 90,
+      "install_eur": 1600,
+      "lea_type": "hp_aw",
+      "refuel": "Nereikia",
+      "automation": "Pilnai automatinis, valdymas telefonu",
+      "source": "assumption (install, service)"
+    },
+    {
+      "id": "pellet_boiler",
+      "label": "Granulinis katilas, 5 klasė",
+      "fuel_eur_mwh": 65,
+      "eff": 0.88,
+      "service_eur_year": 150,
+      "install_eur": 900,
+      "lea_type": "bio",
+      "pellet_kg_per_l": 0.65,
+      "pellet_kwh_per_kg": 4.8,
+      "source": "assumption (install, service); granulės ≈ 290–330 €/t"
+    },
+    {
+      "id": "conversion",
+      "label": "Esamo katilo perdarymas į granulinį",
+      "fuel_eur_mwh": 65,
+      "eff": 0.83,
+      "service_eur_year": 150,
+      "install_eur": 0,
+      "lea_type": null,
+      "requires": "convertible",
+      "price_from": "vedlys:buildKit (montavimas įskaičiuotas)",
+      "source": "assumption"
+    }
+  ],
+  "tco_years": 10,
+  "electricity_hp_note": "Šilumos siurblio elektra = metinė šiluma / SCOP × elektros kaina.",
+  "defaults": {
+    "area_m2": 160,
+    "building_class": "c",
+    "current": "wood",
+    "emitters": "mixed",
+    "people": 3,
+    "ceiling_m": 2.7
+  },
+  "url_params": {
+    "home": {
+      "plotas": "area_m2",
+      "bukle": "building_class (id)",
+      "dabar": "current (slug)",
+      "prietaisai": "emitters (ufh|mixed|rad)",
+      "zmones": "people",
+      "lubos": "ceiling_m",
+      "cst": "big_city_dh_zone (0|1)",
+      "sprendimas": "chosen (hp_aw|pellet_boiler|conversion)"
+    },
+    "pro": {
+      "galia": "kW",
+      "saltinis": "granules|malkos|ss|elektra",
+      "dt": "K",
+      "turis": "l",
+      "aukstis": "m",
+      "psv": "bar",
+      "grindinis": "%",
+      "trasa": "m"
+    }
+  }
+}

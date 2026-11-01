@@ -1,5 +1,13 @@
 export type GilesLogoConceptId = 'A' | 'B' | 'C' | 'D' | 'current';
 
+// W126-A1 (S1): degiklių kainos – tik iš katalogo šešėlio (generuojamo iš giles-catalog-6337.json).
+// Tas pats SKU visur: katalogas, /lt/skaiciuokle BOM, masterpiece komplektas.
+import heatCatalogPricesJson from '../data/heat/catalog-prices.lt.json';
+
+type CatalogPriceEntry = { sku: string; price: number | null; availability: string; name: string; slug: string | null };
+const HEAT_CATALOG_PRICES = (heatCatalogPricesJson as { prices: Record<string, CatalogPriceEntry> }).prices;
+const catalogPriceOr = (sku: string, fallback: number): number => HEAT_CATALOG_PRICES[sku]?.price ?? fallback;
+
 export interface GilesLogoConcept {
     id: GilesLogoConceptId;
     shortLabel: string;
@@ -308,28 +316,28 @@ export function computeBoilerConversionBundle(input: {
     let burnerSku = 'MPB-NANI-35';
     let burnerTitle = 'Gilės / Megatherm MPB NANI 35 (5–35 kW) savaime išsivalantis granulių degiklis';
     let burnerPowerRange = '5–35 kW';
-    let burnerGross = 1590;
+    let burnerGross = catalogPriceOr('MPB-NANI-35', 1294.7);
 
     if (effectiveKw > 150) {
         burnerSku = 'MPB-300-PRO';
         burnerTitle = 'Gilės / Megatherm MPB 300 PRO (60–300 kW) pramoninis granulių degiklis su judančiu dugnu';
         burnerPowerRange = '60–300 kW';
-        burnerGross = 4850;
+        burnerGross = catalogPriceOr('MPB-300-PRO', 7450);
     } else if (effectiveKw > 80) {
         burnerSku = 'MPB-150-PRO';
         burnerTitle = 'Gilės / Megatherm MPB 150 PRO (35–150 kW) pramoninis granulių degiklis';
         burnerPowerRange = '35–150 kW';
-        burnerGross = 3290;
+        burnerGross = catalogPriceOr('MPB-150-PRO', 5426.85);
     } else if (effectiveKw > 50) {
         burnerSku = 'MPB-80-PRO';
         burnerTitle = 'Gilės / Megatherm MPB 80 PRO (20–80 kW) granulių degiklis su keramika';
         burnerPowerRange = '20–80 kW';
-        burnerGross = 2390;
+        burnerGross = catalogPriceOr('MPB-80-PRO', 2595.45);
     } else if (effectiveKw > 35) {
         burnerSku = 'MPB-NANI-50';
         burnerTitle = 'Gilės / Megatherm MPB NANI 50 (10–50 kW) savaime išsivalantis granulių degiklis';
         burnerPowerRange = '10–50 kW';
-        burnerGross = 1850;
+        burnerGross = catalogPriceOr('MPB-NANI-50', 1518.55);
     }
 
     const rawItems: Array<{ sku: string; title: string; category: string; grossEur: number }> = [

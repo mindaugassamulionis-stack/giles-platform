@@ -127,7 +127,7 @@ export function GilesAdminInvoiceBuilder({
         if (!buyerName.trim() || !buyerCompanyCode.trim() || lines.length === 0) return;
         const preparedLines = apvaModeEnabled
             ? lines.map((line, index) => {
-                  if (index === 0 && !line.title.includes('[APVA / ENA ATITIKTIS:')) {
+                  if (index === 0 && !line.title.includes('[LEA ATITIKTIS:')) {
                       const apvaBlock = formatApvaInvoiceComplianceNote({
                           sku: line.sku,
                           title: line.title,
@@ -521,7 +521,7 @@ export function GilesAdminInvoiceBuilder({
                         </span>
                     </div>
 
-                    {/* APVA / ENA Technical Compliance Block Toggle */}
+                    {/* LEA Technical Compliance Block Toggle */}
                     <div className="rounded-lg border border-[#157A3B]/40 bg-[#E3F1E8] p-3 space-y-2">
                         <label className="flex items-start gap-2.5 cursor-pointer">
                             <input
@@ -532,7 +532,7 @@ export function GilesAdminInvoiceBuilder({
                                 className="mt-0.5 h-4 w-4 accent-[#157A3B] cursor-pointer shrink-0"
                             />
                             <span className="font-bold text-[#0F5A2B] leading-snug">
-                                Įtraukti APVA / ENA paramos techninius rekvizitus (Modelis, kW, SCOP/ηs, EcoDesign sertifikatas)
+                                Įtraukti LEA kompensacijos techninius rekvizitus (Modelis, kW, SCOP/ηs, EcoDesign sertifikatas)
                             </span>
                         </label>
                         {apvaModeEnabled && lines[0] && (

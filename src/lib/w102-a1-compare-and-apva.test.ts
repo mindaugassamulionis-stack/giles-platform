@@ -168,7 +168,8 @@ describe('W102-A1: Gap P03 (2-4 SKU Side-by-Side Comparison) & Gap P04 (APVA / L
             devicePriceEur: 3490,
         });
 
-        expect(hpCalc.estimatedGrantEur).toBeGreaterThan(1000);
+        // W126-A1: LEA oficialūs įkainiai (juostiniai, 50 %). Vektoriai iš paketo qa/heat-calc.test.ts.
+        expect(hpCalc.estimatedGrantEur).toBeCloseTo(2365.52, 2); // 591,38 €/kW × 8 kW × 50 %
         expect(hpCalc.estimatedGrantEur).toBeLessThan(hpCalc.devicePriceEur);
         expect(hpCalc.netCustomerInvestmentEur).toBeCloseTo(
             hpCalc.devicePriceEur - hpCalc.estimatedGrantEur,
@@ -184,7 +185,7 @@ describe('W102-A1: Gap P03 (2-4 SKU Side-by-Side Comparison) & Gap P04 (APVA / L
             devicePriceEur: 2850,
         });
 
-        expect(bioCalc.estimatedGrantEur).toBeGreaterThan(600);
+        expect(bioCalc.estimatedGrantEur).toBeCloseTo(1662, 2); // LEA oficialus pavyzdys: 166,20 €/kW × 20 kW × 50 %
         expect(bioCalc.netCustomerInvestmentEur).toBeCloseTo(
             bioCalc.devicePriceEur - bioCalc.estimatedGrantEur,
             2,
@@ -300,7 +301,7 @@ describe('W102-A1: Gap P03 (2-4 SKU Side-by-Side Comparison) & Gap P04 (APVA / L
         );
         expect(invoiceBuilderSrc).toContain('data-testid="invoice-apva-mode-toggle"');
         expect(invoiceBuilderSrc).toContain(
-            'Įtraukti APVA / ENA paramos techninius rekvizitus (Modelis, kW, SCOP/ηs, EcoDesign sertifikatas)',
+            'Įtraukti LEA kompensacijos techninius rekvizitus (Modelis, kW, SCOP/ηs, EcoDesign sertifikatas)',
         );
     });
 });
