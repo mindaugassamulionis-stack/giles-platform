@@ -15,6 +15,12 @@ import {
     type CsvColumnMapping,
     type CsvCatalogLookupRow,
 } from '../../../../lib/admin-csv-import';
+import {
+    buildCatalogCostIndex,
+    enforceBulkEditMarginFloor,
+    enforceCsvImportMarginFloor,
+    resolveMarginFloorPct,
+} from '../../../../lib/admin-server-margin-floor';
 
 export interface AdminCatalogProductRow {
     id: string;
@@ -651,11 +657,17 @@ export async function POST(req: Request) {
             }
             const actor = String(body.actor || 'Darius (Admin OS)');
             const store = readCatalogOverrides();
+            // W124-A2: mirror the client preview's margin floor server-side.
+            const { applicable, rejected } = enforceBulkEditMarginFloor(
+                edits,
+                buildCatalogCostIndex(getGilesCatalogSnapshot(), store),
+                resolveMarginFloorPct(),
+            );
             const nextOverrides = { ...store.overrides };
             const applied: Array<{ sku: string; priceGrossEur?: number; stockQuantity?: number; category?: string }> = [];
             const nowIso = new Date().toISOString();
 
-            for (const edit of edits) {
+            for (const edit of applicable) {
                 const sku = String(edit?.sku || '').trim();
                 if (!sku) continue;
                 const normSku = normalizeCode(sku);
@@ -699,6 +711,8 @@ export async function POST(req: Request) {
                 action: 'bulk_edit_apply',
                 appliedCount: applied.length,
                 applied,
+                rejectedCount: rejected.length,
+                rejected,
             });
         }
 
@@ -725,7 +739,14 @@ export async function POST(req: Request) {
             const createdSkus: string[] = [];
             const nowIso = new Date().toISOString();
 
-            for (const row of rows) {
+            // W124-A2: mirror the dry-run's margin floor server-side.
+            const { applicable, rejected } = enforceCsvImportMarginFloor(
+                rows,
+                buildCatalogCostIndex(snap, store),
+                resolveMarginFloorPct(),
+            );
+
+            for (const row of applicable) {
                 const sku = String(row?.sku || '').trim();
                 if (!sku) continue;
                 const normSku = normalizeCode(sku);
@@ -793,6 +814,8 @@ export async function POST(req: Request) {
                 createdCount: createdSkus.length,
                 updatedSkus,
                 createdSkus,
+                rejectedCount: rejected.length,
+                rejected,
             });
         }
 
