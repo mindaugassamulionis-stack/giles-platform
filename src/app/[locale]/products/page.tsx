@@ -23,6 +23,7 @@ import {
     type BoilerSystemGroupId,
 } from '../../../lib/catalog-listing';
 import { ProductGridClient } from '../../../components/product-grid-client';
+import { QuickOrderPad } from '../../../components/quick-order-pad';
 import { LocalizedVytautasConsultButton } from '../../../components/product-card';
 import { FilterDrawer } from '../../../components/filter-drawer';
 import { VatToggle } from '../../../components/vat-toggle';
@@ -38,6 +39,7 @@ import {
     localizeCategoryLabel,
     localizeSubtypeLabel,
 } from '../../../lib/product-i18n';
+import { getFacetLandingCombosForCategory } from '../../../lib/facet-landing';
 
 export const dynamic = 'force-dynamic';
 
@@ -1004,6 +1006,9 @@ export default async function ProductsPage({
                 </div>
             </section>
 
+            {/* W123-A2 Grainger Copy&Paste quick order pad: collapsible, above the grid */}
+            <QuickOrderPad locale={locale} />
+
             {/* 2. Signature „Gilės“ 4-Group Lithuanian Boiler & System Compatibility Selector (25 models) */}
             {showBoilerBar && (
                 <section
@@ -1167,6 +1172,41 @@ export default async function ProductsPage({
                                 })}
                             </ul>
                         </div>
+
+                    {/* W123-A2 McMaster facet-landing links: „Populiariausi gamintojai“ */}
+                    {matchedCategoryObj &&
+                        getFacetLandingCombosForCategory(matchedCategoryObj.name).length > 0 && (
+                            <div
+                                data-testid="facet-landing-chips"
+                                className="pb-4 border-b border-[#E2DDD3] space-y-2.5"
+                            >
+                                <h2 className="text-sm font-extrabold text-[#11161B]">
+                                    {locale === 'en'
+                                        ? 'Top manufacturers'
+                                        : locale === 'pl'
+                                          ? 'Najpopularniejsi producenci'
+                                          : locale === 'ru'
+                                            ? 'Популярные производители'
+                                            : 'Populiariausi gamintojai'}
+                                </h2>
+                                <div className="flex flex-wrap gap-1.5">
+                                    {getFacetLandingCombosForCategory(matchedCategoryObj.name).map(
+                                        (combo) => (
+                                            <Link
+                                                key={combo.brandSlug}
+                                                href={`/${locale}/parduotuve/${combo.categorySlug}/${combo.brandSlug}`}
+                                                className="px-2.5 py-1.5 min-h-[44px] inline-flex items-center text-xs font-semibold border rounded-none whitespace-nowrap transition-colors border-[#D5CFC3] bg-white text-[#11161B] hover:border-[#11161B]"
+                                            >
+                                                {combo.brandName}{' '}
+                                                <span className="tabular-nums text-[#5B6470]">
+                                                    ({combo.productCount})
+                                                </span>
+                                            </Link>
+                                        ),
+                                    )}
+                                </div>
+                            </div>
+                        )}
 
                         {/* Parametrai pagal kategoriją */}
                         {dynamicFacetGroup.chips.length > 0 && (

@@ -9,6 +9,7 @@ import {
     GILES_SITEMAP_CORE_PATHS,
     GILES_SITEMAP_CATEGORY_PATHS,
 } from '../lib/seo-geo-authority';
+import { buildFacetLandingSitemapEntries } from '../lib/facet-landing';
 
 const defaultLocale = 'lt';
 const locales = SUPPORTED_SEO_LOCALES;
@@ -119,10 +120,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         })),
     );
 
+    // W123-A2 McMaster facet-landing pages (top category × brand combos).
+    let facetLandingRoutes: MetadataRoute.Sitemap = [];
+    try {
+        facetLandingRoutes = buildFacetLandingSitemapEntries(baseUrl, locales);
+    } catch {
+        facetLandingRoutes = [];
+    }
+
     return [
         ...machineReadableRoutes,
         ...staticPages,
         ...categoryRoutes,
+        ...facetLandingRoutes,
         ...comparisonGuideRoutes,
         ...symptomDiagnosticRoutes,
         ...pageRoutes,

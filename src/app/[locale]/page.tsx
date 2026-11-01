@@ -9,6 +9,7 @@ import { GilesMcpMarketingShowcase } from '../../components/giles-mcp-marketing-
 import { getStore } from '../../lib/storefront-content';
 import { getGilesCatalogSkuCount } from '../../lib/catalog-count';
 import { formatCatalogCount } from '../../lib/w121-honest-commerce';
+import { buildTrustStripText, getTrustStripCounts } from '../../lib/trust-strip';
 import { getPopularProductPreviews } from '../../lib/catalog-listing';
 import { assetUrl } from '../../lib/api';
 import { getLocale } from 'next-intl/server';
@@ -819,6 +820,17 @@ export default async function HomePage({
     return (
         <main className="min-h-screen bg-[#F5F3EE] text-[#11161B]">
             <HomeHero storeName={storeName} locale={locale} />
+
+            {/* W123-A2 trust strip: one line of live, verifiable numbers (S1/M3) */}
+            <section
+                data-testid="store-trust-strip"
+                aria-label={locale === 'lt' ? 'Pagrindiniai skaičiai' : 'Key figures'}
+                className="border-b border-[#E2DDD3] bg-[#FFFFFF]"
+            >
+                <p className="mx-auto max-w-7xl px-4 sm:px-6 py-2.5 text-xs sm:text-sm font-semibold text-[#2A323B] text-center tabular-nums">
+                    {buildTrustStripText(locale, getTrustStripCounts())}
+                </p>
+            </section>
 
             <section className="border-b border-[#E2DDD3] bg-[#F5F3EE] py-5">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 flex flex-wrap items-center justify-between gap-4">
