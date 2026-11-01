@@ -54,55 +54,57 @@ interface DealCopy {
     close: string;
     drawerOrder: string;
     drawerPriceNote: string;
+    monthsLabel: string;
 }
 
 export const DEAL_COPY: Record<AppLocale, DealCopy> = {
     lt: {
         title: 'Mobilios katilinės nuomos sandorio konfigūratorius',
-        lead: 'Sukonfigūruokite sandorį per 15 sekundžių. Kaina matoma iškart, įkainota be PVM, PVM 21% paskaičiuojamas eilutėje.',
+        lead: 'Sukonfigūruokite sandorį – kaina matoma iškart, įkainota be PVM, PVM 21% paskaičiuojamas eilutėje.',
         stepPower: '1. Pasirinkite mobilios katilinės galią',
         stepTerm: '2. Nuomos trukmė ir tarifas',
         stepAddons: '3. Papildomi mazgai į sandorį',
         monthly: 'Nuoma per mėnesį',
         discount: 'Sezono nuolaida',
-        addonsLabel: 'Papildomi mazgai',
+        addonsLabel: 'Papildomi mazgai (vienkartiniai mokesčiai)',
         totalNet: 'Iš viso be PVM',
         vat: 'PVM 21%',
         totalGross: 'Iš viso su PVM',
-        addToCart: 'Įtraukti į krepšelį ir suformuoti išankstinę sąskaitą',
-        addToCartSub: 'PRO-... išankstinė sąskaita paruošiama atsiskaitymo žingsnyje',
-        instantContract: 'Gauti pasirašomą nuomos sutartį ir sąmatą per 15 min.',
+        addToCart: 'Įtraukti į krepšelį',
+        addToCartSub: 'Sąskaita paruošiama atsiskaitymo žingsnyje',
+        instantContract: 'Gauti pasirašomą nuomos sutartį ir sąmatą',
         instantContractSub: 'Sandorio rezervacija GILE-DEAL-... su spausdinama santrauka',
-        consultVytautas: 'Aptarti mazgą su vyr. inžinieriumi Vytautu (AI)',
+        consultVytautas: 'Klausti AI asistento',
         consultVytautasSub: 'Pokalbis atsidarys su jūsų pasirinkta katiline ir galia',
         formCompany: 'Įmonė arba vardas',
         formPhone: 'Telefonas',
         formCity: 'Objekto miestas',
-        formSubmit: 'Rezervuoti sandorį',
+        formSubmit: 'Rezervuoti ir gauti sutartį',
         confirmationTitle: 'Sandorio rezervacijos patvirtinimas',
         printSummary: 'Spausdinti santrauką',
         closeDeal: 'Uždaryti sandorio langą',
         close: 'Uždaryti',
         drawerOrder: 'Momentinis sandoris',
         drawerPriceNote: 'Kaina su PVM, jei nurodyta kitaip',
+        monthsLabel: 'Mėnesių skaičius',
     },
     en: {
         title: 'Mobile boiler rental deal configurator',
-        lead: 'Configure the deal in 15 seconds. Price is shown immediately, quoted ex VAT with 21% VAT on its own line.',
+        lead: 'Configure the deal – the price is shown immediately, quoted ex VAT with 21% VAT on its own line.',
         stepPower: '1. Choose the mobile boiler power',
         stepTerm: '2. Rental term and rate',
         stepAddons: '3. Additional modules in the deal',
         monthly: 'Rent per month',
         discount: 'Season discount',
-        addonsLabel: 'Additional modules',
+        addonsLabel: 'Additional modules (one-off fees)',
         totalNet: 'Total ex VAT',
         vat: 'VAT 21%',
         totalGross: 'Total incl VAT',
-        addToCart: 'Add to cart and generate a proforma invoice',
-        addToCartSub: 'PRO-... proforma is prepared at the checkout step',
-        instantContract: 'Get a signable rental contract and quote in 15 min.',
+        addToCart: 'Add to cart',
+        addToCartSub: 'The proforma is prepared at the checkout step',
+        instantContract: 'Get a signable rental contract and quote',
         instantContractSub: 'Deal reservation GILE-DEAL-... with a printable summary',
-        consultVytautas: 'Discuss the module with chief engineer Vytautas (AI)',
+        consultVytautas: 'Ask the AI assistant',
         consultVytautasSub: 'The chat opens with your chosen boiler and power',
         formCompany: 'Company or name',
         formPhone: 'Phone',
@@ -114,24 +116,25 @@ export const DEAL_COPY: Record<AppLocale, DealCopy> = {
         close: 'Close',
         drawerOrder: 'Instant deal',
         drawerPriceNote: 'Price incl VAT unless stated otherwise',
+        monthsLabel: 'Number of months',
     },
     pl: {
         title: 'Konfigurator wynajmu mobilnej kotłowni',
-        lead: 'Skonfiguruj umowę w 15 sekund. Cena widoczna od razu, bez VAT, VAT 21% w osobnej linii.',
+        lead: 'Skonfiguruj umowę – cena widoczna od razu, bez VAT, VAT 21% w osobnej linii.',
         stepPower: '1. Wybierz moc mobilnej kotłowni',
         stepTerm: '2. Czas i taryfa wynajmu',
         stepAddons: '3. Dodatkowe moduły do umowy',
         monthly: 'Najem miesięcznie',
         discount: 'Zniżka sezonowa',
-        addonsLabel: 'Moduły dodatkowe',
+        addonsLabel: 'Moduły dodatkowe (opłaty jednorazowe)',
         totalNet: ' Razem bez VAT',
         vat: 'VAT 21%',
         totalGross: 'Razem z VAT',
-        addToCart: 'Dodaj do koszyka i wygeneruj fakturę pro forma',
-        addToCartSub: 'PRO-... przygotowywana na kroku płatności',
-        instantContract: 'Podpisana umowa najmu i wycena w 15 min.',
+        addToCart: 'Dodaj do koszyka',
+        addToCartSub: 'Faktura pro forma przygotowywana na kroku płatności',
+        instantContract: 'Podpisana umowa najmu i wycena',
         instantContractSub: 'Rezerwacja umowy GILE-DEAL-... z podsumowaniem do druku',
-        consultVytautas: 'Omów moduł z głównym inżynierem Vytautasem (AI)',
+        consultVytautas: 'Zapytaj asystenta AI',
         consultVytautasSub: 'Czat otworzy się z wybraną kotłownią i mocą',
         formCompany: 'Firma lub imię',
         formPhone: 'Telefon',
@@ -143,24 +146,25 @@ export const DEAL_COPY: Record<AppLocale, DealCopy> = {
         close: 'Zamknij',
         drawerOrder: 'Natychmiastowa umowa',
         drawerPriceNote: 'Cena z VAT, chyba że wskazano inaczej',
+        monthsLabel: 'Liczba miesięcy',
     },
     ru: {
         title: 'Конфигуратор аренды мобильной котельной',
-        lead: 'Настройте сделку за 15 секунд. Цена видна сразу, без НДС, НДС 21% отдельной строкой.',
+        lead: 'Настройте сделку – цена видна сразу, без НДС, НДС 21% отдельной строкой.',
         stepPower: '1. Выберите мощность мобильной котельной',
         stepTerm: '2. Срок и тариф аренды',
         stepAddons: '3. Дополнительные узлы в сделку',
         monthly: 'Аренда в месяц',
         discount: 'Сезонная скидка',
-        addonsLabel: 'Дополнительные узлы',
+        addonsLabel: 'Дополнительные узлы (разовые платежи)',
         totalNet: 'Итого без НДС',
         vat: 'НДС 21%',
         totalGross: 'Итого с НДС',
-        addToCart: 'В корзину и счёт-проформа',
-        addToCartSub: 'PRO-... готовится на шаге оплаты',
-        instantContract: 'Подписываемый договор аренды и смета за 15 мин.',
+        addToCart: 'В корзину',
+        addToCartSub: 'Счёт-проформа готовится на шаге оплаты',
+        instantContract: 'Подписываемый договор аренды и смета',
         instantContractSub: 'Резервирование сделки GILE-DEAL-... со сводкой для печати',
-        consultVytautas: 'Обсудить узел с гл. инженером Витаутасом (AI)',
+        consultVytautas: 'Спросить ИИ-ассистента',
         consultVytautasSub: 'Чат откроется с выбранной котельной и мощностью',
         formCompany: 'Компания или имя',
         formPhone: 'Телефон',
@@ -172,6 +176,7 @@ export const DEAL_COPY: Record<AppLocale, DealCopy> = {
         close: 'Закрыть',
         drawerOrder: 'Мгновенная сделка',
         drawerPriceNote: 'Цена с НДС, если не указано иное',
+        monthsLabel: 'Число месяцев',
     },
 };
 
@@ -261,6 +266,8 @@ export function BoilerRentalDealFlow({
     const { addAndCheckout } = useDealActions(locale);
     const [powerCode, setPowerCode] = useState<RentalPowerOption['code']>(defaultPowerCode);
     const [termId, setTermId] = useState<'emergency' | 'monthly' | 'season'>('monthly');
+    // W124-A1 (F3.2): mėnesiai pasirenkami 1–12 (mėnesinei) arba 4–7 (sezono).
+    const [months, setMonths] = useState<number>(1);
     const [addons, setAddons] = useState({ hoses: false, delivery: false, pellets: false });
     const [formOpen, setFormOpen] = useState(false);
     const [company, setCompany] = useState('');
@@ -269,9 +276,13 @@ export function BoilerRentalDealFlow({
     const [dealRef, setDealRef] = useState<string | null>(null);
     const [sending, setSending] = useState(false);
 
+    const activeTerm = BOILER_RENTAL_TERMS.find((t) => t.id === termId) ?? BOILER_RENTAL_TERMS[1];
+    const monthsLocked = activeTerm.monthsMin === activeTerm.monthsMax;
+    const effectiveMonths = monthsLocked ? activeTerm.months : Math.min(activeTerm.monthsMax, Math.max(activeTerm.monthsMin, months));
+
     const deal = useMemo(
-        () => calculateBoilerRentalDeal({ powerCode, termId, addons }),
-        [powerCode, termId, addons],
+        () => calculateBoilerRentalDeal({ powerCode, termId, months: effectiveMonths, addons }),
+        [powerCode, termId, effectiveMonths, addons],
     );
 
     async function handleContractSubmit(e: React.FormEvent) {
@@ -300,18 +311,18 @@ export function BoilerRentalDealFlow({
         >
             <div className="mx-auto max-w-6xl px-4">
                 <div className="max-w-2xl">
-                    <p className="text-xs font-bold text-[#C2410C]">NUOMA · SANDORIS PER 15 SEK.</p>
+                    <p className="text-xs font-bold text-[#C2410C]">NUOMA · SANDORIO KONFIGURATORIUS</p>
                     <h2 id="rental-deal-title" className="mt-2 text-2xl sm:text-3xl font-extrabold text-[#11161B] leading-tight">
                         {copy.title}
                     </h2>
                     <p className="mt-2 text-sm text-[#5B6470] leading-relaxed">{copy.lead}</p>
                 </div>
 
-                <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_360px] items-start">
-                    <div className="space-y-6">
+                <div className="mt-6 grid gap-4 max-sm:gap-3 lg:gap-6 lg:grid-cols-[1fr_360px] items-start">
+                    <div className="space-y-4 max-sm:space-y-3 sm:space-y-6">
                         <fieldset>
                             <legend className="text-sm font-bold text-[#11161B]">{copy.stepPower}</legend>
-                            <div className="mt-3 grid gap-2 sm:grid-cols-3" role="radiogroup" aria-label={copy.stepPower}>
+                            <div className="mt-3 grid gap-2 max-sm:grid-cols-1 sm:grid-cols-3" role="radiogroup" aria-label={copy.stepPower}>
                                 {BOILER_RENTAL_POWER_OPTIONS.map((p) => {
                                     const active = p.code === powerCode;
                                     return (
@@ -322,7 +333,7 @@ export function BoilerRentalDealFlow({
                                             aria-checked={active}
                                             data-testid={`rental-power-${p.code.toLowerCase()}`}
                                             onClick={() => setPowerCode(p.code)}
-                                            className={`text-left rounded-lg border px-4 py-3 min-h-[76px] transition-colors cursor-pointer ${
+                                            className={`text-left rounded-lg border px-4 py-3 max-sm:min-h-[64px] min-h-[76px] transition-colors cursor-pointer ${
                                                 active
                                                     ? 'border-2 border-[#C2410C] bg-white'
                                                     : 'border border-[#D5CFC3] bg-transparent hover:border-[#11161B]'
@@ -364,6 +375,31 @@ export function BoilerRentalDealFlow({
                                     );
                                 })}
                             </div>
+                            {!monthsLocked && (
+                                <div className="mt-3 flex items-center gap-3">
+                                    <label htmlFor="rental-months-input" className="text-sm font-semibold text-[#11161B] whitespace-nowrap">
+                                        {copy.monthsLabel}
+                                    </label>
+                                    <input
+                                        id="rental-months-input"
+                                        type="number"
+                                        inputMode="numeric"
+                                        data-testid="rental-months"
+                                        min={activeTerm.monthsMin}
+                                        max={activeTerm.monthsMax}
+                                        step={1}
+                                        value={effectiveMonths}
+                                        onChange={(e) => {
+                                            const v = Number(e.target.value);
+                                            if (Number.isFinite(v)) setMonths(Math.trunc(v));
+                                        }}
+                                        className="w-24 rounded-lg border border-[#D5CFC3] px-3 py-2 text-sm font-bold text-[#11161B] tabular-nums focus:outline-none focus:border-[#C2410C]"
+                                    />
+                                    <span className="text-xs text-[#5B6470]">
+                                        {activeTerm.monthsMin}–{activeTerm.monthsMax} mėn.
+                                    </span>
+                                </div>
+                            )}
                         </fieldset>
 
                         <fieldset>
@@ -394,7 +430,7 @@ export function BoilerRentalDealFlow({
                             </div>
                         </fieldset>
                     </div>
-                    <aside className="rounded-xl bg-[#11161B] text-[#F5F3EE] p-5 sm:p-6 lg:sticky lg:top-24">
+                    <aside data-testid="rental-summary" className="rounded-xl bg-[#11161B] text-[#F5F3EE] p-5 sm:p-6 lg:sticky lg:top-24">
                         <p className="text-xs font-bold text-[#FF8A3D]">{deal.sku}</p>
                         <h3 className="mt-1 text-lg font-extrabold leading-snug">{deal.powerLabel}</h3>
                         <dl className="mt-4 space-y-2 text-sm">
@@ -428,22 +464,9 @@ export function BoilerRentalDealFlow({
                             </div>
                         </dl>
 
-                        <div className="mt-5 space-y-2" data-testid="rental-deal-summary">
-                            <button
-                                type="button"
-                                data-testid="deal-add-to-cart-and-checkout-btn"
-                                onClick={() =>
-                                    addAndCheckout({
-                                        sku: deal.sku,
-                                        title: deal.title,
-                                        price: deal.totalGrossEur,
-                                        productIdPath: '/pramonei',
-                                    })
-                                }
-                                className="w-full min-h-[56px] rounded-lg bg-[#C2410C] hover:brightness-110 text-white font-bold text-sm px-4 transition cursor-pointer"
-                            >
-                                {copy.addToCart}
-                            </button>
+                        <div className="mt-5 space-y-2">
+                            {/* W124-A1 (F3.2): tiesioginis apmokėjimas – tik po objekto patvirtinimo,
+                                todėl pirminis kelias yra rezervacija su sutartimi, ne krepšelis. */}
                             <p className="text-xs text-[#A3ADB8] text-center">{copy.addToCartSub}</p>
 
                             {!formOpen && !dealRef && (
@@ -451,7 +474,7 @@ export function BoilerRentalDealFlow({
                                     type="button"
                                     data-testid="deal-submit-instant-contract-btn"
                                     onClick={() => setFormOpen(true)}
-                                    className="w-full min-h-[56px] rounded-lg bg-transparent border border-[#F5F3EE] text-[#F5F3EE] font-bold text-sm px-4 hover:bg-[#1B232C] transition cursor-pointer"
+                                    className="w-full min-h-[56px] rounded-lg bg-[#C2410C] hover:brightness-110 text-white font-bold text-sm px-4 transition cursor-pointer"
                                 >
                                     {copy.instantContract}
                                 </button>

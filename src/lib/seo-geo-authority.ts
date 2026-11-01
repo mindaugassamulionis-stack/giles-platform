@@ -392,7 +392,7 @@ ${multiLocaleFaq}
     return sanitizeNoEmDash(`${conciseBase}\n${fullExtension}`);
 }
 
-export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
+function buildSeoGeoFullGraph(localeInput?: string) {
     const locale: SupportedSeoLocale = SUPPORTED_SEO_LOCALES.includes(localeInput as SupportedSeoLocale)
         ? (localeInput as SupportedSeoLocale)
         : 'lt';
@@ -438,7 +438,10 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
         ],
     };
 
-    const graph = [
+    // W124-A1 (F4.4): globaliai tik Organization + WebSite. FAQPage, HowTo, Service,
+    // BreadcrumbList ir SoftwareApplication schema emittingi tik puslapio lygiu
+    // (regresija.spec.ts: „globaliai tik Organization + WebSite").
+    const fullGraph = [
         {
             '@type': ['Organization', 'HVACBusiness', 'HardwareStore'],
             '@id': `${baseUrl}/#organization`,
@@ -705,8 +708,39 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
         },
     ];
 
+    return fullGraph;
+}
+
+/**
+ * W124-A1 (F4.4): globalus graph – tik Organization + WebSite (kiti mazgai
+ * išimti iš kiekvieno puslapio; žr. buildPageLevelGraphNodes).
+ */
+export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
+    const fullGraph = buildSeoGeoFullGraph(localeInput);
+    const globalTypes = new Set(['Organization', 'WebSite']);
+    const graph = fullGraph.filter((n) => {
+        const t = (n as Record<string, unknown>)['@type'];
+        const types = Array.isArray(t) ? t : [t];
+        return types.some((x) => globalTypes.has(x as string));
+    });
     return {
         '@context': 'https://schema.org',
         '@graph': graph,
     };
+}
+
+/**
+ * W124-A1 (F4.4): puslapių lygio schema mazgai, išimti iš globalaus graph.
+ * Skaičiuoklės puslapis emitys WebApplication/SoftwareApplication;
+ * konversijos puslapiai – Service/HowTo. Pagalba grąžina tik nurodytų tipų mazgus.
+ */
+export function buildPageLevelGraphNodes(
+    localeInput: string | undefined,
+    kinds: Array<'SoftwareApplication' | 'WebApplication' | 'Service' | 'HowTo'>,
+): Record<string, unknown>[] {
+    return buildSeoGeoFullGraph(localeInput).filter((n) => {
+        const t = (n as Record<string, unknown>)['@type'];
+        const types = (Array.isArray(t) ? t : [t]) as string[];
+        return types.some((x) => kinds.includes(x as (typeof kinds)[number]));
+    });
 }

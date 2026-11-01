@@ -58,7 +58,8 @@ export async function generateMetadata({
         description,
         metadataBase: new URL(base),
         alternates: {
-            canonical: `${base}/${locale}`,
+            // W124-A1 (F0.3): šakninis canonical nepaveldimas kiekvienam puslapiui –
+            // savo canonical nustato page/layout lygiu (home, inzinerija, pramonei, vedylys).
             languages,
         },
         openGraph: {

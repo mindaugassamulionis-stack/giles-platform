@@ -20,13 +20,15 @@ export interface RentalTerm {
     label: string;
     sub: string;
     months: number;
+    monthsMin: number;
+    monthsMax: number;
     discountPct: number;
 }
 
 export const BOILER_RENTAL_TERMS: RentalTerm[] = [
-    { id: 'emergency', label: 'Skubi avarinė nuoma', sub: '7–14 d.', months: 0.5, discountPct: 0 },
-    { id: 'monthly', label: 'Mėnesinė nuoma', sub: '1–3 mėn.', months: 1, discountPct: 0 },
-    { id: 'season', label: 'Viso šildymo sezono nuoma', sub: '4–7 mėn. su -25% nuolaida', months: 5, discountPct: 25 },
+    { id: 'emergency', label: 'Skubi avarinė nuoma', sub: '7–14 d.', months: 0.5, monthsMin: 0.5, monthsMax: 0.5, discountPct: 0 },
+    { id: 'monthly', label: 'Mėnesinė nuoma', sub: '1–12 mėn.', months: 1, monthsMin: 1, monthsMax: 12, discountPct: 0 },
+    { id: 'season', label: 'Viso šildymo sezono nuoma', sub: '4–7 mėn. su -25% nuolaida', months: 5, monthsMin: 4, monthsMax: 7, discountPct: 25 },
 ];
 
 export interface RentalAddon {
@@ -36,14 +38,16 @@ export interface RentalAddon {
 }
 
 export const BOILER_RENTAL_ADDONS: RentalAddon[] = [
-    { id: 'hoses', label: 'Lanksčios izoliuotos šilumos trasos DN65/DN80 (2×15 m)', netEur: 390 },
-    { id: 'delivery', label: 'Atvežimas su fiskaru (manipuliatoriumi) ir pajungimas per 24 val.', netEur: 650 },
+    { id: 'hoses', label: 'Lanksčios izoliuotos šilumos trasos DN65/DN80 (2×15 m) – vienkartinis mokestis', netEur: 390 },
+    { id: 'delivery', label: 'Atvežimas su fiskaru (manipuliatoriumi) ir pajungimas per 24 val. – vienkartinis mokestis', netEur: 650 },
     { id: 'pellets', label: 'Granulių tiekimas su kuro apskaita pagal faktinį MWh skaitiklį', netEur: 0 },
 ];
 
 export interface RentalDealInput {
     powerCode: RentalPowerOption['code'];
     termId: RentalTerm['id'];
+    /** W124-A1 (F3.2): pasirinkti mėnesiai tarpo ribose; be reikšmės – termino numatytoji. */
+    months?: number;
     addons: { hoses?: boolean; delivery?: boolean; pellets?: boolean };
 }
 
@@ -69,9 +73,13 @@ export function calculateBoilerRentalDeal(input: RentalDealInput): RentalDeal {
     const power = BOILER_RENTAL_POWER_OPTIONS.find((p) => p.code === input.powerCode) ?? BOILER_RENTAL_POWER_OPTIONS[2];
     const term = BOILER_RENTAL_TERMS.find((t) => t.id === input.termId) ?? BOILER_RENTAL_TERMS[1];
     const addons = BOILER_RENTAL_ADDONS.filter((a) => input.addons[a.id]);
+    // W124-A1 (F3.2): mėnesiai apribojami termino rėžais (1–12 mėnesinei, 4–7 sezono).
+    const months = term.monthsMin === term.monthsMax
+        ? term.months
+        : Math.min(term.monthsMax, Math.max(term.monthsMin, input.months ?? term.months));
     const monthly = Math.round(power.baseNetEurMonth * (1 - term.discountPct / 100));
     const addonsNet = addons.reduce((s, a) => s + a.netEur, 0);
-    const totalNet = Math.round(monthly * term.months + addonsNet);
+    const totalNet = Math.round(monthly * months + addonsNet);
     const vat = Math.round(totalNet * 0.21);
     return {
         sku: `RENT-${power.code}-${term.id.toUpperCase()}`,
@@ -80,7 +88,7 @@ export function calculateBoilerRentalDeal(input: RentalDealInput): RentalDeal {
         powerLabel: `${power.label} (${power.sub})`,
         termLabel: term.label,
         termSub: term.sub,
-        months: term.months,
+        months,
         discountPct: term.discountPct,
         addons,
         monthlyNetEur: monthly,

@@ -29,7 +29,7 @@ const PRIVACY_TRUST_CARDS = [
         badge: 'VIETINĖ NARŠYKLĖS ATMINTIS',
         title: 'Skaičiuoklių ir Vytauto AI istorija – tik Jūsų įrenginyje',
         description:
-            '5 ŠVOK skaičiuoklių įvestys (kW, DN, litrai) ir konsultacijos su AI inžinieriumi Vytautu saugomos lokaliai Jūsų naršyklėje, kad galėtumėte patogiai sukomplektuoti mazgą be privalomos registracijos.',
+            '5 ŠVOK skaičiuoklių įvestys (kW, DN, litrai) ir konsultacijos su AI asistentu Vytautu saugomos lokaliai Jūsų naršyklėje, kad galėtumėte patogiai sukomplektuoti mazgą be privalomos registracijos.',
         icon: Sparkles,
         accent: 'border-[#DC2626]',
     },

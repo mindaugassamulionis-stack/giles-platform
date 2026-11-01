@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { ThermometerSnowflake } from 'lucide-react';
 import Link from 'next/link';
 import { assetUrl } from '../../lib/api';
 import type { AppLocale } from '../../i18n/routing';
@@ -35,6 +36,17 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
     const projects = useMemo(() => getLocalizedInzinerijaProjects(locale), [locale]);
     const formCfg = useMemo(() => getServiceFormConfig(locale), [locale]);
 
+    const [svcNetworkError, setSvcNetworkError] = useState(false);
+    const [quoteNetworkError, setQuoteNetworkError] = useState(false);
+    const [serviceFormVisible, setServiceFormVisible] = useState(false);
+    const serviceSectionRef = useRef<HTMLElement | null>(null);
+    useEffect(() => {
+        const el = serviceSectionRef.current;
+        if (!el || typeof IntersectionObserver === 'undefined') return;
+        const io = new IntersectionObserver(([entry]) => setServiceFormVisible(entry.isIntersecting), { threshold: 0.15 });
+        io.observe(el);
+        return () => io.disconnect();
+    }, []);
     const [projectFilter, setProjectFilter] = useState<'all' | 'perd' | 'ind' | 'hp' | 'svc'>('all');
     const [showAllProjects, setShowAllProjects] = useState(false);
     const [svcUrgency, setSvcUrgency] = useState<'urgent' | 'high' | 'plan'>(
@@ -87,6 +99,9 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
             });
             const data = (await res.json().catch(() => ({}))) as { ok?: boolean; id?: string };
             if (res.ok && data.ok && data.id) setSvcTicket(data.id);
+            else setSvcNetworkError(true);
+        } catch {
+            setSvcNetworkError(true);
         } finally {
             setSvcSending(false);
         }
@@ -102,7 +117,7 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     urgency: 'plan',
-                    type: 'start',
+                    type: 'quote',
                     name: quoteName.trim(),
                     phone: quotePhone.trim(),
                     city: quoteCity.trim() || undefined,
@@ -112,6 +127,9 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
             });
             const data = (await res.json().catch(() => ({}))) as { ok?: boolean; id?: string };
             if (res.ok && data.ok && data.id) setQuoteTicket(data.id);
+            else setQuoteNetworkError(true);
+        } catch {
+            setQuoteNetworkError(true);
         } finally {
             setQuoteSending(false);
         }
@@ -177,7 +195,7 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                                 className="w-full aspect-[4/3] object-cover"
                             />
                         </div>
-                        <div className="mt-2 grid grid-cols-3 gap-2">
+                        <div className="mt-2 hidden sm:grid grid-cols-3 gap-2">
                             {HERO_GALLERY.map((g) => (
                                 <div key={g.src} className="rounded-lg overflow-hidden bg-[#1B232C] border border-[#2C3742]">
                                     <img src={assetUrl(g.src)} alt={g.alt} className="w-full aspect-square object-cover" />
@@ -212,18 +230,18 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                     <p className="text-xs font-bold text-[#C2410C]">{content.services_section.eyebrow}</p>
                     <h2 className="mt-1.5 text-2xl sm:text-3xl font-extrabold leading-tight">{content.services_section.title}</h2>
                     <p className="mt-2 text-sm text-[#5B6470]">{content.services_section.note}</p>
-                    <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="mt-6 flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible lg:grid-cols-3">
                         {services.map((s) => (
                             <article
                                 key={s.id}
                                 data-testid="service-card"
-                                className="flex flex-col rounded-xl bg-white border border-[#E2DDD3] overflow-hidden"
+                                className="flex flex-col rounded-xl bg-white border border-[#E2DDD3] overflow-hidden min-w-[280px] snap-start sm:min-w-0"
                             >
                                 {s.image ? (
-                                    <img src={assetUrl(s.image)} alt={s.image_alt || s.title} className="w-full aspect-[16/10] object-cover" />
+                                    <img src={assetUrl(s.image)} alt={s.image_alt || s.title} className="w-full aspect-[3/2] sm:aspect-[16/10] object-cover" />
                                 ) : (
                                     <div className="w-full aspect-[16/10] bg-[#EEEBE4] flex items-center justify-center">
-                                        <span className="text-4xl font-extrabold text-[#D5CFC3]" aria-hidden="true">{s.n}</span>
+                                        <ThermometerSnowflake size={48} strokeWidth={1.5} className="text-[#C2410C]" aria-hidden="true" />
                                     </div>
                                 )}
                                 <div className="flex flex-col flex-1 p-4">
@@ -258,7 +276,7 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                                         ) : (
                                             <Link
                                                 href={s.cta.href.startsWith('/lt/') ? s.cta.href.replace('/lt/', `/${locale}/`) : `/${locale}/inzinerija${s.cta.href.startsWith('#') ? s.cta.href : ''}`}
-                                                className="inline-flex items-center justify-center min-h-[48px] rounded-lg bg-[#11161B] hover:bg-[#1B232C] text-white font-bold text-sm px-4 transition"
+                                                className="inline-flex items-center justify-center min-h-[48px] rounded-lg bg-[#C2410C] hover:brightness-110 text-white font-bold text-sm px-4 transition"
                                             >
                                                 {s.cta.label}
                                             </Link>
@@ -270,7 +288,7 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                     </div>
                 </div>
             </section>
-            <section id="servisas" className="scroll-mt-24 bg-white border-y border-[#E2DDD3]">
+            <section id="servisas" ref={serviceSectionRef} className="scroll-mt-24 bg-white border-y border-[#E2DDD3]">
                 <span id="serviso-iskvietimas" className="block scroll-mt-24" aria-hidden="true" />
                 <div className="mx-auto max-w-6xl px-4 py-12">
                     <p className="text-xs font-bold text-[#C2410C]">{content.service_section.eyebrow}</p>
@@ -294,6 +312,8 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                                             type="button"
                                             role="radio"
                                             aria-checked={svcUrgency === u.id}
+                                            aria-pressed={svcUrgency === u.id}
+                                            data-testid={`urgency-${u.id}`}
                                             onClick={() => setSvcUrgency(u.id as 'urgent' | 'high' | 'plan')}
                                             className={`text-left rounded-lg border px-3.5 py-3 min-h-[68px] transition-colors cursor-pointer ${
                                                 svcUrgency === u.id ? 'border-2 border-[#C2410C] bg-white' : 'border border-[#D5CFC3] bg-transparent hover:border-[#11161B]'
@@ -305,6 +325,11 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                                     ))}
                                 </div>
                                 <p className="mt-2 text-xs text-[#5B6470]">{formCfg.notes_by_urgency[svcUrgency]}</p>
+                                {svcNetworkError && (
+                                    <p data-testid="service-network-error" className="mt-2 text-sm font-semibold text-[#C2410C]" role="alert">
+                                        Nepavyko išsiųsti. Patikrinkite ryšį ir bandykite dar kartą, arba skambinkite +370 611 19158.
+                                    </p>
+                                )}
 
                                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
                                     <label className="block">
@@ -393,6 +418,8 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                                     type="button"
                                     role="tab"
                                     aria-selected={projectFilter === cat}
+                                    aria-pressed={projectFilter === cat}
+                                    data-testid={`project-filter-${cat}`}
                                     onClick={() => { setProjectFilter(cat); setShowAllProjects(false); }}
                                     className={`min-h-[40px] px-4 rounded-full border text-sm font-semibold transition-colors cursor-pointer ${
                                         projectFilter === cat
@@ -407,8 +434,8 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                     </div>
 
                     <div data-testid="projects-grid" className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                        {visibleProjects.map((p) => (
-                            <article key={p.id} className="flex flex-col rounded-xl bg-white border border-[#E2DDD3] overflow-hidden">
+                        {visibleProjects.map((p, pIdx) => (
+                            <article key={p.id} className={`flex flex-col rounded-xl bg-white border border-[#E2DDD3] overflow-hidden ${pIdx >= 3 && !showAllProjects ? 'max-sm:hidden' : ''}`}>
                                 {p.image ? (
                                     <img src={assetUrl(p.image)} alt={p.title} className="w-full aspect-[16/10] object-cover" />
                                 ) : (
@@ -434,7 +461,7 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                         ))}
                     </div>
 
-                    {!showAllProjects && filteredCount > content.projects_section.show_initial && (
+                    {!showAllProjects && filteredCount > 3 && (
                         <button
                             type="button"
                             data-testid="projects-more"
@@ -456,9 +483,9 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                         </Link>
                     </div>
 
-                    <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                    <div className="mt-6 flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 sm:grid sm:grid-cols-2 sm:gap-4 sm:overflow-visible lg:grid-cols-4">
                         {kits.map((k) => (
-                            <article key={k.code} data-testid="kit-card" className="flex flex-col rounded-xl bg-[#F5F3EE] border border-[#E2DDD3] p-4">
+                            <article key={k.code} data-testid="kit-card" className="flex flex-col rounded-xl bg-[#F5F3EE] border border-[#E2DDD3] p-4 min-w-[260px] snap-start sm:min-w-0">
                                 <p className="font-mono text-xs font-bold text-[#C2410C]">{k.code}</p>
                                 <h3 className="mt-1 text-sm font-extrabold leading-snug">{k.title}</h3>
                                 <p className="text-xs text-[#5B6470] mt-0.5">{k.brand} · {k.range_kw} kW</p>
@@ -470,22 +497,13 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                                 <div className="mt-auto pt-3">
                                     <p className="text-xs text-[#5B6470]">{locale === 'lt' ? 'Su montavimu, su PVM' : locale === 'en' ? 'With installation, incl VAT' : locale === 'pl' ? 'Z montażem, z VAT' : 'С монтажом, с НДС'}</p>
                                     <p className="text-xl font-extrabold text-[#11161B]">{k.price_eur_incl_vat.toLocaleString('lt-LT')} €</p>
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            openInstantDeal({
-                                                sku: k.code,
-                                                title: k.title,
-                                                priceNetEur: k.price_eur_incl_vat,
-                                                vatIncl: true,
-                                                details: k.items,
-                                                productIdPath: `/${locale}/inzinerija#perdarymas`,
-                                            })
-                                        }
-                                        className="mt-2 w-full min-h-[48px] rounded-lg bg-[#C2410C] hover:brightness-110 text-white font-bold text-sm px-4 transition cursor-pointer"
+                                    <Link
+                                        href={`/${locale}/vedlys?kit=${k.code}`}
+                                        data-testid={`kit-link-${k.code}`}
+                                        className="mt-2 w-full min-h-[48px] inline-flex items-center justify-center rounded-lg bg-[#C2410C] hover:brightness-110 text-white font-bold text-sm px-4 transition"
                                     >
-                                        {locale === 'lt' ? 'Užsakyti darbus' : locale === 'en' ? 'Order the works' : locale === 'pl' ? 'Zamów prace' : 'Заказать работы'}
-                                    </button>
+                                        {locale === 'lt' ? 'Parinkti komplektą' : locale === 'en' ? 'Configure this kit' : locale === 'pl' ? 'Skonfiguruj zestaw' : 'Подобрать комплект'}
+                                    </Link>
                                 </div>
                             </article>
                         ))}
@@ -609,6 +627,11 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                                     <span className="block text-xs font-bold text-[#C9D0D8] mb-1">{formCfg.fields.find((f) => f.id === 'city')?.label}</span>
                                     <input type="text" placeholder={formCfg.fields.find((f) => f.id === 'city')?.placeholder} value={quoteCity} onChange={(e) => setQuoteCity(e.target.value)} className="w-full min-h-[44px] rounded-sm bg-[#0E1216] border border-[#2C3742] px-3 text-sm text-[#F5F3EE] placeholder-[#A3ADB8] focus:outline-none focus:border-[#FF8A3D]" />
                                 </label>
+                                {quoteNetworkError && (
+                                    <p data-testid="quote-network-error" className="text-sm font-semibold text-[#FF8A3D]" role="alert">
+                                        Nepavyko išsiųsti. Patikrinkite ryšį ir bandykite dar kartą, arba skambinkite +370 611 19158.
+                                    </p>
+                                )}
                                 <button type="submit" disabled={quoteSending} className="w-full min-h-[52px] rounded-lg bg-[#C2410C] hover:brightness-110 text-white font-bold text-sm transition cursor-pointer disabled:opacity-60">
                                     {content.project_form.submit}
                                 </button>
@@ -618,6 +641,16 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                 </div>
             </section>
 
+            {/* W124-A1 (F4.1): prilipęs serviso mygtukas telefone, slepiamas kai #servisas matomas */}
+            {!serviceFormVisible && (
+                <a
+                    href="#servisas"
+                    data-testid="mobile-service-cta"
+                    className="fixed bottom-4 inset-x-4 lg:hidden z-40 min-h-[52px] leading-[52px] text-center rounded-lg bg-[#C2410C] hover:brightness-110 text-white font-bold text-sm shadow-lg"
+                >
+                    {locale === 'lt' ? 'Iškviesti servisą' : locale === 'en' ? 'Call service' : locale === 'pl' ? 'Wezwij serwis' : 'Вызвать сервис'}
+                </a>
+            )}
             <InstantDealDrawerMount locale={locale} />
         </div>
     );

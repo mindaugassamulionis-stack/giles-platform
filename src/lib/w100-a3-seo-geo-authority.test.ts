@@ -168,37 +168,16 @@ describe('WP-W100-A3: SEO + GEO / AEO / LLM Citation Authority Architecture', ()
             expect(siteNode?.potentialAction?.['@type']).toBe('SearchAction');
             expect(siteNode?.potentialAction?.target).toContain(`/${locale}/parduotuve?q={search_term_string}`);
 
-            // 3. SoftwareApplication / WebApplication for 6-in-1 EN 12828 Calculators & MCP Server
-            const appNodes = graph.filter(
-                (n: any) =>
-                    n['@type'] === 'SoftwareApplication' ||
-                    n['@type'] === 'WebApplication' ||
-                    (Array.isArray(n['@type']) &&
-                        (n['@type'].includes('SoftwareApplication') || n['@type'].includes('WebApplication'))),
-            );
-            expect(appNodes.length).toBeGreaterThanOrEqual(2);
-            const appsJson = JSON.stringify(appNodes);
-            expect(appsJson).toContain('EN 12828');
-            expect(appsJson).toContain('/api/mcp');
-
-            // 4. Service & HowTo for Boiler Door Pellet Conversion & Industrial Containerized Boiler Rooms
-            const serviceNodes = graph.filter((n: any) => n['@type'] === 'Service');
-            expect(serviceNodes.length).toBeGreaterThanOrEqual(2);
-            const howToNodes = graph.filter((n: any) => n['@type'] === 'HowTo');
-            expect(howToNodes.length).toBeGreaterThanOrEqual(2);
-            const howToJson = JSON.stringify(howToNodes);
-            expect(howToJson).toContain('Viadrus');
-            expect(howToJson).toContain('GK-100');
-
-            // 5. FAQPage with localized engineering Q&A
-            const faqNode = graph.find((n: any) => n['@type'] === 'FAQPage') as Record<string, any> | undefined;
-            expect(faqNode).toBeDefined();
-            expect(Array.isArray(faqNode?.mainEntity)).toBe(true);
-            expect(faqNode?.mainEntity.length).toBeGreaterThanOrEqual(5);
-
-            // 6. BreadcrumbList
-            const breadcrumbNode = graph.find((n: any) => n['@type'] === 'BreadcrumbList');
-            expect(breadcrumbNode).toBeDefined();
+            // 3. W124-A1 (F4.4): globaliai tik Organization + WebSite; likusios
+            // schemos (SoftwareApplication, Service, HowTo, FAQPage, BreadcrumbList)
+            // emitinamos tik puslapio lygiu (žr. buildPageLevelGraphNodes).
+            const typeStrings = graph.map((n: any) => JSON.stringify(n['@type'])).join(',');
+            expect(typeStrings).not.toContain('SoftwareApplication');
+            expect(typeStrings).not.toContain('WebApplication');
+            expect(typeStrings).not.toContain('Service');
+            expect(typeStrings).not.toContain('HowTo');
+            expect(typeStrings).not.toContain('FAQPage');
+            expect(typeStrings).not.toContain('BreadcrumbList');
 
             // Verify no em-dash in serialized JSON-LD
             expect(JSON.stringify(graphDoc)).not.toContain('—');

@@ -1,0 +1,43 @@
+{
+  "_about": "Vedlio taisyklės ir konstantos. Šaltinio žymės: site:* – iš svetainės, computed – apskaičiuota, assumption – prielaida (savininkas patvirtina), owner-input – būtina savininko reikšmė. Produkcijoje assumption skaičiai rodomi tik su paaiškinimu „prielaida“.",
+  "boilers": [
+    { "slug": "viadrus", "aliases": ["viadrus-u22", "viadrus-u26", "hercules"], "label": "Viadrus U22 / U26 / Hercules", "kind": "Ketinis sekcijinis (4–10 sekcijų)", "range_kw": [15, 58], "flange_sku": "FL-VIA-U22", "burners": ["MPB-NANI-35", "MPB-NANI-50", "PELLTECH-PV20A", "PELLTECH-PV30A"], "source": "site:inzinerija/compatibility" },
+    { "slug": "kalvis", "aliases": ["kalvis-2"], "label": "Kalvis 2-12 … 2-40", "kind": "Plieninis apatinio degimo", "range_kw": [12, 40], "flange_sku": "FL-KAL-2", "burners": ["MPB-NANI-35"], "source": "site:inzinerija/compatibility" },
+    { "slug": "atmos", "aliases": ["atmos-dc", "vigas"], "label": "Atmos DC18S–DC50S / Vigas", "kind": "Dujų generacinis (pirolizinis)", "range_kw": [18, 50], "flange_sku": "FL-ATM-DC", "burners": ["PELLTECH-PV20A", "PELLTECH-PV30A", "MPB-NANI-35", "MPB-NANI-50"], "keeps_wood_option": true, "source": "site:inzinerija/compatibility" },
+    { "slug": "buderus-dakon", "aliases": ["buderus-s111", "buderus", "dakon", "bosch"], "label": "Buderus Logano S111 / G221, Dakon DOR 16–45", "kind": "Plieninis / ketinis", "range_kw": [16, 45], "flange_sku": "FL-BUD-S111", "burners": ["PELLTECH-PV20A", "MPB-NANI-35", "MPB-NANI-50"], "source": "site:inzinerija/compatibility" },
+    { "slug": "stropuva", "aliases": ["zvake", "vienybe"], "label": "Stropuva S15–S40 / Vienybė", "kind": "Viršutinio degimo cilindrinis", "range_kw": [15, 40], "flange_sku": "FL-STR-S", "burners": ["MPB-NANI-35"], "source": "site:inzinerija/compatibility" },
+    { "slug": "pramoniniai", "aliases": ["pramoninis"], "label": "Pramoninis katilas 50–500 kW", "kind": "Pramoninis plieninis / ketinis", "range_kw": [50, 500], "flange_sku": null, "burners": [], "online_checkout": false, "redirect": "/lt/pramonei#industrial-rfq", "source": "site:inzinerija/compatibility" }
+  ],
+  "burners": [
+    { "sku": "MPB-NANI-35", "label": "Megatherm MPB NANI 35", "range_kw": [8, 35], "includes": ["sraigtas", "valdiklis"], "self_cleaning": false, "self_cleaning_addon_sku": "AUTOMATIC-CLEANING-SYSTEM-NANI-35", "price_source": "catalog", "source": "site:products?q=NANI (1 294,70 € su PVM, „su kuro padavimo sraigtu ir valdikliu“, 8–35 kW)" },
+    { "sku": "MPB-NANI-50", "label": "Megatherm MPB NANI 50", "range_kw": [10, 50], "includes": ["sraigtas"], "self_cleaning": true, "price_source": "catalog", "source": "site:products?q=NANI (1 518,55 € su PVM)" },
+    { "sku": "PELLTECH-PV20A", "label": "Pelltech PV20a", "range_kw": [6, 20], "self_cleaning": true, "price_source": "catalog", "source": "site:inzinerija/kits" },
+    { "sku": "PELLTECH-PV30A", "label": "Pelltech PV30a", "range_kw": [9, 30], "self_cleaning": true, "price_source": "catalog", "source": "assumption – patikrinti katalogo diapazoną" }
+  ],
+  "_burner_note": "Kainos NERAŠOMOS čia – imamos iš katalogo pagal SKU (vienas šaltinis). Jei SKU komplekte jau yra sraigtas ar valdiklis, atskirų GI-AUGER / GI-CTRL eilučių nepridėti.",
+  "heat_load_w_per_m2": { "senas": 100, "renovuotas": 70, "naujas": 45, "default": "senas", "reserve": 0.1, "source": "assumption – tipinės LT vertės, savininkas patvirtina" },
+  "annual_heat_kwh_per_m2": { "senas": 180, "renovuotas": 110, "naujas": 60, "source": "assumption" },
+  "heating_season_hours": 4800,
+  "pellet": { "bulk_density_kg_per_l": 0.65, "ncv_kwh_per_kg": 4.8, "source": "computed – ENplus A1 tipinės vertės" },
+  "efficiency": { "manual_old": 0.6, "pellet_converted": 0.83, "source": "assumption – sezoninis naudingumas" },
+  "fuels_eur_per_mwh": {
+    "malkos": { "label": "Malkos", "mid": 40, "range": [35, 45], "source": "owner-input – pakeisti tikromis regiono kainomis" },
+    "anglis": { "label": "Akmens anglys / briketai", "mid": 52, "range": [45, 60], "source": "owner-input" },
+    "granules": { "label": "Granulės ENplus A1 (maišais)", "mid": 65, "range": [60, 70], "source": "owner-input – ≈ 290–330 €/t ÷ 4,8 MWh/t" }
+  },
+  "bunkers": [
+    { "sku": "GI-BNK-200", "liters": 200 },
+    { "sku": "GI-BNK-350", "liters": 350 },
+    { "sku": "GI-BNK-500", "liters": 500 },
+    { "sku": "GI-BNK-1000", "liters": 1000 }
+  ],
+  "_bunker_note": "„500–1000 L“ viena kaina – NE. Kiekvienas tūris – atskiras SKU ir kaina iš katalogo.",
+  "copy": {
+    "autonomy": "Granulių užteks ≈ {avg} d. vidutiniškai, ≈ {cold} d. per didžiausius šalčius",
+    "autonomy_note": "Skaičiuota: {liters} l × 0,65 kg/l, {area} m² ({building}) namui. Tiksliau įvertina inžinierius.",
+    "savings_positive": "Kuro išlaidos: ≈ {before} € → ≈ {after} € per sezoną (prielaida)",
+    "savings_negative": "Kuro kaina panaši ar šiek tiek didesnė – nauda: automatika, kraunate kas ≈ {avg} d., o ne 2–3 kartus per dieną",
+    "payback": "Atsipirkimas ≈ {years} m. (tik dėl kuro kainos skirtumo)",
+    "payback_none": "Atsipirkimas kuro sąskaita neskaičiuojamas – sprendimas dėl patogumo"
+  }
+}

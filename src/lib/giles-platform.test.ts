@@ -103,7 +103,6 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
         expect(bundle.items.length).toBeGreaterThanOrEqual(5);
         expect(bundle.totalGrossEur).toBeGreaterThan(1500);
         expect(bundle.totalNetEur).toBeCloseTo(bundle.totalGrossEur / 1.21, 1);
-        expect(bundle.estimatedAnnualSavingsEur).toBeGreaterThan(300);
     });
 
     it('computes Industrial Container Boiler Room (100 kW – 2.5 MW) ROI and payback months', () => {

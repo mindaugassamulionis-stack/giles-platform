@@ -286,8 +286,6 @@ export interface BoilerConversionBundleResult {
     items: BoilerConversionLineItem[];
     totalGrossEur: number;
     totalNetEur: number;
-    estimatedAnnualSavingsEur: number;
-    paybackSeasons: string;
 }
 
 export function computeBoilerConversionBundle(input: {
@@ -399,8 +397,9 @@ export function computeBoilerConversionBundle(input: {
 
     const totalGrossEur = items.reduce((sum, it) => sum + it.grossEur, 0);
     const totalNetEur = Math.round((totalGrossEur / 1.21) * 100) / 100;
-    const estimatedAnnualSavingsEur = Math.max(420, Math.round(input.areaM2 * 3.4));
 
+    // W124-A1 (F0.2): atsipirkimo skaičius nebegrąžinamas iš čia – tik
+    // seasonCost() iš vedylys-calc.ts pagal taisykles.
     return {
         boilerModel,
         areaM2: input.areaM2,
@@ -412,8 +411,6 @@ export function computeBoilerConversionBundle(input: {
         items,
         totalGrossEur,
         totalNetEur,
-        estimatedAnnualSavingsEur,
-        paybackSeasons: '1,5–2 šildymo sezonai',
     };
 }
 

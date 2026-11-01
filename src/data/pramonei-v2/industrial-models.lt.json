@@ -107,8 +107,9 @@
       },
       "dimensions": {
         "value": {
-          "label": "6,0 × 3,0 × 3,0 m",
-          "mass_t": null
+          "label": "6 000 × 3 000 × 3 000 mm",
+          "mass_t": null,
+          "note": "W124-A1: normalizuota į mm iš serijos lentelės (metrai)"
         },
         "source": "site:series-table"
       },
@@ -228,7 +229,7 @@
       "autonomy_pellets": {
         "value": {
           "full_load_days": 4.5,
-          "half_load_days": 9.0
+          "half_load_days": 9
         },
         "source": "computed",
         "note": "650 kg/m³ granulių"
@@ -351,8 +352,9 @@
       },
       "dimensions": {
         "value": {
-          "label": "12,0 × 3,5 × 3,5 m",
-          "mass_t": null
+          "label": "12 000 × 3 500 × 3 500 mm",
+          "mass_t": null,
+          "note": "W124-A1: normalizuota į mm iš serijos lentelės (metrai)"
         },
         "source": "site:series-table"
       },
@@ -403,7 +405,7 @@
         "source": "site:passport"
       },
       "efficiency_pct": {
-        "value": 93.0,
+        "value": 93,
         "source": "site:passport"
       },
       "heated_area_m2": {
@@ -819,7 +821,7 @@
         "source": "site:passport"
       },
       "efficiency_pct": {
-        "value": 93.0,
+        "value": 93,
         "source": "site:passport",
         "note": "iki 96 % su kondensaciniu ekonomaizeriu"
       },

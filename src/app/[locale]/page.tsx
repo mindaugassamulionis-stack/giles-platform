@@ -16,6 +16,14 @@ import { getLocale } from 'next-intl/server';
 import { resolveAppLocale } from '../../i18n/storefront-ui-copy';
 import { EmailLink } from '../../components/email';
 import type { AppLocale } from '../../i18n/routing';
+import type { Metadata } from 'next';
+
+// W124-A1 (F0.3): namo puslapio canonical (šakninis layout jo nebepaveldi).
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+    const { locale } = await params;
+    const base = 'https://gilesinzinerija.lt';
+    return { alternates: { canonical: `${base}/${locale}` } };
+}
 
 export const dynamic = 'force-dynamic';
 
@@ -287,13 +295,13 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
                 num: '04 / Dviejų lygių patikra',
                 metric: 'AI + Inžinierius',
                 title: 'Vytautas AI + vyr. inžinieriaus Dariaus patikra',
-                desc: 'Greita pirminė mazgo atranka su AI inžinieriumi Vytautu ir asmeninė vyr. inžinieriaus Dariaus Šauklio suderinamumo patikra prieš išsiunčiant.',
+                desc: 'Greita pirminė mazgo atranka su AI asistentu Vytautu ir asmeninė vyr. inžinieriaus Dariaus Šauklio suderinamumo patikra prieš išsiunčiant.',
             },
         ],
         consultKicker: 'Tiesioginė inžinieriaus konsultacija ir sąmatų skaičiavimas',
         consultTitle: 'Nežinote, nuo ko pradėti? Pasikalbėkite su inžinieriumi.',
         consultLead:
-            'Vyr. inžinierius Darius Šauklys ir Gilės AI inžinierius Vytautas padės parinkti katilą, degiklį ar pilną katilinės sąmatą.',
+            'Vyr. inžinierius Darius Šauklys ir Gilės AI asistentas Vytautas padės parinkti katilą, degiklį ar pilną katilinės sąmatą.',
         consultProjectQuoteCta: 'Projekto sąmata',
     },
     en: {

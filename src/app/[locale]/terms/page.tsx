@@ -248,7 +248,7 @@ export default async function TermsPage() {
                                 Abejojate dėl sriegio ar DN skersmens?
                             </h3>
                             <p className="text-xs text-slate-300 leading-relaxed mb-4">
-                                Prieš apmokėdami užsakymą pasitikrinkite suderinamumą su AI inžinieriumi Vytautu arba atsidarykite techninį mazgų palyginimą.
+                                Prieš apmokėdami užsakymą pasitikrinkite suderinamumą su AI asistentu Vytautu arba atsidarykite techninį mazgų palyginimą.
                             </p>
                             <div className="space-y-2">
                                 <Link

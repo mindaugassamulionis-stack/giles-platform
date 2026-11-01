@@ -250,7 +250,7 @@ const VYTAUTAS_I18N: Record<AppLocale, VytautasLocaleCopy> = {
         leaveEmailCta: 'Palikti el. paštą inžinieriui / Gauti sąmatą',
         closeToggle: 'Uždaryti',
         openToggle: 'Atidaryti',
-        leadSentHeading: (ref) => `Užklausa perduota vyr. inžinieriui (Nr. ${ref})`,
+        leadSentHeading: (ref) => `Užklausa perduota AI asistentui (Nr. ${ref})`,
         leadSentBody: 'UAB „Gilės inžinerija“ komanda peržiūrės jūsų mazgo žemėlapį ir susisieks su tikslia sąmata.',
         leadFormIntro: 'Palikite el. paštą – paruošime pilną mazgo sąmatą pagal jūsų sistemos žemėlapį:',
         leadNamePlaceholder: 'Vardas arba įmonė',

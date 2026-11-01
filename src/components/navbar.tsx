@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { netFromGrossLines } from '../lib/vedlys-wizard';
 import { useLocale, useTranslations } from 'next-intl';
 import {
     ShoppingCart,
@@ -115,7 +116,10 @@ export function Navbar(_props: { settings?: StorefrontSettings }) {
     const wishlistHydrated = useWishlistHydration();
     const wishlistCount = useWishlistStore((state) => state.items.length);
 
-    const displayedCartAmount = showNet ? cartSubtotal / 1.21 : cartSubtotal;
+    // W124-A1 (F3.3): B2B suma – pagal eilutes (netFromGrossLines), ne iš suapvalintos sumos.
+    const displayedCartAmount = showNet
+        ? netFromGrossLines(useCartStore.getState().items.map((i) => ({ price: i.price, quantity: i.quantity })))
+        : cartSubtotal;
     const formattedCartPrice = `${formatEurAmount(hydrated ? displayedCartAmount : 0)} €`;
 
     const catalogSkuCount = useStorefrontConfig().catalog?.skuCount ?? 0;
@@ -278,8 +282,9 @@ export function Navbar(_props: { settings?: StorefrontSettings }) {
                                     <Link
                                         key={code}
                                         href={targetHref}
-                                        data-testid={`locale-switch-${code}`}
-                                        aria-current={isCurrent ? 'page' : undefined}
+                        data-testid={`locale-switch-${code}`}
+                        aria-current={isCurrent ? 'page' : undefined}
+                        prefetch={false}
                                         className={clsx(
                                             'px-1 sm:px-1.5 py-0.5 text-[10px] sm:text-xs font-bold uppercase whitespace-nowrap rounded-xs transition-colors shrink-0',
                                             isCurrent

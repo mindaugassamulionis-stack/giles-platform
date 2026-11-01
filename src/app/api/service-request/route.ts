@@ -22,6 +22,7 @@ interface StoredRequest {
     photoName?: string;
     photoSize?: number;
     source_page: string;
+    config?: Record<string, unknown>;
     workingHours: boolean;
     createdAt: string;
 }
@@ -62,7 +63,7 @@ export async function POST(request: Request) {
 
     const payload = {
         urgency: (body.urgency as 'urgent' | 'high' | 'plan') ?? 'high',
-        type: (body.type as 'post' | 'warranty' | 'start' | 'part') ?? 'post',
+        type: (body.type as 'post' | 'warranty' | 'start' | 'part' | 'conversion' | 'quote') ?? 'post',
         model: typeof body.model === 'string' ? body.model : undefined,
         error_code: typeof body.error_code === 'string' ? body.error_code : undefined,
         name: typeof body.name === 'string' ? body.name : '',
@@ -73,6 +74,8 @@ export async function POST(request: Request) {
         photoName: typeof body.photoName === 'string' ? body.photoName : undefined,
         photoSize: typeof body.photoSize === 'number' ? body.photoSize : undefined,
         source_page: typeof body.source_page === 'string' ? body.source_page : 'inzinerija',
+        // W124-A1 (F0.1): vedlio konfigūracija (katilas, plotas, degiklis, eilutės).
+        config: body.config && typeof body.config === 'object' ? (body.config as Record<string, unknown>) : undefined,
     };
 
     const errors = validateServiceRequest({

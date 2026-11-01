@@ -1,6 +1,18 @@
+export interface VedlysLeadConfig {
+    boiler?: string;
+    area_m2?: number;
+    kw?: number;
+    burner_sku?: string;
+    bunker_l?: number;
+    wifi?: boolean;
+    install?: boolean;
+    total_eur?: number;
+    lines?: Array<{ sku: string; qty: number; price: number }>;
+}
+
 export interface ServiceRequest {
     urgency: 'urgent' | 'high' | 'plan';
-    type: 'post' | 'warranty' | 'start' | 'part';
+    type: 'post' | 'warranty' | 'start' | 'part' | 'conversion' | 'quote';
     model?: string;
     error_code?: string;
     name: string;
@@ -11,6 +23,8 @@ export interface ServiceRequest {
     photo?: File | null;
     website?: string;
     source_page: 'inzinerija' | string;
+    /** W124-A1 (F0.1): vedlio konfigūracija kartu su užklausa. */
+    config?: VedlysLeadConfig;
 }
 
 export type FieldErrors = Partial<Record<keyof ServiceRequest, string>>;
@@ -27,7 +41,9 @@ export function validateServiceRequest(
     },
 ): FieldErrors {
     const e: FieldErrors = {};
-    if (!r.name?.trim() || r.name.trim().length < 2) e.name = msg.required;
+    // W124-A1 (F0.1): konversijos užklausoje vardas neprivalomas – telefonas yra kontaktas.
+    const nameOptional = r.type === 'conversion';
+    if (!nameOptional && (!r.name?.trim() || r.name.trim().length < 2)) e.name = msg.required;
     if (!r.phone?.trim()) e.phone = msg.required;
     else if (!PHONE.test(r.phone.trim())) e.phone = msg.phone;
     if (r.photo) {

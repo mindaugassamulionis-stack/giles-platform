@@ -94,7 +94,7 @@ async function syncChatTurnToSupport(params: {
                     bodyText: `${params.assistantResponse}\n\n[Sistemos žemėlapis: ${params.systemMap.nodeLabel} | ${params.systemMap.powerOrAreaLabel} | ${params.systemMap.connectionOrTypeLabel}]`,
                     isAiDraft: true,
                     metaJson: {
-                        from: 'Vytautas (Gilės Inžinerija ŠVOK vyr. inžinierius)',
+                        from: 'Vytautas (Gilės Inžinerija AI asistentas)',
                         to: customerIdentifier,
                     } as any,
                 },

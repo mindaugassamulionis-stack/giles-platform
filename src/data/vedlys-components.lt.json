@@ -1,0 +1,89 @@
+{
+  "_about": "W124-A1 (F1.1): vedlio komplekto dalys, kurių dar nėra 13 531 SKU kataloge (giles-catalog-6337.json). Kainos su PVM. price_source: assumption – savininkas turi patvirtinti ir perkelti į tikrą katalogą; site:inzinerija/kits – kaina iš dabartinio svetainės komplektų lapo.",
+  "components": [
+    {
+      "sku": "GI-BNK-200",
+      "label": "Kompaktinis 200 L granulių bunkeris",
+      "gross_eur": 240,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "GI-BNK-350",
+      "label": "Standartinis 350 L cinkuotas bunkeris",
+      "gross_eur": 310,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "GI-BNK-500",
+      "label": "Didelis 500 L modulinis bunkeris",
+      "gross_eur": 450,
+      "price_source": "assumption"
+    },
+    {
+      "sku": "GI-BNK-1000",
+      "label": "Pramoninis 1000 L bunkeris",
+      "gross_eur": 690,
+      "price_source": "assumption"
+    },
+    {
+      "sku": "FL-VIA-U22",
+      "label": "CNC montavimo flanšas Viadrus U22 / U26 / Hercules",
+      "gross_eur": 95,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "FL-KAL-2",
+      "label": "CNC montavimo flanšas Kalvis 2-12 … 2-40",
+      "gross_eur": 95,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "FL-ATM-DC",
+      "label": "CNC montavimo flanšas Atmos DC / Vigas",
+      "gross_eur": 95,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "FL-BUD-S111",
+      "label": "CNC montavimo flanšas Buderus Logano S111 / Dakon",
+      "gross_eur": 95,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "FL-STR-S",
+      "label": "CNC montavimo flanšas Stropuva S15–S40",
+      "gross_eur": 95,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "GI-SAFE-STB95",
+      "label": "Apsauginis dvigubas STB 95 °C termostatas",
+      "gross_eur": 45,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "GI-AUGER-2000",
+      "label": "2,0 m granulių padavimo sraigtas su PUR žarna",
+      "gross_eur": 220,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "GI-CTRL-TOUCH",
+      "label": "Valdiklis su spalvotu ekranu ir fotoelementu",
+      "gross_eur": 230,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "GI-WIFI-NET",
+      "label": "Wi-Fi modulis katilinės valdymui iš telefono",
+      "gross_eur": 145,
+      "price_source": "site:inzinerija/kits"
+    },
+    {
+      "sku": "GI-SERV-INSTALL",
+      "label": "Montavimas objekte, traukos patikra ir degimo derinimas",
+      "gross_eur": 390,
+      "price_source": "site:inzinerija/kits"
+    }
+  ]
+}
