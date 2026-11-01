@@ -27,6 +27,36 @@ interface StoredRequest {
     createdAt: string;
 }
 
+const VEDLYS_CONFIG_STRING_KEYS = ['boiler', 'burner_sku'] as const;
+const VEDLYS_CONFIG_NUMBER_KEYS = ['area_m2', 'kw', 'bunker_l', 'total_eur'] as const;
+const VEDLYS_CONFIG_BOOL_KEYS = ['wifi', 'install'] as const;
+
+/** Vedlys config laukų baltaširmas: tik žinomi raktais, saugios reikšmės, ≤ 8 KB. */
+function sanitizeVedlysConfig(raw: Record<string, unknown>): Record<string, unknown> | undefined {
+    const out: Record<string, unknown> = {};
+    for (const k of VEDLYS_CONFIG_STRING_KEYS) {
+        if (typeof raw[k] === 'string') out[k] = (raw[k] as string).slice(0, 120);
+    }
+    for (const k of VEDLYS_CONFIG_NUMBER_KEYS) {
+        if (typeof raw[k] === 'number' && Number.isFinite(raw[k])) out[k] = raw[k];
+    }
+    for (const k of VEDLYS_CONFIG_BOOL_KEYS) {
+        if (typeof raw[k] === 'boolean') out[k] = raw[k];
+    }
+    if (Array.isArray(raw.lines)) {
+        out.lines = raw.lines.slice(0, 24).map((l) => {
+            const line = (l ?? {}) as Record<string, unknown>;
+            return {
+                sku: typeof line.sku === 'string' ? line.sku.slice(0, 80) : '',
+                qty: typeof line.qty === 'number' && Number.isFinite(line.qty) ? line.qty : 1,
+                price: typeof line.price === 'number' && Number.isFinite(line.price) ? line.price : 0,
+            };
+        });
+    }
+    if (JSON.stringify(out).length > 8192) return undefined;
+    return Object.keys(out).length ? out : undefined;
+}
+
 function loadRequests(): StoredRequest[] {
     try {
         if (fs.existsSync(REQUESTS_PATH)) {
@@ -75,7 +105,10 @@ export async function POST(request: Request) {
         photoSize: typeof body.photoSize === 'number' ? body.photoSize : undefined,
         source_page: typeof body.source_page === 'string' ? body.source_page : 'inzinerija',
         // W124-A1 (F0.1): vedlio konfigūracija (katilas, plotas, degiklis, eilutės).
-        config: body.config && typeof body.config === 'object' ? (body.config as Record<string, unknown>) : undefined,
+        // Ribotas laukų rinkinys ir 8 KB dydžio luba – formulės neužpildo duomenų failo.
+        config: body.config && typeof body.config === 'object'
+            ? sanitizeVedlysConfig(body.config as Record<string, unknown>)
+            : undefined,
     };
 
     const errors = validateServiceRequest({

@@ -219,6 +219,53 @@ describe('F0.1/F3.6: service-request priima conversion ir quote', () => {
     });
 });
 
+describe('SEC: service-request config baltaširmas', () => {
+    it('praleidžia tik žinomus vedlio laukus, kirpa eilutes ir limituoja lines', async () => {
+        const mod = await import('../app/api/service-request/route');
+        const route = mod as unknown as { POST: (req: Request) => Promise<Response> };
+        const body = {
+            urgency: 'plan',
+            type: 'conversion',
+            name: '',
+            phone: '+370 600 00000',
+            source_page: 'vedlys',
+            config: {
+                boiler: 'viadrus',
+                area_m2: 180,
+                kw: 20,
+                burner_sku: 'MPB-NANI-35',
+                bunker_l: 350,
+                wifi: true,
+                install: true,
+                total_eur: 2424.9,
+                lines: Array.from({ length: 40 }, (_, i) => ({ sku: `X-${i}`, qty: 1, price: 10 })),
+                injection: '<script>alert(1)</script>',
+                nested: { deep: 'payload' },
+            },
+        };
+        const res = await route.POST(
+            new Request('http://localhost/api/service-request', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body),
+            }),
+        );
+        expect(res.status).toBe(200);
+        const fs = await import('node:fs');
+        const stored = JSON.parse(fs.readFileSync('src/data/service-requests.json', 'utf8'));
+        const arr = Array.isArray(stored) ? stored : stored.requests;
+        const mine = arr[arr.length - 1];
+        expect(mine.source_page).toBe('vedlys');
+        expect(mine.config.boiler).toBe('viadrus');
+        expect(mine.config.injection).toBeUndefined();
+        expect(mine.config.nested).toBeUndefined();
+        expect(mine.config.lines).toHaveLength(24);
+        // švarinam testo įrašą
+        const cleaned = arr.filter((e: { id?: string }) => e.id !== mine.id);
+        fs.writeFileSync('src/data/service-requests.json', `${JSON.stringify(Array.isArray(stored) ? cleaned : { ...stored, requests: cleaned }, null, 2)}\n`);
+    });
+});
+
 describe('F3.5: patikimumo juostos žodžiai', () => {
     it('skaičius apibūdina katalogą, ne sandėlio likutį', () => {
         const trust = contentLt.trust;
