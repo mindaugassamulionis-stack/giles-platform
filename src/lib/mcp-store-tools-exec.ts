@@ -364,7 +364,10 @@ export function executeStoreTool(
             ...(typeof args.published === 'boolean' ? { published: args.published } : {}),
             updatedAt: new Date().toISOString(),
         };
-        saveCatalogOverrides({ ...overridesStore, overrides: { ...overridesStore.overrides, [normSku]: nextOvr } });
+        saveCatalogOverrides(
+            { ...overridesStore, overrides: { ...overridesStore.overrides, [normSku]: nextOvr } },
+            { actor: String(caller.actor || 'MCP agentas'), source: 'mcp' },
+        );
         clearCatalogListingCache();
         return { decision: 'ALLOWED', payload: { ok: true, status: 'APPLIED', sku, updatedOverride: nextOvr } };
     }
@@ -392,7 +395,7 @@ export function executeStoreTool(
         saveCatalogOverrides({
             ...overridesStore,
             customProducts: [newProd, ...overridesStore.customProducts.filter((c) => normalizeCode(c.sku) !== normalizeCode(sku))],
-        });
+        }, { actor: String(caller.actor || 'MCP agentas'), source: 'mcp' });
         clearCatalogListingCache();
         return { decision: 'ALLOWED', payload: { ok: true, status: 'CREATED', product: newProd } };
     }

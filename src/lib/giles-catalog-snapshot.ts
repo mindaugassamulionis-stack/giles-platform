@@ -54,6 +54,7 @@ import {
     normalizeSearchToken,
 } from './catalog-search-index';
 import { inferProductBrandName, formatCleanCatalogProductTitle } from './v3-description';
+import { diffOverrideStores, appendActivityEntries } from './admin-activity-log';
 import {
     resolveB2BDiscountForBrand,
     type B2BQuickOrderResolvedRow,
@@ -305,7 +306,11 @@ export function readCatalogOverrides(): CatalogOverridesStore {
     return memoryOverridesStore;
 }
 
-export function saveCatalogOverrides(store: CatalogOverridesStore): CatalogOverridesStore {
+export function saveCatalogOverrides(
+    store: CatalogOverridesStore,
+    audit?: { actor?: string; source?: string },
+): CatalogOverridesStore {
+    const previousStore = memoryOverridesStore;
     memoryOverridesStore = store;
     cachedSnapshot = null;
     invalidateCatalogSearchIndex();
@@ -317,6 +322,20 @@ export function saveCatalogOverrides(store: CatalogOverridesStore): CatalogOverr
         }
     } catch {
         // ignore read-only fs errors
+    }
+    // W123-A1: chatter-style audit trail. Both the admin UI route and the MCP
+    // tool path commit through here, so the diff covers every product/price mutation.
+    try {
+        const diff = diffOverrideStores(
+            previousStore ?? { overrides: {}, customProducts: [], brandRules: {} },
+            store,
+            audit,
+        );
+        if (diff.length) {
+            appendActivityEntries(diff);
+        }
+    } catch {
+        // Audit must never break a catalog save.
     }
     return store;
 }

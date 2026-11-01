@@ -1,9 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Plus, Check, Search, Wand2, RefreshCw } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Plus, Check, Search, Wand2, RefreshCw, Star, Trash2 } from 'lucide-react';
 import { assetUrl } from '../lib/api';
 import type { AdminCatalogProductRow } from '../app/api/admin/products/route';
+import {
+    useAdminSavedViews,
+    type AdminProductFilters,
+} from '../lib/admin-saved-views';
+import {
+    computeBulkEditPreview,
+    buildUndoPayload,
+    type BulkEditOperation,
+    type BulkEditDiff,
+    type BulkEditUndoItem,
+} from '../lib/admin-bulk-edit';
+import { AdminActivityLogPanel } from './admin-activity-log-panel';
 
 interface BrandSummary {
     id: string;
@@ -25,6 +37,25 @@ export function GilesAdminProductCrud() {
     const [brandFilter, setBrandFilter] = useState('visi');
     const [stockFilter, setStockFilter] = useState('all');
     const [statusNotice, setStatusNotice] = useState('');
+    const [priceMin, setPriceMin] = useState<number | null>(null);
+    const [priceMax, setPriceMax] = useState<number | null>(null);
+
+    // W123-A1: saved views, bulk editor and audit panel state.
+    const savedViews = useAdminSavedViews();
+    const [viewNotice, setViewNotice] = useState('');
+    const [viewName, setViewName] = useState('');
+    const [selectedSkus, setSelectedSkus] = useState<Set<string>>(new Set());
+    const [bulkOpen, setBulkOpen] = useState(false);
+    const [bulkKind, setBulkKind] = useState<BulkEditOperation['kind']>('price_percent');
+    const [bulkPercent, setBulkPercent] = useState(5);
+    const [bulkPriceSet, setBulkPriceSet] = useState(100);
+    const [bulkStock, setBulkStock] = useState(0);
+    const [bulkCategory, setBulkCategory] = useState('Katilinės įranga');
+    const [bulkPreview, setBulkPreview] = useState<
+        ReturnType<typeof computeBulkEditPreview> | null
+    >(null);
+    const [undoPayload, setUndoPayload] = useState<BulkEditUndoItem[] | null>(null);
+    const [activityRefreshKey, setActivityRefreshKey] = useState(0);
 
     // Inline row draft edits keyed by SKU
     const [draftEdits, setDraftEdits] = useState<
@@ -81,6 +112,8 @@ export function GilesAdminProductCrud() {
         qVal = query,
         bVal = brandFilter,
         sVal = stockFilter,
+        pMin: number | null = priceMin,
+        pMax: number | null = priceMax,
     ) => {
         try {
             const params = new URLSearchParams({
@@ -92,7 +125,10 @@ export function GilesAdminProductCrud() {
             const res = await fetch(assetUrl(`/api/admin/products?${params.toString()}`));
             const data = await res.json();
             if (data?.ok && Array.isArray(data.items)) {
-                setItems(data.items);
+                let rows: AdminCatalogProductRow[] = data.items;
+                if (pMin != null) rows = rows.filter((r) => r.priceGrossEur >= pMin);
+                if (pMax != null) rows = rows.filter((r) => r.priceGrossEur <= pMax);
+                setItems(rows);
                 setTotalCatalogCount(data.totalCatalogCount ?? 6337);
                 setMatchedCount(data.matchedCount ?? data.items.length);
                 setLowMarginCount(data.lowMarginCount ?? 0);
@@ -121,6 +157,162 @@ export function GilesAdminProductCrud() {
     useEffect(() => {
         fetchProducts('', 'visi', 'all');
     }, []);
+
+    // W123-A1: command palette jumps straight to a SKU in this editor.
+    useEffect(() => {
+        const onFocusProduct = (e: Event) => {
+            const sku = (e as CustomEvent<{ sku: string }>).detail?.sku;
+            if (!sku) return;
+            setQuery(sku);
+            setBrandFilter('visi');
+            setStockFilter('all');
+            setPriceMin(null);
+            setPriceMax(null);
+            fetchProducts(sku, 'visi', 'all', null, null);
+        };
+        const onCatalogChanged = () => {
+            setActivityRefreshKey((k) => k + 1);
+            fetchProducts();
+        };
+        window.addEventListener('giles-admin:focus-product', onFocusProduct);
+        window.addEventListener('giles-admin:catalog-changed', onCatalogChanged);
+        return () => {
+            window.removeEventListener('giles-admin:focus-product', onFocusProduct);
+            window.removeEventListener('giles-admin:catalog-changed', onCatalogChanged);
+        };
+    }, []);
+
+    // Apply the marked-default saved view once on first load.
+    const defaultViewAppliedRef = useRef(false);
+    useEffect(() => {
+        if (defaultViewAppliedRef.current) return;
+        const def = savedViews.views.find((v) => v.isDefault);
+        if (def) {
+            defaultViewAppliedRef.current = true;
+            applyFilters(def.filters);
+        }
+    }, [savedViews.views]);
+
+    const currentFilters: AdminProductFilters = {
+        query,
+        brand: brandFilter,
+        stock: stockFilter,
+        priceMin,
+        priceMax,
+    };
+
+    const applyFilters = (filters: AdminProductFilters) => {
+        setQuery(filters.query);
+        setBrandFilter(filters.brand);
+        setStockFilter(filters.stock);
+        setPriceMin(filters.priceMin);
+        setPriceMax(filters.priceMax);
+        fetchProducts(filters.query, filters.brand, filters.stock, filters.priceMin, filters.priceMax);
+    };
+
+    const handleSaveView = () => {
+        const result = savedViews.save(viewName, currentFilters);
+        setViewNotice(
+            result.ok ? `Vaizdas „${viewName.trim()}“ išsaugotas.` : result.error || 'Nepavyko išsaugoti',
+        );
+        if (result.ok) setViewName('');
+    };
+
+    const toggleSelected = (sku: string) => {
+        setSelectedSkus((prev) => {
+            const next = new Set(prev);
+            if (next.has(sku)) next.delete(sku);
+            else next.add(sku);
+            return next;
+        });
+        setBulkPreview(null);
+    };
+
+    const allVisibleSelected = items.length > 0 && items.every((r) => selectedSkus.has(r.sku));
+    const toggleSelectAll = () => {
+        setSelectedSkus((prev) => {
+            if (allVisibleSelected) {
+                const next = new Set(prev);
+                for (const r of items) next.delete(r.sku);
+                return next;
+            }
+            const next = new Set(prev);
+            for (const r of items) next.add(r.sku);
+            return next;
+        });
+        setBulkPreview(null);
+    };
+
+    const buildOperation = (): BulkEditOperation | null => {
+        if (bulkKind === 'price_percent') return { kind: 'price_percent', percent: bulkPercent };
+        if (bulkKind === 'price_set') return { kind: 'price_set', priceGrossEur: bulkPriceSet };
+        if (bulkKind === 'availability') return { kind: 'availability', stockQuantity: bulkStock };
+        if (bulkKind === 'category') return { kind: 'category', category: bulkCategory };
+        return null;
+    };
+
+    const handleBulkPreview = () => {
+        const op = buildOperation();
+        if (!op) return;
+        setBulkPreview(computeBulkEditPreview(items, [...selectedSkus], op));
+    };
+
+    const handleBulkApply = async () => {
+        if (!bulkPreview) return;
+        const edits = bulkPreview.diffs
+            .filter((d) => !d.blocked)
+            .map((d) =>
+                d.field === 'priceGrossEur'
+                    ? { sku: d.sku, priceGrossEur: Number(d.after) }
+                    : d.field === 'stockQuantity'
+                      ? { sku: d.sku, stockQuantity: Number(d.after) }
+                      : { sku: d.sku, category: String(d.after) },
+            );
+        if (!edits.length) return;
+        try {
+            const res = await fetch(assetUrl('/api/admin/products'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'bulk_edit_apply', edits }),
+            });
+            const data = await res.json();
+            if (data?.ok) {
+                setUndoPayload(buildUndoPayload(bulkPreview.diffs));
+                setStatusNotice(
+                    `Masinis redagavimas pritaikytas: ${data.appliedCount} SKU. Pakeitimus galite anuliuoti mygtuku „Anuliuoti“.`,
+                );
+                setBulkPreview(null);
+                setSelectedSkus(new Set());
+                setBulkOpen(false);
+                setActivityRefreshKey((k) => k + 1);
+                await fetchProducts();
+            }
+        } catch {
+            // ignore
+        }
+    };
+
+    const handleBulkUndo = async () => {
+        if (!undoPayload?.length) return;
+        try {
+            const res = await fetch(assetUrl('/api/admin/products'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'bulk_edit_apply', edits: undoPayload }),
+            });
+            const data = await res.json();
+            if (data?.ok) {
+                setStatusNotice(
+                    `Masinis redagavimas atšauktas: ${data.appliedCount} SKU grąžinti į pradines reikšmes.`,
+                );
+                setUndoPayload(null);
+                setActivityRefreshKey((k) => k + 1);
+                await fetchProducts();
+            }
+        } catch {
+            // ignore
+        }
+    };
 
     const handleSaveProductRow = async (sku: string) => {
         const draft = draftEdits[sku];
@@ -732,8 +924,74 @@ export function GilesAdminProductCrud() {
                     </form>
                 )}
 
+                {/* W123-A1: Saved Views (Odoo favorites pattern) */}
+                <div data-testid="admin-saved-views" className="rounded-xl border border-[#E2DDD3] bg-[#FAF9F6] p-3.5 space-y-2.5 text-xs">
+                    <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-bold text-[#11161B]">Išsaugoti vaizdai:</span>
+                        {savedViews.views.length === 0 && (
+                            <span className="text-[#5B6470]">
+                                Dar nėra. Nustatykite filtrus ir įrašykite derinį vardiniu vaizdu.
+                            </span>
+                        )}
+                        {savedViews.views.map((view) => (
+                            <span
+                                key={view.id}
+                                className="inline-flex items-center gap-1 rounded-lg border border-[#D5CFC3] bg-white overflow-hidden"
+                            >
+                                <button
+                                    type="button"
+                                    aria-label={view.isDefault ? 'Numatytasis vaizdas' : 'Padaryti numatytuoju'}
+                                    onClick={() => savedViews.setDefault(view.id)}
+                                    className="h-8 w-8 inline-flex items-center justify-center text-[#C2410C] cursor-pointer bg-transparent"
+                                >
+                                    <Star
+                                        className={`w-3.5 h-3.5 ${view.isDefault ? 'fill-[#C2410C]' : 'fill-transparent'}`}
+                                    />
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => applyFilters(view.filters)}
+                                    title={view.isDefault ? 'Numatytasis vaizdas' : 'Taikyti vaizdą'}
+                                    className="h-8 px-2.5 inline-flex items-center gap-1.5 font-bold text-[#11161B] hover:bg-[#F5F3EE] cursor-pointer bg-transparent"
+                                >
+                                    {view.name}
+                                </button>
+                                <button
+                                    type="button"
+                                    aria-label={`Ištrinti vaizdą ${view.name}`}
+                                    onClick={() => savedViews.remove(view.id)}
+                                    className="h-8 w-8 inline-flex items-center justify-center text-[#5B6470] hover:text-[#8A2F07] cursor-pointer bg-transparent"
+                                >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                </button>
+                            </span>
+                        ))}
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2">
+                        <input
+                            type="text"
+                            value={viewName}
+                            onChange={(e) => setViewName(e.target.value)}
+                            placeholder="Vaizdo pavadinimas (pvz. Danfoss žemos maržos)"
+                            aria-label="Naujo vaizdo pavadinimas"
+                            data-testid="admin-save-view-name"
+                            className="h-9 w-full sm:w-72 px-2.5 rounded-lg border border-[#D5CFC3] bg-white"
+                        />
+                        <button
+                            type="button"
+                            onClick={handleSaveView}
+                            data-testid="admin-save-view-btn"
+                            className="h-9 px-3.5 rounded-lg border border-[#11161B] bg-white hover:bg-[#11161B] hover:text-white text-[#11161B] font-bold inline-flex items-center gap-1.5 cursor-pointer"
+                        >
+                            <Star className="w-3.5 h-3.5" />
+                            <span>Įrašyti dabartinį vaizdą</span>
+                        </button>
+                        {viewNotice && <span className="text-[#5B6470] font-semibold">{viewNotice}</span>}
+                    </div>
+                </div>
+
                 {/* 3) Search & Filter Bar */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3 text-xs">
                     <div className="relative">
                         <input
                             type="text"
@@ -774,6 +1032,233 @@ export function GilesAdminProductCrud() {
                         <option value="low">Baigiasi Kauno sandėlyje (1–3 vnt.)</option>
                         <option value="low_margin">Žema marža (&lt;20% nuo savikainos)</option>
                     </select>
+                    <div className="flex gap-2">
+                        <input
+                            type="number"
+                            min={0}
+                            value={priceMin ?? ''}
+                            onChange={(e) => {
+                                const v = e.target.value === '' ? null : Number(e.target.value);
+                                setPriceMin(v);
+                                fetchProducts(query, brandFilter, stockFilter, v, priceMax);
+                            }}
+                            placeholder="Kaina nuo €"
+                            aria-label="Minimali kaina"
+                            className="w-full h-10 px-2.5 rounded-lg border border-[#D5CFC3] bg-white"
+                        />
+                        <input
+                            type="number"
+                            min={0}
+                            value={priceMax ?? ''}
+                            onChange={(e) => {
+                                const v = e.target.value === '' ? null : Number(e.target.value);
+                                setPriceMax(v);
+                                fetchProducts(query, brandFilter, stockFilter, priceMin, v);
+                            }}
+                            placeholder="Kaina iki €"
+                            aria-label="Maksimali kaina"
+                            className="w-full h-10 px-2.5 rounded-lg border border-[#D5CFC3] bg-white"
+                        />
+                    </div>
+                </div>
+
+                {/* W123-A1: Bulk editor with preview + undo */}
+                <div
+                    data-testid="admin-bulk-editor"
+                    className="rounded-xl border border-[#E2DDD3] bg-[#FAF9F6] p-3.5 space-y-3 text-xs"
+                >
+                    <div className="flex flex-wrap items-center gap-3">
+                        <label className="inline-flex items-center gap-2 font-bold text-[#11161B] cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={allVisibleSelected}
+                                onChange={toggleSelectAll}
+                                aria-label="Pasirinkti visas matomas prekes"
+                                data-testid="admin-bulk-select-all"
+                                className="w-4 h-4"
+                            />
+                            Pasirinkti viską
+                        </label>
+                        <span className="text-[#5B6470]">
+                            Pasirinkta: <strong>{selectedSkus.size}</strong> SKU
+                        </span>
+                        <button
+                            type="button"
+                            disabled={selectedSkus.size === 0}
+                            onClick={() => {
+                                setBulkOpen((prev) => !prev);
+                                setBulkPreview(null);
+                            }}
+                            data-testid="admin-bulk-open-btn"
+                            className="h-9 px-3.5 rounded-lg border border-[#11161B] bg-white hover:bg-[#11161B] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed text-[#11161B] font-bold cursor-pointer"
+                        >
+                            Masinis redagavimas ({selectedSkus.size})
+                        </button>
+                        {undoPayload && (
+                            <span
+                                data-testid="admin-bulk-undo-toast"
+                                className="inline-flex items-center gap-2 rounded-lg bg-[#FFF1D6] text-[#7A4A00] px-3 py-2 font-bold"
+                            >
+                                Paskutinis masinis keitimas aktyvus.
+                                <button
+                                    type="button"
+                                    onClick={handleBulkUndo}
+                                    data-testid="admin-bulk-undo-btn"
+                                    className="h-7 px-2.5 rounded-md border border-[#7A4A00] bg-white hover:bg-[#7A4A00] hover:text-white font-bold cursor-pointer"
+                                >
+                                    Anuliuoti
+                                </button>
+                            </span>
+                        )}
+                    </div>
+
+                    {bulkOpen && selectedSkus.size > 0 && (
+                        <div className="space-y-3 border-t border-[#E2DDD3] pt-3">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 items-end">
+                                <label className="flex flex-col gap-1 font-semibold">
+                                    Operacija
+                                    <select
+                                        value={bulkKind}
+                                        onChange={(e) => {
+                                            setBulkKind(e.target.value as BulkEditOperation['kind']);
+                                            setBulkPreview(null);
+                                        }}
+                                        className="h-9 px-2 rounded-lg border border-[#D5CFC3] bg-white font-semibold"
+                                    >
+                                        <option value="price_percent">Kainos pokytis (+/- %)</option>
+                                        <option value="price_set">Nustatyti kainą (€ su PVM)</option>
+                                        <option value="availability">Likutis (vnt.)</option>
+                                        <option value="category">Kategorija</option>
+                                    </select>
+                                </label>
+                                {bulkKind === 'price_percent' && (
+                                    <label className="flex flex-col gap-1 font-semibold">
+                                        Pokytis (%)
+                                        <input
+                                            type="number"
+                                            step="0.5"
+                                            value={bulkPercent}
+                                            onChange={(e) => {
+                                                setBulkPercent(Number(e.target.value));
+                                                setBulkPreview(null);
+                                            }}
+                                            data-testid="admin-bulk-percent-input"
+                                            className="h-9 px-2.5 rounded-lg border border-[#D5CFC3] bg-white font-bold"
+                                        />
+                                    </label>
+                                )}
+                                {bulkKind === 'price_set' && (
+                                    <label className="flex flex-col gap-1 font-semibold">
+                                        Kaina su PVM (€)
+                                        <input
+                                            type="number"
+                                            step="0.01"
+                                            value={bulkPriceSet}
+                                            onChange={(e) => {
+                                                setBulkPriceSet(Number(e.target.value));
+                                                setBulkPreview(null);
+                                            }}
+                                            className="h-9 px-2.5 rounded-lg border border-[#D5CFC3] bg-white font-bold"
+                                        />
+                                    </label>
+                                )}
+                                {bulkKind === 'availability' && (
+                                    <label className="flex flex-col gap-1 font-semibold">
+                                        Likutis (vnt.)
+                                        <input
+                                            type="number"
+                                            min={0}
+                                            value={bulkStock}
+                                            onChange={(e) => {
+                                                setBulkStock(Number(e.target.value));
+                                                setBulkPreview(null);
+                                            }}
+                                            className="h-9 px-2.5 rounded-lg border border-[#D5CFC3] bg-white font-bold"
+                                        />
+                                    </label>
+                                )}
+                                {bulkKind === 'category' && (
+                                    <label className="flex flex-col gap-1 font-semibold">
+                                        Kategorija
+                                        <input
+                                            type="text"
+                                            value={bulkCategory}
+                                            onChange={(e) => {
+                                                setBulkCategory(e.target.value);
+                                                setBulkPreview(null);
+                                            }}
+                                            className="h-9 px-2.5 rounded-lg border border-[#D5CFC3] bg-white"
+                                        />
+                                    </label>
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={handleBulkPreview}
+                                    data-testid="admin-bulk-preview-btn"
+                                    className="h-9 px-4 rounded-lg bg-[#11161B] hover:bg-[#C2410C] text-white font-bold cursor-pointer"
+                                >
+                                    Peržiūrėti pakeitimus
+                                </button>
+                            </div>
+
+                            {bulkPreview && (
+                                <div className="space-y-2" data-testid="admin-bulk-preview-table">
+                                    <div className="flex flex-wrap items-center gap-3 font-semibold text-[#11161B]">
+                                        <span>Peržiūra ({bulkPreview.diffs.length} SKU):</span>
+                                        <span className="text-[#0F5A2B]">
+                                            Taikytina: {bulkPreview.applicableCount}
+                                        </span>
+                                        {bulkPreview.blockedCount > 0 && (
+                                            <span className="text-[#8A2F07]">
+                                                Užblokuota maržos apsaugos (&lt;15%): {bulkPreview.blockedCount}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="space-y-1.5 max-h-56 overflow-y-auto">
+                                        {bulkPreview.diffs.map((d: BulkEditDiff) => (
+                                            <div
+                                                key={d.sku}
+                                                className={`rounded-lg border px-3 py-2 flex flex-wrap items-center gap-x-3 gap-y-1 ${
+                                                    d.blocked
+                                                        ? 'border-[#F3C9AE] bg-[#FBEADF] text-[#8A2F07]'
+                                                        : 'border-[#E2DDD3] bg-white text-[#11161B]'
+                                                }`}
+                                            >
+                                                <span className="font-mono font-bold shrink-0">{d.sku}</span>
+                                                <span className="min-w-0 flex-1 truncate">{d.name}</span>
+                                                <span className="shrink-0">
+                                                    {d.field === 'priceGrossEur' ? 'Kaina: ' : d.field === 'stockQuantity' ? 'Likutis: ' : 'Kategorija: '}
+                                                    {typeof d.before === 'number' ? d.before.toFixed(2) : d.before} →{' '}
+                                                    <strong>
+                                                        {typeof d.after === 'number' ? d.after.toFixed(2) : d.after}
+                                                    </strong>
+                                                </span>
+                                                {d.field === 'priceGrossEur' && (
+                                                    <span className={`shrink-0 font-bold ${d.blocked ? '' : 'text-[#0F5A2B]'}`}>
+                                                        {d.blocked
+                                                            ? `${d.marginAfterPct.toFixed(1)}% marža, užblokuota`
+                                                            : `marža ${d.marginBeforePct.toFixed(1)}% → ${d.marginAfterPct.toFixed(1)}%`}
+                                                    </span>
+                                                )}
+                                                {d.blocked && d.field !== 'priceGrossEur' && (
+                                                    <span className="shrink-0 font-bold">{d.blockReason}</span>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={handleBulkApply}
+                                        disabled={bulkPreview.applicableCount === 0}
+                                        data-testid="admin-bulk-apply-btn"
+                                        className="h-9 px-4 rounded-lg bg-[#157A3B] hover:bg-[#0F5A2B] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold cursor-pointer"
+                                    >
+                                        Taikyti ({bulkPreview.applicableCount} SKU)
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 {/* 4) Persistent Inline Product Editor Cards/Rows (Zero Horizontal Scroll on Mobile & Desktop) */}
@@ -805,6 +1290,14 @@ export function GilesAdminProductCrud() {
                             >
                                 <div className="lg:col-span-4 space-y-1">
                                     <div className="flex flex-wrap items-center gap-2">
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedSkus.has(row.sku)}
+                                            onChange={() => toggleSelected(row.sku)}
+                                            aria-label={`Pasirinkti ${row.sku} masiniam redagavimui`}
+                                            data-testid={`admin-bulk-row-${row.sku}`}
+                                            className="w-4 h-4 shrink-0"
+                                        />
                                         <span className="font-mono font-bold text-[#C2410C]">
                                             {row.sku}
                                         </span>
@@ -956,8 +1449,11 @@ export function GilesAdminProductCrud() {
                                 </div>
                             </div>
                         );
-                    })}
+                     })}
                 </div>
+
+                {/* W123-A1: chatter-style audit log */}
+                <AdminActivityLogPanel refreshKey={activityRefreshKey} />
             </div>
         </div>
     );

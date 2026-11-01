@@ -9,6 +9,12 @@ import {
     type CustomCatalogProductRecord,
 } from '../../../../lib/giles-catalog-snapshot';
 import { toBrandSlug, clearCatalogListingCache } from '../../../../lib/catalog-listing';
+import { filterActivityLog, readActivityLog } from '../../../../lib/admin-activity-log';
+import {
+    dryRunCsvImport,
+    type CsvColumnMapping,
+    type CsvCatalogLookupRow,
+} from '../../../../lib/admin-csv-import';
 
 export interface AdminCatalogProductRow {
     id: string;
@@ -140,6 +146,18 @@ function computeRow(
 
 export async function GET(req: Request) {
     const url = new URL(req.url);
+
+    // W123-A1: compact chatter-style audit feed for module 6 ("Veiksmų žurnalas").
+    if ((url.searchParams.get('activity') || '').trim() === '1') {
+        const entries = filterActivityLog(readActivityLog(), {
+            sku: url.searchParams.get('sku') || undefined,
+            actor: url.searchParams.get('actor') || undefined,
+            source: url.searchParams.get('source') || undefined,
+            limit: Math.min(200, Math.max(10, Number(url.searchParams.get('limit') || 200))),
+        });
+        return NextResponse.json({ ok: true, entries });
+    }
+
     const q = (url.searchParams.get('q') || '').trim().toLowerCase();
     const brand = (url.searchParams.get('brand') || '').trim().toLowerCase();
     const stockFilter = (url.searchParams.get('stock') || '').trim().toLowerCase();
@@ -347,7 +365,10 @@ export async function PATCH(req: Request) {
                 [normSku]: updatedOverride,
             },
         };
-        saveCatalogOverrides(nextStore);
+        saveCatalogOverrides(nextStore, {
+            actor: String(body.actor || 'Darius (Admin OS)'),
+            source: String(body.source || 'admin'),
+        });
         clearCatalogListingCache();
 
         const snap = getGilesCatalogSnapshot();
@@ -460,7 +481,10 @@ export async function POST(req: Request) {
                 ...store,
                 customProducts: [newProduct, ...filteredCustom],
             };
-            saveCatalogOverrides(nextStore);
+            saveCatalogOverrides(nextStore, {
+                actor: String(body.actor || 'Darius (Admin OS)'),
+                source: 'admin',
+            });
             clearCatalogListingCache();
 
             const snap = getGilesCatalogSnapshot();
@@ -490,7 +514,10 @@ export async function POST(req: Request) {
                     },
                 },
             };
-            saveCatalogOverrides(nextStore);
+            saveCatalogOverrides(nextStore, {
+                actor: String(body.actor || 'Darius (Admin OS)'),
+                source: 'admin-bulk',
+            });
             clearCatalogListingCache();
 
             const snap = getGilesCatalogSnapshot();
@@ -535,6 +562,9 @@ export async function POST(req: Request) {
             saveCatalogOverrides({
                 ...store,
                 overrides: nextOverrides,
+            }, {
+                actor: String(body.actor || 'Darius (Admin OS)'),
+                source: 'admin-bulk',
             });
             clearCatalogListingCache();
 
@@ -544,6 +574,225 @@ export async function POST(req: Request) {
                 brandSlug,
                 stockQuantity,
                 affectedCount: matching.length,
+            });
+        }
+
+        if (action === 'csv_import_dryrun') {
+            const rows = Array.isArray(body.rows) ? body.rows : [];
+            const mapping = (body.mapping || {}) as CsvColumnMapping;
+            if (!rows.length) {
+                return NextResponse.json(
+                    { ok: false, error: 'CSV eilučių nepavyko nuskaityti' },
+                    { status: 400 },
+                );
+            }
+
+            const snap = getGilesCatalogSnapshot();
+            const allList = snap.allProductsIncludingHidden || snap.products;
+            const overridesStore = readCatalogOverrides();
+            const catalogBySku = new Map<string, CsvCatalogLookupRow>();
+
+            for (const p of allList) {
+                const normSku = normalizeCode(p.sku);
+                if (!normSku) continue;
+                const override = overridesStore.overrides[normSku];
+                const raw = snap.rawById.get(p.id);
+                const gross =
+                    override?.priceGrossEur != null
+                        ? Number(override.priceGrossEur)
+                        : p.price > 0
+                          ? p.price
+                          : 45;
+                const net = gross / 1.21;
+                const cost =
+                    override?.costPriceEur != null
+                        ? Number(override.costPriceEur)
+                        : raw?.costCents != null && raw.costCents > 0
+                          ? raw.costCents / 100
+                          : Math.round(net * 0.68 * 100) / 100;
+                catalogBySku.set(normSku, {
+                    sku: p.sku,
+                    name: p.nameLt || p.name || p.sku,
+                    priceGrossEur: Math.round(gross * 100) / 100,
+                    costPriceEur: cost,
+                });
+            }
+            for (const cp of overridesStore.customProducts) {
+                const normSku = normalizeCode(cp.sku);
+                if (!normSku || catalogBySku.has(normSku)) continue;
+                catalogBySku.set(normSku, {
+                    sku: cp.sku,
+                    name: cp.name,
+                    priceGrossEur: cp.priceGrossEur,
+                    costPriceEur: cp.costPriceEur,
+                });
+            }
+
+            const result = dryRunCsvImport(rows, mapping, catalogBySku);
+            return NextResponse.json({
+                ok: result.ok,
+                error: result.error,
+                action: 'csv_import_dryrun',
+                rowsParsed: result.rowsParsed,
+                matchedCount: result.matchedCount,
+                newCount: result.newCount,
+                blockedCount: result.blockedCount,
+                deltas: result.deltas.slice(0, 100),
+            });
+        }
+
+        if (action === 'bulk_edit_apply') {
+            const edits = Array.isArray(body.edits) ? body.edits : [];
+            if (!edits.length) {
+                return NextResponse.json(
+                    { ok: false, error: 'Nėra eilučių masiniam redagavimui' },
+                    { status: 400 },
+                );
+            }
+            const actor = String(body.actor || 'Darius (Admin OS)');
+            const store = readCatalogOverrides();
+            const nextOverrides = { ...store.overrides };
+            const applied: Array<{ sku: string; priceGrossEur?: number; stockQuantity?: number; category?: string }> = [];
+            const nowIso = new Date().toISOString();
+
+            for (const edit of edits) {
+                const sku = String(edit?.sku || '').trim();
+                if (!sku) continue;
+                const normSku = normalizeCode(sku);
+                const existing = nextOverrides[normSku] || { sku };
+                const next: CatalogProductOverride = {
+                    ...existing,
+                    sku,
+                    ...(edit.priceGrossEur != null
+                        ? {
+                              priceGrossEur: Math.max(0.01, Math.round(Number(edit.priceGrossEur) * 100) / 100),
+                              price: Math.max(0.01, Math.round(Number(edit.priceGrossEur) * 100) / 100),
+                          }
+                        : {}),
+                    ...(edit.stockQuantity != null
+                        ? {
+                              stockQuantity: Math.max(0, Math.round(Number(edit.stockQuantity))),
+                              stock: Math.max(0, Math.round(Number(edit.stockQuantity))),
+                              inStock: Number(edit.stockQuantity) > 0,
+                          }
+                        : {}),
+                    ...(edit.category != null ? { category: String(edit.category).trim() } : {}),
+                    updatedAt: nowIso,
+                };
+                nextOverrides[normSku] = next;
+                applied.push({
+                    sku,
+                    ...(edit.priceGrossEur != null ? { priceGrossEur: next.priceGrossEur } : {}),
+                    ...(edit.stockQuantity != null ? { stockQuantity: next.stockQuantity } : {}),
+                    ...(edit.category != null ? { category: next.category } : {}),
+                });
+            }
+
+            saveCatalogOverrides(
+                { ...store, overrides: nextOverrides },
+                { actor, source: 'admin-bulk' },
+            );
+            clearCatalogListingCache();
+
+            return NextResponse.json({
+                ok: true,
+                action: 'bulk_edit_apply',
+                appliedCount: applied.length,
+                applied,
+            });
+        }
+
+        if (action === 'csv_import_apply') {
+            const rows = Array.isArray(body.rows) ? body.rows : [];
+            const supplierName = String(body.supplierName || 'Tiekėjo kainoraštis').trim();
+            const actor = String(body.actor || 'Darius (Admin OS)');
+            if (!rows.length) {
+                return NextResponse.json(
+                    { ok: false, error: 'Nėra eilučių importui' },
+                    { status: 400 },
+                );
+            }
+
+            const snap = getGilesCatalogSnapshot();
+            const allList = snap.allProductsIncludingHidden || snap.products;
+            const store = readCatalogOverrides();
+            const nextOverrides = { ...store.overrides };
+            const existingCustomSkus = new Set(
+                store.customProducts.map((cp) => normalizeCode(cp.sku)),
+            );
+            const newCustomProducts: CustomCatalogProductRecord[] = [];
+            const updatedSkus: string[] = [];
+            const createdSkus: string[] = [];
+            const nowIso = new Date().toISOString();
+
+            for (const row of rows) {
+                const sku = String(row?.sku || '').trim();
+                if (!sku) continue;
+                const normSku = normalizeCode(sku);
+                const priceGrossEur = Math.max(
+                    0.01,
+                    Math.round(Number(row.priceGrossEur || 0) * 100) / 100,
+                );
+                const stockQuantity = Math.max(0, Math.round(Number(row.stockQuantity ?? 0)));
+
+                const existsInCatalog =
+                    snap.bySkuNormalized.has(normSku) ||
+                    allList.some((p) => normalizeCode(p.sku) === normSku) ||
+                    existingCustomSkus.has(normSku);
+
+                if (existsInCatalog) {
+                    const existing = nextOverrides[normSku] || { sku };
+                    nextOverrides[normSku] = {
+                        ...existing,
+                        sku,
+                        priceGrossEur,
+                        price: priceGrossEur,
+                        ...(row.brandName ? { brandName: String(row.brandName).trim() } : {}),
+                        stockQuantity,
+                        stock: stockQuantity,
+                        inStock: stockQuantity > 0,
+                        updatedAt: nowIso,
+                    };
+                    updatedSkus.push(sku);
+                } else {
+                    const name = String(row.name || sku).trim();
+                    newCustomProducts.push({
+                        id: `custom-${normSku}`,
+                        sku,
+                        ean: String(row.ean || '4770001002027').trim(),
+                        name,
+                        brandName: String(row.brandName || 'Gilės Inžinerija').trim(),
+                        category: String(row.category || 'Katilinės įranga').trim(),
+                        priceGrossEur,
+                        costPriceEur: Math.max(0, Math.round((priceGrossEur / 1.21) * 0.65 * 100) / 100),
+                        stockQuantity,
+                        published: true,
+                        description: `${name} (${sku}) – importuota iš ${supplierName} kainoraščio.`,
+                        imageUrl: '/images/products/giles-studio-01-mpb-nani-35-50.webp',
+                        createdAt: nowIso,
+                    });
+                    createdSkus.push(sku);
+                }
+            }
+
+            saveCatalogOverrides(
+                {
+                    ...store,
+                    overrides: nextOverrides,
+                    customProducts: [...newCustomProducts, ...store.customProducts],
+                },
+                { actor, source: 'csv-import' },
+            );
+            clearCatalogListingCache();
+
+            return NextResponse.json({
+                ok: true,
+                action: 'csv_import_apply',
+                supplierName,
+                updatedCount: updatedSkus.length,
+                createdCount: createdSkus.length,
+                updatedSkus,
+                createdSkus,
             });
         }
 

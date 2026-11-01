@@ -29,6 +29,8 @@ import { GilesAdminProductCrud } from '../../../components/giles-admin-product-c
 import { GilesAdminInvoiceBuilder } from '../../../components/giles-admin-invoice-builder';
 import { GilesAdminSuppliersManager } from '../../../components/giles-admin-suppliers-and-agents';
 import { GilesAdminAuthBar } from '../../../components/giles-admin-auth-bar';
+import { AdminCommandPalette } from '../../../components/admin-command-palette';
+import { AdminCsvImportWizard } from '../../../components/admin-csv-import-wizard';
 
 const ADMIN_HEADER_THUMBS = [
     { src: '/images/brands/giles-inzinerija.svg', label: 'Gilės B2B patvirtinimai' },
@@ -38,6 +40,20 @@ const ADMIN_HEADER_THUMBS = [
     { src: '/images/brands/haier.svg', label: 'Haier ŠVOK kainynas' },
     { src: '/images/brands/gorenje.svg', label: 'Gorenje / TIKI likučiai' },
 ];
+
+// W123-A1: single tab registry shared by the nav grid and the command palette.
+const ADMIN_TAB_DEFS = [
+    { id: 'overview', testId: 'admin-tab-overview', label: '1. Suvestinė' },
+    { id: 'support', testId: 'admin-tab-support', label: '2. Servisas (S/N)' },
+    { id: 'orders', testId: 'admin-tab-orders', label: '3. Užsakymai' },
+    { id: 'b2b', testId: 'admin-tab-b2b', label: '4. B2B' },
+    { id: 'skaita', testId: 'admin-tab-skaita', label: '5. „Skaita“ ERP' },
+    { id: 'catalog', testId: 'admin-tab-catalog', label: '6. Kainynai (5)' },
+    { id: 'projects', testId: 'admin-tab-projects', label: '7. Vedlio CRM' },
+    { id: 'agents', testId: 'admin-tab-agents', label: '8. AI Agentai' },
+    { id: 'integrations', testId: 'admin-tab-integrations', label: '9. Integracijos (14)' },
+    { id: 'mcp', testId: 'admin-tab-mcp', label: '10. MCP (Claude)' },
+] as const;
 
 export default function GilesAdminAndSkaitaErpPage() {
     const [activeTab, setActiveTab] = useState<GilesAdminTabId>('b2b');
@@ -257,66 +273,19 @@ export default function GilesAdminAndSkaitaErpPage() {
                     />
 
                     <div className="space-y-2">
-                        <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">
-                            Gilės Inžinerijos ir „Skaita“ ERP
-                        </h1>
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                            <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">
+                                Gilės Inžinerijos ir „Skaita“ ERP
+                            </h1>
+                            <AdminCommandPalette
+                                tabs={ADMIN_TAB_DEFS.map((t) => ({ id: t.id, label: t.label }))}
+                                onNavigateTab={(id) => setActiveTab(id as GilesAdminTabId)}
+                            />
+                        </div>
 
                         {/* 10-Module Admin OS Navigation */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5">
-                            {(
-                                [
-                                    {
-                                        id: 'overview' as const,
-                                        testId: 'admin-tab-overview',
-                                        label: '1. Suvestinė',
-                                    },
-                                    {
-                                        id: 'support' as const,
-                                        testId: 'admin-tab-support',
-                                        label: '2. Servisas (S/N)',
-                                    },
-                                    {
-                                        id: 'orders' as const,
-                                        testId: 'admin-tab-orders',
-                                        label: '3. Užsakymai',
-                                    },
-                                    {
-                                        id: 'b2b' as const,
-                                        testId: 'admin-tab-b2b',
-                                        label: `4. B2B (${accounts.filter((a) => a.status === 'PENDING_APPROVAL').length})`,
-                                    },
-                                    {
-                                        id: 'skaita' as const,
-                                        testId: 'admin-tab-skaita',
-                                        label: '5. „Skaita“ ERP',
-                                    },
-                                    {
-                                        id: 'catalog' as const,
-                                        testId: 'admin-tab-catalog',
-                                        label: '6. Kainynai (5)',
-                                    },
-                                    {
-                                        id: 'projects' as const,
-                                        testId: 'admin-tab-projects',
-                                        label: '7. Vedlio CRM',
-                                    },
-                                    {
-                                        id: 'agents' as const,
-                                        testId: 'admin-tab-agents',
-                                        label: '8. AI Agentai',
-                                    },
-                                    {
-                                        id: 'integrations' as const,
-                                        testId: 'admin-tab-integrations',
-                                        label: '9. Integracijos (14)',
-                                    },
-                                    {
-                                        id: 'mcp' as const,
-                                        testId: 'admin-tab-mcp',
-                                        label: '10. MCP (Claude)',
-                                    },
-                                ] as const
-                            ).map((tab) => (
+                            {ADMIN_TAB_DEFS.map((tab) => (
                                 <button
                                     key={tab.id}
                                     type="button"
@@ -328,7 +297,9 @@ export default function GilesAdminAndSkaitaErpPage() {
                                             : 'border-[#2C3742] text-[#C9D0D8] hover:text-white'
                                     }`}
                                 >
-                                    {tab.label}
+                                    {tab.id === 'b2b'
+                                        ? `${tab.label} (${accounts.filter((a) => a.status === 'PENDING_APPROVAL').length})`
+                                        : tab.label}
                                 </button>
                             ))}
                         </div>
@@ -815,6 +786,7 @@ export default function GilesAdminAndSkaitaErpPage() {
                 {activeTab === 'catalog' && (
                     <section className="space-y-5">
                         <GilesAdminSuppliersManager />
+                        <AdminCsvImportWizard />
                         <GilesAdminProductCrud />
                     </section>
                 )}
