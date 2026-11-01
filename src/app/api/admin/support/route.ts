@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import fs from 'node:fs';
 import path from 'node:path';
 import { createAutonomousSkaitaInvoice } from '../../../../lib/skaita-accounting';
+import { vitestDataFile } from '../../../../lib/giles-data-paths';
 
 export type SupportTicketStatus =
     | 'Naujas'
@@ -69,7 +70,10 @@ interface SupportDatabaseShape {
     rmaQueue: RmaQueueRecord[];
 }
 
-const SUPPORT_DB_PATH = path.join(process.cwd(), 'src', 'data', 'support-tickets.json');
+// W125-F1: vitest metu dispečerinė rašoma į /tmp, ne į gyvą src/data failą.
+const SUPPORT_DB_PATH = process.env.VITEST
+    ? vitestDataFile('support-db')
+    : path.join(process.cwd(), 'src', 'data', 'support-tickets.json');
 
 let memorySupportDb: SupportDatabaseShape | null = null;
 let ticketSeq = 1;

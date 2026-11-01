@@ -41,8 +41,8 @@ export function Footer(_props: { settings?: StorefrontSettings }) {
                 height={44}
                 className="hidden"
             />
-            <div className="mx-auto max-w-7xl px-4 md:px-6 pt-12 pb-8 space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+            <div className="mx-auto max-w-7xl px-4 md:px-6 pt-6 pb-5 space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
                     {/* Column 1: Patented Original Logo & Legal Entity Details */}
                     <div className="lg:col-span-4 space-y-3">
                         <Link href={`/${locale}`} className="inline-flex items-center whitespace-nowrap">
@@ -93,7 +93,7 @@ export function Footer(_props: { settings?: StorefrontSettings }) {
                     {/* Column 2: Parduotuvė (HVAC_SYSTEM_GROUPS) */}
                     <div className="lg:col-span-3 space-y-2">
                         <h3 className="font-semibold text-white text-sm">{storeHeading}</h3>
-                        <ul className="space-y-1.5 text-xs text-[#C9D0D8]">
+                        <ul className="space-y-1 text-xs text-[#C9D0D8]">
                             {HVAC_SYSTEM_GROUPS.slice(0, 6).map((group) => {
                                 const localizedGroupTitle = localizeCategoryLabel(
                                     group.title,
@@ -116,7 +116,7 @@ export function Footer(_props: { settings?: StorefrontSettings }) {
                     {/* Column 3: Sprendimai (Artboard #1 Footer) */}
                     <div className="lg:col-span-3 space-y-2">
                         <h3 className="font-semibold text-white text-sm">{copy.solutionsHeading}</h3>
-                        <ul className="space-y-1.5 text-xs text-[#C9D0D8]">
+                        <ul className="space-y-1 text-xs text-[#C9D0D8]">
                             <li>
                                 <Link href={`/${locale}/vedlys`} className="hover:text-white whitespace-nowrap">
                                     {copy.wizardLink}
@@ -158,7 +158,7 @@ export function Footer(_props: { settings?: StorefrontSettings }) {
                     {/* Column 4: Pirkėjams (Artboard #1 Footer) */}
                     <div className="lg:col-span-2 space-y-2">
                         <h3 className="font-semibold text-white text-sm">{copy.buyersHeading}</h3>
-                        <ul className="space-y-1.5 text-xs text-[#C9D0D8]">
+                        <ul className="space-y-1 text-xs text-[#C9D0D8]">
                             <li>
                                 <Link href={`/${locale}/pristatymas-ir-grazinimas`} className="hover:text-white whitespace-nowrap">
                                     {copy.deliveryLink}

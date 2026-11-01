@@ -18,6 +18,7 @@ import {
 import { getVedlysWizardCatalog } from './vedlys-catalog';
 import { fmtEurKit, netFromGrossLines, kitCodeToWizardConfig, boilerSlugForBurner } from './vedlys-wizard';
 import { validateServiceRequest } from './inzinerija-v2/service-request';
+import { vitestDataFile } from './giles-data-paths';
 import { buildSeoGeoKnowledgeGraph } from './seo-geo-authority';
 import { calculateBoilerRentalDeal } from './instant-deal-config';
 import { DEAL_COPY } from '../components/instant-deal-drawer';
@@ -252,7 +253,8 @@ describe('SEC: service-request config baltaširmas', () => {
         );
         expect(res.status).toBe(200);
         const fs = await import('node:fs');
-        const stored = JSON.parse(fs.readFileSync('src/data/service-requests.json', 'utf8'));
+        // W125-F1: maršrutas vitest metu rašo į /tmp kelią, ne į gyvą src/data failą.
+        const stored = JSON.parse(fs.readFileSync(vitestDataFile('service-requests'), 'utf8'));
         const arr = Array.isArray(stored) ? stored : stored.requests;
         const mine = arr[arr.length - 1];
         expect(mine.source_page).toBe('vedlys');
@@ -262,7 +264,7 @@ describe('SEC: service-request config baltaširmas', () => {
         expect(mine.config.lines).toHaveLength(24);
         // švarinam testo įrašą
         const cleaned = arr.filter((e: { id?: string }) => e.id !== mine.id);
-        fs.writeFileSync('src/data/service-requests.json', `${JSON.stringify(Array.isArray(stored) ? cleaned : { ...stored, requests: cleaned }, null, 2)}\n`);
+        fs.writeFileSync(vitestDataFile('service-requests'), `${JSON.stringify(Array.isArray(stored) ? cleaned : { ...stored, requests: cleaned }, null, 2)}\n`);
     });
 });
 

@@ -4,7 +4,7 @@
 // Skaičiavimai – src/lib/vedlys-calc.ts (savininko patikrinta logika);
 // kainos – tik iš katalogo per serverinį getVedlysWizardCatalog().
 
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -83,11 +83,25 @@ function WizardInner({ rules, prices, lines, assumptions, kitCodes }: BoilerConv
     const [leadSending, setLeadSending] = useState<boolean>(false);
     const [leadTicket, setLeadTicket] = useState<string | null>(null);
     const [leadNetworkError, setLeadNetworkError] = useState<boolean>(false);
+    // W125-F1: pasirinkimo atsiliepimas turi matytis ir telefone; po keitimo
+    // pakeliame jį į ekraną, kad įvykis niekada nevyktų „niekur“.
+    const boilerChoiceRef = useRef<HTMLParagraphElement>(null);
+    const lastBoilerRef = useRef<string | null>(null);
 
     useEffect(() => {
         setBoilerSlug(initialBoiler);
         if (kitCfg) setBunkerL(kitCfg.bunkerL);
     }, [initialBoiler, kitCfg]);
+
+    useEffect(() => {
+        if (lastBoilerRef.current === null) {
+            lastBoilerRef.current = boilerSlug;
+            return;
+        }
+        if (lastBoilerRef.current === boilerSlug) return;
+        lastBoilerRef.current = boilerSlug;
+        boilerChoiceRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }, [boilerSlug]);
 
     const kw = designKw(rules, areaM2, building);
     const input: WizardInput = { boiler: boilerSlug, area_m2: areaM2, building, fuel_now: fuelNow, bunker_l: bunkerL, wifi, install };
@@ -216,7 +230,11 @@ function WizardInner({ rules, prices, lines, assumptions, kitCodes }: BoilerConv
                         </div>
                     )}
                     {boiler && (
-                        <p className="mt-3 hidden sm:block text-sm font-semibold text-[#11161B]" data-testid="boiler-choice">
+                        <p
+                            key={boiler.slug}
+                            ref={boilerChoiceRef}
+                            className="mt-3 text-sm font-semibold text-[#11161B]" data-testid="boiler-choice"
+                        >
                             {boiler.label} · {boiler.kind} · {boiler.range_kw[0]}–{boiler.range_kw[1]} kW
                             {boiler.flange_sku ? <> · flanšas {boiler.flange_sku}</> : null}
                         </p>
@@ -279,7 +297,7 @@ function WizardInner({ rules, prices, lines, assumptions, kitCodes }: BoilerConv
                             </button>
                         ))}
                     </div>
-                    <p className="mt-3 text-sm font-bold text-[#11161B]" data-testid="wizard-kw">
+                    <p key={kw} className="mt-3 text-sm font-bold text-[#11161B]" data-testid="wizard-kw">
                         Reikalinga galia ≈ {kw} kW
                     </p>
                     {(tooSmall || noBurner) && boiler && (
@@ -321,6 +339,9 @@ function WizardInner({ rules, prices, lines, assumptions, kitCodes }: BoilerConv
                             );
                         })}
                     </div>
+                    <p key={bunkerL} className="mt-3 text-sm font-bold text-[#11161B]" data-testid="bunker-choice">
+                        Pasirinkta: {bunkerL} l bunkeris · ≈ {autonomy.avg} d. vidutiniškai · ≈ {autonomy.cold} d. per šalčius
+                    </p>
                     <div className="mt-3 space-y-2">
                         <label className="flex items-center gap-3 rounded-lg border border-[#D5CFC3] px-4 py-3 cursor-pointer text-sm font-semibold text-[#2A323B]">
                             <input type="checkbox" checked={wifi} onChange={(e) => setWifi(e.target.checked)} className="w-4 h-4 accent-[#C2410C] cursor-pointer" />

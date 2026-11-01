@@ -306,7 +306,7 @@ export function BoilerRentalDealFlow({
         <section
             id={id}
             data-testid="boiler-rental-deal-flow"
-            className="scroll-mt-24 bg-[#F5F3EE] py-12 sm:py-16"
+            className="scroll-mt-24 bg-[#F5F3EE] py-7 sm:py-16"
             aria-labelledby="rental-deal-title"
         >
             <div className="mx-auto max-w-6xl px-4">
@@ -430,7 +430,7 @@ export function BoilerRentalDealFlow({
                             </div>
                         </fieldset>
                     </div>
-                    <aside data-testid="rental-summary" className="rounded-xl bg-[#11161B] text-[#F5F3EE] p-5 sm:p-6 lg:sticky lg:top-24">
+                    <aside data-testid="rental-summary" className="rounded-xl bg-[#11161B] text-[#F5F3EE] p-4 sm:p-6 lg:sticky lg:top-24">
                         <p className="text-xs font-bold text-[#FF8A3D]">{deal.sku}</p>
                         <h3 className="mt-1 text-lg font-extrabold leading-snug">{deal.powerLabel}</h3>
                         <dl className="mt-4 space-y-2 text-sm">

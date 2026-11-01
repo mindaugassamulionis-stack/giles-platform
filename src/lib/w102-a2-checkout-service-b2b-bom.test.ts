@@ -11,6 +11,7 @@ import {
     computeClientSafeQuoteSummary,
 } from '../components/b2b-bom-and-client-quote';
 import * as supportRoute from '../app/api/admin/support/route';
+import { vitestDataFile } from './giles-data-paths';
 
 describe('WP-W102-A2: Smart Checkout Delivery (P05), Cart Compatibility Guard (P02), Public Orders/S-N/RMA Portal (P06) & B2B Bulk BOM + Client Quote (P09/P10)', () => {
     const repoRoot = path.resolve(__dirname, '../..');
@@ -114,7 +115,8 @@ describe('WP-W102-A2: Smart Checkout Delivery (P05), Cart Compatibility Guard (P
         expect(ordersSrc).toContain('pl:');
         expect(ordersSrc).toContain('ru:');
 
-        const supportTicketsFile = path.join(repoRoot, 'src/data/support-tickets.json');
+        // W125-F1: maršrutas vitest metu rašo į /tmp kelią; gyvas failas lieka nepaliestas.
+        const supportTicketsFile = vitestDataFile('support-db');
         const originalSupportJson = fs.existsSync(supportTicketsFile)
             ? fs.readFileSync(supportTicketsFile, 'utf8')
             : null;

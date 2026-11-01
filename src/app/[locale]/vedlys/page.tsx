@@ -58,6 +58,16 @@ const FAQ_ITEMS = [
     },
 ];
 
+// W125-F1: realios studio / katalogo nuotraukos – komplekto dalys, kurias vedlys parenka.
+const HERO_PARTS = [
+    { src: '/studio-assets/products/giles-studio-01-mpb-nani-35-50.webp', alt: 'Granulių degiklis Megatherm MPB NANI 35 / 50' },
+    { src: '/studio-assets/products/giles-studio-04-viadrus-conversion-kit.webp', alt: 'Viadrus katilo perdarymo į granulinį komplektas' },
+    { src: '/studio-assets/products/giles-studio-06-megatherm-burner-kit.webp', alt: 'Megatherm granulių degiklio komplektas su sraigtu' },
+    { src: '/studio-assets/products/giles-studio-28-pneumatic-pellet-storage-silo.webp', alt: 'Granulių bunkeris 400–1200 l su vakuaminės padavimo sistema' },
+    { src: '/studio-assets/products/giles-studio-30-ecomax-920i-automation.webp', alt: 'Katilinės valdiklis ecoMAX 920i su jutikliniu ekranu' },
+    { src: '/images/products/giles-sfl-kieto-kuro-katilas-giles-inziner-613d4731.webp', alt: 'Kieto kuro katilas Gilės SFL' },
+];
+
 export default async function VedlysPage({ params }: Params) {
     const { locale: rawLocale } = await params;
     const locale = resolveAppLocale(rawLocale);
@@ -123,6 +133,20 @@ export default async function VedlysPage({ params }: Params) {
                         Skambinti inžinieriui: +370 611 19158
                         </a>
                     </div>
+                    <p className="mt-6 text-xs font-semibold text-[#A3ADB8]">Komplekto dalys, kurias vedlys parenka:</p>
+                    <ul className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-6" aria-label="Komplekto dalių nuotraukos">
+                        {HERO_PARTS.map((part) => (
+                            <li key={part.src}>
+                                <img
+                                    src={part.src}
+                                    alt={part.alt}
+                                    width={176}
+                                    height={96}
+                                    className="h-20 w-full rounded-md object-cover sm:h-24"
+                                />
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </section>
 

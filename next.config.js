@@ -20,6 +20,9 @@ dotenv.config({ path: path.join(repoRoot, '.env') });
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     output: 'standalone',
+    // W125-F1: NEXT_DIST_DIR leidžia pastatyti izoliuotą buildą (pvz. .next-w125)
+    // nepaliečiant .next, iš kurio tuo metu sukasi gamybinis serveris.
+    distDir: process.env.NEXT_DIST_DIR || '.next',
     // WP2-SURADAI: pin the workspace root. A stray /home/mindu/package-lock.json
     // made Next infer /home/mindu as the root, so `next build` and `next start`
     // disagreed about where .next lives (build wrote it in the app dir, start

@@ -2,11 +2,15 @@ import { NextResponse } from 'next/server';
 import fs from 'node:fs';
 import path from 'node:path';
 import { validateServiceRequest, isWorkingHours } from '../../../lib/inzinerija-v2/service-request';
+import { vitestDataFile } from '../../../lib/giles-data-paths';
 
 // Kliento serviso užklausos taškas. Vidinė integracija su dispečerine
 // (src/data/support-tickets.json per /api/admin/support) atliekama serveryje;
 // kliento sąsajoje šis kelias niekada nerodomas.
-const REQUESTS_PATH = path.join(process.cwd(), 'src', 'data', 'service-requests.json');
+// W125-F1: vitest metu rašoma į /tmp, kad suite neterštų gyvų duomenų.
+const REQUESTS_PATH = process.env.VITEST
+    ? vitestDataFile('service-requests')
+    : path.join(process.cwd(), 'src', 'data', 'service-requests.json');
 
 interface StoredRequest {
     id: string;
@@ -144,21 +148,24 @@ export async function POST(request: Request) {
     }));
 
     // Vidinis perdavimas į dispečerinę (ne klientui matomas). Klaida neblokuoja atsakymo.
-    try {
-        await fetch(new URL('/api/admin/support', request.url), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                title: `Serviso užklausa ${id}: ${stored.name}, ${stored.model || 'modelis nenurodytas'}`,
-                ticketType: stored.urgency === 'urgent' ? 'SKUBUS (šildymas sustojęs)' : 'Garantinis servisas',
-                priority: stored.urgency === 'urgent' ? 'SKUBUS (šildymas sustojęs)' : 'PLANINIS',
-                clientName: stored.name,
-                clientPhone: stored.phone,
-                serialNumber: stored.error_code || stored.model || 'MPB-SN-PATIKRA',
-            }),
-        });
-    } catch {
-        // dispečerinė nepasiekiama vietinėje testų aplinkoje
+    // W125-F1: vitest metu fetch pasiektų gyvą 3088 serverį ir užterštų jo duomenis – praleidžiama.
+    if (!process.env.VITEST) {
+        try {
+            await fetch(new URL('/api/admin/support', request.url), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: `Serviso užklausa ${id}: ${stored.name}, ${stored.model || 'modelis nenurodytas'}`,
+                    ticketType: stored.urgency === 'urgent' ? 'SKUBUS (šildymas sustojęs)' : 'Garantinis servisas',
+                    priority: stored.urgency === 'urgent' ? 'SKUBUS (šildymas sustojęs)' : 'PLANINIS',
+                    clientName: stored.name,
+                    clientPhone: stored.phone,
+                    serialNumber: stored.error_code || stored.model || 'MPB-SN-PATIKRA',
+                }),
+            });
+        } catch {
+            // dispečerinė nepasiekiama vietinėje testų aplinkoje
+        }
     }
 
     return NextResponse.json({ ok: true, id }, { status: 200 });

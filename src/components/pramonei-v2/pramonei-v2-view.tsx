@@ -200,9 +200,9 @@ export function RfqSection({
     };
 
     return (
-        <section id="industrial-rfq" className="py-12 sm:py-16">
+        <section id="industrial-rfq" className="py-7 sm:py-16">
             <div className="mx-auto max-w-7xl px-4 sm:px-6">
-                <div className="rounded-2xl bg-[#0E1216] text-[#F5F3EE] p-6 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <div className="rounded-2xl bg-[#0E1216] text-[#F5F3EE] p-5 sm:p-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     <div className="lg:col-span-5 space-y-4">
                         <span className="text-xs font-bold tracking-wider uppercase text-[#FF8A3D] block">
                             {content.rfq.eyebrow}
@@ -556,9 +556,9 @@ export function RoiCalculatorSection({
         min === max ? `${min}\u00A0€/MWh` : `${min}–${max}\u00A0€/MWh`;
 
     return (
-        <section id="skaiciuokle" className="pt-8 sm:pt-16">
+        <section id="skaiciuokle" className="pt-6 sm:pt-16">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
-                <div className="lg:col-span-7 flex flex-col gap-4 sm:gap-5 p-4 sm:p-8 rounded-2xl bg-white border border-[#E2DDD3]">
+                <div className="lg:col-span-7 flex flex-col gap-3 sm:gap-5 p-4 sm:p-8 rounded-2xl bg-white border border-[#E2DDD3]">
                     <div className="space-y-1.5">
                         <span className="text-xs font-bold text-[#C2410C] block">
                             {content.roi.eyebrow}
@@ -684,7 +684,7 @@ export function RoiCalculatorSection({
                     </p>
                 </div>
 
-                <div className="lg:col-span-5 flex flex-col gap-3 sm:gap-4 p-4 sm:p-8 rounded-2xl bg-[#0E1216] text-[#F5F3EE]">
+                <div className="lg:col-span-5 flex flex-col gap-2.5 sm:gap-4 p-4 sm:p-8 rounded-2xl bg-[#0E1216] text-[#F5F3EE]">
                     <div className="flex items-center justify-between gap-2 text-xs font-bold text-[#FF8A3D]">
                         <span>
                             {content.roi.result_labels.eyebrow.split('{model}')[0]}
@@ -890,7 +890,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
 
             {/* 1. Hero */}
             <section className="bg-[#0E1216] text-[#F5F3EE]">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-5 pb-8 sm:pb-12 space-y-5">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-5 pb-5 sm:pb-12 space-y-4">
                     <nav aria-label="Kelias" className="flex items-center gap-2 text-xs text-[#8E99A5]">
                         <Link href={`/${locale}`} className="hover:text-[#F5F3EE]">
                             {content.breadcrumb[0]}
@@ -926,7 +926,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
                                 </a>
                             </div>
 
-                            <dl className="grid grid-cols-3 gap-3 pt-3 border-t border-[#26313B]">
+                            <dl className="grid grid-cols-3 gap-3 pt-2 border-t border-[#26313B]">
                                 {content.hero.facts.map((fact) => (
                                     <div key={fact.label} className="flex flex-col gap-0.5">
                                         <dt className="order-2 text-xs text-[#8E99A5]">
@@ -947,7 +947,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
                                 width={960}
                                 height={600}
                                 fetchPriority="high"
-                                className="w-full h-56 sm:h-72 object-cover block brightness-105 contrast-105"
+                                className="w-full h-44 sm:h-72 object-cover block brightness-105 contrast-105"
                             />
                             <figcaption className="flex flex-wrap items-center justify-between gap-2 px-4 py-2.5 bg-[#151C23] text-[#F5F3EE] text-xs">
                                 <span>
@@ -981,7 +981,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
             </section>
 
             {/* 2. Trys keliai */}
-            <section className="pt-8 sm:pt-10">
+            <section className="pt-6 sm:pt-10">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
                         {content.paths.map((p) => {
@@ -998,7 +998,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
                                         const el = document.getElementById('modeliai');
                                         if (el) el.scrollIntoView({ behavior: 'auto', block: 'start' });
                                     }}
-                                    className={`p-5 rounded-xl border-2 bg-transparent text-left cursor-pointer flex flex-col gap-2 transition ${
+                                    className={`py-3 px-4 rounded-xl border-2 bg-transparent text-left cursor-pointer flex flex-col gap-2 transition ${
                                         active
                                             ? 'border-[#C2410C]'
                                             : 'border-[#D5CFC3] hover:border-[#C2410C]'
@@ -1024,8 +1024,8 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
             </section>
 
             {/* 3. Modelių lentelė */}
-            <section id="modeliai" className="pt-10 sm:pt-14 scroll-mt-24">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-5">
+            <section id="modeliai" className="pt-6 sm:pt-14 scroll-mt-24">
+                <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-4">
                     <div className="flex flex-wrap items-end justify-between gap-4">
                         <div className="space-y-1.5">
                             <span className="text-xs font-bold text-[#C2410C] block">
@@ -1160,9 +1160,9 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
                                     return (
                                         <tr
                                             key={m.slug}
-                                            className={`block md:table-row py-3 px-3 md:p-0 hover:bg-[#FAF8F4] transition ${mIdx >= 5 && !allModelsVisible ? 'max-md:hidden' : ''}`}
+                                            className={`block md:table-row py-1.5 px-3 md:p-0 hover:bg-[#FAF8F4] transition ${mIdx >= 5 && !allModelsVisible ? 'max-md:hidden' : ''}`}
                                         >
-                                            <td className="block md:table-cell py-1.5 md:py-3 md:px-4">
+                                            <td className="block md:table-cell py-0.5 md:py-3 md:px-4">
                                                 <div className="flex items-center gap-3.5">
                                                     {m.image ? (
                                                         <img
@@ -1291,8 +1291,8 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
             <InstantDealDrawerMount locale={locale} />
 
             {/* 4. Sandara */}
-            <section className="pt-8 sm:pt-16">
-                <div className="bg-[#0E1216] text-[#F5F3EE] py-12 sm:py-16">
+            <section className="pt-6 sm:pt-16">
+                <div className="bg-[#0E1216] text-[#F5F3EE] py-8 sm:py-16">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-8">
                         <div className="flex flex-wrap items-end justify-between gap-4">
                             <div className="space-y-2 max-w-2xl">
@@ -1315,7 +1315,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
                             {content.assemblies.items.map((item) => (
                                 <li
                                     key={item.tag}
-                                    className="flex flex-col gap-2.5 p-5 rounded-xl bg-[#151C23] border border-[#26313B]"
+                                    className="flex flex-col gap-2.5 p-3.5 rounded-xl bg-[#151C23] border border-[#26313B]"
                                 >
                                     <span className="text-xs font-bold text-[#FF8A3D]">
                                         {item.tag}
@@ -1337,7 +1337,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
             <RoiCalculatorSection locale={locale} showAssumptions={showAssumptions} />
 
             {/* 6. Projektai */}
-            <section id="projektai" className="pt-8 sm:pt-16">
+            <section id="projektai" className="pt-6 sm:pt-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6">
                     <div className="flex flex-wrap items-end justify-between gap-4">
                         <div className="space-y-1.5">
@@ -1430,7 +1430,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
             </section>
 
             {/* 7. Eiga ir dokumentai */}
-            <section className="pt-8 sm:pt-16">
+            <section className="pt-6 sm:pt-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                     <div className="lg:col-span-7 space-y-4">
                         <span className="text-xs font-bold text-[#C2410C] block">
@@ -1479,7 +1479,7 @@ export function PramoneiV2View({ locale }: { locale: AppLocale }) {
             </section>
 
             {/* 8. DUK */}
-            <section className="pt-8 sm:pt-16">
+            <section className="pt-6 sm:pt-16">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-4">
                     <h2 className="text-2xl sm:text-3xl font-extrabold text-[#11161B] leading-tight text-balance">
                         {content.faq.title}
