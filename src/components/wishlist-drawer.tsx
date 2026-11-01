@@ -12,6 +12,8 @@ import { assetUrl } from '../lib/api';
 import { resolveAppLocale } from '../i18n/storefront-ui-copy';
 import type { AppLocale } from '../i18n/routing';
 import { formatEurAmount } from '../lib/format';
+import { PRICE_REQUEST_COPY } from '../lib/w121-honest-commerce';
+import { PriceRequestCta } from './price-request-cta';
 
 export const WISHLIST_DRAWER_I18N: Record<
     AppLocale,
@@ -140,6 +142,7 @@ export function WishlistDrawer() {
             sku: item.sku || item.id,
             quantity: 1,
             image: item.image,
+            priceOnRequest: item.priceOnRequest,
         });
         closeWishlist();
         openCart();
@@ -155,6 +158,7 @@ export function WishlistDrawer() {
                 sku: item.sku || item.id,
                 quantity: 1,
                 image: item.image,
+                priceOnRequest: item.priceOnRequest,
             });
         }
         closeWishlist();
@@ -225,9 +229,12 @@ export function WishlistDrawer() {
                         </div>
                     ) : (
                         items.map((item) => {
+                            const priceless = item.priceOnRequest === true || !(Number(item.price) > 0);
                             const unitGross = Number(item.price || 0);
                             const displayedPrice = showNet ? unitGross / 1.21 : unitGross;
-                            const formattedPrice = `${formatEurAmount(displayedPrice)} €`;
+                            const formattedPrice = priceless
+                                ? PRICE_REQUEST_COPY[locale].onRequestLabel
+                                : `${formatEurAmount(displayedPrice)} €`;
 
                             return (
                                 <div
@@ -281,15 +288,24 @@ export function WishlistDrawer() {
                                             </div>
 
                                             <div className="flex items-center gap-1.5">
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleAddSingle(item)}
-                                                    data-testid={`wishlist-add-to-cart-${item.sku || item.id}`}
-                                                    className="inline-flex items-center gap-1 bg-[#11161B] hover:bg-[#C2410C] px-2.5 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer"
-                                                >
-                                                    <ShoppingCart className="h-3 w-3" />
-                                                    <span>{copy.addToCart}</span>
-                                                </button>
+                                                {priceless ? (
+                                                    <PriceRequestCta
+                                                        sku={item.sku || item.id}
+                                                        title={item.name}
+                                                        compact
+                                                        testId={`wishlist-request-price-${item.sku || item.id}`}
+                                                    />
+                                                ) : (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleAddSingle(item)}
+                                                        data-testid={`wishlist-add-to-cart-${item.sku || item.id}`}
+                                                        className="inline-flex items-center gap-1 bg-[#11161B] hover:bg-[#C2410C] px-2.5 py-1.5 text-xs font-bold text-white transition-colors cursor-pointer"
+                                                    >
+                                                        <ShoppingCart className="h-3 w-3" />
+                                                        <span>{copy.addToCart}</span>
+                                                    </button>
+                                                )}
                                                 <button
                                                     type="button"
                                                     onClick={() => removeItem(item.id)}

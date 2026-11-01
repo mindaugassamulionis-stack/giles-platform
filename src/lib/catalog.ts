@@ -34,6 +34,11 @@ export interface CatalogProduct {
     categoryId: string | null;
     brand?: string;
     ean?: string | null;
+    /** W121-A1 honest-commerce contract (optional on legacy/DB rows). */
+    priceEur?: number | null;
+    priceOnRequest?: true;
+    availability?: 'in_stock' | 'supplier_2_4d' | 'on_request';
+    stockQty?: number | null;
     image: string; // Always resolved to a real /images/products/*.webp or /manufacturer-assets/*.webp path
     seriesImageUrl?: string;
     specs?: Record<string, string>;
@@ -171,6 +176,21 @@ function mapCatalogRow(r: any): CatalogProduct {
         vatRate: r.vatRate == null ? null : Number(r.vatRate),
         compareAtPrice: r.compareAtPrice != null ? Number(r.compareAtPrice) / 100 : null,
         stock: r.stock == null ? null : Number(r.stock),
+        // W121-A1 contract passthrough (absent on DB rows built before the wave).
+        priceEur:
+            (r as { priceEur?: number | null }).priceEur != null
+                ? Number((r as { priceEur?: number | null }).priceEur)
+                : r.priceGross != null
+                  ? Number(r.priceGross) / 100
+                  : null,
+        priceOnRequest: (r as { priceOnRequest?: true }).priceOnRequest === true ? true : undefined,
+        availability: (r as { availability?: 'in_stock' | 'supplier_2_4d' | 'on_request' }).availability,
+        stockQty:
+            (r as { stockQty?: number | null }).stockQty != null
+                ? Number((r as { stockQty?: number | null }).stockQty)
+                : r.stock == null
+                  ? null
+                  : Number(r.stock),
         category: r.category || 'Prekės',
         categoryId: r.categoryId,
         brand: resolvedBrand,

@@ -6,6 +6,8 @@ import { usePathname } from 'next/navigation';
 import { useLocale } from 'next-intl';
 import { assetUrl } from '../../../lib/api';
 import { resolveAppLocale } from '../../../i18n/storefront-ui-copy';
+import { useStorefrontConfig } from '../../../components/storefront-config-provider';
+import { formatCatalogCount } from '../../../lib/w121-honest-commerce';
 import type { AppLocale } from '../../../i18n/routing';
 
 const MCP_HERO_PRODUCTS = [
@@ -56,9 +58,9 @@ const PAGE_COPY: Record<AppLocale, McpJungtisCopy> = {
         kicker: 'UAB „GILĖS INŽINERIJA“ · MODEL CONTEXT PROTOCOL (MCP 2025-03-26)',
         title: 'Tiesioginė AI ir MCP pirkimų jungtis verslui bei namų statytojams',
         subtitle:
-            'Prijunkite Claude Desktop, Cursor ar įmonės pirkimų asistentą prie 6 337 SKU katalogo ir Eigulių g. 21 sandėlio Kaune. Tikrinkite individualias B2B nuolaidas, skaičiuokite katilinių galią ir formuokite sąmatas.',
+            'Prijunkite Claude Desktop, Cursor ar įmonės pirkimų asistentą prie {count} SKU katalogo ir Eigulių g. 21 sandėlio Kaune. Tikrinkite individualias B2B nuolaidas, skaičiuokite katilinių galią ir formuokite sąmatas.',
         primaryCta: 'Gauti B2B MCP raktą portale',
-        secondaryCta: 'Atidaryti 6 337 prekių katalogą',
+        secondaryCta: 'Atidaryti {count} prekių katalogą',
         modeSectionTitle: 'Pasirinkite prijungimo režimą pagal paskyros tipą',
         b2bModeBtn: 'Verslo paskyra (B2B įmonėms ir montuotojams)',
         personalModeBtn: 'Fizinio pirkėjo asistentas (Namų ūkiams)',
@@ -67,7 +69,7 @@ const PAGE_COPY: Record<AppLocale, McpJungtisCopy> = {
         b2bCardDesc:
             'Jūsų įmonės AI asistentas nuskaito statybos sąmatą arba objekto specifikaciją, patikrina tikslias Jūsų įmonės Danfoss, HERZ, Haier bei Megatherm nuolaidas (-35%..-52%) ir sukuria objekto sąmatą arba B2B užsakymą.',
         b2bToolsList: [
-            'customer_b2b_catalog_and_my_prices – 6 337 SKU paieška su Jūsų gamintojų, sutartinių SKU ir krepšelio apimties nuolaidomis bei Kauno sandėlio likučiu',
+            'customer_b2b_catalog_and_my_prices – {count} SKU paieška su Jūsų gamintojų, sutartinių SKU ir krepšelio apimties nuolaidomis bei Kauno sandėlio likučiu',
             'customer_b2b_order_or_project_draft – objekto sąmatos (Objekto sąmata) arba išankstinės „Skaita“ sąskaitos sukūrimas su biudžeto limito saugikliu',
             'vytautas_engineering_consult – EN 12828 katilinės hidraulikos, degiklių flanšų ir pavarų suderinamumo patikra',
         ],
@@ -126,9 +128,9 @@ const PAGE_COPY: Record<AppLocale, McpJungtisCopy> = {
         kicker: 'UAB GILĖS INŽINERIJA · MODEL CONTEXT PROTOCOL (MCP 2025-03-26)',
         title: 'Direct AI & MCP Purchasing Bridge for Business and Homebuilders',
         subtitle:
-            'Connect Claude Desktop, Cursor, or your company purchasing agent to our 6,337-SKU catalog and Kaunas warehouse (Eigulių g. 21). Query custom B2B discounts, run heat-loss calculations, and build project quotes.',
+            'Connect Claude Desktop, Cursor, or your company purchasing agent to our {count}-SKU catalog and Kaunas warehouse (Eigulių g. 21). Query custom B2B discounts, run heat-loss calculations, and build project quotes.',
         primaryCta: 'Get B2B MCP Key in Portal',
-        secondaryCta: 'Browse 6,337 Catalog Items',
+        secondaryCta: 'Browse {count} Catalog Items',
         modeSectionTitle: 'Select connection mode by account tier',
         b2bModeBtn: 'Business Account (B2B Contractors & Installers)',
         personalModeBtn: 'Personal Buyer Assistant (Households)',
@@ -137,7 +139,7 @@ const PAGE_COPY: Record<AppLocale, McpJungtisCopy> = {
         b2bCardDesc:
             'Your company AI assistant reads a bill of materials or room spec, checks your exact Danfoss, HERZ, Haier, and Megatherm contract discounts (-35%..-52%), and creates a project quote or B2B order.',
         b2bToolsList: [
-            'customer_b2b_catalog_and_my_prices – 6,337-SKU search with your brand, contract SKU, and cart volume discounts plus live Kaunas stock',
+            'customer_b2b_catalog_and_my_prices – {count}-SKU search with your brand, contract SKU, and cart volume discounts plus live Kaunas stock',
             'customer_b2b_order_or_project_draft – create a project quote or proforma Skaita invoice in your account with maxAutoOrderEur protection',
             'vytautas_engineering_consult – EN 12828 boiler room hydraulics, burner flange, and actuator compatibility check',
         ],
@@ -196,9 +198,9 @@ const PAGE_COPY: Record<AppLocale, McpJungtisCopy> = {
         kicker: 'UAB GILĖS INŽINERIJA · MODEL CONTEXT PROTOCOL (MCP 2025-03-26)',
         title: 'Bezpośrednie złącze zakupowe AI i MCP dla firm oraz inwestorów indywidualnych',
         subtitle:
-            'Połącz Claude Desktop, Cursor lub firmowego agenta zakupowego z katalogiem 6 337 SKU i magazynem w Kownie (ul. Eigulių 21). Sprawdzaj indywidualne rabaty B2B, obliczaj moc kotłowni i twórz kosztorysy.',
+            'Połącz Claude Desktop, Cursor lub firmowego agenta zakupowego z katalogiem {count} SKU i magazynem w Kownie (ul. Eigulių 21). Sprawdzaj indywidualne rabaty B2B, obliczaj moc kotłowni i twórz kosztorysy.',
         primaryCta: 'Pobierz klucz B2B MCP w portalu',
-        secondaryCta: 'Przeglądaj katalog 6 337 produktów',
+        secondaryCta: 'Przeglądaj katalog {count} produktów',
         modeSectionTitle: 'Wybierz tryb połączenia według typu konta',
         b2bModeBtn: 'Konto firmowe (Dla firm B2B i instalatorów)',
         personalModeBtn: 'Asystent kupującego (Dla domów jednorodzinnych)',
@@ -207,7 +209,7 @@ const PAGE_COPY: Record<AppLocale, McpJungtisCopy> = {
         b2bCardDesc:
             'Firmowy asystent AI odczytuje zestawienie materiałów budowlanych, sprawdza dokładne rabaty na Danfoss, HERZ, Haier i Megatherm (-35%..-52%) oraz tworzy kosztorys projektu lub zamówienie B2B.',
         b2bToolsList: [
-            'customer_b2b_catalog_and_my_prices – wyszukiwanie w 6 337 SKU z indywidualnymi rabatami marki, SKU i koszyka oraz stanem w Kownie',
+            'customer_b2b_catalog_and_my_prices – wyszukiwanie w {count} SKU z indywidualnymi rabatami marki, SKU i koszyka oraz stanem w Kownie',
             'customer_b2b_order_or_project_draft – tworzenie kosztorysu inwestycji lub faktury proforma Skaita z limitem budżetu maxAutoOrderEur',
             'vytautas_engineering_consult – weryfikacja hydrauliki kotłowni EN 12828, flansz palników i siłowników',
         ],
@@ -266,9 +268,9 @@ const PAGE_COPY: Record<AppLocale, McpJungtisCopy> = {
         kicker: 'UAB «GILĖS INŽINERIJA» · MODEL CONTEXT PROTOCOL (MCP 2025-03-26)',
         title: 'Прямой закупочный мост AI и MCP для бизнеса и частных застройщиков',
         subtitle:
-            'Подключите Claude Desktop, Cursor или корпоративного агента закупок к каталогу из 6 337 SKU и складу в Каунасе (ул. Эйгулю 21). Проверяйте индивидуальные B2B скидки, рассчитывайте мощность котельных и формируйте сметы.',
+            'Подключите Claude Desktop, Cursor или корпоративного агента закупок к каталогу из {count} SKU и складу в Каунасе (ул. Эйгулю 21). Проверяйте индивидуальные B2B скидки, рассчитывайте мощность котельных и формируйте сметы.',
         primaryCta: 'Получить B2B MCP-ключ в портале',
-        secondaryCta: 'Открыть каталог 6 337 товаров',
+        secondaryCta: 'Открыть каталог {count} товаров',
         modeSectionTitle: 'Выберите режим подключения по типу аккаунта',
         b2bModeBtn: 'Бизнес-аккаунт (Для B2B компаний и монтажников)',
         personalModeBtn: 'Ассистент покупателя (Для частных домов)',
@@ -277,7 +279,7 @@ const PAGE_COPY: Record<AppLocale, McpJungtisCopy> = {
         b2bCardDesc:
             'Корпоративный AI-ассистент читает спецификацию объекта, проверяет точные скидки вашей компании на Danfoss, HERZ, Haier и Megatherm (-35%..-52%) и создает объектную смету или B2B заказ.',
         b2bToolsList: [
-            'customer_b2b_catalog_and_my_prices – поиск по 6 337 SKU с учетом ваших скидок по брендам, спеццен SKU и объема корзины + остатки в Каунасе',
+            'customer_b2b_catalog_and_my_prices – поиск по {count} SKU с учетом ваших скидок по брендам, спеццен SKU и объема корзины + остатки в Каунасе',
             'customer_b2b_order_or_project_draft – создание объектной сметы или предварительного счета Skaita с защитным лимитом maxAutoOrderEur',
             'vytautas_engineering_consult – проверка гидравлики котельной EN 12828, фланцев горелок и автоматики',
         ],
@@ -350,7 +352,7 @@ const TIER0_MOAT_COPY: Record<
         desc: 'Bet kuris išorės AI agentas (ChatGPT, Claude, Perplexity, Cursor ar inžinieriaus asistentas) per /.well-known/mcp.json automatiškai atranda UAB „Gilės inžinerija“ ekspertinius įrankius be API rakto, apskaičiuoja katilinės parametrus, cituoja mus kaip šaltinį ir nukreipia pirkėją tiesiai į paruoštą krepšelį.',
         manifestLabel: 'Atviras MCP manifestas: GET /.well-known/mcp.json · POST /api/mcp (public_discovery)',
         tools: [
-            'public_catalog_expert_search – atvira 6 337 SKU paieška su pilnomis techninėmis specifikacijomis, 7 šeimų CAD brėžinių duomenimis, Kauno sandėlio likučiu ir 1 paspaudimo krepšelio nuoroda',
+            'public_catalog_expert_search – atvira {count} SKU paieška su pilnomis techninėmis specifikacijomis, 7 šeimų CAD brėžinių duomenimis, Kauno sandėlio likučiu ir 1 paspaudimo krepšelio nuoroda',
             'public_hydronic_calculator_run – atviros EN 12831 šilumos nuostolių, EN 12828 plėtimosi indo, EN 303-5 akumuliacinės talpos, Kvs/Δp ir APVA paramos skaičiuoklės',
             'public_boiler_compatibility_lookup – tiksli Viadrus U22, Kalvis, Atmos, Stropuva ir Haier R290 suderinamų degiklių, CNC durelių flanšų bei atsarginių dalių patikra',
         ],
@@ -361,7 +363,7 @@ const TIER0_MOAT_COPY: Record<
         desc: 'Any external AI agent (ChatGPT, Claude, Perplexity, Cursor) automatically discovers UAB Gilės inžinerija via /.well-known/mcp.json without an API key, runs EN 12831 / EN 12828 calculations, cites our engineering authority, and sends the buyer directly to a pre-assembled cart.',
         manifestLabel: 'Open MCP Manifest: GET /.well-known/mcp.json · POST /api/mcp (public_discovery)',
         tools: [
-            'public_catalog_expert_search – open 6,337-SKU search returning technical specs, 7-family CAD summaries, Kaunas stock, and direct 1-click checkout URLs',
+            'public_catalog_expert_search – open {count}-SKU search returning technical specs, 7-family CAD summaries, Kaunas stock, and direct 1-click checkout URLs',
             'public_hydronic_calculator_run – open EN 12831 heat-loss, EN 12828 expansion vessel, EN 303-5 buffer tank, pump Kvs, and APVA subsidy calculators',
             'public_boiler_compatibility_lookup – instant compatibility lookup for Viadrus U22, Kalvis, Atmos, Stropuva, and Haier R290 conversion kits & spare parts',
         ],
@@ -372,7 +374,7 @@ const TIER0_MOAT_COPY: Record<
         desc: 'Każdy zewnętrzny agent AI (ChatGPT, Claude, Perplexity, Cursor) automatycznie odkrywa UAB Gilės inžinerija przez /.well-known/mcp.json bez klucza API, wykonuje obliczenia EN 12831 / EN 12828, cytuje nas jako eksperta i kieruje klienta prosto do gotowego koszyka.',
         manifestLabel: 'Otwarty manifest MCP: GET /.well-known/mcp.json · POST /api/mcp (public_discovery)',
         tools: [
-            'public_catalog_expert_search – otwarte wyszukiwanie w 6 337 SKU ze specyfikacją techniczną, schematami CAD, stanem w Kownie i linkiem do koszyka',
+            'public_catalog_expert_search – otwarte wyszukiwanie w {count} SKU ze specyfikacją techniczną, schematami CAD, stanem w Kownie i linkiem do koszyka',
             'public_hydronic_calculator_run – otwarte kalkulatory strat ciepła EN 12831, naczyń wzbiorczych EN 12828, buforów EN 303-5 oraz dotacji APVA',
             'public_boiler_compatibility_lookup – weryfikacja kompatybilności palników, flansz CNC i części zamiennych dla Viadrus U22, Kalvis, Atmos, Stropuva i Haier R290',
         ],
@@ -383,7 +385,7 @@ const TIER0_MOAT_COPY: Record<
         desc: 'Любой внешний AI-агент (ChatGPT, Claude, Perplexity, Cursor) автоматически обнаруживает UAB Gilės inžinerija через /.well-known/mcp.json без API-ключа, выполняет расчеты EN 12831 / EN 12828, цитирует нас как эксперта и направляет покупателя прямо в собранную корзину.',
         manifestLabel: 'Открытый MCP-манифест: GET /.well-known/mcp.json · POST /api/mcp (public_discovery)',
         tools: [
-            'public_catalog_expert_search – открытый поиск по 6 337 SKU с тех. параметрами, CAD-схемами, остатками в Каунасе и ссылкой на корзину',
+            'public_catalog_expert_search – открытый поиск по {count} SKU с тех. параметрами, CAD-схемами, остатками в Каунасе и ссылкой на корзину',
             'public_hydronic_calculator_run – открытые калькуляторы теплопотерь EN 12831, расширительных баков EN 12828, буферных емкостей EN 303-5 и субсидий APVA',
             'public_boiler_compatibility_lookup – проверка совместимости горелок, фланцев ЧПУ и запчастей для Viadrus U22, Kalvis, Atmos, Stropuva и Haier R290',
         ],
@@ -397,6 +399,12 @@ export default function McpJungtisPage() {
     const locale = resolveAppLocale(urlLocaleMatch ? urlLocaleMatch[1] : intlLocale);
     const c = PAGE_COPY[locale] || PAGE_COPY.lt;
     const tier0 = TIER0_MOAT_COPY[locale] || TIER0_MOAT_COPY.lt;
+    // W121-A2: live SKU count replaces the hardcoded catalog size.
+    const catalogCountLabel = formatCatalogCount(
+        useStorefrontConfig().catalog?.skuCount ?? 0,
+        locale,
+    );
+    const withCount = (s2: string) => s2.replaceAll('{count}', catalogCountLabel);
 
     const [activeMode, setActiveMode] = useState<'b2b' | 'personal'>('b2b');
     const [maxBudgetEur, setMaxBudgetEur] = useState(2500);
@@ -503,7 +511,7 @@ export default function McpJungtisPage() {
                         {c.title}
                     </h1>
                     <p className="text-sm sm:text-base text-[#C9D0D8] max-w-3xl leading-relaxed">
-                        {c.subtitle}
+                        {withCount(c.subtitle)}
                     </p>
                     <div className="flex flex-wrap items-center gap-3 pt-1">
                         <Link
@@ -518,7 +526,7 @@ export default function McpJungtisPage() {
                             data-testid="mcp-hero-catalog-cta"
                             className="inline-flex min-h-[44px] items-center rounded-none border border-[#3A4652] bg-[#1B232C] hover:border-[#FF8A3D] px-5 py-3 text-xs sm:text-sm font-bold text-white whitespace-nowrap transition-colors"
                         >
-                            {c.secondaryCta}
+                            {withCount(c.secondaryCta)}
                         </Link>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-2">
@@ -602,7 +610,7 @@ export default function McpJungtisPage() {
                         <ul className="space-y-1.5 text-xs text-[#F5F3EE] pt-1 font-medium">
                             {tier0.tools.map((item) => (
                                 <li key={item} className="leading-relaxed">
-                                    • {item}
+                                    • {withCount(item)}
                                 </li>
                             ))}
                         </ul>

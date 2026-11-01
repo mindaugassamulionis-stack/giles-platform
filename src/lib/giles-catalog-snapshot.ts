@@ -34,6 +34,7 @@ import {
     type PagedListing,
 } from './catalog-listing';
 import { parseSkuQuery } from './sku-code';
+import { matchesPriceFilter } from './w121-honest-commerce';
 import { resolveProductImageUrl, isExactPhotoSku } from './product-visuals';
 import {
     resolveProductSeriesVisual,
@@ -85,10 +86,15 @@ export interface RawSnapshotProduct {
     sku: string | null;
     ean?: string | null;
     priceCents: number | null;
+    // W121-A1 field contract (UI reads null-safely; rows may predate these).
+    priceEur?: number | null;
+    priceOnRequest?: true;
+    availability?: 'in_stock' | 'supplier_2_4d' | 'on_request';
     costCents?: number | null;
     compareAtCents?: number | null;
     stock: number | null;
     stockQuantity?: number | null;
+    stockQty?: number | null;
     stockUnit?: string | null;
     stockSource?: string | null;
     lastSyncedAt?: string | null;
@@ -108,42 +114,48 @@ export type GilesStockSource =
 export function formatShortStockBadge(product: {
     stock?: number | null;
     stockQuantity?: number | null;
+    stockQty?: number | null;
     stockUnit?: string | null;
     stockSource?: string | null;
 }): { shortLabel: string; mobileLabel: string; isLocalKaunas: boolean } {
-    const qty =
-        typeof product.stockQuantity === 'number' && product.stockQuantity > 0
-            ? product.stockQuantity
-            : typeof product.stock === 'number' && product.stock > 0
-              ? product.stock
-              : 8;
+    // W121-A2: honest badge — a numeric qty appears only when the row carries
+    // a real positive stockQty; unknown stock never gets a fabricated number.
+    const qtySource =
+        typeof product.stockQty === 'number' && product.stockQty > 0
+            ? product.stockQty
+            : typeof product.stockQuantity === 'number' && product.stockQuantity > 0
+              ? product.stockQuantity
+              : typeof product.stock === 'number' && product.stock > 0
+                ? product.stock
+                : null;
     const unit = product.stockUnit || 'vnt.';
-    const src = product.stockSource || 'Skaita SQL · Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)';
+    const src = product.stockSource || '';
+    const withQty = (label: string) => (qtySource != null ? `${label}: ${qtySource} ${unit}` : label);
 
     if (src.includes('EGIP.lt')) {
         return {
-            shortLabel: `Sandėlyje Kaune: ${qty} ${unit} (EGIP.lt)`,
-            mobileLabel: `Kaune: ${qty} ${unit}`,
+            shortLabel: withQty('Sandėlyje · Kaunas (EGIP.lt)'),
+            mobileLabel: qtySource != null ? `Kaune: ${qtySource} ${unit}` : 'Sandėlyje · Kaunas',
             isLocalKaunas: true,
         };
     }
     if (src.includes('Gamybos')) {
         return {
-            shortLabel: `Sandėlyje Kaune: ${qty} ${unit} (Gamyba)`,
-            mobileLabel: `Kaune: ${qty} ${unit}`,
+            shortLabel: withQty('Sandėlyje · Kaunas (Gamyba)'),
+            mobileLabel: qtySource != null ? `Kaune: ${qtySource} ${unit}` : 'Sandėlyje · Kaunas',
             isLocalKaunas: true,
         };
     }
     if (src.includes('Tiekėjo')) {
         return {
-            shortLabel: `Tiekėjo sandėlyje: ${qty} ${unit} (2–3 d. d.)`,
-            mobileLabel: `Tiekėjo: ${qty} ${unit}`,
+            shortLabel: 'Tiekėjo sandėlyje · 2–4 d. d.',
+            mobileLabel: 'Tiekėjo sandėlyje',
             isLocalKaunas: false,
         };
     }
     return {
-        shortLabel: `Sandėlyje Kaune: ${qty} ${unit} (Skaita)`,
-        mobileLabel: `Kaune: ${qty} ${unit}`,
+        shortLabel: withQty('Sandėlyje · Kaunas'),
+        mobileLabel: qtySource != null ? `Kaune: ${qtySource} ${unit}` : 'Sandėlyje · Kaunas',
         isLocalKaunas: true,
     };
 }
@@ -708,12 +720,13 @@ export function getGilesCatalogSnapshot(): GilesCatalogSnapshot {
                 : buildProductSlug(rawTitle, sku);
         const compareAtCents = r.compareAtCents != null ? Number(r.compareAtCents) : null;
 
+        // W121-A2: unknown stock stays null — never fabricate a placeholder qty.
         const resolvedStockQty =
             r.stockQuantity != null
                 ? Number(r.stockQuantity)
                 : r.stock != null
                   ? Number(r.stock)
-                  : 8;
+                  : null;
         const resolvedStockUnit = r.stockUnit || 'vnt.';
         const resolvedStockSource =
             r.stockSource || 'Skaita SQL · Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)';
@@ -750,6 +763,14 @@ export function getGilesCatalogSnapshot(): GilesCatalogSnapshot {
             exactSkuMatch: false,
             priceCents,
             vatRate: r.vatRate == null ? 21 : Number(r.vatRate),
+            // W121-A1 contract passthrough (null-safe on legacy rows).
+            priceEur: r.priceEur != null ? Number(r.priceEur) : priceCents != null ? priceCents / 100 : null,
+            priceOnRequest: r.priceOnRequest === true ? true : undefined,
+            availability:
+                r.availability === 'in_stock' || r.availability === 'supplier_2_4d' || r.availability === 'on_request'
+                    ? r.availability
+                    : undefined,
+            stockQty: r.stockQty != null ? Number(r.stockQty) : resolvedStockQty,
         };
 
         allItemsIncludingHidden.push(item);
@@ -832,8 +853,123 @@ function priceBucketCents(priceRange?: string): { min?: number; max?: number } |
     }
 }
 
+// W121-A1: cached search haystack per snapshot product — the 13,531-SKU
+// catalog made per-query haystack rebuilds (long LT descriptions lowercased
+// every call) the dominant search cost. WeakMap keyed by the snapshot item so
+// a snapshot rebuild garbage-collects stale entries automatically.
+const searchHaystackCache = new WeakMap<ListingProduct, string>();
+function getSearchHaystack(
+    p: ListingProduct,
+    rawById: Map<string, RawSnapshotProduct>,
+): string {
+    let hay = searchHaystackCache.get(p);
+    if (hay === undefined) {
+        const raw = rawById.get(p.id);
+        hay = `${p.sku} ${p.name} ${p.nameLt || ''} ${p.brandName || ''} ${p.categoryName || ''} ${raw?.descriptionLt || ''} ${raw?.ean || ''}`.toLowerCase();
+        searchHaystackCache.set(p, hay);
+    }
+    return hay;
+}
+
+// W121-A1: lowercase category name cache — avoids re-lowercasing every
+// product's category on every filtered query over the 13,531-SKU catalog.
+const catNameLowerCache = new WeakMap<ListingProduct, string>();
+function getCatNameLower(p: ListingProduct): string {
+    let v = catNameLowerCache.get(p);
+    if (v === undefined) {
+        v = (p.categoryName || '').toLowerCase().trim();
+        catNameLowerCache.set(p, v);
+    }
+    return v;
+}
+
+const catSlugLowerCache = new WeakMap<ListingProduct, string>();
+function getCatSlugLower(p: ListingProduct): string {
+    let v = catSlugLowerCache.get(p);
+    if (v === undefined) {
+        v = (p.categorySlug || '').toLowerCase().trim();
+        catSlugLowerCache.set(p, v);
+    }
+    return v;
+}
+
+const catIdLowerCache = new WeakMap<RawSnapshotProduct, string>();
+function getCatIdLower(raw: RawSnapshotProduct | undefined): string {
+    if (!raw) return '';
+    let v = catIdLowerCache.get(raw);
+    if (v === undefined) {
+        v = (raw.categoryId || '').toLowerCase();
+        catIdLowerCache.set(raw, v);
+    }
+    return v;
+}
+
+// W121-A2: same lowercase cache pattern for the brand filter branch.
+const brandNameLowerCache = new WeakMap<ListingProduct, string>();
+function getBrandNameLower(p: ListingProduct): string {
+    let v = brandNameLowerCache.get(p);
+    if (v === undefined) {
+        v = (p.brandName || '').toLowerCase().trim();
+        brandNameLowerCache.set(p, v);
+    }
+    return v;
+}
+
+const brandSlugCache = new WeakMap<ListingProduct, string>();
+function getBrandSlugCached(p: ListingProduct): string {
+    let v = brandSlugCache.get(p);
+    if (v === undefined) {
+        v = toBrandSlug(p.brandName || '');
+        brandSlugCache.set(p, v);
+    }
+    return v;
+}
+
+const brandIdLowerCache = new WeakMap<RawSnapshotProduct, string>();
+function getBrandIdLower(raw: RawSnapshotProduct | undefined): string {
+    if (!raw) return '';
+    let v = brandIdLowerCache.get(raw);
+    if (v === undefined) {
+        v = (raw.brandId || '').toLowerCase();
+        brandIdLowerCache.set(raw, v);
+    }
+    return v;
+}
+
+// W121-A1: repeat-query memo for searchGilesSnapshotPaged — bounded LRU-ish
+// (keeps the newest 64 distinct queries), tied to the cached snapshot and the
+// catalog-overrides mtime so any data change invalidates it.
+const searchQueryMemo: {
+    snapRef: GilesCatalogSnapshot | null;
+    overridesMtime: number;
+    map: Map<string, PagedListing>;
+} = { snapRef: null, overridesMtime: -1, map: new Map() };
+function stableFilterKey(filters: ListingFilters): string {
+    const keys = Object.keys(filters).filter((k) => {
+        const v = (filters as Record<string, unknown>)[k];
+        return v !== undefined && v !== null && v !== '';
+    });
+    keys.sort();
+    return keys.map((k) => `${k}=${String((filters as Record<string, unknown>)[k])}`).join('&');
+}
+
 export function searchGilesSnapshotPaged(filters: ListingFilters = {}): PagedListing {
     const snap = getGilesCatalogSnapshot();
+    // W121-A1: memoize identical repeat queries (storefront page-1 category
+    // views repeat constantly). Invalidated with the snapshot or overrides.
+    const overridesMtime = getCatalogOverridesMtime();
+    if (
+        searchQueryMemo.snapRef !== snap ||
+        searchQueryMemo.overridesMtime !== overridesMtime
+    ) {
+        searchQueryMemo.snapRef = snap;
+        searchQueryMemo.overridesMtime = overridesMtime;
+        searchQueryMemo.map.clear();
+    }
+    const memoKey = stableFilterKey(filters);
+    const memoized = searchQueryMemo.map.get(memoKey);
+    if (memoized) return memoized;
+
     const index = getCatalogSearchIndex();
     const rawById = snap.rawById;
     const parsedQ = parseSkuQuery(filters.q ?? '');
@@ -922,27 +1058,33 @@ export function searchGilesSnapshotPaged(filters: ListingFilters = {}): PagedLis
     }
 
     const matched: ListingProduct[] = [];
+    const rawForHay = rawById;
+    // W121-A2 perf: Set lookups + the W121-A1 lowercase caches keep the
+    // category slice under 5 ms on the 13.5k-SKU snapshot.
+    const resolvedCategoryNameSet = new Set(resolvedCategoryNames);
+    const hasPinCodes = pinCodes.size > 0;
+    const activeBrandLower = activeBrand.toLowerCase();
     for (const p of candidateProducts) {
         const raw = rawById.get(p.id);
-        if (resolvedCategoryNames.length > 0) {
-            const cName = (p.categoryName || '').toLowerCase().trim();
-            const cSlug = (p.categorySlug || '').toLowerCase().trim();
-            const cId = (raw?.categoryId || '').toLowerCase();
+        if (resolvedCategoryNameSet.size > 0) {
+            const cName = getCatNameLower(p);
+            const cSlug = getCatSlugLower(p);
+            const cId = getCatIdLower(raw);
             if (
                 cId !== activeCatLower &&
                 cSlug !== activeCatLower &&
-                !resolvedCategoryNames.includes(cName)
+                !resolvedCategoryNameSet.has(cName)
             ) {
                 continue;
             }
         }
 
         if (activeBrandSlug) {
-            const bName = (p.brandName || '').toLowerCase().trim();
-            const bSlug = toBrandSlug(p.brandName || '');
-            const bId = (raw?.brandId || '').toLowerCase();
+            const bName = getBrandNameLower(p);
+            const bSlug = getBrandSlugCached(p);
+            const bId = getBrandIdLower(raw);
             if (
-                bId !== activeBrand.toLowerCase() &&
+                bId !== activeBrandLower &&
                 bSlug !== activeBrandSlug &&
                 bName !== canonicalBrandLower &&
                 !bName.includes(canonicalBrandLower)
@@ -951,11 +1093,12 @@ export function searchGilesSnapshotPaged(filters: ListingFilters = {}): PagedLis
             }
         }
 
-        const normSku = normalizeCode(p.sku);
+        const isExactCandidate = queryLower || pinCodes.size > 0;
+        const normSku = isExactCandidate ? normalizeCode(p.sku) : '';
         const isExact = pinCodes.size > 0 && pinCodes.has(normSku);
 
         if (queryLower) {
-            const hay = `${p.sku} ${p.name} ${p.nameLt || ''} ${p.brandName || ''} ${p.categoryName || ''} ${raw?.descriptionLt || ''} ${raw?.ean || ''}`.toLowerCase();
+            const hay = getSearchHaystack(p, rawForHay);
             const codeMatch =
                 isExact ||
                 parsedQ.codes.some((c) => normSku.includes(normalizeCode(c)));
@@ -991,8 +1134,7 @@ export function searchGilesSnapshotPaged(filters: ListingFilters = {}): PagedLis
             if (specRegex && !specRegex.test(hay)) continue;
         }
 
-        if (minCents != null && (p.priceCents == null || p.priceCents < minCents)) continue;
-        if (maxCents != null && (p.priceCents == null || p.priceCents > maxCents)) continue;
+        if (!matchesPriceFilter(p, minCents, maxCents)) continue;
         if (filters.inStock && p.stock != null && p.stock < 0) continue;
 
         matched.push(isExact ? { ...p, exactSkuMatch: true } : p);
@@ -1025,13 +1167,19 @@ export function searchGilesSnapshotPaged(filters: ListingFilters = {}): PagedLis
         ? matched.slice((page - 1) * pageSize, (page - 1) * pageSize + pageSize)
         : matched;
 
-    return {
+    const result: PagedListing = {
         items,
         total,
         page: pageSize ? page : 1,
         pageSize,
         pageCount: pageSize ? Math.ceil(total / pageSize) : 1,
     };
+    if (searchQueryMemo.map.size >= 64) {
+        const oldest = searchQueryMemo.map.keys().next().value;
+        if (oldest !== undefined) searchQueryMemo.map.delete(oldest);
+    }
+    searchQueryMemo.map.set(memoKey, result);
+    return result;
 }
 
 export function getGilesSnapshotBrands(): Array<{
@@ -1166,10 +1314,14 @@ export function findGilesSnapshotProductBySlugOrId(slugOrId: string): CatalogPro
             `${found.nameLt || found.name} (${found.brandName || 'Gilės Inžinerija'}, SKU: ${found.sku}).`,
         price: found.price,
         priceCents: found.priceCents,
+        // W121-A1 contract passthrough (null-safe on legacy rows).
+        priceEur: found.priceEur != null ? found.priceEur : found.priceCents != null ? found.priceCents / 100 : null,
+        priceOnRequest: found.priceOnRequest === true ? true : undefined,
+        availability: found.availability,
         vatRate: found.vatRate,
         compareAtPrice: found.compareAtPrice,
         stock: found.stock,
-        stockQuantity: found.stockQuantity ?? found.stock ?? 8,
+        stockQuantity: found.stockQuantity ?? found.stock ?? null,
         stockUnit: found.stockUnit || 'vnt.',
         stockSource:
             found.stockSource || 'Skaita SQL · Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',

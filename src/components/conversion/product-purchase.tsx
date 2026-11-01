@@ -11,6 +11,8 @@ import { formatEur } from '../../lib/conversion';
 import type { CatalogProduct } from '../../lib/catalog';
 import { useLocale } from 'next-intl';
 import { resolvePurchasability } from '../../lib/purchasable';
+import { isPriceOnRequestProduct } from '../../lib/w121-honest-commerce';
+import { PriceRequestCta } from '../price-request-cta';
 import { trackEvent } from '../analytics';
 import { resolveAppLocale } from '../../i18n/storefront-ui-copy';
 import type { AppLocale } from '../../i18n/routing';
@@ -146,6 +148,15 @@ export function ProductPurchase({ product }: { product: CatalogProduct }) {
             ? availabilityNote
             : copy.supplierAvailabilityNote
         : null;
+
+    // W121-A2: priceless rows never show add-to-cart; RFQ CTA instead.
+    if (isPriceOnRequestProduct(product)) {
+        return (
+            <div className="mt-6" data-testid="product-purchase-price-on-request">
+                <PriceRequestCta sku={product.sku || product.id} title={product.name} />
+            </div>
+        );
+    }
 
     return (
         <>

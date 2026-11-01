@@ -26,6 +26,11 @@ export interface StorefrontConsultantPersonaClient {
     storeFactsLt?: string;
 }
 
+export interface StorefrontCatalogClient {
+    /** Live SKU count from the catalog snapshot (W121-A2 dynamic count). */
+    skuCount: number;
+}
+
 export interface StorefrontRuntimeConfigClient {
     storeId: string;
     storeKey: string;
@@ -34,6 +39,7 @@ export interface StorefrontRuntimeConfigClient {
     domain?: string | null;
     features: StorefrontFeatureFlagsClient;
     persona: StorefrontConsultantPersonaClient;
+    catalog?: StorefrontCatalogClient;
     llm: {
         enabled: boolean;
         provider: string;
@@ -124,6 +130,10 @@ export function StorefrontConfigProvider({
                 ...DEFAULT_CLIENT_STOREFRONT_CONFIG.persona,
                 ...(initialConfig?.persona || {}),
             },
+            catalog: {
+                skuCount:
+                    initialConfig?.catalog?.skuCount ?? DEFAULT_CLIENT_STOREFRONT_CONFIG.catalog?.skuCount ?? 0,
+            },
             llm: {
                 ...DEFAULT_CLIENT_STOREFRONT_CONFIG.llm,
                 ...(initialConfig?.llm || {}),
@@ -177,6 +187,12 @@ export function StorefrontConfigProvider({
                         persona: {
                             ...DEFAULT_CLIENT_STOREFRONT_CONFIG.persona,
                             ...(data.persona || {}),
+                        },
+                        catalog: {
+                            skuCount:
+                                data.catalog?.skuCount ??
+                                config.catalog?.skuCount ??
+                                0,
                         },
                         llm: {
                             ...DEFAULT_CLIENT_STOREFRONT_CONFIG.llm,

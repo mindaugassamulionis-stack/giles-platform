@@ -671,7 +671,7 @@ function isSparePartItem(title: string, category: string, price: number): boolea
 }
 
 /**
- * Full Catalog Hybrid Search (BM25 + Spec/SKU/Brand/Category Scorer across all 6,337+ SKUs).
+ * Full Catalog Hybrid Search (BM25 + Spec/SKU/Brand/Category Scorer across all 13,531+ SKUs).
  */
 export function searchCatalogHybrid(
     query: string,
@@ -1272,7 +1272,7 @@ export function buildContextualEngineeringReply(
     if (products.length > 0) {
         return {
             stage: 'recommendation',
-            reply: `Pagal jūsų užklausą (${state.powerOrAreaSummary}; ${state.connectionOrTypeSummary}) iš 6 337 pozicijų katalogo atrinkau tiksliausiai derančias prekes: ${topNames}. Patikslinkite sriegio skersmenį arba sistemos galingumą, jei reikia sukomplektuoti gretimus prijungimo mazgus.`,
+            reply: `Pagal jūsų užklausą (${state.powerOrAreaSummary}; ${state.connectionOrTypeSummary}) iš 13 531 pozicijų katalogo atrinkau tiksliausiai derančias prekes: ${topNames}. Patikslinkite sriegio skersmenį arba sistemos galingumą, jei reikia sukomplektuoti gretimus prijungimo mazgus.`,
             quickReplies: [
                 'Rodyti tik pagrindinius įrenginius',
                 'Patikrinti prijungimo sriegius ir adapterius',
@@ -1284,7 +1284,7 @@ export function buildContextualEngineeringReply(
     return {
         stage: 'discovery',
         reply:
-            'Girdžiu. Kad parinkčiau tikslius komponentus iš mūsų 6 337 prekių katalogo, patikslinkite: 1) Kokį mazgą komplektuojame (radiatorius, katilinę, šilumos siurblį, boilerį ar grindinį šildymą)? 2) Koks šildomas plotas (m²) arba įrenginio galia (kW)?',
+            'Girdžiu. Kad parinkčiau tikslius komponentus iš mūsų 13 531 prekių katalogo, patikslinkite: 1) Kokį mazgą komplektuojame (radiatorius, katilinę, šilumos siurblį, boilerį ar grindinį šildymą)? 2) Koks šildomas plotas (m²) arba įrenginio galia (kW)?',
         quickReplies: [
             'Radiatoriai ir termostatiniai vožtuvai',
             'Katilai ir granulių degikliai',

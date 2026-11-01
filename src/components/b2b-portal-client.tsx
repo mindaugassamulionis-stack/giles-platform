@@ -35,7 +35,7 @@ const PORTAL_COPY: Record<SupportedB2BLocale, Record<string, string>> = {
         actInstall: 'ŠVOK montavimas', actDesign: 'Projektavimas', actTrade: 'Regioninė prekyba', lockNotice: 'Didmeninės kainos atrakinamos administracijai patvirtinus įmonės rekvizitus.',
         submitApplication: 'Pateikti paraišką administracijai', pendingTitle: 'Laukia administracijos patvirtinimo', pendingStatus: 'Paraiška užregistruota ir perduota UAB „Gilės inžinerija“ B2B skyriui.',
         companyShort: 'Įmonė', contactShort: 'Kontaktas', deptShort: 'B2B skyrius', checkStatusBtn: 'Tikrinti patvirtinimo būseną', logoutBtn: 'Atsijungti',
-        b2bMenuAria: 'B2B meniu', b2bPartnerBadge: 'B2B Partneris', catalogLink: 'Katalogas (6 337)',
+        b2bMenuAria: 'B2B meniu', b2bPartnerBadge: 'B2B Partneris', catalogLink: 'Katalogas ({count})',
         navOverview: 'Apžvalga', navQuickOrder: 'Greitas užsakymas', navOrders: 'Užsakymai', navInvoices: 'PVM sąskaitos', navProjects: 'Objektai ir sąmatos', navPricelists: 'Didmeniniai kainoraščiai (5)',
     },
     en: {
@@ -50,7 +50,7 @@ const PORTAL_COPY: Record<SupportedB2BLocale, Record<string, string>> = {
         actInstall: 'HVAC installation', actDesign: 'Engineering design', actTrade: 'Regional trade', lockNotice: 'Wholesale prices are unlocked once administration verifies your company credentials.',
         submitApplication: 'Submit application for approval', pendingTitle: 'Pending administrator approval', pendingStatus: 'Your B2B application has been submitted to UAB Gilės inžinerija.',
         companyShort: 'Company', contactShort: 'Contact', deptShort: 'B2B Desk', checkStatusBtn: 'Check approval status', logoutBtn: 'Sign out',
-        b2bMenuAria: 'B2B menu', b2bPartnerBadge: 'B2B Partner', catalogLink: 'Catalog (6,337)',
+        b2bMenuAria: 'B2B menu', b2bPartnerBadge: 'B2B Partner', catalogLink: 'Catalog ({count})',
         navOverview: 'Overview', navQuickOrder: 'Quick Order', navOrders: 'Orders', navInvoices: 'VAT Invoices', navProjects: 'Projects & Quotes', navPricelists: 'Wholesale Pricelists (5)',
     },
     pl: {
@@ -65,7 +65,7 @@ const PORTAL_COPY: Record<SupportedB2BLocale, Record<string, string>> = {
         actInstall: 'Instalacje HVAC', actDesign: 'Projektowanie', actTrade: 'Dystrybucja regionalna', lockNotice: 'Ceny hurtowe zostają odblokowane po zatwierdzeniu danych firmy przez administrację.',
         submitApplication: 'Wyślij wniosek do administracji', pendingTitle: 'Oczekuje na zatwierdzenie administracji', pendingStatus: 'Twój wniosek B2B został przekazany do działu B2B UAB Gilės inžinerija.',
         companyShort: 'Firma', contactShort: 'Kontakt', deptShort: 'Dział B2B', checkStatusBtn: 'Sprawdź status zatwierdzenia', logoutBtn: 'Wyloguj się',
-        b2bMenuAria: 'Menu B2B', b2bPartnerBadge: 'Partner B2B', catalogLink: 'Katalog (6 337)',
+        b2bMenuAria: 'Menu B2B', b2bPartnerBadge: 'Partner B2B', catalogLink: 'Katalog ({count})',
         navOverview: 'Przegląd', navQuickOrder: 'Szybkie zamówienie', navOrders: 'Zamówienia', navInvoices: 'Faktury VAT', navProjects: 'Obiekty i kosztorysy', navPricelists: 'Cenniki hurtowe (5)',
     },
     ru: {
@@ -80,12 +80,12 @@ const PORTAL_COPY: Record<SupportedB2BLocale, Record<string, string>> = {
         actInstall: 'Монтаж ОВиК', actDesign: 'Проектирование', actTrade: 'Региональная торговля', lockNotice: 'Оптовые цены открываются после подтверждения реквизитов компании администрацией.',
         submitApplication: 'Отправить заявку администрации', pendingTitle: 'Ожидает подтверждения администрации', pendingStatus: 'Ваша заявка зарегистрирована и передана в отдел B2B UAB Gilės inžinerija.',
         companyShort: 'Компания', contactShort: 'Контакт', deptShort: 'Отдел B2B', checkStatusBtn: 'Проверить статус подтверждения', logoutBtn: 'Выйти',
-        b2bMenuAria: 'Меню B2B', b2bPartnerBadge: 'B2B Партнер', catalogLink: 'Каталог (6 337)',
+        b2bMenuAria: 'Меню B2B', b2bPartnerBadge: 'B2B Партнер', catalogLink: 'Каталог ({count})',
         navOverview: 'Обзор', navQuickOrder: 'Быстрый заказ', navOrders: 'Заказы', navInvoices: 'Счета-фактуры НДС', navProjects: 'Объекты и сметы', navPricelists: 'Оптовые прайс-листы (5)',
     },
 };
 
-export function B2BPortalClient({ locale: propLocale, initialQuickRows }: { locale?: string; initialQuickRows: B2BQuickOrderResolvedRow[]; initialEditorItems: EditableCatalogItem[] }) {
+export function B2BPortalClient({ locale: propLocale, initialQuickRows, catalogCountLabel = '0' }: { locale?: string; initialQuickRows: B2BQuickOrderResolvedRow[]; initialEditorItems: EditableCatalogItem[]; catalogCountLabel?: string }) {
     const hookLocale = useLocale();
     const rawLoc = (propLocale || hookLocale || 'lt').toLowerCase();
     const locale: SupportedB2BLocale = rawLoc === 'en' || rawLoc === 'pl' || rawLoc === 'ru' ? rawLoc : 'lt';
@@ -303,7 +303,7 @@ export function B2BPortalClient({ locale: propLocale, initialQuickRows }: { loca
                         <div className="flex-1 min-w-0 space-y-5 w-full">
                             <div className="flex flex-wrap items-center justify-between gap-3">
                                 <div><h2 className="text-xl sm:text-2xl font-extrabold text-[#11161B]">{currentAccount.companyName} · {currentAccount.contactPerson}</h2><p className="text-xs text-[#5B6470]">{currentAccount.discountTier}</p></div>
-                                <Link href={`/${locale}/products`} className="h-10 px-4 rounded-lg border border-[#D5CFC3] bg-white inline-flex items-center text-xs font-bold text-[#11161B]">{t.catalogLink}</Link>
+                                <Link href={`/${locale}/products`} className="h-10 px-4 rounded-lg border border-[#D5CFC3] bg-white inline-flex items-center text-xs font-bold text-[#11161B]">{t.catalogLink.replaceAll('{count}', catalogCountLabel)}</Link>
                             </div>
                             <B2BPortalWorkspaceViews
                                 locale={locale} activeView={activeView} setActiveView={setActiveView} account={currentAccount} rows={rows}

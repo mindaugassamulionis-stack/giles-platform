@@ -8,6 +8,8 @@ import { X, Minus, Plus, ShoppingBag, ArrowRight, Trash2, Package, PartyPopper }
 import { useCartStore, useCartHydration } from '../store/cart';
 import { useLocale } from 'next-intl';
 import { assetUrl } from '../lib/api';
+import { useStorefrontConfig } from './storefront-config-provider';
+import { formatCatalogCount } from '../lib/w121-honest-commerce';
 import { resolveAppLocale } from '../i18n/storefront-ui-copy';
 import type { AppLocale } from '../i18n/routing';
 
@@ -42,7 +44,7 @@ const CART_DRAWER_I18N: Record<
         forFreeShipping: 'nemokamam pristatymui!',
         freeShippingWon: 'Sveikiname! Jums priklauso nemokamas pristatymas!',
         empty: 'Jūsų krepšelis tuščias',
-        emptyDesc: 'Pasirinkite katilus, degiklius ar katilinės armatūrą iš 6 337 pozicijų katalogo.',
+        emptyDesc: 'Pasirinkite katilus, degiklius ar katilinės armatūrą iš {count} pozicijų katalogo.',
         start: 'Pradėti apsipirkimą',
         subtotal: 'Tarpinė suma',
         shipping: 'Pristatymas',
@@ -62,7 +64,7 @@ const CART_DRAWER_I18N: Record<
         forFreeShipping: 'more for free shipping!',
         freeShippingWon: 'Congratulations! You qualify for free shipping!',
         empty: 'Your cart is empty',
-        emptyDesc: 'Browse boilers, pellet burners, and hydronic components from our 6,337-item catalog.',
+        emptyDesc: 'Browse boilers, pellet burners, and hydronic components from our {count}-item catalog.',
         start: 'Browse Catalog',
         subtotal: 'Subtotal',
         shipping: 'Shipping',
@@ -82,7 +84,7 @@ const CART_DRAWER_I18N: Record<
         forFreeShipping: 'do darmowej dostawy!',
         freeShippingWon: 'Gratulacje! Masz darmową dostawę!',
         empty: 'Twój koszyk jest pusty',
-        emptyDesc: 'Wybierz kotły, palniki peletowe lub armaturę z katalogu 6 337 produktów.',
+        emptyDesc: 'Wybierz kotły, palniki peletowe lub armaturę z katalogu {count} produktów.',
         start: 'Przejdź do katalogu',
         subtotal: 'Suma częściowa',
         shipping: 'Dostawa',
@@ -102,7 +104,7 @@ const CART_DRAWER_I18N: Record<
         forFreeShipping: 'до бесплатной доставки!',
         freeShippingWon: 'Поздравляем! Бесплатная доставка активирована!',
         empty: 'Ваша корзина пуста',
-        emptyDesc: 'Выберите котлы, пеллетные горелки или арматуру из каталога на 6 337 позиций.',
+        emptyDesc: 'Выберите котлы, пеллетные горелки или арматуру из каталога на {count} позиций.',
         start: 'Перейти в каталог',
         subtotal: 'Промежуточный итог',
         shipping: 'Доставка',
@@ -202,7 +204,7 @@ export function CartDrawer() {
                                     </div>
                                     <h3 className="font-bold text-xl mb-2 text-zinc-900">{copy.empty}</h3>
                                     <p className="text-zinc-500 mb-8 max-w-[240px]">
-                                        {copy.emptyDesc}
+                                        {copy.emptyDesc.replaceAll('{count}', formatCatalogCount(useStorefrontConfig().catalog?.skuCount ?? 0, locale))}
                                     </p>
                                     <Link
                                         href={`/${locale}/products`}
@@ -314,6 +316,23 @@ export function CartDrawer() {
                                 </div>
 
                                 <div className="space-y-3">
+                                    {/* W121-A2: a cart holding price-on-request rows cannot
+                                        complete standard checkout — route it to the RFQ form. */}
+                                    {items.some((i) => i.priceOnRequest === true || i.price == null || i.price <= 0) ? (
+                                        <Link
+                                            href={`/${locale}/uzklausa?kodas=${encodeURIComponent(
+                                                items
+                                                    .filter((i) => i.priceOnRequest === true || i.price == null || i.price <= 0)
+                                                    .map((i) => i.sku)
+                                                    .join(','),
+                                            )}`}
+                                            onClick={closeCart}
+                                            data-testid="cart-drawer-rfq-route"
+                                            className="w-full py-4 bg-emerald-600 text-white rounded-xl font-bold hover:bg-emerald-700 transition-all hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-2"
+                                        >
+                                            {copy.buyNow}
+                                        </Link>
+                                    ) : (
                                     <Link
                                         href={`/${locale}/checkout`}
                                         onClick={() => {
@@ -353,6 +372,7 @@ export function CartDrawer() {
                                     >
                                         {copy.buyNow} <ArrowRight className="w-4 h-4" />
                                     </Link>
+                                    )}
                                     <Link
                                         href={`/${locale}/cart`}
                                         onClick={closeCart}

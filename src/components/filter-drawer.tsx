@@ -322,8 +322,9 @@ export function FilterDrawer({
         );
     };
 
+    // W121-A2: honest fallback — no fabricated catalog size when counts are 0.
     const totalProductsCount =
-        categories.reduce((sum, c) => sum + (c.productCount ?? 0), 0) || 6337;
+        categories.reduce((sum, c) => sum + (c.productCount ?? 0), 0) || 0;
     const displayResultsCount = typeof totalFound === 'number' ? totalFound : totalProductsCount;
     const totalBrandsCount = brands.length || 28;
     const filteredMobileBrands = filterBrandsByQuery(brands, brandQuery);

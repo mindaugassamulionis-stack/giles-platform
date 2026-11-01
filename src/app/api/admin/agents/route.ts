@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import fs from 'node:fs';
 import path from 'node:path';
+import { getGilesCatalogSkuCount } from '../../../../lib/catalog-count';
+import { formatCatalogCount } from '../../../../lib/w121-honest-commerce';
 import {
     addOrUpdateAiAgent,
     getAiAgentLogs,
@@ -49,7 +51,7 @@ const DEFAULT_PROPOSALS: GilesAgentProposal[] = [
         agentName: 'SEO / GEO (/llms.txt ir JSON-LD) Rinkos Lyderio Agentas',
         title: 'PRP-02: Patikrinti 3 659 Kauno sandėlio pozicijų likučių sinchronizaciją su EGIP.lt ir „Skaita“',
         impactSummary:
-            'Palaiko 6 337 prekių katalogo ir oficialių tiekėjų kainynų (Danfoss, HERZ, Gorenje/TIKI, Gilės/Megatherm, Haier) duomenų vientisumą.',
+            `Palaiko ${formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, 'lt')} prekių katalogo ir oficialių tiekėjų kainynų (Danfoss, HERZ, Gorenje/TIKI, Gilės/Megatherm, Haier) duomenų vientisumą.`,
         confidencePercent: 95,
         targetModule: 'catalog',
         status: 'PENDING_REVIEW',

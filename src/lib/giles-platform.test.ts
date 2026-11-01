@@ -47,10 +47,10 @@ import {
 } from './domain-routing';
 
 describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
-    it('loads all 6,337 active published products and 28 brands from the snapshot', () => {
+    it('loads all 13,531 active published products and 28 brands from the snapshot', () => {
         const snap = getGilesCatalogSnapshot();
-        expect(snap.totalProducts).toBe(6337);
-        expect(snap.products.length).toBe(6337);
+        expect(snap.totalProducts).toBe(13531);
+        expect(snap.products.length).toBe(13531);
 
         const brands = getGilesSnapshotBrands();
         expect(brands.length).toBe(28);
@@ -60,9 +60,9 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
         expect(categories.length).toBeGreaterThanOrEqual(8);
     });
 
-    it('supports code-first SKU search, brand filtering, and pagination over 6,337 products', () => {
+    it('supports code-first SKU search, brand filtering, and pagination over 13,531 products', () => {
         const allPaged = searchGilesSnapshotPaged({ page: 1, pageSize: 48 });
-        expect(allPaged.total).toBe(6337);
+        expect(allPaged.total).toBe(13531);
         expect(allPaged.items.length).toBe(48);
 
         const danfossPaged = searchGilesSnapshotPaged({ brand: 'danfoss', page: 1, pageSize: 24 });
@@ -481,7 +481,7 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
         }
     });
 
-    it('W86-A1: declutters /lt/products dark header, provides traceable stockQuantity & stockSource via /api/inventory/sync across 6,337 products, and renders the bespoke Gilės CAD Calculators Workbench on /[locale]/skaiciuokle', async () => {
+    it('W86-A1: declutters /lt/products dark header, provides traceable stockQuantity & stockSource via /api/inventory/sync across 13,531 products, and renders the bespoke Gilės CAD Calculators Workbench on /[locale]/skaiciuokle', async () => {
         const repoRoot = path.resolve(__dirname, '../..');
 
         // 1. Owner Item A: /lt/products dark header decluttered
@@ -502,22 +502,30 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
             path.join(repoRoot, 'src/i18n/storefront-ui-copy.ts'),
             'utf8',
         );
+        // W121-A2: the badge count is templated ({count}) and rendered live.
         expect(`${darkHeaderHtml}\n${storeUiCopySrc}`).toContain(
-            'Sandėlis: Eigulių g. 21, LT-51418 Kaunas · 6 337 poz.',
+            'Sandėlis: Eigulių g. 21, LT-51418 Kaunas · {count} poz.',
         );
 
-        // 2. Owner Item B: Real Stock Quantities & Warehouse Provenance
+        // 2. Owner Item B (W121-A1 honest stock): availability + provenance on
+        // every row; numeric qty only on the 28 real EGIP.lt rows.
         const snap = getGilesCatalogSnapshot();
-        expect(snap.products.length).toBe(6337);
-        const withStockMeta = snap.products.filter(
+        expect(snap.products.length).toBe(13531);
+        const withHonestMeta = snap.products.filter(
             (p) =>
-                typeof p.stockQuantity === 'number' &&
+                (p.availability === 'in_stock' ||
+                    p.availability === 'supplier_2_4d' ||
+                    p.availability === 'on_request') &&
                 p.stockUnit === 'vnt.' &&
                 typeof p.stockSource === 'string' &&
                 p.stockSource.length > 0 &&
                 typeof p.lastSyncedAt === 'string',
         );
-        expect(withStockMeta.length).toBe(6337);
+        expect(withHonestMeta.length).toBe(13531);
+        const withRealQty = snap.products.filter(
+            (p) => typeof p.stockQuantity === 'number' && p.stockQuantity > 0,
+        );
+        expect(withRealQty.length).toBe(28);
 
         // Verify live EGIP.lt ps_stock_available exact stock quantities
         const igniter425 = snap.products.find((p) => p.sku === 'KatM39833425');
@@ -528,7 +536,7 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
         const getSyncRes = await syncRoute.GET();
         const getSyncData = await getSyncRes.json();
         expect(getSyncData.ok).toBe(true);
-        expect(getSyncData.totalProducts).toBe(6337);
+        expect(getSyncData.totalProducts).toBe(13531);
         expect(getSyncData.breakdownBySource).toBeDefined();
 
         const postSyncReq = new Request('http://localhost/api/inventory/sync', {
@@ -1210,7 +1218,7 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
             }),
         );
         const overviewData = await overviewRes.json();
-        expect(overviewData.result.structuredContent.totalProducts).toBe(6337);
+        expect(overviewData.result.structuredContent.totalProducts).toBe(13531);
 
         const searchRes = await mcpRoute.POST(
             new Request('http://localhost/api/mcp', {
@@ -1249,7 +1257,9 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
                         name: 'giles_update_product',
                         arguments: {
                             sku: 'MPB-NANI-35',
-                            priceGrossEur: 1290,
+                            // W121-A1: pricelist price is now 1,294.70 EUR —
+                            // 900 EUR is a >20 % drop and must queue for human approval.
+                            priceGrossEur: 900,
                         },
                     },
                 }),

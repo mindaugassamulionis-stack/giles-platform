@@ -31,6 +31,8 @@ import { assetUrl } from '../../../lib/api';
 import { getLocale } from 'next-intl/server';
 import { getStorefrontRuntimeConfig } from '@platform/database';
 import { STOREFRONT_STOCK_COPY, resolveAppLocale } from '../../../i18n/storefront-ui-copy';
+import { getGilesCatalogSkuCount } from '../../../lib/catalog-count';
+import { formatCatalogCount } from '../../../lib/w121-honest-commerce';
 import type { AppLocale } from '../../../i18n/routing';
 import {
     localizeCategoryLabel,
@@ -93,7 +95,7 @@ const CATALOG_PAGE_COPY: Record<
     }
 > = {
     lt: {
-        metaTitle: 'El. parduotuvė (6 337 pozicijos) | GILĖS INŽINERIJA',
+        metaTitle: 'El. parduotuvė ({count} pozicijos) | GILĖS INŽINERIJA',
         metaDescription:
             'UAB „Gilės inžinerija“ el. parduotuvė: katilai, granulių degikliai, šilumos siurbliai Haier, Danfoss, HERZ, Gorenje ir atsarginės dalys.',
         defaultHeading: 'Katilai, granulių degikliai ir šildymo sistemų komponentai',
@@ -139,7 +141,7 @@ const CATALOG_PAGE_COPY: Record<
         nextPage: 'Kitas',
         emptyHeading: 'Pagal pasirinktus filtrus prekių nėra',
         emptyBody:
-            'Pakeiskite filtrus arba paklauskite inžinieriaus – pasiūlysime tikslų analogą iš 6 337 pozicijų.',
+            'Pakeiskite filtrus arba paklauskite inžinieriaus – pasiūlysime tikslų analogą iš {count} pozicijų.',
         askEngineer: 'Užklausti inžinieriaus',
         b2bHeading: 'Komplektuojate visą katilinę ar šildymo sistemą?',
         b2bBody:
@@ -148,7 +150,7 @@ const CATALOG_PAGE_COPY: Record<
         b2bCta: 'Montuotojų B2B portalas',
     },
     en: {
-        metaTitle: 'Online Store (6,337 items) | GILĖS INŽINERIJA',
+        metaTitle: 'Online Store ({count} items) | GILĖS INŽINERIJA',
         metaDescription:
             'UAB „Gilės inžinerija“ engineering store: boilers, pellet burners, Haier heat pumps, Danfoss, HERZ, Gorenje & spare parts.',
         defaultHeading: 'Boilers, Pellet Burners & Heating System Components',
@@ -194,7 +196,7 @@ const CATALOG_PAGE_COPY: Record<
         nextPage: 'Next',
         emptyHeading: 'No products match the selected filters',
         emptyBody:
-            'Adjust the filters or ask our engineer – we will select an exact match from 6,337 stocked items.',
+            'Adjust the filters or ask our engineer – we will select an exact match from {count} stocked items.',
         askEngineer: 'Ask an engineer',
         b2bHeading: 'Assembling a complete boiler room or heating system?',
         b2bBody:
@@ -203,7 +205,7 @@ const CATALOG_PAGE_COPY: Record<
         b2bCta: 'Installer B2B portal',
     },
     pl: {
-        metaTitle: 'Sklep internetowy (6 337 pozycji) | GILĖS INŽINERIJA',
+        metaTitle: 'Sklep internetowy ({count} pozycji) | GILĖS INŽINERIJA',
         metaDescription:
             'Sklep inżynieryjny UAB „Gilės inžinerija“: kotły, palniki pelletowe, pompy ciepła Haier, Danfoss, HERZ, Gorenje i części zamienne.',
         defaultHeading: 'Kotły, palniki pelletowe i komponenty systemów grzewczych',
@@ -249,7 +251,7 @@ const CATALOG_PAGE_COPY: Record<
         nextPage: 'Następna',
         emptyHeading: 'Brak produktów spełniających wybrane filtry',
         emptyBody:
-            'Zmień filtry lub zapytaj inżyniera – dobierzemy dokładny odpowiednik z 6 337 pozycji.',
+            'Zmień filtry lub zapytaj inżyniera – dobierzemy dokładny odpowiednik z {count} pozycji.',
         askEngineer: 'Zapytaj inżyniera',
         b2bHeading: 'Kompletujesz całą kotłownię lub system grzewczy?',
         b2bBody:
@@ -258,7 +260,7 @@ const CATALOG_PAGE_COPY: Record<
         b2bCta: 'Portal B2B instalatorów',
     },
     ru: {
-        metaTitle: 'Интернет-магазин (6 337 позиций) | GILĖS INŽINERIJA',
+        metaTitle: 'Интернет-магазин ({count} позиций) | GILĖS INŽINERIJA',
         metaDescription:
             'Инженерный магазин UAB „Gilės inžinerija“: котлы, пеллетные горелки, тепловые насосы Haier, Danfoss, HERZ, Gorenje и запчасти.',
         defaultHeading: 'Котлы, пеллетные горелки и компоненты систем отопления',
@@ -304,7 +306,7 @@ const CATALOG_PAGE_COPY: Record<
         nextPage: 'Далее',
         emptyHeading: 'По выбранным фильтрам товаров не найдено',
         emptyBody:
-            'Измените параметры фильтрации или задайте вопрос инженеру – подберем точный аналог из 6 337 позиций.',
+            'Измените параметры фильтрации или задайте вопрос инженеру – подберем точный аналог из {count} позиций.',
         askEngineer: 'Спросить инженера',
         b2bHeading: 'Комплектуете всю котельную или систему отопления?',
         b2bBody:
@@ -324,6 +326,7 @@ export async function generateMetadata({
     const resolvedRouteParams = params ? await params : undefined;
     const locale = resolveAppLocale(resolvedRouteParams?.locale);
     const copy = CATALOG_PAGE_COPY[locale];
+    const catalogCountLabel = formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, locale);
     const sp = (await searchParams) || {};
     const hasActiveFilters = Boolean(
         sp.category ||
@@ -341,7 +344,7 @@ export async function generateMetadata({
             sp.sort,
     );
     return {
-        title: copy.metaTitle,
+        title: copy.metaTitle.replaceAll('{count}', catalogCountLabel),
         description: copy.metaDescription,
         robots: hasActiveFilters ? { index: false, follow: false } : undefined,
     };
@@ -358,10 +361,10 @@ const HORIZONTAL_CATEGORY_STRIP: Array<{
 }> = [
     {
         labels: {
-            lt: 'Visos 6 337 prekės',
-            en: 'All 6,337 products',
-            pl: 'Wszystkie 6 337 produktów',
-            ru: 'Все 6 337 товаров',
+            lt: 'Visos {count} prekės',
+            en: 'All {count} products',
+            pl: 'Wszystkie {count} produktów',
+            ru: 'Все {count} товаров',
         },
         category: undefined,
         q: undefined,
@@ -689,6 +692,11 @@ export default async function ProductsPage({
     const locale = resolveAppLocale(rawLocale);
     const copy = CATALOG_PAGE_COPY[locale];
     const stockCopy = STOREFRONT_STOCK_COPY[locale];
+    // W121-A2: live count replaces every hardcoded 6337 in page copy.
+    const catalogCount = getGilesCatalogSkuCount() ?? 6337;
+    const catalogCountLabel = formatCatalogCount(catalogCount, locale);
+    const warehouseBadge = stockCopy.warehouseBadge.replaceAll('{count}', catalogCountLabel);
+    const withCount = (s: string) => s.replaceAll('{count}', catalogCountLabel);
     const sp = await searchParams;
     const runtimeConfig = await getStorefrontRuntimeConfig(sp.storeId);
     const showDeepSubtypeSpecFilters = runtimeConfig.features.deepSubtypeSpecFilters;
@@ -949,7 +957,7 @@ export default async function ProductsPage({
 
                         <div className="inline-flex items-center gap-2 border border-[#2C3742] bg-[#192028] px-3 py-1.5 text-xs font-semibold text-[#C9D0D8] rounded-none shrink-0">
                             <span className="h-2 w-2 rounded-full bg-[#157A3B] shrink-0" aria-hidden="true" />
-                            <span>{stockCopy.warehouseBadge}</span>
+                            <span>{warehouseBadge}</span>
                         </div>
                     </div>
 
@@ -976,7 +984,7 @@ export default async function ProductsPage({
                                       },
                                       locale,
                                   );
-                            const tabLabel = tab.labels[locale];
+                            const tabLabel = withCount(tab.labels[locale]);
                             return (
                                 <Link
                                     key={tab.labels.lt}
@@ -1765,7 +1773,7 @@ export default async function ProductsPage({
                                         {copy.emptyHeading}
                                     </h3>
                                     <p className="text-[#5B6470] text-sm max-w-md mx-auto">
-                                        {copy.emptyBody}
+                                        {withCount(copy.emptyBody)}
                                     </p>
                                     <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                                         <Link

@@ -14,7 +14,7 @@
     "newsletter": "Biuletyn inżynieryjny",
     "newsletterDesc": "Nowe grupy produktów Danfoss, IMI i Ferroli, instrukcje montażu oraz aktualizacje techniczne.",
     "shop": "Katalog i narzędzia",
-    "kitsAll": "Katalog techniczny (6 337+ pozycji)",
+    "kitsAll": "Katalog techniczny ({count}+ pozycji)",
     "rights": "Centrum systemów grzewczych, hydraulicznych i inżynieryjnych. Wszelkie prawa zastrzeżone.",
     "newsletterPlaceholder": "Twój adres e-mail",
     "subscribe": "Subskrybuj",

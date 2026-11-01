@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Wrench, Search, ShieldCheck, FileText, ArrowRight, Sparkles, Calculator, CheckCircle2, Layers } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { getGilesCatalogSkuCount } from '../../../lib/catalog-count';
+import { formatCatalogCount } from '../../../lib/w121-honest-commerce';
 import { Link } from '../../../i18n/navigation';
 import { HVAC_SYSTEM_GROUPS } from '../../../lib/v3-description';
 
@@ -16,8 +18,8 @@ const FOUR_PILLARS = [
         icon: Layers,
         title: 'Europos inžinerijos lyderiai vienoje vietoje',
         description:
-            'Gilės Inžinerija, Comisa, Centrometal, Dražice, Viessmann, Wilo, Danfoss, Haier, Gorenje, IMI Heimeier, IMI Pneumatex, IMI TA, Ferroli – 6 337+ patikrintų pozicijų: šildymo reguliavimas, balansavimas, plėtimosi indai, oro ir purvo atskyrimas, grindinis šildymas, radiatoriai, šilumos siurbliai ir automatika.',
-        badge: '6 337+ POZICIJŲ · ORIGINALŪS GAMINTOJŲ KODAI',
+            'Gilės Inžinerija, Comisa, Centrometal, Dražice, Viessmann, Wilo, Danfoss, Haier, Gorenje, IMI Heimeier, IMI Pneumatex, IMI TA, Ferroli – {count}+ patikrintų pozicijų: šildymo reguliavimas, balansavimas, plėtimosi indai, oro ir purvo atskyrimas, grindinis šildymas, radiatoriai, šilumos siurbliai ir automatika.',
+        badge: '{count}+ POZICIJŲ · ORIGINALŪS GAMINTOJŲ KODAI',
     },
     {
         number: '02',
@@ -46,6 +48,10 @@ const FOUR_PILLARS = [
 ];
 
 export default function AboutPage() {
+    // W121-A2: live SKU count replaces the hardcoded catalog size.
+    const catalogCountLabel = formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, 'lt');
+    const withCount = (s: string) => s.replaceAll('{count}', catalogCountLabel);
+
     const t = useTranslations();
 
     return (
@@ -129,12 +135,12 @@ export default function AboutPage() {
                                             {pillar.title}
                                         </h3>
                                         <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                                            {pillar.description}
+                                            {withCount(pillar.description)}
                                         </p>
                                     </div>
                                     <div className="mt-6 pt-4 border-t border-border flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-[var(--primary)] font-semibold">
                                         <CheckCircle2 className="w-4 h-4 shrink-0 text-[var(--data-ok)]" aria-hidden="true" />
-                                        <span>{pillar.badge}</span>
+                                        <span>{withCount(pillar.badge)}</span>
                                     </div>
                                 </div>
                             );
@@ -153,7 +159,7 @@ export default function AboutPage() {
                                     {t('aboutPage.valuesHeading')}
                                 </h2>
                                 <p className="text-slate-300 leading-relaxed mb-6 text-sm md:text-base">
-                                    {t('aboutPage.missionBody')}
+                                    {t('aboutPage.missionBody', { count: catalogCountLabel })}
                                 </p>
                                 <div className="flex flex-wrap gap-2.5">
                                     <span className="px-3.5 py-1.5 border border-white/20 bg-white/5 text-xs font-mono rounded-sm">
@@ -207,7 +213,7 @@ export default function AboutPage() {
                             href="/products"
                             className="font-mono text-xs uppercase tracking-wider text-[var(--primary)] font-bold hover:underline"
                         >
-                            Visas 6 337+ prekių katalogas →
+                            {`Visas ${catalogCountLabel}+ prekių katalogas →`}
                         </Link>
                     </div>
 

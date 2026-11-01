@@ -26,6 +26,8 @@ import { GILES_PATENTED_MARK_TRANSPARENT_PATH } from '../lib/giles-masterpiece-d
 import { locales, type AppLocale } from '../i18n/routing';
 import { NAVBAR_UI_COPY, resolveAppLocale } from '../i18n/storefront-ui-copy';
 import { formatEurAmount } from '../lib/format';
+import { useStorefrontConfig } from './storefront-config-provider';
+import { formatCatalogCount } from '../lib/w121-honest-commerce';
 
 export const HEADER_THEME_STORAGE_KEY = 'giles_header_theme_v1';
 export type HeaderThemeMode = 'light' | 'dark';
@@ -116,11 +118,19 @@ export function Navbar(_props: { settings?: StorefrontSettings }) {
     const displayedCartAmount = showNet ? cartSubtotal / 1.21 : cartSubtotal;
     const formattedCartPrice = `${formatEurAmount(hydrated ? displayedCartAmount : 0)} €`;
 
+    const catalogSkuCount = useStorefrontConfig().catalog?.skuCount ?? 0;
     const audienceLinks = [
         { href: `/${locale}`, subpath: '', label: copy.audienceHouseholds },
         { href: `/${locale}/vedlys`, subpath: '/vedlys', label: copy.audienceWizard },
         { href: `/${locale}/pramonei`, subpath: '/pramonei', label: copy.audienceIndustrial },
-        { href: `/${locale}/products`, subpath: '/products', label: copy.audienceStore },
+        {
+            href: `/${locale}/products`,
+            subpath: '/products',
+            label: copy.audienceStore.replace(
+                '{count}',
+                formatCatalogCount(catalogSkuCount, locale),
+            ),
+        },
         { href: `/${locale}/b2b`, subpath: '/b2b', label: copy.audienceB2b },
     ];
 

@@ -11,6 +11,8 @@ import { useCompareStore, useCompareHydration } from '../store/compare';
 import { useVatDisplayStore } from '../store/vat-display';
 import { assetUrl } from '../lib/api';
 import { STOREFRONT_STOCK_COPY, resolveAppLocale } from '../i18n/storefront-ui-copy';
+import { useStorefrontConfig } from './storefront-config-provider';
+import { formatCatalogCount } from '../lib/w121-honest-commerce';
 import type { AppLocale } from '../i18n/routing';
 
 export type CatalogFilterGroupId =
@@ -33,8 +35,6 @@ export interface ArtboardCatalogCellItem {
     specs: [string, string, string];
     priceGrossEur: number;
     imageUrl: string;
-    stockLabel: string;
-    stockQty?: number;
 }
 
 export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
@@ -48,8 +48,6 @@ export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
         specs: ['5–35 kW', 'A+', 'Ø90 mm'],
         priceGrossEur: 2350.0,
         imageUrl: '/images/products/giles-studio-01-mpb-nani-35-50.webp',
-        stockLabel: 'Sandėlyje Kaune: 6 vnt.',
-        stockQty: 6,
     },
     {
         id: 'kat-25kw-gi',
@@ -61,8 +59,6 @@ export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
         specs: ['25 kW', 'A+', '6 mm P265GH'],
         priceGrossEur: 1750.0,
         imageUrl: '/images/products/giles-studio-25-katri-25kw-pellet-boiler.webp',
-        stockLabel: 'Sandėlyje Kaune: 4 vnt.',
-        stockQty: 4,
     },
     {
         id: 'zv-100-gorenje',
@@ -74,8 +70,6 @@ export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
         specs: ['100 L', 'PN6 bar', 'G 3/4"'],
         priceGrossEur: 289.0,
         imageUrl: '/images/products/giles-studio-27-centrometal-cas-1001-buffer.webp',
-        stockLabel: 'Sandėlyje Kaune: 12 vnt.',
-        stockQty: 12,
     },
     {
         id: 'haier-r290-aw082',
@@ -87,8 +81,6 @@ export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
         specs: ['8,0 kW', 'A+++', 'R290 iki +75 °C'],
         priceGrossEur: 3490.0,
         imageUrl: '/images/products/giles-studio-21-haier-super-aqua-r290.webp',
-        stockLabel: 'Sandėlyje Kaune: 5 vnt.',
-        stockQty: 5,
     },
     {
         id: 'pelltech-pv30b',
@@ -100,8 +92,6 @@ export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
         specs: ['10–30 kW', 'A+', 'Auto-valymas'],
         priceGrossEur: 2190.0,
         imageUrl: '/images/products/giles-studio-05-pelltech-pv20a-kit.webp',
-        stockLabel: 'Sandėlyje Kaune: 5 vnt.',
-        stockQty: 5,
     },
     {
         id: 'herz-teplomix-dn25',
@@ -113,8 +103,6 @@ export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
         specs: ['DN25 (1")', '55–61 °C', 'Kvs 11,0'],
         priceGrossEur: 94.0,
         imageUrl: '/images/products/giles-studio-29-solar-ssv-station-kit.webp',
-        stockLabel: 'Sandėlyje Kaune: 34 vnt.',
-        stockQty: 34,
     },
     {
         id: 'imi-dynacon-8',
@@ -126,8 +114,6 @@ export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
         specs: ['8 kontūrai', 'AFC l/h', 'DN25 Inox'],
         priceGrossEur: 318.0,
         imageUrl: '/images/products/9330-08.800.webp',
-        stockLabel: 'Sandėlyje Kaune: 9 vnt.',
-        stockQty: 9,
     },
     {
         id: 'danfoss-ra-2990',
@@ -139,8 +125,6 @@ export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
         specs: ['RA Click', '5–26 °C', 'EN 215'],
         priceGrossEur: 24.9,
         imageUrl: '/images/products/013g2990.webp',
-        stockLabel: 'Sandėlyje Kaune: 48 vnt.',
-        stockQty: 48,
     },
     {
         id: 'ferroli-pol-500-10s',
@@ -152,8 +136,6 @@ export const ARTBOARD_1_FLAGSHIP_CELLS: ArtboardCatalogCellItem[] = [
         specs: ['500 mm', '1200 W', 'PN16 bar'],
         priceGrossEur: 130.3,
         imageUrl: '/images/products/0381-01.000.webp',
-        stockLabel: 'Sandėlyje Kaune: 30 vnt.',
-        stockQty: 30,
     },
 ];
 
@@ -180,18 +162,18 @@ const GRID_I18N: Record<
     }
 > = {
     lt: {
-        sectionAria: '03 / El. parduotuvė – Katilai, degikliai ir katilinės armatūra (6 337 pozicijos)',
+        sectionAria: '03 / El. parduotuvė – Katilai, degikliai ir katilinės armatūra ({count} pozicijos)',
         kicker: '03 / El. parduotuvė',
-        heading: 'Katilai, degikliai ir katilinės armatūra (6 337 pozicijos)',
+        heading: 'Katilai, degikliai ir katilinės armatūra ({count} pozicijos)',
         subtitle:
             'Tiesioginis tiekimas iš Kauno ir Vilniaus sandėlių. Visos kainos pateikiamos su PVM ir be PVM montuotojams.',
         priceDisplayAria: 'Kainų rodymas',
         vatGross: 'Su PVM',
         vatNet: 'Be PVM',
-        openCatalogBtn: 'Atidaryti visą katalogą (6 337)',
+        openCatalogBtn: 'Atidaryti visą katalogą ({count})',
         filterTabsAria: 'Katalogo kategorijų filtrai',
         tabs: {
-            all: 'Visos 6 337 prekės',
+            all: 'Visos {count} prekės',
             burners: 'Granulių degikliai',
             boilers_hp: 'Katilai ir šilumos siurbliai',
             tanks: 'Akumuliacinės talpos ir boileriai',
@@ -244,18 +226,18 @@ const GRID_I18N: Record<
         },
     },
     en: {
-        sectionAria: '03 / Online Store – Boilers, Pellet Burners & Hydronic Components (6,337 items)',
+        sectionAria: '03 / Online Store – Boilers, Pellet Burners & Hydronic Components ({count} items)',
         kicker: '03 / Online Store',
-        heading: 'Boilers, Pellet Burners & Hydronic Components (6,337 items)',
+        heading: 'Boilers, Pellet Burners & Hydronic Components ({count} items)',
         subtitle:
             'Direct supply from our Kaunas and Vilnius warehouses. Prices displayed including and excluding VAT for installers.',
         priceDisplayAria: 'Price display mode',
         vatGross: 'Incl. VAT',
         vatNet: 'Excl. VAT',
-        openCatalogBtn: 'Open Full Catalog (6,337)',
+        openCatalogBtn: 'Open Full Catalog ({count})',
         filterTabsAria: 'Catalog category filters',
         tabs: {
-            all: 'All 6,337 items',
+            all: 'All {count} items',
             burners: 'Pellet Burners',
             boilers_hp: 'Boilers & Heat Pumps',
             tanks: 'Buffer Tanks & Cylinders',
@@ -308,18 +290,18 @@ const GRID_I18N: Record<
         },
     },
     pl: {
-        sectionAria: '03 / Sklep internetowy – Kotły, palniki i armatura kotłowni (6 337 pozycji)',
+        sectionAria: '03 / Sklep internetowy – Kotły, palniki i armatura kotłowni ({count} pozycji)',
         kicker: '03 / Sklep internetowy',
-        heading: 'Kotły, palniki i armatura kotłowni (6 337 pozycji)',
+        heading: 'Kotły, palniki i armatura kotłowni ({count} pozycji)',
         subtitle:
             'Bezpośrednia dostawa z magazynów w Kownie i Wilnie. Ceny podane z VAT oraz bez VAT dla instalatorów.',
         priceDisplayAria: 'Tryb wyświetlania cen',
         vatGross: 'Z VAT',
         vatNet: 'Bez VAT',
-        openCatalogBtn: 'Otwórz pełny katalog (6 337)',
+        openCatalogBtn: 'Otwórz pełny katalog ({count})',
         filterTabsAria: 'Filtry kategorii katalogu',
         tabs: {
-            all: 'Wszystkie 6 337 produktów',
+            all: 'Wszystkie {count} produktów',
             burners: 'Palniki peletowe',
             boilers_hp: 'Kotły i pompy ciepła',
             tanks: 'Zbiorniki buforowe i bojlery',
@@ -372,18 +354,18 @@ const GRID_I18N: Record<
         },
     },
     ru: {
-        sectionAria: '03 / Интернет-магазин – Котлы, горелки и арматура котельных (6 337 позиций)',
+        sectionAria: '03 / Интернет-магазин – Котлы, горелки и арматура котельных ({count} позиций)',
         kicker: '03 / Интернет-магазин',
-        heading: 'Котлы, горелки и арматура котельных (6 337 позиций)',
+        heading: 'Котлы, горелки и арматура котельных ({count} позиций)',
         subtitle:
             'Прямые поставки со складов в Каунасе и Вильнюсе. Цены указаны с НДС и без НДС для монтажников.',
         priceDisplayAria: 'Режим отображения цен',
         vatGross: 'С НДС',
         vatNet: 'Без НДС',
-        openCatalogBtn: 'Открыть весь каталог (6 337)',
+        openCatalogBtn: 'Открыть весь каталог ({count})',
         filterTabsAria: 'Фильтры категорий каталога',
         tabs: {
-            all: 'Все 6 337 товаров',
+            all: 'Все {count} товаров',
             burners: 'Пеллетные горелки',
             boilers_hp: 'Котлы и тепловые насосы',
             tanks: 'Буферные емкости и бойлеры',
@@ -460,6 +442,15 @@ export function GilesArtboardCatalogGrid({
     const urlMatch = rawPathname.match(/^\/(lt|en|pl|ru)(?=\/|$)/i);
     const locale = resolveAppLocale(propLocale || (urlMatch ? urlMatch[1] : intlLocale));
     const hdr = GRID_I18N[locale];
+    // W121-A2: live SKU count replaces the hardcoded catalog size.
+    const catalogCountLabel = formatCatalogCount(
+        useStorefrontConfig().catalog?.skuCount ?? 0,
+        locale,
+    );
+    const sectionAria = hdr.sectionAria.replaceAll('{count}', catalogCountLabel);
+    const heading = hdr.heading.replaceAll('{count}', catalogCountLabel);
+    const openCatalogBtn = hdr.openCatalogBtn.replaceAll('{count}', catalogCountLabel);
+    const tabAllLabel = hdr.tabs.all.replaceAll('{count}', catalogCountLabel);
     const stockCopy = STOREFRONT_STOCK_COPY[locale];
     const { showNet, setShowNet } = useVatDisplayStore();
     const [addedId, setAddedId] = useState<string | null>(null);
@@ -500,7 +491,7 @@ export function GilesArtboardCatalogGrid({
     return (
         <section
             data-testid="home-artboard-eshop-grid"
-            aria-label={hdr.sectionAria}
+            aria-label={sectionAria}
             className="py-12 md:py-16 bg-[#F5F3EE] border-b border-[#E2DDD3]"
         >
             <div className="mx-auto max-w-7xl px-4 sm:px-6 space-y-6">
@@ -510,7 +501,7 @@ export function GilesArtboardCatalogGrid({
                             {hdr.kicker}
                         </span>
                         <h2 className="text-2xl md:text-4xl font-extrabold text-[#11161B] leading-tight">
-                            {hdr.heading}
+                            {heading}
                         </h2>
                         <p className="text-sm text-[#5B6470]">
                             {hdr.subtitle}
@@ -553,7 +544,7 @@ export function GilesArtboardCatalogGrid({
                             href={`/${locale}/products`}
                             className="inline-flex items-center border border-[#11161B] bg-[#11161B] hover:bg-[#C2410C] hover:border-[#C2410C] px-4 py-2 text-xs font-bold text-white whitespace-nowrap transition-colors rounded-none"
                         >
-                            {hdr.openCatalogBtn}
+                            {openCatalogBtn}
                         </Link>
                     </div>
                 </div>
@@ -578,7 +569,7 @@ export function GilesArtboardCatalogGrid({
                                         : 'border-[#D5CFC3] bg-white text-[#11161B] hover:border-[#11161B]'
                                 }`}
                             >
-                                {hdr.tabs[groupId]}
+                                {groupId === 'all' ? tabAllLabel : hdr.tabs[groupId]}
                             </button>
                         );
                     })}
@@ -622,9 +613,6 @@ export function GilesArtboardCatalogGrid({
                                 : locale === 'ru'
                                   ? 'Сравнить'
                                   : 'Palyginti';
-                        const localizedStock = item.stockQty
-                            ? stockCopy.inStockKaunas(item.stockQty)
-                            : stockCopy.inStockKaunas(5);
 
                         return (
                             <article
@@ -633,11 +621,7 @@ export function GilesArtboardCatalogGrid({
                                 className="flex flex-col justify-between border-r border-b border-[#E2DDD3] bg-[#FFFFFF] p-5 rounded-none transition-colors hover:bg-[#FAF8F5]"
                             >
                                 <div className="space-y-3">
-                                    <div className="flex items-center justify-between gap-2 text-xs">
-                                        <span className="inline-flex items-center gap-1.5 font-semibold text-[#157A3B]">
-                                            <span className="h-2 w-2 rounded-full bg-[#157A3B] shrink-0" />
-                                            <span>{localizedStock}</span>
-                                        </span>
+                                    <div className="flex items-center justify-end gap-2 text-xs">
                                         <span
                                             className={`${idx < 4 ? 'font-mono' : 'tabular-nums'} font-bold text-[#5B6470]`}
                                         >
@@ -735,7 +719,6 @@ export function GilesArtboardCatalogGrid({
                                                     price: item.priceGrossEur,
                                                     image: item.imageUrl,
                                                     categoryName: localizedCategory,
-                                                    stockQty: item.stockQty,
                                                     specs: [...localizedSpecs],
                                                 });
                                             }}

@@ -15,6 +15,8 @@ import { GILES_COMPLETED_WORKS } from '../lib/giles-completed-works-data';
 import { useVatDisplayStore } from '../store/vat-display';
 import { assetUrl } from '../lib/api';
 import { resolveAppLocale } from '../i18n/storefront-ui-copy';
+import { useStorefrontConfig } from './storefront-config-provider';
+import { formatCatalogCount } from '../lib/w121-honest-commerce';
 import type { AppLocale } from '../i18n/routing';
 import { CatalogSearchForm } from './catalog-search-form';
 import { GilesHeroAnimatedSchematic } from './giles-animated-schematics';
@@ -41,7 +43,7 @@ export const HERO_QUICK_CATEGORIES: HeroQuickCategoryCard[] = [
     },
     {
         id: 'eshop-catalog',
-        title: '2. El. parduotuvė (6 337 poz.)',
+        title: '2. El. parduotuvė ({count} poz.)',
         subtitle: 'Katilai, degikliai, vožtuvai, dalys',
         href: '/products',
         imageUrl: '/images/products/giles-studio-06-megatherm-burner-kit.webp',
@@ -460,12 +462,12 @@ const HERO_I18N: Record<
     lt: {
         eyebrow: 'LIETUVIŠKA ŠILUMOS INŽINERIJA · NUO 2011 M.',
         h1: 'Šiluma, kuri veikia pati.',
-        lead: 'Automatizuojame kieto kuro katilus granulėms, gaminame ir nuomojame konteinerines katilines 100 kW – 2,5 MW. El. parduotuvėje – 6 337 šildymo, vėdinimo ir santechnikos pozicijos su inžinieriaus konsultacija.',
+        lead: 'Automatizuojame kieto kuro katilus granulėms, gaminame ir nuomojame konteinerines katilines 100 kW – 2,5 MW. El. parduotuvėje – {count} šildymo, vėdinimo ir santechnikos pozicijos su inžinieriaus konsultacija.',
         card1Kicker: '01 / EL. PARDUOTUVĖ',
         card1Title: 'Man reikia įrangos',
         card1Desc: 'Katilai, degikliai, automatika, vėdinimas ir instaliacija',
         card1Alt: 'Katilai ir degikliai',
-        card1Cta: 'Peržiūrėti 6 337 prekių katalogą',
+        card1Cta: 'Peržiūrėti {count} prekių katalogą',
         card2Kicker: '02 / INŽINERINIS SPRENDIMAS',
         card2Title: 'Man reikia sprendimo',
         card2Desc: 'Keturi klausimai – komplektas ir orientacinė kaina',
@@ -474,7 +476,7 @@ const HERO_I18N: Record<
         kpis: [
             { val: '14+ metų', label: 'patirtis nuo 2011 m.' },
             { val: '2,5 MW', label: 'maks. katilinių galia' },
-            { val: '6 337+', label: 'prekių kataloge' },
+            { val: '{count}+', label: 'prekių kataloge' },
             { val: '24 mėn.', label: 'garantija ir servisas' },
         ],
         schematicTitle: 'MAZGO SCHEMA · GRANULINĖ KATILINĖ 25 kW · REV 4.2',
@@ -539,12 +541,12 @@ const HERO_I18N: Record<
     en: {
         eyebrow: 'LITHUANIAN HEATING ENGINEERING · SINCE 2011',
         h1: 'Heating that works on its own.',
-        lead: 'We convert solid-fuel boilers to automatic pellet firing and manufacture or rent 100 kW – 2.5 MW containerized boiler rooms. Our online store stocks 6,337 heating, ventilation, and plumbing items with direct engineering support.',
+        lead: 'We convert solid-fuel boilers to automatic pellet firing and manufacture or rent 100 kW – 2.5 MW containerized boiler rooms. Our online store stocks {count} heating, ventilation, and plumbing items with direct engineering support.',
         card1Kicker: '01 / ONLINE STORE',
         card1Title: 'I need equipment',
         card1Desc: 'Boilers, burners, automation, ventilation & hydronic fittings',
         card1Alt: 'Boilers and pellet burners',
-        card1Cta: 'Browse 6,337 catalog items',
+        card1Cta: 'Browse {count} catalog items',
         card2Kicker: '02 / ENGINEERING SOLUTION',
         card2Title: 'I need a solution',
         card2Desc: 'Four questions – matched conversion kit and indicative price',
@@ -553,7 +555,7 @@ const HERO_I18N: Record<
         kpis: [
             { val: '14+ years', label: 'experience since 2011' },
             { val: '2.5 MW', label: 'max. boiler plant output' },
-            { val: '6,337+', label: 'items in catalog' },
+            { val: '{count}+', label: 'items in catalog' },
             { val: '24 mo.', label: 'warranty & service' },
         ],
         schematicTitle: 'SYSTEM SCHEMATIC · PELLET BOILER ROOM 25 kW · REV 4.2',
@@ -618,12 +620,12 @@ const HERO_I18N: Record<
     pl: {
         eyebrow: 'LITEWSKA INŻYNIERIA GRZEWCZA · OD 2011 R.',
         h1: 'Ciepło, które działa samo.',
-        lead: 'Automatyzujemy kotły stałopalne na pellet oraz produkujemy i wynajmujemy kotłownie kontenerowe 100 kW – 2,5 MW. W sklepie internetowym – 6 337 pozycji grzewczych, wentylacyjnych i sanitarnych z doradztwem inżyniera.',
+        lead: 'Automatyzujemy kotły stałopalne na pellet oraz produkujemy i wynajmujemy kotłownie kontenerowe 100 kW – 2,5 MW. W sklepie internetowym – {count} pozycji grzewczych, wentylacyjnych i sanitarnych z doradztwem inżyniera.',
         card1Kicker: '01 / SKLEP INTERNETOWY',
         card1Title: 'Potrzebuję sprzętu',
         card1Desc: 'Kotły, palniki, automatyka, wentylacja i armatura',
         card1Alt: 'Kotły i palniki peletowe',
-        card1Cta: 'Zobacz katalog 6 337 produktów',
+        card1Cta: 'Zobacz katalog {count} produktów',
         card2Kicker: '02 / ROZWIĄZANIE INŻYNIERYJNE',
         card2Title: 'Potrzebuję rozwiązania',
         card2Desc: 'Cztery pytania – dobór zestawu i orientacyjna cena',
@@ -632,7 +634,7 @@ const HERO_I18N: Record<
         kpis: [
             { val: '14+ lat', label: 'doświadczenia od 2011 r.' },
             { val: '2,5 MW', label: 'maks. moc kotłowni' },
-            { val: '6 337+', label: 'pozycji w katalogu' },
+            { val: '{count}+', label: 'pozycji w katalogu' },
             { val: '24 mies.', label: 'gwarancja i serwis' },
         ],
         schematicTitle: 'SCHEMAT UKŁADU · KOTŁOWNIA PELETOWA 25 kW · REV 4.2',
@@ -697,12 +699,12 @@ const HERO_I18N: Record<
     ru: {
         eyebrow: 'ЛИТОВСКАЯ ТЕПЛОТЕХНИКА · С 2011 Г.',
         h1: 'Тепло, которое работает само.',
-        lead: 'Автоматизируем твердотопливные котлы под пеллеты, производим и сдаем в аренду контейнерные котельные 100 кВт – 2,5 МВт. В интернет-магазине – 6 337 позиций отопления, вентиляции и сантехники с консультацией инженера.',
+        lead: 'Автоматизируем твердотопливные котлы под пеллеты, производим и сдаем в аренду контейнерные котельные 100 кВт – 2,5 МВт. В интернет-магазине – {count} позиций отопления, вентиляции и сантехники с консультацией инженера.',
         card1Kicker: '01 / ИНТЕРНЕТ-МАГАЗИН',
         card1Title: 'Мне нужно оборудование',
         card1Desc: 'Котлы, горелки, автоматика, вентиляция и арматура',
         card1Alt: 'Котлы и пеллетные горелки',
-        card1Cta: 'Смотреть каталог 6 337 товаров',
+        card1Cta: 'Смотреть каталог {count} товаров',
         card2Kicker: '02 / ИНЖЕНЕРНОЕ РЕШЕНИЕ',
         card2Title: 'Мне нужно решение',
         card2Desc: 'Четыре вопроса – подбор комплекта и ориентировочная цена',
@@ -711,7 +713,7 @@ const HERO_I18N: Record<
         kpis: [
             { val: '14+ лет', label: 'опыт работы с 2011 г.' },
             { val: '2,5 МВт', label: 'макс. мощность котельных' },
-            { val: '6 337+', label: 'товаров в каталоге' },
+            { val: '{count}+', label: 'товаров в каталоге' },
             { val: '24 мес.', label: 'гарантия и servis'.replace('servis', 'сервис') },
         ],
         schematicTitle: 'СХЕМА УЗЛА · ПЕЛЛЕТНАЯ КОТЕЛЬНАЯ 25 кВт · REV 4.2',
@@ -787,6 +789,12 @@ export function HomeHero({
     const urlMatch = rawPathname.match(/^\/(lt|en|pl|ru)(?=\/|$)/i);
     const locale = resolveAppLocale(propLocale || (urlMatch ? urlMatch[1] : intlLocale));
     const copy = HERO_I18N[locale];
+    // W121-A2: live SKU count replaces the hardcoded catalog size.
+    const heroCatalogCountLabel = formatCatalogCount(
+        useStorefrontConfig().catalog?.skuCount ?? 0,
+        locale,
+    );
+    const withCount = (s2: string) => s2.replaceAll('{count}', heroCatalogCountLabel);
     const showNet = useVatDisplayStore((s) => s.showNet);
     const [selectedHotspotId, setSelectedHotspotId] = useState<string>(
         HERO_SCHEMATIC_HOTSPOTS[0]?.id || 'burner',
@@ -823,7 +831,7 @@ export function HomeHero({
                         </h1>
 
                         <p className="text-sm sm:text-base text-[#C9D0D8] leading-relaxed max-w-xl">
-                            {copy.lead}
+                            {withCount(copy.lead)}
                         </p>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
@@ -852,7 +860,7 @@ export function HomeHero({
                                     href={`/${locale}/products`}
                                     className="inline-flex items-center text-xs font-bold text-[#FF8A3D] hover:text-white whitespace-nowrap pt-1"
                                 >
-                                    {copy.card1Cta}
+                                    {withCount(copy.card1Cta)}
                                 </Link>
                             </div>
 
@@ -890,7 +898,7 @@ export function HomeHero({
                             {copy.kpis.map((kpi) => (
                                 <div key={kpi.label}>
                                     <span className="block text-lg font-extrabold text-white">
-                                        {kpi.val}
+                                        {withCount(kpi.val)}
                                     </span>
                                     <span className="text-xs text-[#A3ADB8]">{kpi.label}</span>
                                 </div>

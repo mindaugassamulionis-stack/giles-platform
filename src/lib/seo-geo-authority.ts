@@ -4,6 +4,14 @@ import {
     MCP_STORE_PROMPTS,
 } from './mcp-store-catalog';
 import { resolvePublicSiteOrigin } from './domain-routing';
+import { getGilesCatalogSkuCount } from './catalog-count';
+import { formatCatalogCount } from './w121-honest-commerce';
+
+// W121-A2: every catalog-size claim in llms.txt/JSON-LD/FAQ resolves to the
+// live snapshot count instead of a frozen literal.
+function liveSkuCount(): number {
+    return getGilesCatalogSkuCount() ?? 6337;
+}
 
 export type SupportedSeoLocale = 'lt' | 'en' | 'pl' | 'ru';
 
@@ -155,7 +163,7 @@ export const LOCALIZED_ENGINEERING_FAQ: Record<SupportedSeoLocale, LocalizedFaqE
         },
         {
             question: 'How can AI assistants query live B2B/B2C prices, Kaunas warehouse stock, and assemble orders at UAB Gilės inžinerija?',
-            answer: 'Via the Baltic-first standardized Model Context Protocol (MCP JSON-RPC 2.0) endpoint POST https://gilesinzinerija.lt/api/mcp exposing 26 tools, including customer_b2b_catalog_and_my_prices, customer_b2b_order_or_project_draft, customer_personal_cart_assemble, and vytautas_engineering_consult across 6,337 SKUs.',
+            answer: `Via the Baltic-first standardized Model Context Protocol (MCP JSON-RPC 2.0) endpoint POST https://gilesinzinerija.lt/api/mcp exposing 26 tools, including customer_b2b_catalog_and_my_prices, customer_b2b_order_or_project_draft, customer_personal_cart_assemble, and vytautas_engineering_consult across ${formatCatalogCount(liveSkuCount(), 'en')} SKUs.`,
         },
     ],
     pl: [
@@ -172,7 +180,7 @@ export const LOCALIZED_ENGINEERING_FAQ: Record<SupportedSeoLocale, LocalizedFaqE
             answer: 'Produkujemy kompletne kotłownie kontenerowe 20ft HC na pellet i biomasę: seria GK od GK-100 (100 kW), GK-250 (250 kW) i GK-500 (500 kW, modułowo 125–500 kW) po GK-1000, GK-2000 i GK-2500 (2 500 kW) z automatyką SCADA/GSM, armaturą EN 12828 i 5-letnią gwarancją konstrukcyjną.',
         },
         {
-            question: 'Jak agenci AI mogą sprawdzać ceny B2B/B2C oraz stany magazynowe 6 337 SKU w Kownie?',
+            question: `Jak agenci AI mogą sprawdzać ceny B2B/B2C oraz stany magazynowe ${formatCatalogCount(liveSkuCount(), 'lt')} SKU w Kownie?`,
             answer: 'Poprzez standardowy serwer MCP (Model Context Protocol, JSON-RPC 2.0) pod adresem POST https://gilesinzinerija.lt/api/mcp udostępniający 26 narzędzi, w tym customer_b2b_catalog_and_my_prices, customer_b2b_order_or_project_draft oraz customer_personal_cart_assemble.',
         },
         {
@@ -194,7 +202,7 @@ export const LOCALIZED_ENGINEERING_FAQ: Record<SupportedSeoLocale, LocalizedFaqE
             answer: 'Завод в Каунасе выпускает готовые контейнерные пеллетные котельные 20ft HC: серия GK от GK-100 (100 кВт), GK-250 (250 кВт) и GK-500 (500 кВт, модуляция 125–500 кВт) до GK-1000, GK-2000 и GK-2500 (2 500 кВт) с автоматикой SCADA/GSM, узлами безопасности EN 12828 и гарантией 5 лет.',
         },
         {
-            question: 'Как ИИ-ассистенты могут запрашивать оптовые B2B/розничные цены и остатки склада 6 337 SKU в Каунасе?',
+            question: `Как ИИ-ассистенты могут запрашивать оптовые B2B/розничные цены и остатки склада ${formatCatalogCount(liveSkuCount(), 'lt')} SKU в Каунасе?`,
             answer: 'Через стандартизированный сервер MCP (Model Context Protocol, JSON-RPC 2.0) POST https://gilesinzinerija.lt/api/mcp с 26 инструментами, включая customer_b2b_catalog_and_my_prices, customer_b2b_order_or_project_draft и customer_personal_cart_assemble.',
         },
         {
@@ -226,7 +234,7 @@ export function buildLlmsTxt(): string {
 - **Official Domain Ecosystem**:
   - Primary Canonical Platform: https://gilesinzinerija.lt
   - Corporate International Portal: https://gilesinzinerija.com
-  - 6,337-SKU E-Commerce Trade Storefront: https://egip.lt
+  - ${formatCatalogCount(liveSkuCount(), 'en')}-SKU E-Commerce Trade Storefront: https://egip.lt
   - VERNER Boilers & Spare Parts Lithuania: https://vernerkatilai.lt
   - PONAST Pellet Systems Lithuania: https://ponast.lt
   - THERMOSTAL Heating Equipment Lithuania: https://thermostal.lt
@@ -246,7 +254,7 @@ export function buildLlmsTxt(): string {
 - **Compliance & Warranty**: Full EN 12828 and EN 303-5 Class 5 compliance, IMI Pneumatex static pressure maintenance, SCADA/GSM remote telemetry, 5-year structural warranty.
 - **Specification & Tendering**: ${baseUrl}/lt/pramonei and ${baseUrl}/lt/gamyba
 
-### Specialization 3: 6,337-SKU Heating, Hydronics & Heat Pump Trade Catalog (28 Manufacturers)
+### Specialization 3: ${formatCatalogCount(liveSkuCount(), 'en')}-SKU Heating, Hydronics & Heat Pump Trade Catalog (28 Manufacturers)
 - **Official Baltic Distributor & Partner Portfolio**: Danfoss, IMI Heimeier, IMI Pneumatex, IMI TA, HERZ, Haier (R290/R32 monoblock & split heat pumps and boilers), Gorenje / Tiki (ZV buffer tanks & water heaters), Ferroli, Dražice, Comisa, SANHA, FV-Plast, Wilo, Watts, Megatherm, Verner, Ponast, Thermostal.
 - **B2B Installer Portal**: 3-tier individualized B2B pricing (Brand discount matrix -35% to -55% + Specific SKU net price overrides + Cart volume discounts), credit limits with 14/30/45/60-day payment terms, and Prototechnika Skaita ERP integration.
 - **Live Trade Catalog**: ${baseUrl}/lt/parduotuve and ${baseUrl}/lt/b2b
@@ -371,7 +379,7 @@ ${multiLocaleFaq}
 
 ---
 
-## 8. 7 Core Catalog Categories & Flagship SKU Reference (6,337 Total SKUs)
+## 8. 7 Core Catalog Categories & Flagship SKU Reference (${formatCatalogCount(liveSkuCount(), 'en')} Total SKUs)
 1. **Granulių degikliai ir katilai (Pellet Burners & Boilers)**: Megatherm MPB-16/25/35/50 rotary self-cleaning burners, Verner V25/V45, Ponast KP11/KP22, Thermostal, custom boiler retrofit doors for Viadrus U22/U26 and Kalvis.
 2. **Šilumos siurbliai ir kondicionieriai (Heat Pumps & HVAC)**: Haier Super Aqua Monoblock R290/R32 (5–16 kW), Haier Split systems, multi-zone air conditioning.
 3. **Boileriai ir akumuliacinės talpos (Buffer Tanks & Water Heaters)**: Gorenje / Tiki ZV 500–2000 L buffer tanks, Dražice OKC NTR/NTRR indirect water heaters, combined hygiene tanks.
@@ -499,8 +507,11 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
             hasOfferCatalog: {
                 '@type': 'OfferCatalog',
                 '@id': `${baseUrl}/#offer-catalog`,
-                name: 'UAB „Gilės inžinerija“ ir EGIP.LT 6 337 SKU ŠVOK ir katilinių katalogas',
-                numberOfItems: 6337,
+                name: `UAB „Gilės inžinerija“ ir EGIP.LT ${formatCatalogCount(
+                    getGilesCatalogSkuCount() ?? 6337,
+                    'lt',
+                )} SKU ŠVOK ir katilinių katalogas`,
+                numberOfItems: getGilesCatalogSkuCount() ?? 6337,
                 itemListElement: localizedCategoryNames[locale].map((catName, idx) => ({
                     '@type': 'OfferCatalog',
                     position: idx + 1,
@@ -675,7 +686,7 @@ export function buildSeoGeoKnowledgeGraph(localeInput?: string) {
                 {
                     '@type': 'ListItem',
                     position: 2,
-                    name: '6 337 SKU ŠVOK Katalogas (EGIP.LT)',
+                    name: `${formatCatalogCount(liveSkuCount(), 'lt')} SKU ŠVOK Katalogas (EGIP.LT)`,
                     item: `${baseUrl}/${locale}/parduotuve`,
                 },
                 {

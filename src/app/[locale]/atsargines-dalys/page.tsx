@@ -7,6 +7,8 @@ import { assetUrl } from '../../../lib/api';
 import { resolveBrandLogo } from '../../../lib/product-visuals';
 import { getTranslations } from 'next-intl/server';
 import { getBrandName, withBrandSuffix } from '../../../lib/brand';
+import { getGilesCatalogSkuCount } from '../../../lib/catalog-count';
+import { formatCatalogCount } from '../../../lib/w121-honest-commerce';
 
 // W22-D1 T2 & W34-A1: brand-group entry to spare parts with official manufacturer
 // SVG brand logos, live product counts, and curated flagship preview cards with real .webp photos.
@@ -20,6 +22,8 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function PartsPage() {
+    // W121-A2: live SKU count replaces the hardcoded catalog size.
+    const catalogCountLabel = formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, 'lt');
     const t = await getTranslations();
     const [brands, sampleParts] = await Promise.all([
         getBrandCatalogTiles(),
@@ -124,7 +128,7 @@ export default async function PartsPage() {
                                         href="/products"
                                         className="font-mono text-xs uppercase tracking-wider text-[var(--primary)] font-bold hover:underline"
                                     >
-                                        Atidaryti visas 6 337 pozicijas →
+                                        {`Atidaryti visas ${catalogCountLabel} pozicijas →`}
                                     </Link>
                                 </div>
                                 <ProductGridClient products={sampleParts.items} />

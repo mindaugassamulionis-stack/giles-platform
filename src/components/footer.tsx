@@ -14,6 +14,8 @@ import {
 } from '../lib/giles-masterpiece-data';
 import { FOOTER_UI_COPY, resolveAppLocale } from '../i18n/storefront-ui-copy';
 import { localizeCategoryLabel } from '../lib/product-i18n';
+import { useStorefrontConfig } from './storefront-config-provider';
+import { formatCatalogCount } from '../lib/w121-honest-commerce';
 
 type StorefrontSettings = {
     branding?: { name?: string };
@@ -26,6 +28,8 @@ export function Footer(_props: { settings?: StorefrontSettings }) {
     const urlLocaleMatch = rawPathname.match(/^\/(lt|en|pl|ru)(?=\/|$)/i);
     const locale = resolveAppLocale(urlLocaleMatch ? urlLocaleMatch[1] : intlLocale);
     const copy = FOOTER_UI_COPY[locale];
+    const catalogSkuCount = useStorefrontConfig().catalog?.skuCount ?? 0;
+    const storeHeading = copy.storeHeading.replace('{count}', formatCatalogCount(catalogSkuCount, locale));
 
     return (
         <footer className="bg-[#0B0F13] text-[#C9D0D8] border-t border-[#232D37] text-sm overflow-x-clip">
@@ -88,7 +92,7 @@ export function Footer(_props: { settings?: StorefrontSettings }) {
 
                     {/* Column 2: Parduotuvė (HVAC_SYSTEM_GROUPS) */}
                     <div className="lg:col-span-3 space-y-2">
-                        <h3 className="font-semibold text-white text-sm">{copy.storeHeading}</h3>
+                        <h3 className="font-semibold text-white text-sm">{storeHeading}</h3>
                         <ul className="space-y-1.5 text-xs text-[#C9D0D8]">
                             {HVAC_SYSTEM_GROUPS.slice(0, 6).map((group) => {
                                 const localizedGroupTitle = localizeCategoryLabel(

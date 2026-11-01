@@ -10,6 +10,11 @@ import {
 } from '@platform/database/services/product-compatibility-rag';
 import { assetUrl } from '../../../../lib/api';
 import { resolvePurchasability } from '../../../../lib/purchasable';
+import {
+    resolveHonestAvailability,
+    honestAvailabilityLabel,
+} from '../../../../lib/w121-honest-commerce';
+import { PriceRequestCta } from '../../../../components/price-request-cta';
 import { ProductPurchase } from '../../../../components/conversion/product-purchase';
 import { PriceDisplay } from '../../../../components/price-display';
 import { CopySkuButton } from '../../../../components/copy-sku-button';
@@ -1767,19 +1772,14 @@ export default async function ProductPage({ params }: Props) {
     );
 
     const purch = resolvePurchasability(product.stock);
-    const pdpStockQty =
-        typeof product.stockQuantity === 'number' && product.stockQuantity > 0
-            ? product.stockQuantity
-            : typeof product.stock === 'number' && product.stock > 0
-              ? product.stock
-              : 14;
+    // W121-A2: honest availability — no fabricated qty fallback (was: 14).
+    const pdpAvailability = resolveHonestAvailability(product);
+    const pdpStockLabel = honestAvailabilityLabel(pdpAvailability, loc);
     const pdpStockSourceRaw = product.stockSource || '';
     const pdpStockSource = pdpStockSourceRaw.includes('Tiekėjo')
         ? stockCopy.delivery2to4Days
         : stockCopy.warehouseProvenance;
-    const pdpShortStockBadge = pdpStockSourceRaw.includes('Tiekėjo')
-        ? stockCopy.delivery2to4Days
-        : stockCopy.inStockKaunas(pdpStockQty);
+    const pdpShortStockBadge = pdpStockLabel;
 
     const localizedCompat = compatibility
         ? localizeCompatibilityData(
@@ -1930,7 +1930,7 @@ export default async function ProductPage({ params }: Props) {
                                 {displayPageTitle}
                             </h1>
 
-                            <p className="text-sm text-[#5B6470] leading-relaxed">
+                            <p className="text-sm text-[#5B6470] leading-relaxed [text-wrap:pretty]">
                                 {(() => {
                                     const excerpt = localizedHook.slice(0, 160);
                                     return loc === 'lt' ? formatLtDecimalCommas(excerpt) : excerpt;
@@ -2025,13 +2025,14 @@ export default async function ProductPage({ params }: Props) {
                                     </div>
                                 </div>
 
-                                {product.priceCents == null || product.priceCents <= 0 ? (
-                                    <Link
-                                        href={`/${locale}/uzklausa?kodas=${encodeURIComponent(product.sku)}`}
-                                        className="inline-flex h-12 items-center justify-center rounded-none bg-[#C2410C] hover:bg-[#9A3412] px-8 text-sm font-bold text-white transition-colors whitespace-nowrap"
-                                    >
-                                        {copy.priceOnRequestRfq}
-                                    </Link>
+                                {product.priceOnRequest === true || product.priceCents == null || product.priceCents <= 0 ? (
+                                    <div className="space-y-2" data-testid="pdp-price-on-request">
+                                        <PriceRequestCta
+                                            sku={product.sku}
+                                            title={cleanDash(product.name)}
+                                            testId="pdp-price-request-cta"
+                                        />
+                                    </div>
                                 ) : (
                                     <ProductPurchase product={product} />
                                 )}
@@ -2138,8 +2139,12 @@ export default async function ProductPage({ params }: Props) {
                                     aria-hidden="true"
                                 />
                                 <span>
-                                    <strong className="text-[#157A3B]">{copy.guaranteeStockBold}</strong>
-                                    {copy.guaranteeStockRest}
+                                    <strong className="text-[#157A3B]">
+                                        {pdpAvailability === 'in_stock'
+                                            ? copy.guaranteeStockBold
+                                            : pdpStockLabel}
+                                    </strong>
+                                    {pdpAvailability === 'in_stock' && copy.guaranteeStockRest}
                                 </span>
                             </li>
                             <li className="flex items-center gap-2.5">
@@ -2277,10 +2282,10 @@ export default async function ProductPage({ params }: Props) {
                                         key={`${row.param}-${row.value}`}
                                         className="grid grid-cols-12 gap-2 px-5 py-3 hover:bg-[#FAF8F5]"
                                     >
-                                        <dt className="col-span-6 text-[#5B6470] font-medium break-words">
+                                        <dt className="col-span-6 text-[#5B6470] font-medium break-words [text-wrap:pretty]">
                                             {cleanDash(localizeSpecKey(row.param, loc))}
                                         </dt>
-                                        <dd className="col-span-6 text-right font-bold text-[#11161B] tabular-nums break-words">
+                                        <dd className="col-span-6 text-right font-bold text-[#11161B] tabular-nums break-words [text-wrap:pretty]">
                                             {cleanDash(localizeSpecValue(row.value, loc))}
                                         </dd>
                                     </div>

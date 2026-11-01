@@ -69,7 +69,7 @@ export const GILES_DOMAIN_PORTFOLIO: GilesDomainPortfolioEntry[] = [
         role: 'ESHOP_ENTRYPOINT',
         roleLabel: 'El. parduotuvė egip.lt -> /lt/products',
         description:
-            'Esama el. parduotuvė (PrestaShop 1.7 -> Gilės E-Shop) su automatiniu 6,337 prekių ir kategorijų 301 nukreipimu.',
+            'Esama el. parduotuvė (PrestaShop 1.7 -> Gilės E-Shop) su automatiniu 13,531 prekių ir kategorijų 301 nukreipimu.',
         legacySystem: 'PrestaShop 1.7 (themes/webstrum, 5.3 GB)',
         targetRoute: '/lt/products',
         mxProtectionRule: 'MX mail.egip.lt -> 79.98.29.20 (bumslangis.serveriai.lt) PALIEKAMA NEPAKEISTA',

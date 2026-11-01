@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Mail, MapPin, Sparkles, FileText, Calculator, CheckCircle2, Wrench, ArrowRight, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { getGilesCatalogSkuCount } from '../../../lib/catalog-count';
+import { formatCatalogCount } from '../../../lib/w121-honest-commerce';
 import { Link } from '../../../i18n/navigation';
 import { TextWithEmail } from '../../../components/email';
 
@@ -12,6 +14,8 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
     const t = useTranslations();
+    // W121-A2: live SKU count in the phone note.
+    const catalogCountLabel = formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, 'lt');
     return (
         <div className="min-h-screen bg-[var(--muted)] text-[var(--foreground)] pb-20">
             <div className="bg-[var(--foreground)] text-white border-b border-slate-800 pt-28 pb-10 mb-10">
@@ -127,7 +131,7 @@ export default function ContactPage() {
                                     <TextWithEmail text={t('contactPage.phoneValue')} />
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-                                    <TextWithEmail text={t('contactPage.phoneNote')} />
+                                    <TextWithEmail text={t('contactPage.phoneNote', { count: catalogCountLabel })} />
                                 </p>
                             </div>
                         </div>

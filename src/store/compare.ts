@@ -57,6 +57,8 @@ export interface CompareItem {
     stockQty?: number | null;
     stockStatus?: string;
     specs?: string[];
+    /** W121-A2: priceless rows compare with an RFQ CTA instead of a price. */
+    priceOnRequest?: boolean;
     addedAt?: number;
 }
 
@@ -241,15 +243,24 @@ export function extractCompareTechnicalSpecs(
               ? 'Комплектующее узла (входит в смету котельной)'
               : 'Sistemos mazgo dalis (komplektuojama kartu)';
 
-    const qty = typeof item.stockQty === 'number' && item.stockQty > 0 ? item.stockQty : 6;
+    // W121-A2: honest warehouse label — real qty only when the row carries it.
+    const qty = typeof item.stockQty === 'number' && item.stockQty > 0 ? item.stockQty : null;
     const stockWarehouseLabel =
-        locale === 'en'
-            ? `In stock (${qty} pcs) · Eigulių g. 21, Kaunas`
-            : locale === 'pl'
-              ? `W magazynie (${qty} szt.) · Eigulių g. 21, Kaunas`
-              : locale === 'ru'
-                ? `На складе (${qty} шт.) · Eigulių g. 21, Kaunas`
-                : `Sandėlyje (${qty} vnt.) · Eigulių g. 21, Kaunas`;
+        qty == null
+            ? locale === 'en'
+                ? 'Availability on request · Eigulių g. 21, Kaunas'
+                : locale === 'pl'
+                  ? 'Dostępność na zapytanie · Eigulių g. 21, Kowno'
+                  : locale === 'ru'
+                    ? 'Наличие по запросу · ул. Эйгулю 21, Каунас'
+                    : 'Pagal užklausą · Eigulių g. 21, Kaunas'
+            : locale === 'en'
+              ? `In stock (${qty} pcs) · Eigulių g. 21, Kaunas`
+              : locale === 'pl'
+                ? `W magazynie (${qty} szt.) · Eigulių g. 21, Kowno`
+                : locale === 'ru'
+                  ? `На складе (${qty} шт.) · ул. Эйгулю 21, Каунас`
+                  : `Sandėlyje (${qty} vnt.) · Eigulių g. 21, Kaunas`;
 
     const subCategoryLabel =
         item.subCategoryName ||

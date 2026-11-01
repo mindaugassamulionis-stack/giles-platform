@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { B2BPortalClient, type EditableCatalogItem } from '../../../components/b2b-portal-client';
+import { getGilesCatalogSkuCount } from '../../../lib/catalog-count';
+import { formatCatalogCount } from '../../../lib/w121-honest-commerce';
 import {
     getGilesCatalogSnapshot,
     getGilesSnapshotPopularProducts,
@@ -86,6 +88,7 @@ export default async function GilesB2BPortalPage({
 
     return (
         <B2BPortalClient
+            catalogCountLabel={formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, 'lt')}
             locale={locale}
             initialQuickRows={initialQuickRows}
             initialEditorItems={initialEditorItems}

@@ -13,7 +13,7 @@ const repoRoot = path.resolve(__dirname, '../..');
 const publicDir = path.join(repoRoot, 'public');
 const catalogJsonPath = path.join(repoRoot, 'src/data/giles-catalog-6337.json');
 
-describe('W111-A1: Real Manufacturer Image Extraction & 6,337-SKU Individual Technical Description/Specification Enrichment', () => {
+describe('W111-A1: Real Manufacturer Image Extraction & 13,531-SKU Individual Technical Description/Specification Enrichment', () => {
     it('1) extracts and builds >= 90 distinct verified .webp manufacturer and series images in public/manufacturer-assets/ with > 0 bytes', () => {
         const haierDir = path.join(publicDir, 'manufacturer-assets/haier');
         const seriesDir = path.join(publicDir, 'manufacturer-assets/series');
@@ -42,7 +42,7 @@ describe('W111-A1: Real Manufacturer Image Extraction & 6,337-SKU Individual Tec
         }
     });
 
-    it('2) enriches all 6,337 SKUs in src/data/giles-catalog-6337.json with 100% unique SKU-specific descriptions, >= 6 structured spec keys, and verified image paths on disk (>= 90 distinct images)', () => {
+    it('2) enriches all 13,531 SKUs in src/data/giles-catalog-6337.json with 100% unique SKU-specific descriptions, >= 6 structured spec keys, and verified image paths on disk (>= 90 distinct images)', () => {
         const raw = JSON.parse(fs.readFileSync(catalogJsonPath, 'utf8')) as {
             products: Array<{
                 id: string;
@@ -61,7 +61,7 @@ describe('W111-A1: Real Manufacturer Image Extraction & 6,337-SKU Individual Tec
             }>;
         };
 
-        expect(raw.products).toHaveLength(6337);
+        expect(raw.products).toHaveLength(13531);
 
         const uniqueDescriptions = new Set<string>();
         const distinctUsedImages = new Set<string>();
@@ -71,10 +71,12 @@ describe('W111-A1: Real Manufacturer Image Extraction & 6,337-SKU Individual Tec
         let emDashCount = 0;
         let insufficientSpecsCount = 0;
 
+        // W121-A1: EAN-13 is present only when the row carries a real source
+        // EAN — fabricated 477000… EANs were removed catalog-wide, so EAN-less
+        // rows legitimately omit the key instead of faking it.
         const requiredSpecKeys = [
             'Gamintojas',
             'Prekės kodas (SKU)',
-            'EAN-13 kodas',
             'Gamintojo serija',
             'Pajungimo matmuo / sriegis',
             'Vardinis slėgis / galia / tūris',
@@ -83,6 +85,9 @@ describe('W111-A1: Real Manufacturer Image Extraction & 6,337-SKU Individual Tec
         ];
 
         for (const item of raw.products) {
+            if (item.ean && item.technicalSpecs?.['EAN-13 kodas'] !== item.ean && item.specs?.['EAN-13 kodas'] !== item.ean) {
+                throw new Error(`EAN spec mismatch on ${item.sku}: field ${item.ean} vs specs`);
+            }
             const imgPath = item.image || item.rawImageUrl || '';
             if (!/^\/(manufacturer-assets|studio-assets|images)\/.+\.webp$/.test(imgPath)) {
                 brokenImageCount++;
@@ -124,14 +129,14 @@ describe('W111-A1: Real Manufacturer Image Extraction & 6,337-SKU Individual Tec
         expect(shortOrMissingDescCount).toBe(0);
         expect(emDashCount).toBe(0);
         expect(insufficientSpecsCount).toBe(0);
-        expect(uniqueDescriptions.size).toBe(6337);
+        expect(uniqueDescriptions.size).toBe(13531);
         expect(distinctUsedImages.size).toBeGreaterThanOrEqual(90);
     });
 
     it('3) resolves >= 90 distinct verified product images through getGilesCatalogSnapshot() and resolveProductSeriesVisual() and wires SKU specs into PDP engineering profile', () => {
         invalidateGilesCatalogSnapshotCache();
         const snap = getGilesCatalogSnapshot();
-        expect(snap.products).toHaveLength(6337);
+        expect(snap.products).toHaveLength(13531);
 
         const snapshotImages = new Set<string>();
         const seriesResolvedImages = new Set<string>();

@@ -22,6 +22,8 @@ import { resolveProductBrandInfo } from '../lib/v3-description';
 import { resolveAppLocale } from '../i18n/storefront-ui-copy';
 import type { AppLocale } from '../i18n/routing';
 import { formatEurAmount } from '../lib/format';
+import { PRICE_REQUEST_COPY } from '../lib/w121-honest-commerce';
+import { PriceRequestCta } from './price-request-cta';
 
 export const COMPARE_DRAWER_I18N: Record<
     AppLocale,
@@ -195,6 +197,7 @@ export function CompareDrawer() {
     if (!hydrated || items.length === 0) return null;
 
     const handleAddSingleToCart = (item: CompareItem) => {
+        if (item.priceOnRequest === true || !(Number(item.price) > 0)) return;
         const resolvedImg = resolveProductImageUrl({
             sku: item.sku,
             title: item.name,
@@ -431,6 +434,8 @@ export function CompareDrawer() {
                             {/* Product Columns Header Cards */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-t border-l border-[#D5CFC3]">
                                 {extractedByItem.map(({ item, brandName, image }) => {
+                                    const priceless =
+                                        item.priceOnRequest === true || !(Number(item.price) > 0);
                                     const gross = item.price > 0 ? item.price : 0;
                                     const net = gross / 1.21;
                                     const primaryVal = showNet ? net : gross;
@@ -479,26 +484,46 @@ export function CompareDrawer() {
 
                                             <div className="pt-2.5 border-t border-[#E2DDD3] flex items-end justify-between gap-2">
                                                 <div>
-                                                    <span className="block text-base font-extrabold text-[#11161B] tabular-nums">
-                                                        {formatEurAmount(primaryVal)} €{' '}
-                                                        <span className="text-xs font-semibold text-[#5B6470]">
-                                                            {showNet ? copy.vatNet : copy.vatGross}
+                                                    {priceless ? (
+                                                        <span
+                                                            className="block text-base font-extrabold text-[#11161B]"
+                                                            data-testid={`compare-price-on-request-${item.sku || item.id}`}
+                                                        >
+                                                            {PRICE_REQUEST_COPY[locale].onRequestLabel}
                                                         </span>
-                                                    </span>
-                                                    <span className="block text-xs text-[#5B6470] tabular-nums">
-                                                        {formatEurAmount(secondaryVal)} €{' '}
-                                                        {showNet ? copy.vatGross : copy.vatNet}
-                                                    </span>
+                                                    ) : (
+                                                        <>
+                                                            <span className="block text-base font-extrabold text-[#11161B] tabular-nums">
+                                                                {formatEurAmount(primaryVal)} €{' '}
+                                                                <span className="text-xs font-semibold text-[#5B6470]">
+                                                                    {showNet ? copy.vatNet : copy.vatGross}
+                                                                </span>
+                                                            </span>
+                                                            <span className="block text-xs text-[#5B6470] tabular-nums">
+                                                                {formatEurAmount(secondaryVal)} €{' '}
+                                                                {showNet ? copy.vatGross : copy.vatNet}
+                                                            </span>
+                                                        </>
+                                                    )}
                                                 </div>
 
-                                                <button
-                                                    type="button"
-                                                    onClick={() => handleAddSingleToCart(item)}
-                                                    className="inline-flex items-center gap-1.5 bg-[#11161B] hover:bg-[#C2410C] text-white px-3 py-2 text-xs font-bold transition-colors cursor-pointer rounded-none shrink-0"
-                                                >
-                                                    <ShoppingCart className="h-3.5 w-3.5" />
-                                                    <span>{copy.addToCart}</span>
-                                                </button>
+                                                {priceless ? (
+                                                    <PriceRequestCta
+                                                        sku={item.sku || item.id}
+                                                        title={item.name}
+                                                        compact
+                                                        testId={`compare-request-price-${item.sku || item.id}`}
+                                                    />
+                                                ) : (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => handleAddSingleToCart(item)}
+                                                        className="inline-flex items-center gap-1.5 bg-[#11161B] hover:bg-[#C2410C] text-white px-3 py-2 text-xs font-bold transition-colors cursor-pointer rounded-none shrink-0"
+                                                    >
+                                                        <ShoppingCart className="h-3.5 w-3.5" />
+                                                        <span>{copy.addToCart}</span>
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
                                     );

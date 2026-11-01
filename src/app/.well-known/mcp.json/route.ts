@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server';
+import { getGilesCatalogSkuCount } from '../../../lib/catalog-count';
+import { formatCatalogCount } from '../../../lib/w121-honest-commerce';
 import {
     MCP_STORE_TOOLS,
     MCP_STORE_RESOURCES,
@@ -24,7 +26,7 @@ export async function GET() {
         relativeEndpoint: '/api/mcp',
         discoveryManifestUrl: 'https://gilesinzinerija.lt/.well-known/mcp.json',
         warehouse: 'Eigulių g. 21, LT-51418 Kaunas / Žirmūnų g. 68, LT-09124 Vilnius',
-        totalCatalogSkus: 6337,
+        totalCatalogSkus: getGilesCatalogSkuCount() ?? 6337,
         toolsCount: MCP_STORE_TOOLS.length,
         resourcesCount: MCP_STORE_RESOURCES.length,
         promptsCount: MCP_STORE_PROMPTS.length,
@@ -35,7 +37,7 @@ export async function GET() {
                 authRequired: false,
                 scopes: ['public_read'],
                 description:
-                    'Atvira vieša prieiga bet kuriam išorės AI agentui (ChatGPT, Claude, Perplexity, Cursor): 6 337 SKU paieška, EN 12831 / EN 12828 / EN 303-5 / APVA skaičiuoklės, katilų suderinamumo patikra ir 1 paspaudimo krepšelio paruošimas be API rakto.',
+                    `Atvira vieša prieiga bet kuriam išorės AI agentui (ChatGPT, Claude, Perplexity, Cursor): ${formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, 'lt')} SKU paieška, EN 12831 / EN 12828 / EN 303-5 / APVA skaičiuoklės, katilų suderinamumo patikra ir 1 paspaudimo krepšelio paruošimas be API rakto.`,
                 tools: publicTools.map((t) => t.name),
             },
             {

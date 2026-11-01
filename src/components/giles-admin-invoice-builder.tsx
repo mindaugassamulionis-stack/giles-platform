@@ -258,7 +258,7 @@ export function GilesAdminInvoiceBuilder({
             >
                 <div className="space-y-1">
                     <span className="font-mono text-xs font-bold text-[#C2410C] block">
-                        DAUGIAEILIS SĄSKAITŲ KONSTRUKTORIUS · SUSIETAS SU 6 337 PREKIŲ KATALOGU
+                        DAUGIAEILIS SĄSKAITŲ KONSTRUKTORIUS · SUSIETAS SU PREKIŲ KATALOGU
                     </span>
                     <h3 className="text-lg font-extrabold text-[#11161B]">
                         Išrašyti PVM sąskaitą faktūrą (`GILE`), Išankstinę (`PRO`) arba Kreditinę (`KRED`)
@@ -355,7 +355,7 @@ export function GilesAdminInvoiceBuilder({
                 >
                     <div className="flex flex-wrap items-center justify-between gap-2">
                         <span className="font-bold text-[#11161B]">
-                            Pridėti prekes iš 6 337 katalogo arba montavimo paslaugą
+                            Pridėti prekes iš katalogo arba montavimo paslaugą
                         </span>
                         <button
                             type="button"

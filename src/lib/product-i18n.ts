@@ -11,10 +11,10 @@ function toLoc(locale?: string | null): SupportedLocale {
 }
 
 const CATEGORY_MAP: Record<string, Record<Exclude<SupportedLocale, 'lt'>, string>> = {
-    'Visos 6 337 prekės': {
-        en: 'All 6,337 products',
-        pl: 'Wszystkie 6 337 produktów',
-        ru: 'Все 6 337 товаров',
+    'Visos {count} prekės': {
+        en: 'All {count} products',
+        pl: 'Wszystkie {count} produktów',
+        ru: 'Все {count} товаров',
     },
     'Visos kategorijos': {
         en: 'All categories',

@@ -233,7 +233,7 @@ export function GilesAdminSuppliersManager({
             <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                     <span className="font-mono text-xs font-bold text-[#C2410C] block">
-                        3 SKYRIUS · TIEKĖJŲ KAINYNŲ IR 6 337 PREKIŲ SINCHRONIZACIJA
+                        3 SKYRIUS · TIEKĖJŲ KAINYNŲ IR KATALOGO PREKIŲ SINCHRONIZACIJA
                     </span>
                     <h2 className="text-xl sm:text-2xl font-extrabold text-[#11161B]">
                         {suppliers.length || 5} Tiekėjų Kainoraščiai (Danfoss, HERZ, Gorenje/TIKI, Gilės/Megatherm, Haier ir nauji tiekėjai)

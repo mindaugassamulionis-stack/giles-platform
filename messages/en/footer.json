@@ -14,7 +14,7 @@
     "newsletter": "Engineering Updates",
     "newsletterDesc": "New Danfoss, IMI, and Ferroli product groups, installation guides, and technical catalog updates.",
     "shop": "Catalog & Tools",
-    "kitsAll": "Technical Catalog (6,337+ items)",
+    "kitsAll": "Technical Catalog ({count}+ items)",
     "rights": "Lithuanian Heating, Plumbing & Engineering Systems Center. All rights reserved.",
     "newsletterPlaceholder": "Your email address",
     "subscribe": "Subscribe",

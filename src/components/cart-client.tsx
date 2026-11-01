@@ -723,12 +723,29 @@ export function CartClient({ accountId }: { accountId?: string | null }) {
                                 </div>
                             </dl>
 
-                            <Link
-                                href="/atsiskaitymas"
-                                className="block rounded-lg bg-[#C2410C] hover:bg-[#9A3412] px-6 py-3.5 text-center text-sm font-bold text-white transition-colors"
-                            >
-                                {t('cartPage.buy')}
-                            </Link>
+                            {/* W121-A2: priceless rows cannot complete standard
+                                checkout — the CTA routes to the RFQ form instead. */}
+                            {items.some((i) => i.priceOnRequest === true || i.price == null || i.price <= 0) ? (
+                                <Link
+                                    href={`/uzklausa?kodas=${encodeURIComponent(
+                                        items
+                                            .filter((i) => i.priceOnRequest === true || i.price == null || i.price <= 0)
+                                            .map((i) => i.sku)
+                                            .join(','),
+                                    )}`}
+                                    data-testid="cart-rfq-route"
+                                    className="block rounded-lg bg-[#C2410C] hover:bg-[#9A3412] px-6 py-3.5 text-center text-sm font-bold text-white transition-colors"
+                                >
+                                    {t('cartPage.buy')}
+                                </Link>
+                            ) : (
+                                <Link
+                                    href="/atsiskaitymas"
+                                    className="block rounded-lg bg-[#C2410C] hover:bg-[#9A3412] px-6 py-3.5 text-center text-sm font-bold text-white transition-colors"
+                                >
+                                    {t('cartPage.buy')}
+                                </Link>
+                            )}
 
                             {/* Request Custom Cart Quote Action */}
                             <div className="pt-2 border-t border-[#E2DDD3] space-y-3">

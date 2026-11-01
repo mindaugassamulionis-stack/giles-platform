@@ -16,6 +16,8 @@ import type {
 import type { SupplierPoGroup } from '../app/api/admin/copilot/route';
 import { GilesAdminIntegrations } from './giles-admin-integrations';
 import { GilesAdminMcp } from './giles-admin-mcp';
+import { useStorefrontConfig } from './storefront-config-provider';
+import { formatCatalogCount } from '../lib/w121-honest-commerce';
 import { GilesAdminB2BCrm } from './giles-admin-b2b-crm';
 import { GilesAdminAiAgentsCommandCenter } from './giles-admin-suppliers-and-agents';
 
@@ -85,6 +87,8 @@ export function GilesAdminOsModules({
     const [projects, setProjects] = useState<AdminCrmProjectLead[]>([]);
     const [orderNotice, setOrderNotice] = useState<string>('');
     const [crmNotice, setCrmNotice] = useState<string>('');
+    // W121-A2: live catalog size for the overview KPI card.
+    const adminCatalogSkuCount = useStorefrontConfig().catalog?.skuCount ?? 0;
 
     const [newTicketTitle, setNewTicketTitle] = useState('');
     const [newTicketType, setNewTicketType] = useState('Garantinis servisas');
@@ -264,7 +268,9 @@ export function GilesAdminOsModules({
                                 Katalogas ir Sandėlis (Kaunas)
                             </span>
                             <div className="text-2xl font-extrabold text-[#11161B]">
-                                6 337 prekės · 28 gamintojai
+                                {adminCatalogSkuCount > 0
+                                    ? `${formatCatalogCount(adminCatalogSkuCount, 'lt')} prekės · 28 gamintojai`
+                                    : '28 gamintojai'}
                             </div>
                             <p className="text-xs text-[#5B6470]">
                                 5 tiekėjų kainynai · 3 659 pozicijos sandėlyje · Išrašyta sąskaitų: {invoicesCount} · Užsakymų: {orders.length}

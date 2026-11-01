@@ -1559,7 +1559,7 @@ export function PdpCadExplodedSchematic({
                                 }`}
                             >
                                 <span className="font-mono text-xs font-extrabold text-[#FF8A3D] block">
-                                    [{pin.pinNumber}] {pin.code}
+                                    [{pin.pinNumber}]
                                 </span>
                                 <span className="text-xs font-semibold line-clamp-1">
                                     {pin.title}

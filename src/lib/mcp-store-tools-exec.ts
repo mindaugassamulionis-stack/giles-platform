@@ -148,7 +148,8 @@ export function executeStoreTool(
                 ok: true,
                 company: GILES_COMPANY_IDENTITY.legalName,
                 totalProducts: snap.totalProducts,
-                inStockKaunasCount: inStockKaunas || 3659,
+                // W121-A1 honest stock: real positive quantities only (EGIP 28).
+                inStockKaunasCount: snap.products.filter((p) => (p.stockQuantity ?? p.stock ?? 0) > 0).length,
                 brandsCount: getGilesSnapshotBrands().length,
                 unpaidInvoicesCount: invoices.filter((i) => i.paymentStatus === 'LAUKIA_APMOKEJIMO').length,
                 pendingB2bCount: b2b.filter((a) => a.status === 'PENDING_APPROVAL').length,

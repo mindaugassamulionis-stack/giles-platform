@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getGilesCatalogSnapshot, readCatalogOverrides } from '../../../../lib/giles-catalog-snapshot';
+import { getGilesCatalogSkuCount } from '../../../../lib/catalog-count';
+import { formatCatalogCount } from '../../../../lib/w121-honest-commerce';
 import { listSkaitaInvoices } from '../../../../lib/skaita-accounting';
 import { listB2BPartnerAccounts } from '../../../../lib/b2b-accounts';
 
@@ -231,7 +233,7 @@ export async function POST(req: Request) {
 
         let answer = '';
         if (commandId === 'audit_low_margin' || prompt.toLowerCase().includes('marž')) {
-            answer = `Vytautas Admin Copilot Auditas: Iš 6 337 aktyvių katalogo pozicijų aptikta ${lowMarginSkus.length} SKU su <20% marža. Rekomenduoju skyriuje „6. Kainynai ir Prekės“ pritaikyti masinę 28% minimalios maržos taisyklę nuo „Skaita“ savikainos.`;
+            answer = `Vytautas Admin Copilot Auditas: Iš ${formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, 'lt')} aktyvių katalogo pozicijų aptikta ${lowMarginSkus.length} SKU su <20% marža. Rekomenduoju skyriuje „6. Kainynai ir Prekės“ pritaikyti masinę 28% minimalios maržos taisyklę nuo „Skaita“ savikainos.`;
         } else if (
             commandId === 'generate_low_stock_po' ||
             prompt.toLowerCase().includes('po') ||
@@ -242,7 +244,7 @@ export async function POST(req: Request) {
             const unpaidSum = unpaidInvoices.reduce((s, i) => s + i.totalGrossEur, 0);
             answer = `Vytautas Admin Copilot Suvestinė: Neapmokėtų sąskaitų: ${unpaidInvoices.length} (${unpaidSum.toFixed(2)} € su PVM). Laukiančių B2B montuotojų paraiškų: ${pendingB2B.length}. Galite įklijuoti SEPA camt.053 išrašą automatiniam sudengimui.`;
         } else {
-            answer = `Vytautas Admin Copilot („${prompt || 'Operacijų analizė'}“): Kataloge 6 337 SKU (28 gamintojai), žemos atsargos (1–3 vnt.) sugrupuotos į ${groups.length} tiekėjų PO ruošinius, paruoštas ${poNumber} (${selectedGroup.supplierName}).`;
+            answer = `Vytautas Admin Copilot („${prompt || 'Operacijų analizė'}“): Kataloge ${formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, 'lt')} SKU (28 gamintojai), žemos atsargos (1–3 vnt.) sugrupuotos į ${groups.length} tiekėjų PO ruošinius, paruoštas ${poNumber} (${selectedGroup.supplierName}).`;
         }
 
         return NextResponse.json({

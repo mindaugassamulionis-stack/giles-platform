@@ -14,7 +14,7 @@
     "newsletter": "Inžinerinis naujienlaiškis",
     "newsletterDesc": "Naujos Danfoss, IMI ir Ferroli prekių grupės, montavimo atmintinės bei techniniai atnaujinimai.",
     "shop": "Katalogas ir įrankiai",
-    "kitsAll": "Techninis katalogas (6 337+ prekių)",
+    "kitsAll": "Techninis katalogas ({count}+ prekių)",
     "rights": "Lietuvos šildymo, santechnikos ir inžinerinių sistemų centras. Visos teisės saugomos.",
     "newsletterPlaceholder": "Jūsų el. paštas",
     "subscribe": "Prenumeruoti",

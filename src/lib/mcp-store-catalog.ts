@@ -31,13 +31,13 @@ export const MCP_STORE_TOOLS: McpToolDefinition[] = [
         name: 'giles_store_overview',
         title: 'Parduotuvės ir sandėlio KPI suvestinė',
         description:
-            'Grąžina gyvą UAB „Gilės inžinerija“ suvestinę: 6 337 prekės, 3 659 pozicijos Kauno sandėlyje, 28 prekių ženklai, neapmokėtos „Skaita“ sąskaitos, B2B paraiškos, serviso bilietai ir AI pasiūlymai.',
+            'Grąžina gyvą UAB „Gilės inžinerija“ suvestinę: 13 531 prekės, 28 realios EGIP.lt atsargos Kaune, 28 prekių ženklai, neapmokėtos „Skaita“ sąskaitos, B2B paraiškos, serviso bilietai ir AI pasiūlymai.',
         scopeCategory: 'read',
         inputSchema: { type: 'object', properties: {} },
     },
     {
         name: 'giles_search_products',
-        title: 'Prekių paieška kataloge (6 337 SKU)',
+        title: 'Prekių paieška kataloge (13 531 SKU)',
         description:
             'Ieško prekių pagal query, sku, brand, category, lowMarginOnly arba lowStockOnly (limit iki 50). Grąžina SKU, EAN, pavadinimą, kainą su/be PVM, savikainą, maržą % ir likutį.',
         scopeCategory: 'read',
@@ -388,7 +388,7 @@ export const MCP_STORE_TOOLS: McpToolDefinition[] = [
     },
     {
         name: 'vytautas_engineering_consult',
-        title: 'Inžinieriaus Vytauto daugiakryptė ŠVOK konsultacija ir 6 337 SKU hibridinė paieška',
+        title: 'Inžinieriaus Vytauto daugiakryptė ŠVOK konsultacija ir 13 531 SKU hibridinė paieška',
         description:
             'Vykdo pilną Vytauto inžinerinę diagnostiką ir mazgo parinkimą per MCP protokolą pagal pokalbio istoriją (messages) ir kalbą (locale).',
         scopeCategory: 'read',
@@ -408,7 +408,7 @@ export const MCP_STORE_TOOLS: McpToolDefinition[] = [
         name: 'customer_b2b_catalog_and_my_prices',
         title: 'B2B kliento individualių 3 lygių kainų ir Eigulių g. 21 sandėlio likučių paieška',
         description:
-            'Kliento B2B AI asistentui: ieško prekių 6 337 SKU kataloge ir apskaičiuoja konkrečios įmonės individualią kainą (gamintojo nuolaida + spec. SKU override + krepšelio apimties nuolaida) bei realų Kauno sandėlio likutį.',
+            'Kliento B2B AI asistentui: ieško prekių 13 531 SKU kataloge ir apskaičiuoja konkrečios įmonės individualią kainą (gamintojo nuolaida + spec. SKU override + krepšelio apimties nuolaida) bei realų Kauno sandėlio likutį.',
         scopeCategory: 'read',
         inputSchema: {
             type: 'object',
@@ -516,9 +516,9 @@ export const MCP_STORE_TOOLS: McpToolDefinition[] = [
     },
     {
         name: 'public_catalog_expert_search',
-        title: 'Atvira 6 337 SKU inžinerinio katalogo, CAD schemų ir Kauno sandėlio paieška išorės AI agentams (Tier 0)',
+        title: 'Atvira 13 531 SKU inžinerinio katalogo, CAD schemų ir Kauno sandėlio paieška išorės AI agentams (Tier 0)',
         description:
-            'Atviras viešas ekspertinis įrankis (public_read, be API rakto): ieško visose 6 337 UAB „Gilės inžinerija“ prekėse, grąžina technines specifikacijas, CAD brėžinio šeimą, likutį Eigulių g. 21 Kauno sandėlyje, mažmeninę kainą bei tiesioginę prekės ir 1 paspaudimo krepšelio nuorodą su autoritetinga citata.',
+            'Atviras viešas ekspertinis įrankis (public_read, be API rakto): ieško visose 13 531 UAB „Gilės inžinerija“ prekėse, grąžina technines specifikacijas, CAD brėžinio šeimą, likutį Eigulių g. 21 Kauno sandėlyje, mažmeninę kainą bei tiesioginę prekės ir 1 paspaudimo krepšelio nuorodą su autoritetinga citata.',
         scopeCategory: 'public_read',
         inputSchema: {
             type: 'object',
@@ -771,7 +771,7 @@ export const MCP_STORE_RESOURCES: McpResourceDefinition[] = [
     {
         uri: 'giles://store/overview',
         name: 'UAB „Gilės inžinerija“ gyva parduotuvės ir Kauno sandėlio būsena',
-        description: '6 337 SKU, 3 659 sandėlio pozicijos, 28 gamintojai, „Skaita“ sąskaitos ir B2B suvestinė.',
+        description: '13 531 SKU, 28 realios atsargos (EGIP.lt), 28 gamintojai, „Skaita“ sąskaitos ir B2B suvestinė.',
         mimeType: 'application/json',
     },
     {

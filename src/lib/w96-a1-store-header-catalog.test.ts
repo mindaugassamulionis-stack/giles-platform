@@ -191,7 +191,14 @@ describe('WP-W96-A1: Responsive Header + Wishlist Drawer, Non-Empty Category/Bra
         for (const sku of requiredSkus) {
             const found = findGilesSnapshotProductBySlugOrId(sku);
             expect(found, `Expected radiator SKU ${sku} to exist in snapshot`).not.toBeNull();
-            expect(found?.price).toBeGreaterThan(0);
+            // W121-A1 honest commerce: a row without a current pricelist price
+            // is price-on-request (priceEur null) instead of a stale price.
+            if (found?.availability === 'on_request') {
+                expect(found.priceEur).toBeNull();
+                expect(found.priceOnRequest).toBe(true);
+            } else {
+                expect(found?.price).toBeGreaterThan(0);
+            }
             const fromCatalog = await getCatalogProduct(sku);
             expect(fromCatalog?.sku).toBe(sku);
         }
@@ -205,7 +212,7 @@ describe('WP-W96-A1: Responsive Header + Wishlist Drawer, Non-Empty Category/Bra
         expect(productsPageSrc).toContain('Radiators & heating units');
         expect(productsPageSrc).toContain('Grzejniki i urządzenia grzewcze');
         expect(productsPageSrc).toContain('Радиаторы и отопительные приборы');
-        expect(snap.products.length).toBe(6337);
+        expect(snap.products.length).toBe(13531);
     });
 
     it('4) Address Cleanup: zero occurrences of Savanorių in public storefront files and replaced with Eigulių g. 21, LT-51418 Kaunas & Žirmūnų g. 68, LT-09124 Vilnius', () => {

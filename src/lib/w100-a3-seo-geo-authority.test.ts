@@ -53,7 +53,7 @@ describe('WP-W100-A3: SEO + GEO / AEO / LLM Citation Authority Architecture', ()
         expect(text).toContain('GK-250');
         expect(text).toContain('GK-500');
         expect(text).toContain('20ft HC');
-        expect(text).toContain('6,337');
+        expect(text).toContain('13,531');
         for (const brand of [
             'Danfoss',
             'IMI Heimeier',
@@ -157,7 +157,7 @@ describe('WP-W100-A3: SEO + GEO / AEO / LLM Citation Authority Architecture', ()
             expect(addressStr).toContain('LT-51418');
             expect(addressStr).toContain('Žirmūnų g. 68');
             expect(addressStr).toContain('LT-09124');
-            expect(orgNode?.hasOfferCatalog?.numberOfItems).toBe(6337);
+            expect(orgNode?.hasOfferCatalog?.numberOfItems).toBe(13531);
             expect(orgNode?.hasOfferCatalog?.itemListElement).toHaveLength(7);
             expect(Array.isArray(orgNode?.knowsAbout)).toBe(true);
             expect(orgNode?.knowsAbout.length).toBeGreaterThanOrEqual(6);

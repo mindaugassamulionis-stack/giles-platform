@@ -7,6 +7,8 @@ import {
 } from '../../components/giles-animated-schematics';
 import { GilesMcpMarketingShowcase } from '../../components/giles-mcp-marketing-showcase';
 import { getStore } from '../../lib/storefront-content';
+import { getGilesCatalogSkuCount } from '../../lib/catalog-count';
+import { formatCatalogCount } from '../../lib/w121-honest-commerce';
 import { getPopularProductPreviews } from '../../lib/catalog-listing';
 import { assetUrl } from '../../lib/api';
 import { getLocale } from 'next-intl/server';
@@ -134,17 +136,17 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         sec1Title: 'Trys kryptys – viena inžinerinė komanda',
         sec1Subtitle:
             'Ne tik parduodame įrangą – suprojektuojame, pagaminame, sumontuojame ir prižiūrime visoje Lietuvoje.',
-        allCatalogLinkText: 'Visos 6 337 katalogo prekės',
+        allCatalogLinkText: 'Visos {count} katalogo prekės',
         pillar1Kicker: '01 / NAMŲ ŪKIAMS',
-        pillar1Title: 'Namų katilinės, šilumos siurbliai ir 6 337 prekių parduotuvė',
+        pillar1Title: 'Namų katilinės, šilumos siurbliai ir {count} prekių parduotuvė',
         pillar1Desc:
             'Katilai, granulių degikliai, Haier R290 šilumos siurbliai, Danfoss ir HERZ automatika, Gorenje boileriai bei grindinio šildymo kolektoriai.',
         pillar1Bullets: [
-            '• 6 337 aktyvių pozicijų su kainomis su PVM ir be PVM',
+            '• {count} aktyvių pozicijų su kainomis su PVM ir be PVM',
             '• Paruošti katilinių ir grindinio šildymo komplektai',
             '• Atsiėmimas ir konsultacija Vilniuje bei Kaune',
         ],
-        pillar1PrimaryCta: 'Atidaryti el. parduotuvę (6 337)',
+        pillar1PrimaryCta: 'Atidaryti el. parduotuvę ({count})',
         pillar1SecondaryCta: 'Paruošti paketai',
         pillar2Kicker: '02 / KATILO PERDARYMAS',
         pillar2Title: 'Kieto kuro katilo perdarymas į automatinį granulinį',
@@ -264,9 +266,9 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         proofBlocks: [
             {
                 num: '01 / Gamyba ir sandėlis',
-                metric: '6 337 poz.',
+                metric: '{count} poz.',
                 title: 'Nuosava gamyba ir sandėlis Kaune',
-                desc: 'Eigulių g. 21, LT-51418 Kaunas ir Žirmūnų g. 68, LT-09124 Vilnius – gaminame katilus, CNC tvirtinimo flanšus, sraigtus bei palaikome 6 337 ŠVOK pozicijas vietoje.',
+                desc: 'Eigulių g. 21, LT-51418 Kaunas ir Žirmūnų g. 68, LT-09124 Vilnius – gaminame katilus, CNC tvirtinimo flanšus, sraigtus bei palaikome {count} ŠVOK pozicijas vietoje.',
             },
             {
                 num: '02 / Atsarginių dalių garantas',
@@ -300,17 +302,17 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         sec1Title: 'Three Directions – One Engineering Team',
         sec1Subtitle:
             'We do not just sell equipment – we design, manufacture, install, and service boiler systems across Lithuania.',
-        allCatalogLinkText: 'All 6,337 catalog items',
+        allCatalogLinkText: 'All {count} catalog items',
         pillar1Kicker: '01 / FOR HOUSEHOLDS',
-        pillar1Title: 'Residential Boiler Rooms, Heat Pumps & 6,337-Item Store',
+        pillar1Title: 'Residential Boiler Rooms, Heat Pumps & {count}-Item Store',
         pillar1Desc:
             'Boilers, pellet burners, Haier R290 heat pumps, Danfoss and HERZ hydronic controls, Gorenje cylinders, and underfloor heating manifolds.',
         pillar1Bullets: [
-            '• 6,337 stocked items with prices incl. and excl. VAT',
+            '• {count} stocked items with prices incl. and excl. VAT',
             '• Pre-engineered boiler room & underfloor heating packages',
             '• Warehouse pickup & consultation in Vilnius and Kaunas',
         ],
-        pillar1PrimaryCta: 'Open Online Store (6,337)',
+        pillar1PrimaryCta: 'Open Online Store ({count})',
         pillar1SecondaryCta: 'System Packages',
         pillar2Kicker: '02 / BOILER CONVERSION',
         pillar2Title: 'Solid-Fuel Boiler Conversion to Automatic Pellet Firing',
@@ -430,9 +432,9 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         proofBlocks: [
             {
                 num: '01 / Factory & Warehouse',
-                metric: '6,337 SKUs',
+                metric: '{count} SKUs',
                 title: 'In-House Manufacturing & Kaunas Warehouse',
-                desc: 'Eigulių St. 21, LT-51418 Kaunas & Žirmūnų St. 68, LT-09124 Vilnius – we manufacture boilers, CNC mounting flanges, and augers while stocking 6,337 HVAC items.',
+                desc: 'Eigulių St. 21, LT-51418 Kaunas & Žirmūnų St. 68, LT-09124 Vilnius – we manufacture boilers, CNC mounting flanges, and augers while stocking {count} HVAC items.',
             },
             {
                 num: '02 / Spare Parts Guarantee',
@@ -466,17 +468,17 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         sec1Title: 'Trzy kierunki – jeden zespół inżynieryjny',
         sec1Subtitle:
             'Nie tylko sprzedajemy urządzenia – projektujemy, produkujemy, montujemy i serwisujemy kotłownie.',
-        allCatalogLinkText: 'Wszystkie 6 337 pozycji katalogu',
+        allCatalogLinkText: 'Wszystkie {count} pozycji katalogu',
         pillar1Kicker: '01 / DLA DOMÓW',
-        pillar1Title: 'Kotłownie domowe, pompy ciepła i sklep z 6 337 produktami',
+        pillar1Title: 'Kotłownie domowe, pompy ciepła i sklep z {count} produktami',
         pillar1Desc:
             'Kotły, palniki peletowe, pompy ciepła Haier R290, automatyka Danfoss i HERZ, bojlery Gorenje oraz rozdzielacze ogrzewania podłogowego.',
         pillar1Bullets: [
-            '• 6 337 aktywnych pozycji z cenami z VAT i bez VAT',
+            '• {count} aktywnych pozycji z cenami z VAT i bez VAT',
             '• Gotowe zestawy kotłowni i ogrzewania podłogowego',
             '• Odbiór na miejscu oraz doradztwo w Wilnie i Kownie',
         ],
-        pillar1PrimaryCta: 'Otwórz sklep internetowy (6 337)',
+        pillar1PrimaryCta: 'Otwórz sklep internetowy ({count})',
         pillar1SecondaryCta: 'Gotowe pakiety',
         pillar2Kicker: '02 / MODERNIZACJA KOTŁA',
         pillar2Title: 'Przeróbka kotła stałopalnego na automatyczny peletowy',
@@ -596,9 +598,9 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         proofBlocks: [
             {
                 num: '01 / Produkcja i magazyn',
-                metric: '6 337 poz.',
+                metric: '{count} poz.',
                 title: 'Własna produkcja i magazyn w Kownie',
-                desc: 'Eigulių g. 21, LT-51418 Kowno i Žirmūnų g. 68, LT-09124 Wilno – produkujemy kotły, kołnierze CNC, podajniki ślimakowe oraz utrzymujemy 6 337 pozycji HVAC od ręki.',
+                desc: 'Eigulių g. 21, LT-51418 Kowno i Žirmūnų g. 68, LT-09124 Wilno – produkujemy kotły, kołnierze CNC, podajniki ślimakowe oraz utrzymujemy {count} pozycji HVAC od ręki.',
             },
             {
                 num: '02 / Gwarancja części zamiennych',
@@ -632,17 +634,17 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         sec1Title: 'Три направления – одна инженерная команда',
         sec1Subtitle:
             'Мы не просто продаем оборудование – проектируем, производим, монтируем и обслуживаем котельные.',
-        allCatalogLinkText: 'Все 6 337 товаров каталога',
+        allCatalogLinkText: 'Все {count} товаров каталога',
         pillar1Kicker: '01 / ДЛЯ ДОМА',
-        pillar1Title: 'Домашние котельные, тепловые насосы и магазин на 6 337 позиций',
+        pillar1Title: 'Домашние котельные, тепловые насосы и магазин на {count} позиций',
         pillar1Desc:
             'Котлы, пеллетные горелки, тепловые насосы Haier R290, автоматика Danfoss и HERZ, бойлеры Gorenje и коллекторы теплого пола.',
         pillar1Bullets: [
-            '• 6 337 позиций в наличии с ценами с НДС и без НДС',
+            '• {count} позиций в наличии с ценами с НДС и без НДС',
             '• Готовые комплекты котельных и теплого пола',
             '• Самовывоз и консультация инженера в Вильнюсе и Каунасе',
         ],
-        pillar1PrimaryCta: 'Открыть интернет-магазин (6 337)',
+        pillar1PrimaryCta: 'Открыть интернет-магазин ({count})',
         pillar1SecondaryCta: 'Готовые пакеты',
         pillar2Kicker: '02 / МОДЕРНИЗАЦИЯ КОТЛА',
         pillar2Title: 'Перевод твердотопливного котла на автоматические пеллеты',
@@ -762,9 +764,9 @@ const HOME_PAGE_COPY: Record<AppLocale, HomePageSectionCopy> = {
         proofBlocks: [
             {
                 num: '01 / Производство и склад',
-                metric: '6 337 поз.',
+                metric: '{count} поз.',
                 title: 'Собственное производство и склад в Каунасе',
-                desc: 'ул. Эйгулю 21, LT-51418 Каунас и ул. Жирмуну 68, LT-09124 Вильнюс – производим котлы, ЧПУ-фланцы, шнеки и поддерживаем 6 337 позиций ОВиК на складе.',
+                desc: 'ул. Эйгулю 21, LT-51418 Каунас и ул. Жирмуну 68, LT-09124 Вильнюс – производим котлы, ЧПУ-фланцы, шнеки и поддерживаем {count} позиций ОВиК на складе.',
             },
             {
                 num: '02 / Гарантия запчастей',
@@ -810,6 +812,9 @@ export default async function HomePage({
     const rawStoreName = (store?.name || 'GILĖS INŽINERIJA').trim();
     const storeName = /suradai|fill\.lt/i.test(rawStoreName) ? 'GILĖS INŽINERIJA' : rawStoreName;
     const p = HOME_PAGE_COPY[locale];
+    // W121-A2: live SKU count replaces every hardcoded catalog size.
+    const catalogCountLabel = formatCatalogCount(getGilesCatalogSkuCount() ?? 6337, locale);
+    const withCount = (s: string) => s.replaceAll('{count}', catalogCountLabel);
 
     return (
         <main className="min-h-screen bg-[#F5F3EE] text-[#11161B]">
@@ -855,7 +860,7 @@ export default async function HomePage({
                             href={`/${locale}/products`}
                             className="text-sm font-bold text-[#C2410C] hover:text-[#11161B] whitespace-nowrap"
                         >
-                            {p.allCatalogLinkText}
+                            {withCount(p.allCatalogLinkText)}
                         </Link>
                     </div>
 
@@ -866,14 +871,14 @@ export default async function HomePage({
                                     {p.pillar1Kicker}
                                 </span>
                                 <h3 className="text-xl font-extrabold text-[#11161B] leading-snug">
-                                    {p.pillar1Title}
+                                    {withCount(p.pillar1Title)}
                                 </h3>
                                 <p className="text-sm text-[#5B6470] leading-relaxed">
                                     {p.pillar1Desc}
                                 </p>
                                 <ul className="space-y-1.5 text-xs text-[#2A323B] pt-1">
                                     {p.pillar1Bullets.map((b) => (
-                                        <li key={b}>{b}</li>
+                                        <li key={b}>{withCount(b)}</li>
                                     ))}
                                 </ul>
                             </div>
@@ -882,7 +887,7 @@ export default async function HomePage({
                                     href={`/${locale}/products`}
                                     className="inline-flex items-center rounded-none bg-[#11161B] hover:bg-[#C2410C] px-4 py-2.5 text-xs font-bold text-white whitespace-nowrap transition-colors"
                                 >
-                                    {p.pillar1PrimaryCta}
+                                    {withCount(p.pillar1PrimaryCta)}
                                 </Link>
                                 <Link
                                     href={`/${locale}/paketai`}
@@ -1274,7 +1279,7 @@ export default async function HomePage({
                                             {item.num}
                                         </span>
                                         <span className="bg-[#11161B] text-white px-2 py-0.5 text-xs font-bold">
-                                            {item.metric}
+                                            {item.metric.includes('{count}') ? withCount(item.metric) : item.metric}
                                         </span>
                                     </div>
                                     <h3 className="text-base font-extrabold text-[#11161B] leading-snug">

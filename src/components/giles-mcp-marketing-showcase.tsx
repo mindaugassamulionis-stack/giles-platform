@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import type { AppLocale } from '../i18n/routing';
+import { useStorefrontConfig } from './storefront-config-provider';
+import { formatCatalogCount } from '../lib/w121-honest-commerce';
 
 interface McpShowcaseCopy {
     kicker: string;
@@ -36,7 +38,7 @@ const SHOWCASE_COPY: Record<AppLocale, McpShowcaseCopy> = {
     lt: {
         kicker: '06 / AI IR MCP PIRKIMŲ PROTOKOLAS · PIRMIEJI BALTIJOS ŠALYSE',
         title: 'Jūsų AI asistentas dabar gali tiesiogiai komplektuoti ir užsakyti iš „Gilės inžinerijos“',
-        lead: 'Palaikome atvirą Model Context Protocol (MCP 2025-03-26) standartą. Jūsų įmonės planavimo, pirkimų ar asmeninis AI asistentas (Claude Desktop, Cursor, OpenAI Agent) tiesiogiai jungiasi prie 6 337 SKU katalogo ir Kauno sandėlio.',
+        lead: 'Palaikome atvirą Model Context Protocol (MCP 2025-03-26) standartą. Jūsų įmonės planavimo, pirkimų ar asmeninis AI asistentas (Claude Desktop, Cursor, OpenAI Agent) tiesiogiai jungiasi prie {count} SKU katalogo ir Kauno sandėlio.',
         modeB2bTab: '1. Verslo paskyroms (B2B MCP)',
         modePersonalTab: '2. Namų statytojams (Asmeninis AI)',
         tier1Tag: 'PAGRINDINIS REŽIMAS (80% SRAUTO) · B2B PARTNERIAMS IR MONTUOTOJAMS',
@@ -79,7 +81,7 @@ const SHOWCASE_COPY: Record<AppLocale, McpShowcaseCopy> = {
     en: {
         kicker: '06 / AI & MCP PURCHASING PROTOCOL · FIRST IN THE BALTICS',
         title: 'Your AI assistant can now configure and order directly from Gilės Inžinerija',
-        lead: 'We support the open Model Context Protocol (MCP 2025-03-26). Your company purchasing agent or personal AI assistant (Claude Desktop, Cursor, OpenAI Agent) connects directly to our 6,337-SKU catalog and Kaunas warehouse.',
+        lead: 'We support the open Model Context Protocol (MCP 2025-03-26). Your company purchasing agent or personal AI assistant (Claude Desktop, Cursor, OpenAI Agent) connects directly to our {count}-SKU catalog and Kaunas warehouse.',
         modeB2bTab: '1. Business Accounts (B2B MCP)',
         modePersonalTab: '2. Homebuilders (Personal AI)',
         tier1Tag: 'PRIMARY MODE (80% FOCUS) · FOR B2B CONTRACTORS & INSTALLERS',
@@ -122,7 +124,7 @@ const SHOWCASE_COPY: Record<AppLocale, McpShowcaseCopy> = {
     pl: {
         kicker: '06 / PROTOKÓŁ ZAKUPOWY AI I MCP · PIERWSI W KRAJACH BAŁTYCKICH',
         title: 'Twój asystent AI może teraz bezpośrednio kompletować i zamawiać w Gilės Inžinerija',
-        lead: 'Obsługujemy otwarty standard Model Context Protocol (MCP 2025-03-26). Firmowy agent zakupowy lub osobisty asystent AI (Claude Desktop, Cursor, OpenAI Agent) łączy się bezpośrednio z katalogiem 6 337 SKU i magazynem w Kownie.',
+        lead: 'Obsługujemy otwarty standard Model Context Protocol (MCP 2025-03-26). Firmowy agent zakupowy lub osobisty asystent AI (Claude Desktop, Cursor, OpenAI Agent) łączy się bezpośrednio z katalogiem {count} SKU i magazynem w Kownie.',
         modeB2bTab: '1. Konta firmowe (B2B MCP)',
         modePersonalTab: '2. Inwestorzy indywidualni (AI)',
         tier1Tag: 'TRYB GŁÓWNY (80% RUCHU) · DLA INSTALATORÓW I FIRM B2B',
@@ -165,7 +167,7 @@ const SHOWCASE_COPY: Record<AppLocale, McpShowcaseCopy> = {
     ru: {
         kicker: '06 / ПРОТОКОЛ ЗАКУПОК AI И MCP · ПЕРВЫЕ В СТРАНАХ БАЛТИИ',
         title: 'Ваш AI-ассистент теперь может напрямую комплектовать и заказывать в «Gilės inžinerija»',
-        lead: 'Мы поддерживаем открытый стандарт Model Context Protocol (MCP 2025-03-26). Корпоративный агент закупок или личный AI-ассистент (Claude Desktop, Cursor, OpenAI Agent) подключается напрямую к каталогу из 6 337 SKU и складу в Каунасе.',
+        lead: 'Мы поддерживаем открытый стандарт Model Context Protocol (MCP 2025-03-26). Корпоративный агент закупок или личный AI-ассистент (Claude Desktop, Cursor, OpenAI Agent) подключается напрямую к каталогу из {count} SKU и складу в Каунасе.',
         modeB2bTab: '1. Бизнес-аккаунты (B2B MCP)',
         modePersonalTab: '2. Частным застройщикам (AI)',
         tier1Tag: 'ОСНОВНОЙ РЕЖИМ (80% ПОТОКА) · ДЛЯ B2B ПАРТНЕРОВ И МОНТАЖНИКОВ',
@@ -209,6 +211,11 @@ const SHOWCASE_COPY: Record<AppLocale, McpShowcaseCopy> = {
 
 export function GilesMcpMarketingShowcase({ locale }: { locale: AppLocale }) {
     const c = SHOWCASE_COPY[locale] || SHOWCASE_COPY.lt;
+    // W121-A2: live SKU count in the MCP showcase lead.
+    const showcaseCountLabel = formatCatalogCount(
+        useStorefrontConfig().catalog?.skuCount ?? 0,
+        locale,
+    );
     const [previewMode, setPreviewMode] = useState<'b2b' | 'personal'>('b2b');
 
     return (
@@ -228,7 +235,7 @@ export function GilesMcpMarketingShowcase({ locale }: { locale: AppLocale }) {
                             {c.title}
                         </h2>
                         <p className="text-sm text-[#C9D0D8] leading-relaxed">
-                            {c.lead}
+                            {c.lead.replaceAll('{count}', showcaseCountLabel)}
                         </p>
                     </div>
                     <div className="flex flex-wrap items-center gap-3 shrink-0">

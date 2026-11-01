@@ -248,7 +248,7 @@ describe('W103-A3: Dynamic Supplier & Pricelist Manager, No-Black-Box AI Agent &
         const productsRoute = await import('../app/api/admin/products/route');
 
         const baselineProducts = getGilesCatalogProducts();
-        expect(baselineProducts.length).toBe(6337);
+        expect(baselineProducts.length).toBe(13531);
 
         // 1. Update price, promoPriceEur, stock, and full fields on MPB-NANI-35
         const patchRes = await productsRoute.PATCH(

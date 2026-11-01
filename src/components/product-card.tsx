@@ -10,6 +10,12 @@ import { useCompareStore, useCompareHydration } from '../store/compare';
 import { useLocale } from 'next-intl';
 import { usePathname } from 'next/navigation';
 import { resolvePurchasability } from '../lib/purchasable';
+import {
+    isPriceOnRequestProduct,
+    resolveHonestAvailability,
+    honestAvailabilityLabel,
+} from '../lib/w121-honest-commerce';
+import { PriceRequestCta } from './price-request-cta';
 import { assetUrl } from '../lib/api';
 import { resolveProductImageUrl, formatCleanCatalogProductTitle } from '../lib/product-visuals';
 import { resolveProductBrandInfo, extractCardTechChips } from '../lib/v3-description';
@@ -209,6 +215,11 @@ interface ProductCardProps {
         priceCents?: number | null;
         vatRate?: number | null;
         exactSkuMatch?: boolean;
+        /* W121-A1 contract fields (optional on legacy rows). */
+        priceEur?: number | null;
+        priceOnRequest?: true;
+        availability?: 'in_stock' | 'supplier_2_4d' | 'on_request';
+        stockQty?: number | null;
     };
     index?: number;
 }
@@ -253,22 +264,19 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
               : 'Palyginti';
 
     const purch = resolvePurchasability(product.stock ?? (product.inStock ? 1 : undefined));
-    const stockQty =
-        typeof product.stockQuantity === 'number' && product.stockQuantity > 0
-            ? product.stockQuantity
-            : typeof product.stock === 'number' && product.stock > 0
-              ? product.stock
-              : 14;
-    const stockSourceRaw = product.stockSource || stockCopy.warehouseProvenance;
-    const isSupplierWarehouse = stockSourceRaw.includes('Tiekėjo');
-    const desktopStockText =
-        stockQty <= 0 || isSupplierWarehouse
-            ? stockCopy.delivery2to4Days
-            : stockCopy.inStockKaunas(stockQty);
-    const mobileStockText =
-        stockQty <= 0 || isSupplierWarehouse
-            ? stockCopy.delivery2to4Days
-            : stockCopy.inStockKaunas(stockQty);
+    // W121-A2: honest availability badge - never a fabricated qty fallback.
+    const availabilityKind = resolveHonestAvailability(product);
+    const stockLabel = honestAvailabilityLabel(availabilityKind, locale);
+    const stockDotColor = availabilityKind === 'in_stock' ? 'bg-[#157A3B]' : 'bg-[#5B6470]';
+    const stockTextColor = availabilityKind === 'in_stock' ? 'text-[#157A3B]' : 'text-[#5B6470]';
+    const realStockQty =
+        typeof product.stockQty === 'number' && product.stockQty > 0
+            ? product.stockQty
+            : typeof product.stockQuantity === 'number' && product.stockQuantity > 0
+              ? product.stockQuantity
+              : typeof product.stock === 'number' && product.stock > 0
+                ? product.stock
+                : null;
     const resolvedImage = resolveProductImageUrl({
         sku: product.sku,
         title: product.name,
@@ -298,8 +306,9 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
             ? product.priceCents / 100
             : product.price;
     const displayedPrice = showNet ? grossPrice / 1.21 : grossPrice;
+    const priceOnRequest = isPriceOnRequestProduct(product);
     const formattedPrice =
-        grossPrice > 0
+        !priceOnRequest && grossPrice > 0
             ? `${displayedPrice
                   .toFixed(2)
                   .replace('.', ',')
@@ -320,6 +329,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
     const handleQuickAdd = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
+        if (priceOnRequest) return;
 
         setIsAdding(true);
         addItem({
@@ -354,12 +364,12 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                         </span>
                     ) : (
                         <span
-                            title={`${desktopStockText} · ${stockCopy.warehouseProvenance}`}
-                            className="inline-flex items-center gap-1.5 font-semibold text-[#157A3B] max-w-[64%] overflow-hidden whitespace-nowrap"
+                            title={`${stockLabel}${product.stockSource ? ` · ${product.stockSource}` : ''}`}
+                            className={`inline-flex items-center gap-1.5 font-semibold ${stockTextColor} max-w-[64%] overflow-hidden whitespace-nowrap`}
                         >
-                            <span className="w-2 h-2 rounded-full bg-[#157A3B] shrink-0" />
-                            <span className="sm:hidden">{mobileStockText}</span>
-                            <span className="hidden sm:inline">{desktopStockText}</span>
+                            <span className={`w-2 h-2 rounded-full ${stockDotColor} shrink-0`} />
+                            <span className="sm:hidden">{stockLabel}</span>
+                            <span className="hidden sm:inline">{stockLabel}</span>
                         </span>
                     )}
 
@@ -401,6 +411,7 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                                 image: resolvedImage,
                                 sku: product.sku,
                                 categoryName: nodePurpose,
+                                priceOnRequest: priceOnRequest || undefined,
                             });
                         }}
                         aria-label={cardCopy.wishlistAria}
@@ -506,8 +517,9 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                                     price: grossPrice,
                                     image: resolvedImage,
                                     categoryName: nodePurpose,
-                                    stockQty,
+                                    stockQty: realStockQty,
                                     specs: techChips,
+                                    priceOnRequest: priceOnRequest || undefined,
                                 });
                             }}
                             aria-pressed={isCompared}
@@ -522,28 +534,37 @@ export function ProductCard({ product, index = 0 }: ProductCardProps) {
                             <span>{compareLabel}</span>
                         </button>
 
-                        <button
-                            type="button"
-                            onClick={handleQuickAdd}
-                            disabled={purch.soldOut || isAdding}
-                            aria-label={cardCopy.addToCartAria}
-                            className={`inline-flex items-center justify-center gap-1 rounded-none px-2.5 py-1.5 text-xs font-bold whitespace-nowrap transition-colors duration-150 disabled:cursor-not-allowed shrink-0 ${
-                                purch.soldOut
-                                    ? 'bg-transparent border border-[#D5CFC3] text-[#5B6470]'
-                                    : 'bg-[#11161B] hover:bg-[#C2410C] text-white cursor-pointer'
-                            }`}
-                        >
-                            {isAdding ? (
-                                <>
-                                    <Check className="w-3.5 h-3.5 shrink-0" />
-                                    <span>{stockCopy.added}</span>
-                                </>
-                            ) : purch.soldOut ? (
-                                <span>{cardCopy.soldOut}</span>
-                            ) : (
-                                <span>{stockCopy.addToCart}</span>
-                            )}
-                        </button>
+                        {priceOnRequest ? (
+                            <PriceRequestCta
+                                sku={product.sku || `SKU-${product.id.slice(0, 8)}`}
+                                title={cleanTitle}
+                                compact
+                                testId="product-card-price-request-cta"
+                            />
+                        ) : (
+                            <button
+                                type="button"
+                                onClick={handleQuickAdd}
+                                disabled={purch.soldOut || isAdding}
+                                aria-label={cardCopy.addToCartAria}
+                                className={`inline-flex items-center justify-center gap-1 rounded-none px-2.5 py-1.5 text-xs font-bold whitespace-nowrap transition-colors duration-150 disabled:cursor-not-allowed shrink-0 ${
+                                    purch.soldOut
+                                        ? 'bg-transparent border border-[#D5CFC3] text-[#5B6470]'
+                                        : 'bg-[#11161B] hover:bg-[#C2410C] text-white cursor-pointer'
+                                }`}
+                            >
+                                {isAdding ? (
+                                    <>
+                                        <Check className="w-3.5 h-3.5 shrink-0" />
+                                        <span>{stockCopy.added}</span>
+                                    </>
+                                ) : purch.soldOut ? (
+                                    <span>{cardCopy.soldOut}</span>
+                                ) : (
+                                    <span>{stockCopy.addToCart}</span>
+                                )}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

@@ -522,7 +522,7 @@ export function GilesAdminProductCrud() {
                                 onChange={(e) => setBulkBrand(e.target.value)}
                                 className="h-10 px-3 rounded-lg border border-[#D5CFC3] bg-white font-semibold"
                             >
-                                <option value="all">Visi 28 gamintojai (6 337 SKU)</option>
+                                <option value="all">Visi 28 gamintojai ({totalCatalogCount} SKU)</option>
                                 {brands.map((b) => (
                                     <option key={b.slug} value={b.slug}>
                                         {b.name} ({b.productCount} SKU)

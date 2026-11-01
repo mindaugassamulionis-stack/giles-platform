@@ -2361,14 +2361,14 @@ export function GilesAdminB2BCrm({ onCreateProformaFromCrm }: GilesAdminB2BCrmPr
                     {/* Layer 2: Specific SKU Price / Discount Overrides */}
                     <div className="rounded-xl border border-[#E2DDD3] bg-[#FAF9F6] p-4 space-y-3 text-xs">
                         <h3 className="text-sm font-extrabold text-[#11161B]">
-                            2 Lygis · Specifinių prekių (SKU) individualios kainos ir maržos kontrolė (6 337 SKU)
+                            2 Lygis · Specifinių prekių (SKU) individualios kainos ir maržos kontrolė
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             <input
                                 type="text"
                                 value={skuSearchQuery}
                                 onChange={(e) => setSkuSearchQuery(e.target.value)}
-                                placeholder="Ieškoti iš 6 337 prekių pagal SKU arba pavadinimą (pvz., 013G2990, MPB-NANI-35)..."
+                                placeholder="Ieškoti prekių pagal SKU arba pavadinimą (pvz., 013G2990, MPB-NANI-35)..."
                                 className="flex-1 min-w-[220px] min-h-[44px] px-3 rounded-lg border border-[#D5CFC3] bg-white"
                             />
                             <button

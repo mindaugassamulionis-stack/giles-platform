@@ -9,6 +9,8 @@ import { useTranslations, useLocale } from 'next-intl';
 import { assetUrl } from '../lib/api';
 import { resolveProductImageUrl, formatCleanCatalogProductTitle } from '../lib/product-visuals';
 import { resolveProductBrandInfo, extractCardTechChips } from '../lib/v3-description';
+import { useStorefrontConfig } from './storefront-config-provider';
+import { formatCatalogCount } from '../lib/w121-honest-commerce';
 
 interface Product {
     id: string;
@@ -31,6 +33,11 @@ const cleanDash = (s: string) => s.replace(/\u2014/g, '–').replace(/[\u00A9\u0
 export function PopularProducts({ products }: { products: Product[] }) {
     const t = useTranslations();
     const locale = useLocale();
+    // W121-A2: live SKU count replaces the hardcoded catalog size.
+    const popularCountLabel = formatCatalogCount(
+        useStorefrontConfig().catalog?.skuCount ?? 0,
+        locale,
+    );
     const showNet = useVatDisplayStore((s) => s.showNet);
     const [copiedId, setCopiedId] = useState<string | null>(null);
     const [addedId, setAddedId] = useState<string | null>(null);
@@ -80,7 +87,7 @@ export function PopularProducts({ products }: { products: Product[] }) {
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-5">
                     <div>
                         <span className="text-xs font-semibold text-[#C2410C] block mb-1">
-                            EGIP.lt el. parduotuvė · 6 337 pozicijos sandėlyje
+                            {`EGIP.lt el. parduotuvė · ${popularCountLabel} pozicijos`}
                         </span>
                         <h2 className="text-xl md:text-2xl font-extrabold text-[#11161B]">
                             Populiariausios ŠVOK prekės, degikliai ir mazgai
@@ -94,7 +101,7 @@ export function PopularProducts({ products }: { products: Product[] }) {
                         href={`/${locale}/products`}
                         className="inline-flex items-center rounded-sm border border-[#11161B] bg-transparent hover:border-[#C2410C] px-3.5 py-2 text-xs font-semibold text-[#11161B] transition-colors shrink-0 whitespace-nowrap"
                     >
-                        Visas katalogas (6 337 prekės)
+                        {`Visas katalogas (${popularCountLabel} prekės)`}
                     </Link>
                 </div>
 

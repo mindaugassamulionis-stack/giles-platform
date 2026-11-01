@@ -13,6 +13,8 @@ export interface CartItem {
     quantity: number;
     sku: string;
     image?: string;
+    /** W121-A2: priceless rows go through RFQ, never standard checkout. */
+    priceOnRequest?: boolean;
 }
 
 interface CartState {
@@ -42,6 +44,12 @@ export const useCartStore = create<CartState>()(
             isOpen: false,
 
             addItem: (newItem) => {
+                // W121-A2 cart guard: price-on-request rows cannot enter the
+                // standard cart; they belong to the RFQ flow instead. Bundle
+                // components with an explicit 0 € price stay allowed.
+                if (newItem.priceOnRequest === true || newItem.price == null) {
+                    return;
+                }
                 const { items } = get();
                 // Check by unique ID (which is now variantId or productId)
                 const existingItem = items.find(item => item.id === newItem.id);

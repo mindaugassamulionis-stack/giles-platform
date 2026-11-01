@@ -40,7 +40,7 @@ export const NAVBAR_UI_COPY: Record<
         audienceHouseholds: 'Namų ūkiams',
         audienceWizard: 'Katilo perdarymas',
         audienceIndustrial: 'Pramonei 100 kW – 2,5 MW',
-        audienceStore: 'El. parduotuvė (6 337)',
+        audienceStore: 'El. parduotuvė ({count})',
         audienceB2b: 'Montuotojams (B2B)',
         navStore: 'Parduotuvė',
         navSolutions: 'Sprendimai',
@@ -65,7 +65,7 @@ export const NAVBAR_UI_COPY: Record<
         audienceHouseholds: 'For Households',
         audienceWizard: 'Boiler Conversion',
         audienceIndustrial: 'Industrial 100 kW – 2.5 MW',
-        audienceStore: 'Online Store (6,337)',
+        audienceStore: 'Online Store ({count})',
         audienceB2b: 'Installers (B2B)',
         navStore: 'Store',
         navSolutions: 'Solutions',
@@ -90,7 +90,7 @@ export const NAVBAR_UI_COPY: Record<
         audienceHouseholds: 'Dla domów',
         audienceWizard: 'Modernizacja kotła',
         audienceIndustrial: 'Przemysł 100 kW – 2,5 MW',
-        audienceStore: 'Sklep (6 337)',
+        audienceStore: 'Sklep ({count})',
         audienceB2b: 'Instalatorzy (B2B)',
         navStore: 'Sklep',
         navSolutions: 'Rozwiązania',
@@ -115,7 +115,7 @@ export const NAVBAR_UI_COPY: Record<
         audienceHouseholds: 'Для дома',
         audienceWizard: 'Модернизация котла',
         audienceIndustrial: 'Промышленность 100 кВт – 2,5 МВт',
-        audienceStore: 'Магазин (6 337)',
+        audienceStore: 'Магазин ({count})',
         audienceB2b: 'Монтажникам (B2B)',
         navStore: 'Магазин',
         navSolutions: 'Решения',
@@ -164,7 +164,7 @@ export const FOOTER_UI_COPY: Record<
     lt: {
         companyCodeLabel: 'Įmonės kodas',
         vatLabel: 'PVM',
-        storeHeading: 'Parduotuvė (6 337 prekės)',
+        storeHeading: 'Parduotuvė ({count} prekės)',
         solutionsHeading: 'Sprendimai ir B2B',
         wizardLink: 'Katilų perdarymo vedlys',
         containersLink: 'Konteinerinės katilinės',
@@ -186,7 +186,7 @@ export const FOOTER_UI_COPY: Record<
     en: {
         companyCodeLabel: 'Company code',
         vatLabel: 'VAT',
-        storeHeading: 'Online Store (6,337 items)',
+        storeHeading: 'Online Store ({count} items)',
         solutionsHeading: 'Solutions & B2B',
         wizardLink: 'Boiler Conversion Wizard',
         containersLink: 'Containerized Boiler Rooms',
@@ -208,7 +208,7 @@ export const FOOTER_UI_COPY: Record<
     pl: {
         companyCodeLabel: 'Kod firmy',
         vatLabel: 'VAT',
-        storeHeading: 'Sklep internetowy (6 337 poz.)',
+        storeHeading: 'Sklep internetowy ({count} poz.)',
         solutionsHeading: 'Rozwiązania i B2B',
         wizardLink: 'Kreator modernizacji kotła',
         containersLink: 'Kotłownie kontenerowe',
@@ -230,7 +230,7 @@ export const FOOTER_UI_COPY: Record<
     ru: {
         companyCodeLabel: 'Код компании',
         vatLabel: 'НДС',
-        storeHeading: 'Интернет-магазин (6 337 поз.)',
+        storeHeading: 'Интернет-магазин ({count} поз.)',
         solutionsHeading: 'Решения и B2B',
         wizardLink: 'Мастер модернизации котла',
         containersLink: 'Контейнерные котельные',
@@ -268,7 +268,7 @@ export const STOREFRONT_STOCK_COPY: Record<
     }
 > = {
     lt: {
-        warehouseBadge: 'Sandėlis: Eigulių g. 21, LT-51418 Kaunas · 6 337 poz.',
+        warehouseBadge: 'Sandėlis: Eigulių g. 21, LT-51418 Kaunas · {count} poz.',
         inStockKaunas: (qty: number) => `Sandėlyje Kaune: ${qty} vnt.`,
         delivery2to4Days: 'Pristatymas 2–4 d. d.',
         warehouseProvenance: 'UAB „Gilės inžinerija“ Kauno sandėlis (Eigulių g. 21, LT-51418 Kaunas)',
@@ -281,7 +281,7 @@ export const STOREFRONT_STOCK_COPY: Record<
         copied: 'Nukopijuota',
     },
     en: {
-        warehouseBadge: 'Warehouse: Eigulių St. 21, LT-51418 Kaunas · 6,337 items',
+        warehouseBadge: 'Warehouse: Eigulių St. 21, LT-51418 Kaunas · {count} items',
         inStockKaunas: (qty: number) => `In stock in Kaunas: ${qty} pcs`,
         delivery2to4Days: 'Delivery 2–4 bus. days',
         warehouseProvenance: 'UAB „Gilės inžinerija“ Kaunas warehouse (Eigulių St. 21, LT-51418 Kaunas)',
@@ -294,7 +294,7 @@ export const STOREFRONT_STOCK_COPY: Record<
         copied: 'Copied',
     },
     pl: {
-        warehouseBadge: 'Magazyn: Eigulių g. 21, LT-51418 Kowno · 6 337 poz.',
+        warehouseBadge: 'Magazyn: Eigulių g. 21, LT-51418 Kowno · {count} poz.',
         inStockKaunas: (qty: number) => `W magazynie w Kownie: ${qty} szt.`,
         delivery2to4Days: 'Dostawa 2–4 dni rob.',
         warehouseProvenance: 'Magazyn UAB „Gilės inžinerija“ w Kownie (Eigulių g. 21, LT-51418 Kowno)',
@@ -307,7 +307,7 @@ export const STOREFRONT_STOCK_COPY: Record<
         copied: 'Skopiowano',
     },
     ru: {
-        warehouseBadge: 'Склад: ул. Эйгулю 21, LT-51418 Каунас · 6 337 поз.',
+        warehouseBadge: 'Склад: ул. Эйгулю 21, LT-51418 Каунас · {count} поз.',
         inStockKaunas: (qty: number) => `На складе в Каунасе: ${qty} шт.`,
         delivery2to4Days: 'Доставка 2–4 раб. дн.',
         warehouseProvenance: 'Склад UAB „Gilės inžinerija“ в Каунасе (ул. Эйгулю 21, LT-51418 Каунас)',

@@ -9,6 +9,8 @@ import {
     type EngineeringServiceItem,
 } from '../../lib/giles-packages-data';
 import { apiUrl, assetUrl } from '../../lib/api';
+import { useStorefrontConfig } from '../storefront-config-provider';
+import { formatCatalogCount } from '../../lib/w121-honest-commerce';
 import { EmailLink, TextWithEmail } from '../email';
 
 interface ServiceLightboxItem {
@@ -49,6 +51,11 @@ export function EngineeringServicesClient({
     initialPackageId,
     initialAreaM2,
 }: EngineeringServicesClientProps) {
+    // W121-A2: live SKU count replaces the hardcoded catalog size.
+    const engCountLabel = formatCatalogCount(
+        useStorefrontConfig().catalog?.skuCount ?? 0,
+        'lt',
+    );
     const defaultService =
         GILES_ENGINEERING_SERVICES.find((s) => s.id === initialServiceId) ||
         GILES_ENGINEERING_SERVICES[0];
@@ -137,7 +144,7 @@ export function EngineeringServicesClient({
                     </h1>
                     <p className="text-xs sm:text-sm text-stone-600 mt-1 max-w-3xl">
                         {balanceCopy(
-                            'Komplektuojame įrangą iš 6 337 pozicijų sandėlio ir atliekame ŠVOK projektavimą, katilinių montavimą iki rakto, hidraulinį balansavimą bei servisą.',
+                            `Komplektuojame įrangą iš ${engCountLabel} pozicijų sandėlio ir atliekame ŠVOK projektavimą, katilinių montavimą iki rakto, hidraulinį balansavimą bei servisą.`,
                         )}
                     </p>
                 </div>

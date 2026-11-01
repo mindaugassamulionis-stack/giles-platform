@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { FileSpreadsheet, Printer, Plus, RotateCcw, Check, Search } from 'lucide-react';
 import { assetUrl } from '../lib/api';
+import { useStorefrontConfig } from './storefront-config-provider';
+import { formatCatalogCount } from '../lib/w121-honest-commerce';
 import { GILES_SUPPLIER_PRICELISTS, type B2BQuickOrderResolvedRow } from '../lib/giles-masterpiece-data';
 import type { B2BPartnerAccount } from '../lib/b2b-accounts';
 import { calculateB2BCartPricing, type B2BCustomerPricingRule, type B2BMarketingCampaign } from '../lib/b2b-pricing-engine';
@@ -28,7 +30,7 @@ export const INITIAL_B2B_PROJECTS: B2BProjectQuote[] = [];
 
 export const B2B_VIEWS_COPY: Record<SupportedB2BLocale, Record<string, string>> = {
     lt: {
-        overviewTitle: 'Partnerio paskyros apžvalga ir rekvizitai', quickOrderHeading: 'Greitas užsakymas pagal SKU / EAN (6 337 prekių katalogas)',
+        overviewTitle: 'Partnerio paskyros apžvalga ir rekvizitai', quickOrderHeading: 'Greitas užsakymas pagal SKU / EAN ({count} prekių katalogas)',
         searchPlaceholder: 'Įveskite SKU, EAN arba prekės pavadinimą (pvz., 013G2990, ZV 100)...', addSkuBtn: '+ Pridėti į užsakymą',
         addToCartBtn: '+ Įkelti į krepšelį', submitOrderBtn: 'Pateikti B2B užsakymą', ordersHeading: 'B2B užsakymai ir i.VAZ važtaraščiai',
         repeatOrderBtn: 'Kartoti užsakymą', waybillBtn: 'i.VAZ važtaraštis', invoicesHeading: 'PVM sąskaitos faktūros',
@@ -39,7 +41,7 @@ export const B2B_VIEWS_COPY: Record<SupportedB2BLocale, Record<string, string>> 
         emptyProjectsTitle: 'Dar nėra sukurtų objektų sąmatų.', emptyProjectsDesc: 'Įveskite objekto pavadinimą ir užsakovą aukščiau esančioje formoje bei spauskite „+ Sukurti naują projekto sąmatą klientui“.',
     },
     en: {
-        overviewTitle: 'Partner Account Overview & Company Details', quickOrderHeading: 'Quick Bulk Order by SKU / EAN (6,337 Catalog Items)',
+        overviewTitle: 'Partner Account Overview & Company Details', quickOrderHeading: 'Quick Bulk Order by SKU / EAN ({count} Catalog Items)',
         searchPlaceholder: 'Enter SKU, EAN or product name (e.g., 013G2990, ZV 100)...', addSkuBtn: '+ Add to Order',
         addToCartBtn: '+ Add to Cart', submitOrderBtn: 'Submit B2B Order', ordersHeading: 'B2B Orders & Packing Slips (i.VAZ)',
         repeatOrderBtn: 'Repeat Order', waybillBtn: 'Packing Slip / i.VAZ', invoicesHeading: 'VAT Invoices',
@@ -50,7 +52,7 @@ export const B2B_VIEWS_COPY: Record<SupportedB2BLocale, Record<string, string>> 
         emptyProjectsTitle: 'No project quotes created yet.', emptyProjectsDesc: 'Enter the project name and client above to create your first commercial quote.',
     },
     pl: {
-        overviewTitle: 'Przegląd konta partnera i dane firmy', quickOrderHeading: 'Szybkie zamówienie hurtowe wg SKU / EAN (katalog 6 337 produktów)',
+        overviewTitle: 'Przegląd konta partnera i dane firmy', quickOrderHeading: 'Szybkie zamówienie hurtowe wg SKU / EAN (katalog {count} produktów)',
         searchPlaceholder: 'Wpisz kod SKU, EAN lub nazwę produktu (np. 013G2990, ZV 100)...', addSkuBtn: '+ Dodaj pozycję',
         addToCartBtn: '+ Dodaj do koszyka', submitOrderBtn: 'Złóż zamówienie B2B', ordersHeading: 'Zamówienia B2B i listy przewozowe (i.VAZ)',
         repeatOrderBtn: 'Ponów zamówienie', waybillBtn: 'List przewozowy i.VAZ', invoicesHeading: 'Faktury VAT',
@@ -61,7 +63,7 @@ export const B2B_VIEWS_COPY: Record<SupportedB2BLocale, Record<string, string>> 
         emptyProjectsTitle: 'Brak utworzonych kosztorysów projektów.', emptyProjectsDesc: 'Wpisz nazwę obiektu i klienta powyżej, aby utworzyć kosztorys.',
     },
     ru: {
-        overviewTitle: 'Обзор кабинета партнера и реквизиты компании', quickOrderHeading: 'Быстрый оптовый заказ по SKU / EAN (каталог 6 337 товаров)',
+        overviewTitle: 'Обзор кабинета партнера и реквизиты компании', quickOrderHeading: 'Быстрый оптовый заказ по SKU / EAN (каталог {count} товаров)',
         searchPlaceholder: 'Введите артикул SKU, EAN или название (напр. 013G2990, ZV 100)...', addSkuBtn: '+ Добавить позицию',
         addToCartBtn: '+ В корзину', submitOrderBtn: 'Оформить B2B заказ', ordersHeading: 'Заказы B2B и накладные i.VAZ',
         repeatOrderBtn: 'Повторить заказ', waybillBtn: 'Накладная i.VAZ', invoicesHeading: 'Счета-фактуры НДС',
@@ -89,6 +91,8 @@ export function B2BPortalWorkspaceViews(props: {
         onSubmitB2BOrder, orders, onRepeatOrder, projects, onAddProject,
     } = props;
     const t = B2B_VIEWS_COPY[locale] || B2B_VIEWS_COPY.lt;
+    // W121-A2: live SKU count in the quick-order heading.
+    const b2bViewsCountLabel = formatCatalogCount(useStorefrontConfig().catalog?.skuCount ?? 0, locale);
 
     const [expandedOrderId, setExpandedOrderId] = useState<string | null>(orders[0]?.id || null);
     const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(null);
@@ -151,7 +155,7 @@ export function B2BPortalWorkspaceViews(props: {
                         )}
                     </section>
                     <section className="rounded-2xl border border-[#E2DDD3] bg-white p-5 space-y-3">
-                        <div className="flex items-center justify-between"><h4 className="text-base font-extrabold text-[#11161B]">{t.quickOrderHeading}</h4><button type="button" onClick={() => setActiveView('quick_order')} className="text-xs font-bold text-[#C2410C] hover:underline cursor-pointer bg-transparent border-0">Atidaryti pilną lentelę ({rows.length})</button></div>
+                        <div className="flex items-center justify-between"><h4 className="text-base font-extrabold text-[#11161B]">{t.quickOrderHeading.replaceAll('{count}', b2bViewsCountLabel)}</h4><button type="button" onClick={() => setActiveView('quick_order')} className="text-xs font-bold text-[#C2410C] hover:underline cursor-pointer bg-transparent border-0">Atidaryti pilną lentelę ({rows.length})</button></div>
                         <form onSubmit={onAddSkuRow} className="flex flex-wrap gap-2">
                             <input type="text" value={newSkuInput} onChange={(e) => setNewSkuInput(e.target.value)} placeholder={t.searchPlaceholder} className="flex-1 min-w-[180px] h-10 px-3 rounded-lg border border-[#D5CFC3] bg-[#FAF9F6] text-xs text-[#11161B]" />
                             <button type="submit" className="h-10 px-4 rounded-lg bg-[#11161B] text-white text-xs font-bold cursor-pointer">{t.addSkuBtn}</button>
@@ -169,7 +173,7 @@ export function B2BPortalWorkspaceViews(props: {
         return (
             <section data-testid="b2b-view-quick_order" className="rounded-2xl border border-[#E2DDD3] bg-white p-5 space-y-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                    <div><h3 className="text-lg font-extrabold text-[#11161B]">{t.quickOrderHeading}</h3><p className="text-xs text-[#5B6470]">{t.netPriceLabel} (−{account.defaultDiscountPercent}%)</p></div>
+                    <div><h3 className="text-lg font-extrabold text-[#11161B]">{t.quickOrderHeading.replaceAll('{count}', b2bViewsCountLabel)}</h3><p className="text-xs text-[#5B6470]">{t.netPriceLabel} (−{account.defaultDiscountPercent}%)</p></div>
                     <div className="flex flex-wrap gap-2">
                         <button type="button" onClick={onAddAllToCart} className="h-10 px-4 rounded-lg border border-[#D5CFC3] bg-white text-xs font-bold text-[#11161B] cursor-pointer">{t.addToCartBtn}</button>
                         <button type="button" data-testid="b2b-submit-order-btn" onClick={onSubmitB2BOrder} className="h-10 px-4 rounded-lg bg-[#C2410C] hover:bg-[#9A3412] text-white text-xs font-bold cursor-pointer">{t.submitOrderBtn} ({totalNet.toFixed(2)} €)</button>

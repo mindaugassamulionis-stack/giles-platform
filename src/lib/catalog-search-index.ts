@@ -239,14 +239,31 @@ export function queryInvertedCandidateIndices(rawQuery: string): Set<number> | n
 
         if (rawTokens.length === 0) continue;
 
-        let groupSet: Set<number> | null = null;
+        // W121-A2: intersect smallest postings first and skip the defensive
+        // Set copy for single-token groups — at 13.5k SKUs the old
+        // big-set-first copy dominated query latency.
+        const tokenSets: Set<number>[] = [];
         for (const tok of rawTokens) {
             const lookupKey = tok.length > 8 ? tok.slice(0, 8) : tok;
             const postings = index.invertedTokenIndex.get(tok) || index.invertedTokenIndex.get(lookupKey);
             if (!postings || postings.size === 0) {
-                groupSet = new Set<number>();
+                tokenSets.length = 0;
                 break;
             }
+            tokenSets.push(postings);
+        }
+        if (tokenSets.length === 0) continue;
+
+        tokenSets.sort((a, b) => a.size - b.size);
+        if (tokenSets.length === 1) {
+            for (const idx of tokenSets[0]) {
+                unionIndices.add(idx);
+            }
+            continue;
+        }
+
+        let groupSet: Set<number> | null = null;
+        for (const postings of tokenSets) {
             if (groupSet === null) {
                 groupSet = new Set<number>(postings);
             } else {
@@ -257,8 +274,8 @@ export function queryInvertedCandidateIndices(rawQuery: string): Set<number> | n
                     }
                 }
                 groupSet = nextIntersection;
-                if (groupSet.size === 0) break;
             }
+            if (groupSet.size === 0) break;
         }
 
         if (groupSet) {

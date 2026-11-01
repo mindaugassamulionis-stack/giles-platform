@@ -11,6 +11,8 @@ import { VytautasAssistantWidget } from '../../components/vytautas-assistant-wid
 import { getStore, getStorefrontSettings } from '../../lib/storefront-content';
 import { StoreIdentityError } from '../../lib/store-identity';
 import { getStorefrontRuntimeConfig } from '@platform/database';
+import { getGilesCatalogSkuCount } from '../../lib/catalog-count';
+import { formatCatalogCount } from '../../lib/w121-honest-commerce';
 import { Analytics } from '../../components/analytics';
 import { SeoGeoJsonLd } from '../../components/seo-geo-jsonld';
 import { routing, locales } from '../../i18n/routing';
@@ -38,7 +40,12 @@ export async function generateMetadata({
     const storefront = await getStorefrontSettings();
     const seo = storefront.settings?.seo || {};
     const isEn = locale.startsWith('en');
-    const rawTitle = (isEn ? seo.titleEn : seo.titleLt) || 'GILĖS INŽINERIJA ir EGIP.LT – Katilinės, granulių degikliai ir 6 337 ŠVOK pozicijos Kaune';
+    const rawTitle =
+        (isEn ? seo.titleEn : seo.titleLt) ||
+        `GILĖS INŽINERIJA ir EGIP.LT – Katilinės, granulių degikliai ir ${formatCatalogCount(
+            getGilesCatalogSkuCount() ?? 6337,
+            'lt',
+        )} ŠVOK pozicijos Kaune`;
     const title = rawTitle.replace(/SURADAI\.LT/gi, 'GILĖS INŽINERIJA').replace(/FILL\.LT/gi, 'GILĖS INŽINERIJA');
     const description = (isEn ? seo.descriptionEn : seo.descriptionLt) || 'UAB „Gilės inžinerija“ (Kaunas, nuo 2011 m.) ir EGIP.lt el. parduotuvė: granulių degikliai, katilo perdarymo vedlys, konteinerinės katilinės 100 kW – 2,5 MW, Haier, Danfoss, HERZ, Gorenje ir IMI Hydronic įranga.';
     const base = store?.domain && !/suradai\.lt/i.test(store.domain) ? `https://${store.domain}` : 'https://gilesinzinerija.lt';
@@ -94,6 +101,12 @@ export default async function LocaleLayout({
     };
     const settings = (store?.settings || {}) as Record<string, any>;
     const storefrontSettings = storefront.settings || {};
+    // W121-A2: live catalog SKU count injected into the client runtime config.
+    const catalogSkuCount = getGilesCatalogSkuCount() ?? 0;
+    const runtimeConfigWithCatalog = {
+        ...runtimeConfig,
+        catalog: { skuCount: catalogSkuCount },
+    };
     const maintenanceMode = Boolean(settings.maintenanceMode);
     const maintenanceMessage = settings.maintenanceMessage || t('common.maintenanceDefault');
 
@@ -119,7 +132,7 @@ export default async function LocaleLayout({
                 CookieConsent) call useTranslations() and need
                 the client context; previously only {children} were covered. */}
             <NextIntlClientProvider>
-                <Providers initialRuntimeConfig={runtimeConfig}>
+                <Providers initialRuntimeConfig={runtimeConfigWithCatalog}>
                     <Navbar settings={storefrontSettings} />
                     <main className="flex-grow">
                         {maintenanceMode ? (

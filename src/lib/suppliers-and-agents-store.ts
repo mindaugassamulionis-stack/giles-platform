@@ -260,16 +260,16 @@ const BUILTIN_AI_AGENTS: GilesActiveAiAgent[] = [
         executionMode: 'autonomous',
         status: 'ACTIVE',
         autonomyTier: 'ĮJUNGTAS (Aktyvus · Autonominis L3)',
-        metricsLabel: '6 337 SKU atmintyje · 28 gamintojai · EN 12831',
+        metricsLabel: '13 531 SKU atmintyje · 28 gamintojai · EN 12831',
         allowedMcpScopes: ['read_only', 'operator_safe'],
         guardrailMinMarginPct: 15,
         systemPrompt:
-            'Esi UAB „Gilės inžinerija“ vyr. ŠVOK inžinierius Vytautas (Eigulių g. 21, Kaunas). Atsakinėk tiksliai pagal EN 12831 ir EN 303-5 standartus, visada nurodyk tikslius SKU kodus iš 6 337 prekių katalogo, Kauno sandėlio likutį ir kainą su PVM. Jei trūksta katilo modelio ar dūmtraukio matmenų, užduok patikslinantį klausimą arba perduok Dariui (+370 611 19158).',
+            'Esi UAB „Gilės inžinerija“ vyr. ŠVOK inžinierius Vytautas (Eigulių g. 21, Kaunas). Atsakinėk tiksliai pagal EN 12831 ir EN 303-5 standartus, visada nurodyk tikslius SKU kodus iš 13 531 prekių katalogo, Kauno sandėlio likutį ir kainą su PVM. Jei trūksta katilo modelio ar dūmtraukio matmenų, užduok patikslinantį klausimą arba perduok Dariui (+370 611 19158).',
         instructionsSummary:
-            'Naudoja 6 337 SKU katalogo snapshotą, Lietuvos katilų suderinamumo matricą (Viadrus U22/U26, Kalvis 2-16..2-40, Atmos, Stropuva, Candle) ir EN 12831 šilumos nuostolių formules.',
+            'Naudoja 13 531 SKU katalogo snapshotą, Lietuvos katilų suderinamumo matricą (Viadrus U22/U26, Kalvis 2-16..2-40, Atmos, Stropuva, Candle) ir EN 12831 šilumos nuostolių formules.',
         instructionsSteps: [
             '1. Nuskaito kliento užklausą iš /api/vytautas, nustato esamą katilą arba pastato plotą (m²) ir šilumos nuostolius Q = A * q.',
-            '2. Patikrina tikslius SKU likučius ir kainas iš 6 337 prekių bazės (giles-catalog-6337.json + catalog-overrides.json).',
+            '2. Patikrina tikslius SKU likučius ir kainas iš 13 531 prekių bazės (giles-catalog-6337.json + catalog-overrides.json).',
             '3. Paruošia pilną komplektaciją: bazinis įrenginys + pamaišymo mazgas (HERZ Teplomix 61 °C) + apsauginė grupė + plėtimosi indas.',
             '4. Jei užklausa nestandartinė (pvz. pramoninis >150 kW objektas arba trūksta brėžinio), pažymi žurnale „NEATSAKYTA / PERDUOTA INŽINIERIUI“ Dariui Šaukliui.',
         ],
@@ -301,13 +301,13 @@ const BUILTIN_AI_AGENTS: GilesActiveAiAgent[] = [
         executionMode: 'proposal_only',
         status: 'GUARDED',
         autonomyTier: 'TIK PASIŪLYMAI (Proposal -> Review -> Apply)',
-        metricsLabel: 'Stebima 6 337 SKU · Maržos grindys >=15%',
+        metricsLabel: 'Stebima 13 531 SKU · Maržos grindys >=15%',
         allowedMcpScopes: ['read_only', 'operator_safe'],
         guardrailMinMarginPct: 15,
         systemPrompt:
             'Tikrink kiekvieno SKU grynąją kainą be PVM (priceGrossEur / 1.21) ir savikainą (costPriceEur). Jei marža (net - cost) / net < 15%, suformuok pasiūlymą (Proposal) arba pakelk kainą iki minimalios 15% maržos ribos.',
         instructionsSummary:
-            'Skaičiuoja maržą M% = ((KainaBePVM - SavikainaBePVM) / KainaBePVM) * 100 kiekvienam iš 6 337 SKU ir tiekėjų kainoraščių importui.',
+            'Skaičiuoja maržą M% = ((KainaBePVM - SavikainaBePVM) / KainaBePVM) * 100 kiekvienam iš 13 531 SKU ir tiekėjų kainoraščių importui.',
         instructionsSteps: [
             '1. Importuojant tiekėjo kainoraštį apskaičiuoja Gilės savikainą: Savikaina = BazinėKaina * (1 - TiekėjoNuolaida%).',
             '2. Apskaičiuoja tikslinę mažmeninę kainą su PVM pagal tiekėjo tikslinę maržą (pvz. 25%).',
@@ -348,7 +348,7 @@ const BUILTIN_AI_AGENTS: GilesActiveAiAgent[] = [
         systemPrompt:
             'Analizuok Kauno sandėlio likučius. Kai SKU likutis yra tarp 1 ir 3 vnt., sugrupuok prekes pagal tiekėją (Danfoss, HERZ, Gorenje/TIKI, Gilės/Megatherm, Haier) ir paruošk PO-GILE pirkimo užsakymo CSV projektą.',
         instructionsSummary:
-            'Skenuoja 6 337 SKU atsargas, identifikuoja 1–3 vnt. likučius ir grupuoja pirkimo užsakymus pagal tiekėjo didmeninę nuolaidą.',
+            'Skenuoja 13 531 SKU atsargas, identifikuoja 1–3 vnt. likučius ir grupuoja pirkimo užsakymus pagal tiekėjo didmeninę nuolaidą.',
         instructionsSteps: [
             '1. Tikrina kiekvieno aktyvaus SKU stockQuantity iš Skaita SQL ir EGIP.lt sinchronizacijos.',
             '2. Atrenka prekes su 1 <= stockQuantity <= 3 ir apskaičiuoja optimalų papildymo kiekį (10–15 vnt.).',
@@ -444,7 +444,7 @@ const BUILTIN_AI_AGENTS: GilesActiveAiAgent[] = [
         slug: 'seo-geo-citation-agent',
         code: 'AGT-06 · SEO / GEO CITAVIMAS',
         name: 'SEO / GEO (/llms.txt ir JSON-LD) Rinkos Lyderio Agentas',
-        role: '6 337 prekių JSON-LD Schema.org, /llms.txt ir techninių aprašymų (LT/EN/PL/RU) praturtinimas',
+        role: '13 531 prekių JSON-LD Schema.org, /llms.txt ir techninių aprašymų (LT/EN/PL/RU) praturtinimas',
         description:
             'Užtikrina, kad kiekviena prekė turėtų tikslią Schema.org Product/Offer struktūrą, /llms.txt santrauką AI paieškos varikliams ir EN 12831 techninius parametrus.',
         provider: 'Google Gemini',
@@ -456,7 +456,7 @@ const BUILTIN_AI_AGENTS: GilesActiveAiAgent[] = [
         executionMode: 'autonomous',
         status: 'ACTIVE',
         autonomyTier: 'ĮJUNGTAS (Aktyvus · Autonominis L3)',
-        metricsLabel: '6 337 SKU Schema.org · /llms.txt · 4 kalbos',
+        metricsLabel: '13 531 SKU Schema.org · /llms.txt · 4 kalbos',
         allowedMcpScopes: ['read_only'],
         guardrailMinMarginPct: 15,
         systemPrompt:
@@ -517,7 +517,7 @@ const DEFAULT_SAMPLE_LOGS: GilesAiAgentLogEntry[] = [
         agentName: 'Kainodaros ir 15% Maržos Saugiklio Agentas',
         category: 'pricing_inventory',
         callerOrEvent:
-            'Danfoss ir HERZ kainoraščių patikra: patikrintos 6 337 SKU pozicijos dėl >=15% maržos grindų',
+            'Danfoss ir HERZ kainoraščių patikra: patikrintos 13 531 SKU pozicijos dėl >=15% maržos grindų',
         responseOrAction:
             'Nustatyti 4 SKU su 16,2% marža, 0 SKU žemiau 15% ribos. Paruoštas pasiūlymas PRP-01 atsarginių dalių maržos suvienodinimui.',
         recommendedSkus: ['013G2990', 'KatM39833425'],

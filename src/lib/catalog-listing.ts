@@ -132,6 +132,11 @@ export interface ListingProduct {
     /** W22-D1 T4: cheapest-variant gross cents + VAT rate for the su/be-PVM display. */
     priceCents: number | null;
     vatRate: number | null;
+    /** W121-A1 honest-commerce contract (optional on legacy rows). */
+    priceEur?: number | null;
+    priceOnRequest?: true;
+    availability?: 'in_stock' | 'supplier_2_4d' | 'on_request';
+    stockQty?: number | null;
 }
 
 export interface ListingFilters {

@@ -49,6 +49,8 @@ export interface WishlistItem {
     sku?: string;
     categoryName?: string;
     stockStatus?: string;
+    /** W121-A2: priceless rows use the RFQ flow from the wishlist drawer. */
+    priceOnRequest?: boolean;
     addedAt: number;
 }
 

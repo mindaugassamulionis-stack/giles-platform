@@ -37,7 +37,8 @@ describe('W120-A1 P1-4: home power range follows the verified facts', () => {
 describe('W120-A1 P2-7: kontaktai and returns wrap every i18n email', () => {
     it('contact page renders every email-bearing translation through TextWithEmail', () => {
         const contact = src('contact', 'page.tsx');
-        const wrapped = contact.match(/TextWithEmail[^/]*?text=\{t\('contactPage\.[a-zA-Z]+'\)\}/g) || [];
+        const wrapped =
+            contact.match(/TextWithEmail[^/]*?text=\{t\('contactPage\.[a-zA-Z]+'[^)]*\)\}/g) || [];
         expect(wrapped.length).toBe(6);
     });
 

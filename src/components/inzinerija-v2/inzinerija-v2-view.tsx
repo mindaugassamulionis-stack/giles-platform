@@ -13,6 +13,8 @@ import {
     getServiceFormConfig,
 } from '../../lib/inzinerija-v2/data';
 import { InstantDealDrawerMount, openInstantDeal } from '../instant-deal-drawer';
+import { useStorefrontConfig } from '../storefront-config-provider';
+import { formatCatalogCount } from '../../lib/w121-honest-commerce';
 
 const HERO_GALLERY = [
     { src: '/studio-assets/projects/giles-darbas-01.webp', alt: 'Viadrus U26 su Megatherm MPB granulių degikliu' },
@@ -21,6 +23,11 @@ const HERO_GALLERY = [
 ];
 
 export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
+    // W121-A2: {count} in content JSON resolves to the live SKU count from the
+    // server-injected storefront config (client bundle must not import the snapshot).
+    const catalogSkuCount = useStorefrontConfig().catalog?.skuCount ?? 0;
+    const countLabel = catalogSkuCount > 0 ? formatCatalogCount(catalogSkuCount, 'lt') : null;
+    const withCount = (s: string) => (countLabel ? s.replaceAll('{count}', countLabel) : s);
     const content = useMemo(() => getInzinerijaContent(locale), [locale]);
     const services = useMemo(() => getLocalizedInzinerijaServices(locale), [locale]);
     const kits = useMemo(() => getLocalizedInzinerijaKits(locale), [locale]);
@@ -187,7 +194,7 @@ export function InzinerijaV2View({ locale }: { locale: AppLocale }) {
                             <div key={t.label}>
                                 <dt className="sr-only">{t.label}</dt>
                                 <dd>
-                                    <span className="block text-lg font-extrabold text-[#11161B] leading-tight">{t.value}</span>
+                                    <span className="block text-lg font-extrabold text-[#11161B] leading-tight">{withCount(t.value)}</span>
                                     <span className="block text-xs text-[#5B6470] mt-0.5 leading-snug">{t.label}</span>
                                 </dd>
                             </div>
