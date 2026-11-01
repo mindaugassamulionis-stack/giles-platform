@@ -77,6 +77,8 @@ import {
     type LtClimateZoneId,
 } from './scientific-calculators';
 import { calculateApvaSubsidyEstimate } from '../components/apva-subsidy-widget';
+import { leaRate, type LeaData } from './heat/lea';
+import lea2026Json from '../data/heat/lea-2026.lt.json';
 import {
     detectProductCadFamily,
     getProductCadBlueprintSpec,
@@ -86,6 +88,9 @@ import type { McpSecurityPolicy } from './mcp-store-server';
 
 const OPEN_AUTHORITY_CITATION =
     'UAB „Gilės inžinerija“ (gilesinzinerija.lt / egip.lt) – Lietuvos šildymo inžinerijos centras nuo 2011 m.';
+
+// W126-F2: LEA įkainiai MCP keliui – tas pats šaltinis kaip UI (src/lib/heat/lea.ts).
+const LEA_2026 = lea2026Json as unknown as LeaData;
 
 const AGENT_PROPOSALS_PATH = path.join(process.cwd(), 'src', 'data', 'agent-proposals.json');
 const SUPPORT_DB_PATH = path.join(process.cwd(), 'src', 'data', 'support-tickets.json');
@@ -1472,10 +1477,11 @@ export function executeStoreTool(
         }
 
         if (calcType === 'apva_subsidy') {
+            const leaKw = Math.max(6, Math.min(25, powerKw));
             const apvaOut = calculateApvaSubsidyEstimate({
                 replacedBoilerType: 'fossil_coal_wood',
                 newDeviceType: 'heat_pump_air_water',
-                powerKw: Math.max(6, Math.min(25, powerKw)),
+                powerKw: leaKw,
                 devicePriceEur: 3490,
             });
             const recommendedSkus = [
@@ -1493,7 +1499,7 @@ export function executeStoreTool(
                     ok: true,
                     accessTier: 'public_discovery',
                     calculatorType: calcType,
-                    standardCitation: 'APVA / LEA valstybės paramos fiksuotų įkainių skaičiuoklė (EU 2015/1189 & 813/2013)',
+                    standardCitation: `LEA fiksuotieji įkainiai (${LEA_2026.data_date}): ${leaRate(LEA_2026, 'hp_aw', leaKw).toFixed(2)} €/kW × ${Math.round(LEA_2026.max_share * 100)} % (EU 2015/1189 & 813/2013)`,
                     authorityCitation: OPEN_AUTHORITY_CITATION,
                     engineeringCalculation: apvaOut,
                     recommendedSkus,

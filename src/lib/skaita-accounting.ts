@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { GILES_COMPANY_IDENTITY } from './giles-masterpiece-data';
 import { getGilesCatalogSnapshot } from './giles-catalog-snapshot';
+import { vitestDataFile } from './giles-data-paths';
 
 export type SkaitaDocumentType =
     | 'ISANKSTINE_SASKAITA'
@@ -60,7 +61,10 @@ export interface SkaitaInvoiceRecord {
     lines: SkaitaInvoiceLine[];
 }
 
-const SKAITA_INVOICES_PATH = path.join(process.cwd(), 'src', 'data', 'skaita-invoices.json');
+// W126-F2: vitest metu rašoma į /tmp, kad gyvas skaita-invoices.json liktų [].
+const SKAITA_INVOICES_PATH = process.env.VITEST
+    ? vitestDataFile('skaita-invoices')
+    : path.join(process.cwd(), 'src', 'data', 'skaita-invoices.json');
 
 let memoryInvoicesCache: SkaitaInvoiceRecord[] | null = null;
 let sequenceCounter = 1;

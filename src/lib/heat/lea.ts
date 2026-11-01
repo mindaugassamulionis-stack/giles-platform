@@ -5,6 +5,7 @@
 export type LeaType = 'bio' | 'hp_aw' | 'hp_aw_dhw' | 'hp_gw' | 'hp_gw_dhw' | 'hp_aa';
 
 export interface LeaData {
+  data_date: string;
   max_share: number;
   next_call: string;
   rates_eur_per_kw_incl_vat: Record<LeaType, { max_kw: number | null; rate: number }[]>;

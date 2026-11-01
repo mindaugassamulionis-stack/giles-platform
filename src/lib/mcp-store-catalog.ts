@@ -536,9 +536,9 @@ export const MCP_STORE_TOOLS: McpToolDefinition[] = [
     },
     {
         name: 'public_hydronic_calculator_run',
-        title: 'Atviros EN 12831 / EN 12828 / EN 303-5 / APVA inžinerinės skaičiuoklės išorės AI agentams (Tier 0)',
+        title: 'Atviros EN 12831 / EN 12828 / EN 303-5 / LEA inžinerinės skaičiuoklės išorės AI agentams (Tier 0)',
         description:
-            'Atviras viešas skaičiuoklių įrankis (public_read, be API rakto): vykdo pastato šilumos nuostolių (heat_loss), akumuliacinės talpos (buffer_tank), plėtimosi indo (expansion_vessel), siurblio ir balansinio vožtuvo (pump_qh), radiatorių sekcijų (radiator_sections) arba APVA paramos (apva_subsidy) skaičiavimus ir grąžina tikslias formules, rekomenduojamus Gilės SKU bei paruošto krepšelio nuorodą.',
+            'Atviras viešas skaičiuoklių įrankis (public_read, be API rakto): vykdo pastato šilumos nuostolių (heat_loss), akumuliacinės talpos (buffer_tank), plėtimosi indo (expansion_vessel), siurblio ir balansinio vožtuvo (pump_qh), radiatorių sekcijų (radiator_sections) arba LEA paramos (apva_subsidy) skaičiavimus pagal oficialius LEA fiksuotuosius įkainius ir grąžina tikslias formules, rekomenduojamus Gilės SKU bei paruošto krepšelio nuorodą.',
         scopeCategory: 'public_read',
         inputSchema: {
             type: 'object',
