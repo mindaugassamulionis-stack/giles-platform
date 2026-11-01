@@ -1,9 +1,9 @@
 # UAB „Gilės inžinerija“ — Šilumos inžinerijos, katilinių gamybos, B2B ir AI/MCP platforma
 
-[![Live HTTPS Preview](https://img.shields.io/badge/LIVE_HTTPS_PREVIEW-Atidaryti_Platformą_(200_OK)-16a34a?style=for-the-badge)](https://needs-thoughts-past-remain.trycloudflare.com/lt)
-[![Admin OS Central](https://img.shields.io/badge/ADMIN_VALDYMO_CENTRAS-/lt/admin-d97706?style=for-the-badge)](https://needs-thoughts-past-remain.trycloudflare.com/lt/admin)
-[![B2B Didmena](https://img.shields.io/badge/B2B_PORTALAS-/lt/b2b-0284c7?style=for-the-badge)](https://needs-thoughts-past-remain.trycloudflare.com/lt/b2b)
-[![MCP Server v2.1](https://img.shields.io/badge/MCP_SERVER-2025--06--18_(12_Tools)-7c3aed?style=for-the-badge)](https://needs-thoughts-past-remain.trycloudflare.com/api/mcp)
+[![Live HTTPS Preview](https://img.shields.io/badge/LIVE_HTTPS_PREVIEW-Atidaryti_Platformą_(200_OK)-16a34a?style=for-the-badge)](https://tones-msg-tropical-childhood.trycloudflare.com/lt)
+[![Admin OS Central](https://img.shields.io/badge/ADMIN_VALDYMO_CENTRAS-/lt/admin-d97706?style=for-the-badge)](https://tones-msg-tropical-childhood.trycloudflare.com/lt/admin)
+[![B2B Didmena](https://img.shields.io/badge/B2B_PORTALAS-/lt/b2b-0284c7?style=for-the-badge)](https://tones-msg-tropical-childhood.trycloudflare.com/lt/b2b)
+[![MCP Server v2.1](https://img.shields.io/badge/MCP_SERVER-2025--06--18_(12_Tools)-7c3aed?style=for-the-badge)](https://tones-msg-tropical-childhood.trycloudflare.com/api/mcp)
 
 Pilna **UAB „Gilės inžinerija“** (`gilesinzinerija.com` / `egip.lt` / `gilesas.lt`) skaitmeninė ekosistema: pramoninių ir buitinių katilinių gamyba (10 kW – 5 MW), el. parduotuvė (236+ realūs SKU), B2B montuotojų portalas, AI vyr. inžinierius **Vytautas 2.0**, **Model Context Protocol (MCP)** serveris ir **Admin OS** valdymo centras.
 
@@ -15,13 +15,13 @@ Spauskite bet kurią nuorodą tiesioginiam testavimui naršyklėje (be jokio die
 
 | Modulis | Tiesioginė HTTPS nuoroda | Aprašymas |
 |---|---|---|
-| **Pagrindinis puslapis** | [**Atidaryti `/lt`**](https://needs-thoughts-past-remain.trycloudflare.com/lt) | Pramoninės ir buitinės šilumos inžinerijos vitrina, Vytautas 2.0 AI, skaičiuoklės |
-| **Admin OS (Dariaus paskyra)** | [**Atidaryti `/lt/admin`**](https://needs-thoughts-past-remain.trycloudflare.com/lt/admin) | Pilnas Admin valdymo centras: kainodara, produktų CRUD, B2B CRM, PVM sąskaitos, MCP |
-| **Katilinių gamyba** | [**Atidaryti `/lt/gamyba`**](https://needs-thoughts-past-remain.trycloudflare.com/lt/gamyba) | Gamybos pajėgumai, konteinerinės katilinės (100 kW – 5 MW), ASME/PED sertifikavimas |
-| **El. parduotuvė (236+ SKU)** | [**Atidaryti `/lt/parduotuve`**](https://needs-thoughts-past-remain.trycloudflare.com/lt/parduotuve) | Katilai, degikliai, akumuliacinės talpos, siurbliai, vožtuvai, dūmtraukiai |
-| **B2B Montuotojų portalas** | [**Atidaryti `/lt/b2b`**](https://needs-thoughts-past-remain.trycloudflare.com/lt/b2b) | Didmeninės kainos (-5% / -12% / -18%), greitas BOM CSV užsakymas, XML/CSV eksportas |
-| **MCP / AI Agentų hubas (Admin)** | [**Atidaryti `/lt/admin`**](https://needs-thoughts-past-remain.trycloudflare.com/lt/admin) | 12 MCP įrankių dokumentacija, Claude/Cursor/ChatGPT konfigūracija |
-| **MCP JSON-RPC 2.0 API** | [**Atidaryti `/api/mcp`**](https://needs-thoughts-past-remain.trycloudflare.com/api/mcp) | Tiesioginis HTTP Streamable MCP endpointas (`2025-06-18`) |
+| **Pagrindinis puslapis** | [**Atidaryti `/lt`**](https://tones-msg-tropical-childhood.trycloudflare.com/lt) | Pramoninės ir buitinės šilumos inžinerijos vitrina, Vytautas 2.0 AI, skaičiuoklės |
+| **Admin OS (Dariaus paskyra)** | [**Atidaryti `/lt/admin`**](https://tones-msg-tropical-childhood.trycloudflare.com/lt/admin) | Pilnas Admin valdymo centras: kainodara, produktų CRUD, B2B CRM, PVM sąskaitos, MCP |
+| **Katilinių gamyba** | [**Atidaryti `/lt/gamyba`**](https://tones-msg-tropical-childhood.trycloudflare.com/lt/gamyba) | Gamybos pajėgumai, konteinerinės katilinės (100 kW – 5 MW), ASME/PED sertifikavimas |
+| **El. parduotuvė (236+ SKU)** | [**Atidaryti `/lt/parduotuve`**](https://tones-msg-tropical-childhood.trycloudflare.com/lt/parduotuve) | Katilai, degikliai, akumuliacinės talpos, siurbliai, vožtuvai, dūmtraukiai |
+| **B2B Montuotojų portalas** | [**Atidaryti `/lt/b2b`**](https://tones-msg-tropical-childhood.trycloudflare.com/lt/b2b) | Didmeninės kainos (-5% / -12% / -18%), greitas BOM CSV užsakymas, XML/CSV eksportas |
+| **MCP / AI Agentų hubas (Admin)** | [**Atidaryti `/lt/admin`**](https://tones-msg-tropical-childhood.trycloudflare.com/lt/admin) | 12 MCP įrankių dokumentacija, Claude/Cursor/ChatGPT konfigūracija |
+| **MCP JSON-RPC 2.0 API** | [**Atidaryti `/api/mcp`**](https://tones-msg-tropical-childhood.trycloudflare.com/api/mcp) | Tiesioginis HTTP Streamable MCP endpointas (`2025-06-18`) |
 
 ### Prisijungimas prie Admin OS (`/lt/admin`)
 - **El. paštas:** `darius@gilesinzinerija.com` (arba `darius@gilesinzinerija.lt`)
