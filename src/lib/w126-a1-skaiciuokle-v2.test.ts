@@ -16,7 +16,7 @@ import {
     expansionCoeff,
 } from './heat/hydraulics';
 import { toQuery, fromQuery } from './heat/lead';
-import { calculateApvaSubsidyEstimate } from '../components/apva-subsidy-widget';
+import { calculateApvaSubsidyEstimate } from './heat/apva-estimate';
 import { getGilesCatalogProducts } from './giles-catalog-snapshot';
 import catalogPricesJson from '../data/heat/catalog-prices.lt.json';
 import kitsJson from '../data/inzinerija-v2/kits.lt.json';

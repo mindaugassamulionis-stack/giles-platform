@@ -13,8 +13,8 @@ import {
     filterDiffOnlyCompareRows,
     type CompareItem,
 } from '../store/compare';
+import { calculateApvaSubsidyEstimate } from './heat/apva-estimate';
 import {
-    calculateApvaSubsidyEstimate,
     APVA_MANDATORY_INVOICE_FIELDS,
     isProductEligibleForApvaSubsidy,
     formatApvaInvoiceComplianceNote,

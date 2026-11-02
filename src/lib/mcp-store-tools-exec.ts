@@ -76,7 +76,9 @@ import {
     type EnergyClassId,
     type LtClimateZoneId,
 } from './scientific-calculators';
-import { calculateApvaSubsidyEstimate } from '../components/apva-subsidy-widget';
+// W126-F3: importuojama iš serveriui saugaus modulio, ne iš 'use client'
+// apva-subsidy-widget (RSC riba grąžindavo client-reference proxy → 500).
+import { calculateApvaSubsidyEstimate } from './heat/apva-estimate';
 import { leaRate, type LeaData } from './heat/lea';
 import lea2026Json from '../data/heat/lea-2026.lt.json';
 import {
