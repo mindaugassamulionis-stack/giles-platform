@@ -33,6 +33,7 @@ import {
     createAdminSessionToken,
     resetAdminAuthOverrides,
 } from './admin-auth-store';
+import { LOCAL_ADMIN_TRUST_ENV } from './admin-host-trust';
 import {
     createAutonomousSkaitaInvoice,
     listSkaitaInvoices,
@@ -322,7 +323,7 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
         expect(direct.trackingNumber).toMatch(/^LT/);
     });
 
-    it('7) enforces external-host /api/admin/* session & Bearer token guard in middleware while keeping 127.0.0.1 and /api/admin/auth unblocked', async () => {
+    it('7) enforces external-host /api/admin/* session & Bearer token guard in middleware while keeping 127.0.0.1 unblocked only with GILES_TRUST_LOCAL_ADMIN=1 and /api/admin/auth unblocked', async () => {
         // 1. External host POST to /api/admin/products without session -> 401
         const unauthExternalReq = new NextRequest(
             'https://preview-giles.trycloudflare.com/api/admin/products',
@@ -403,7 +404,9 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
         const loginExternalRes = await middleware(loginExternalReq);
         expect(loginExternalRes.status).not.toBe(401);
 
-        // 6. Localhost 127.0.0.1 POST without session -> allowed for local headless checks
+        // 6. Localhost 127.0.0.1 POST without session -> 401 by default (F-2:
+        //    loopback Host values are client-controlled); allowed for local
+        //    headless checks only when GILES_TRUST_LOCAL_ADMIN=1 is set.
         const localReq = new NextRequest('http://127.0.0.1:3088/api/admin/products', {
             method: 'POST',
             headers: {
@@ -412,7 +415,14 @@ describe('W110-A2: Cryptographic Payment Signers, 60+ Lithuanian Parcel Lockers,
             },
         });
         const localRes = await middleware(localReq);
-        expect(localRes.status).not.toBe(401);
+        expect(localRes.status).toBe(401);
+        process.env[LOCAL_ADMIN_TRUST_ENV] = '1';
+        try {
+            const trustedLocalRes = await middleware(localReq);
+            expect(trustedLocalRes.status).not.toBe(401);
+        } finally {
+            delete process.env[LOCAL_ADMIN_TRUST_ENV];
+        }
     });
 
     it('8) wires checkout-terminal-picker into checkout-form.tsx and non-localhost auto-login gate in giles-admin-auth-bar.tsx', () => {

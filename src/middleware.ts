@@ -8,6 +8,7 @@ import {
     NONCE_REQUEST_HEADER,
 } from './lib/csp-nonce';
 import { resolveLegacySeoRedirect } from './lib/domain-routing';
+import { isLocalAdminTrustEnabled } from './lib/admin-host-trust';
 import { routing } from './i18n/routing';
 
 // i18n routing (mission platform-os-i18n-en-lt-20260925): locale-prefixed URLs
@@ -81,7 +82,9 @@ function isExternalPublicHost(rawHostHeader: string): boolean {
         cleanHost === '[::1]' ||
         cleanHost === '0.0.0.0'
     ) {
-        return false;
+        // F-2 (S7): loopback Host values are client-controlled and alone must not
+        // mark a request local — local/test trust needs GILES_TRUST_LOCAL_ADMIN=1.
+        return !isLocalAdminTrustEnabled();
     }
     return true;
 }

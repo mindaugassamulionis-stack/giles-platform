@@ -11,6 +11,7 @@ import {
     resetAdminAuthOverrides,
     verifyAdminSessionToken,
 } from '../../../../lib/admin-auth-store';
+import { isLocalAdminTrustEnabled } from '../../../../lib/admin-host-trust';
 
 function isExternalHost(req: NextRequest): boolean {
     if (req.headers.get('x-enforce-admin-auth') === '1') {
@@ -23,12 +24,15 @@ function isExternalHost(req: NextRequest): boolean {
         '';
     const cleanHost = rawHost.split(',')[0]?.trim().toLowerCase().replace(/:\d+$/, '') || '';
     if (!cleanHost) return false;
+    // F-2 (S7): loopback Host values are client-controlled; local trust needs
+    // GILES_TRUST_LOCAL_ADMIN=1 (server-side env flag, never a client header).
     return (
-        cleanHost !== '127.0.0.1' &&
-        cleanHost !== 'localhost' &&
-        cleanHost !== '::1' &&
-        cleanHost !== '[::1]' &&
-        cleanHost !== '0.0.0.0'
+        (cleanHost !== '127.0.0.1' &&
+            cleanHost !== 'localhost' &&
+            cleanHost !== '::1' &&
+            cleanHost !== '[::1]' &&
+            cleanHost !== '0.0.0.0') ||
+        !isLocalAdminTrustEnabled()
     );
 }
 
