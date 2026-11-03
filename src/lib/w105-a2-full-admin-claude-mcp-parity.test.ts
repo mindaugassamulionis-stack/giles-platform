@@ -4,6 +4,7 @@ import path from 'node:path';
 import * as mcpRoute from '../app/api/mcp/route';
 import * as adminProductsRoute from '../app/api/admin/products/route';
 import { resetMcpSecurityDatabase } from './mcp-store-server';
+import { LOCAL_ADMIN_TRUST_ENV } from './admin-host-trust';
 import { resetB2BPricingEngineState } from './b2b-pricing-engine';
 import { resetSuppliersAndAgentsStore, getAiAgentsList, getSuppliersList } from './suppliers-and-agents-store';
 import {
@@ -18,6 +19,8 @@ describe('WP-W105-A2: Full Admin & External Claude MCP Parity (32 Tools, 10 Reso
     const repoRoot = path.resolve(__dirname, '../..');
 
     beforeEach(() => {
+        // W127-F5: local loopback-Host admin ops on /api/mcp need the trust flag.
+        process.env[LOCAL_ADMIN_TRUST_ENV] = '1';
         resetMcpSecurityDatabase();
         resetB2BPricingEngineState();
         resetSuppliersAndAgentsStore();
@@ -25,6 +28,7 @@ describe('WP-W105-A2: Full Admin & External Claude MCP Parity (32 Tools, 10 Reso
     });
 
     afterEach(() => {
+        delete process.env[LOCAL_ADMIN_TRUST_ENV];
         resetMcpSecurityDatabase();
         resetB2BPricingEngineState();
         resetSuppliersAndAgentsStore();

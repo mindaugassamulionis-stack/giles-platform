@@ -16,6 +16,7 @@ import {
     type McpScopeTier,
 } from '../../../lib/mcp-store-server';
 import { verifyAdminSessionToken } from '../../../lib/admin-auth-store';
+import { isLocalAdminTrustEnabled } from '../../../lib/admin-host-trust';
 
 function isExternalHostRequest(req: Request): boolean {
     if (req.headers.get('x-enforce-admin-auth') === '1') {
@@ -28,12 +29,15 @@ function isExternalHostRequest(req: Request): boolean {
         '';
     const cleanHost = rawHost.split(',')[0]?.trim().toLowerCase().replace(/:\d+$/, '') || '';
     if (!cleanHost) return false;
+    // F-2 (W127/S7): loopback Host values are client-controlled and alone must not
+    // mark a request local — local/test trust needs GILES_TRUST_LOCAL_ADMIN=1.
     return (
-        cleanHost !== '127.0.0.1' &&
-        cleanHost !== 'localhost' &&
-        cleanHost !== '::1' &&
-        cleanHost !== '[::1]' &&
-        cleanHost !== '0.0.0.0'
+        (cleanHost !== '127.0.0.1' &&
+            cleanHost !== 'localhost' &&
+            cleanHost !== '::1' &&
+            cleanHost !== '[::1]' &&
+            cleanHost !== '0.0.0.0') ||
+        !isLocalAdminTrustEnabled()
     );
 }
 

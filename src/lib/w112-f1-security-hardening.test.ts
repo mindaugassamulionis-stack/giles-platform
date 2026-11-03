@@ -37,11 +37,16 @@ import {
     resetB2BAccountsCache,
 } from './b2b-accounts';
 import { readJsonAtomic, writeJsonAtomic } from './transactional-store';
+import { LOCAL_ADMIN_TRUST_ENV } from './admin-host-trust';
 
 const initialPw = ['987', 'Gile'].join('');
 
 describe('WP-W112-F1: Security Hardening & Remediation Suite (P0-01..P0-06, P1-01..P1-06, P2-01..P2-03, P3-01..P3-02)', () => {
     beforeEach(() => {
+        // W127-F5: local loopback-Host admin listings/mutations on /api/mcp and
+        // /api/b2b/accounts need the trust flag; flag-unset regressions live in
+        // w127-f5-mcp-b2b-flag-gate.test.ts.
+        process.env[LOCAL_ADMIN_TRUST_ENV] = '1';
         resetAdminAuthOverrides();
         if (typeof resetAdminLoginRateLimit === 'function') {
             resetAdminLoginRateLimit();
@@ -55,6 +60,7 @@ describe('WP-W112-F1: Security Hardening & Remediation Suite (P0-01..P0-06, P1-0
     });
 
     afterEach(() => {
+        delete process.env[LOCAL_ADMIN_TRUST_ENV];
         resetAdminAuthOverrides();
         if (typeof resetAdminLoginRateLimit === 'function') {
             resetAdminLoginRateLimit();

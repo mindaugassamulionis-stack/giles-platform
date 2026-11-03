@@ -3,14 +3,18 @@ import * as mcpRoute from '../app/api/mcp/route';
 import { resetMcpSecurityDatabase } from './mcp-store-server';
 import { resetB2BPricingEngineState } from './b2b-pricing-engine';
 import { MCP_STORE_TOOLS, MCP_STORE_RESOURCES, MCP_STORE_PROMPTS } from './mcp-store-catalog';
+import { LOCAL_ADMIN_TRUST_ENV } from './admin-host-trust';
 
 describe('WP-W93-A1 & WP-W97-A1: Standardized MCP Server (22 Tools, 8 Resources, 4 Prompts) & Dual Human + AI Agent B2B CRM Parity', () => {
     beforeEach(() => {
+        // W127-F5: local loopback-Host admin ops on /api/mcp need the trust flag.
+        process.env[LOCAL_ADMIN_TRUST_ENV] = '1';
         resetMcpSecurityDatabase();
         resetB2BPricingEngineState();
     });
 
     afterEach(() => {
+        delete process.env[LOCAL_ADMIN_TRUST_ENV];
         resetMcpSecurityDatabase();
         resetB2BPricingEngineState();
     });

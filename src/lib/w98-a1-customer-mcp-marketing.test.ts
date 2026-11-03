@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as mcpRoute from '../app/api/mcp/route';
 import { resetMcpSecurityDatabase } from './mcp-store-server';
+import { LOCAL_ADMIN_TRUST_ENV } from './admin-host-trust';
 import {
     resetB2BPricingEngineState,
     createManualB2BCustomer,
@@ -14,11 +15,14 @@ describe('WP-W98-A1: Dual-Tier Customer AI & MCP Purchasing Bridge (B2B + Person
     const repoRoot = path.resolve(__dirname, '../..');
 
     beforeEach(() => {
+        // W127-F5: local loopback-Host admin ops on /api/mcp need the trust flag.
+        process.env[LOCAL_ADMIN_TRUST_ENV] = '1';
         resetMcpSecurityDatabase();
         resetB2BPricingEngineState();
     });
 
     afterEach(() => {
+        delete process.env[LOCAL_ADMIN_TRUST_ENV];
         resetMcpSecurityDatabase();
         resetB2BPricingEngineState();
     });

@@ -1029,6 +1029,11 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
     });
 
     it('W93-A1: enforces 5-layer security guardrails, RBAC scopes, and financial circuit breaker on MCP JSON-RPC 2.0 server (/api/mcp)', async () => {
+        const { LOCAL_ADMIN_TRUST_ENV } = await import('./admin-host-trust');
+        // W127-F5: local loopback-Host admin ops on /api/mcp need the trust flag.
+        const prevTrustFlag = process.env[LOCAL_ADMIN_TRUST_ENV];
+        process.env[LOCAL_ADMIN_TRUST_ENV] = '1';
+        try {
         const mcpRoute = await import('../app/api/mcp/route');
         const agentsRoute = await import('../app/api/admin/agents/route');
 
@@ -1310,6 +1315,13 @@ describe('Gilės Inžinerija 2-in-1 Masterpiece Platform Engine', () => {
             'mcp-audit-log',
         ]) {
             expect(mcpComponentSrc).toContain(tid);
+        }
+        } finally {
+            if (prevTrustFlag === undefined) {
+                delete process.env[LOCAL_ADMIN_TRUST_ENV];
+            } else {
+                process.env[LOCAL_ADMIN_TRUST_ENV] = prevTrustFlag;
+            }
         }
     });
 
